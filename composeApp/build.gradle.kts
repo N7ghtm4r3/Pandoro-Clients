@@ -70,15 +70,17 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-            implementation("io.github.n7ghtm4r3:equinox-core:1.0.5")
-            implementation("io.github.n7ghtm4r3:equinox-backend:1.0.5")
+            implementation(libs.precompose)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.equinox.core)
+            implementation(libs.equinox.backend)
+            implementation(libs.equinox.compose)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -96,11 +98,11 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 15
-        versionName = "1.0.4"
+        versionName = "1.0.5"
     }
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "*/**"
         }
     }
     buildTypes {
@@ -128,8 +130,8 @@ compose.desktop {
                 "java.scripting", "java.security.jgss", "java.sql.rowset", "jdk.jfr", "jdk.unsupported"
             )
             packageName = "Pandoro"
-            packageVersion = "1.0.4"
-            version = "1.0.4"
+            packageVersion = "1.0.5"
+            version = "1.0.5"
             description = "Pandoro, open source management software"
             copyright = "© 2024 Tecknobit"
             vendor = "Tecknobit"
@@ -146,7 +148,7 @@ compose.desktop {
                 iconFile.set(project.file("src/desktopMain/resources/logo.png"))
                 packageName = "com-tecknobit-pandoro"
                 debMaintainer = "infotecknobitcompany@gmail.com"
-                appRelease = "1.0.4"
+                appRelease = "1.0.5"
                 appCategory = "PERSONALIZATION"
                 rpmLicenseType = "MIT"
             }
@@ -156,4 +158,9 @@ compose.desktop {
             obfuscate.set(true)
         }
     }
+}
+
+// TODO: TO REMOVE IN THE NEXT VERSION (DEPRECATED TRIGGER SEARCH)
+configurations.all {
+    exclude("commons-logging", "commons-logging")
 }

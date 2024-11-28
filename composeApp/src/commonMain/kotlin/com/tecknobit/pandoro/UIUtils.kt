@@ -1,4 +1,4 @@
-package com.tecknobit.pandorocore.ui
+package com.tecknobit.pandoro
 
 /**
  * the primary color value
