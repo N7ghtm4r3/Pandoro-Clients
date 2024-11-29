@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.ui.screens
+package com.tecknobit.pandoro.ui.screens.splashscreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +31,9 @@ class Splashscreen : EquinoxScreen<EquinoxViewModel>() {
     @Composable
     override fun ArrangeScreenContent() {
         PandoroTheme {
+            val textColor = contentColorFor(
+                backgroundColor = MaterialTheme.colorScheme.primary
+            )
             Box(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.primary)
@@ -39,6 +43,7 @@ class Splashscreen : EquinoxScreen<EquinoxViewModel>() {
                 Text(
                     text = stringResource(Res.string.app_name),
                     fontFamily = displayFontFamily,
+                    color = textColor,
                     fontSize = 55.sp,
                 )
                 Row(
@@ -50,6 +55,7 @@ class Splashscreen : EquinoxScreen<EquinoxViewModel>() {
                     Text(
                         modifier = Modifier
                             .padding(25.dp),
+                        color = textColor,
                         text = "by Tecknobit"
                     )
                 }

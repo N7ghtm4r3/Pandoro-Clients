@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    kotlin("plugin.serialization") version "2.0.20"
 }
 
 kotlin {
@@ -87,6 +88,7 @@ kotlin {
             implementation(libs.material3.window.size)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
+            implementation(libs.pandorocore)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

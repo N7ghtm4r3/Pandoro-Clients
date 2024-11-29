@@ -30,7 +30,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -47,7 +46,8 @@ import com.tecknobit.pandoro.ui.icons.Activity
 import com.tecknobit.pandoro.ui.screens.notes.NotesScreen
 import com.tecknobit.pandoro.ui.screens.overview.OverviewScreen
 import com.tecknobit.pandoro.ui.screens.profile.ProfileScreen
-import com.tecknobit.pandoro.ui.screens.projects.ProjectsScreen
+import com.tecknobit.pandoro.ui.screens.projects.presenter.ProjectsScreen
+import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -93,6 +93,8 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
             )
         )
 
+        lateinit var isBottomNavigationMode: MutableState<Boolean>
+
     }
 
     private lateinit var currentDestination: MutableState<NavigationTab>
@@ -108,11 +110,13 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            when(currentDestination.value.tabIdentifier) {
-                PROJECTS_SCREEN -> { ProjectsScreen().ShowContent() }
-                NOTES_SCREEN -> { NotesScreen().ShowContent() }
-                OVERVIEW_SCREEN -> { OverviewScreen().ShowContent() }
-                PROFILE_SCREEN -> { ProfileScreen().ShowContent() }
+            PandoroTheme {
+                when(currentDestination.value.tabIdentifier) {
+                    PROJECTS_SCREEN -> { ProjectsScreen().ShowContent() }
+                    NOTES_SCREEN -> { NotesScreen().ShowContent() }
+                    OVERVIEW_SCREEN -> { OverviewScreen().ShowContent() }
+                    PROFILE_SCREEN -> { ProfileScreen().ShowContent() }
+                }
             }
             when(widthSizeClass) {
                 Expanded, Medium -> SideNavigationBar()
@@ -129,12 +133,10 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
     @Composable
     @NonRestartableComposable
     private fun SideNavigationBar() {
+        isBottomNavigationMode.value = false
         NavigationRail(
             modifier = Modifier
-                .width(125.dp)
-                .shadow(
-                    elevation = 2.dp
-                ),
+                .width(125.dp),
             containerColor = MaterialTheme.colorScheme.surfaceContainer,
             header = {
                 AsyncImage(
@@ -142,7 +144,7 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
                         .padding(
                             top = 16.dp
                         )
-                        .size(85.dp)
+                        .size(75.dp)
                         .clip(CircleShape)
                         .clickable { currentDestination.value = destinations.last() },
                     model = ImageRequest.Builder(LocalPlatformContext.current)
@@ -203,6 +205,7 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
     private fun BottomNavigationBar(
         modifier: Modifier = Modifier
     ) {
+        isBottomNavigationMode.value = true
         BottomAppBar(
             modifier = modifier
         ) {
@@ -260,6 +263,7 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
     @Composable
     override fun CollectStates() {
         currentDestination = remember { mutableStateOf(destinations[0]) }
+        isBottomNavigationMode = remember { mutableStateOf(false) }
     }
 
     private data class NavigationTab(
