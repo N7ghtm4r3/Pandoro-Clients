@@ -43,7 +43,7 @@ import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.ui.icons.Activity
-import com.tecknobit.pandoro.ui.screens.notes.NotesScreen
+import com.tecknobit.pandoro.ui.screens.notes.presenter.NotesScreen
 import com.tecknobit.pandoro.ui.screens.overview.OverviewScreen
 import com.tecknobit.pandoro.ui.screens.profile.ProfileScreen
 import com.tecknobit.pandoro.ui.screens.projects.presenter.ProjectsScreen

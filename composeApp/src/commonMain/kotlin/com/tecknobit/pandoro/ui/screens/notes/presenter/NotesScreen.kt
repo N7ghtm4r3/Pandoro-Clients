@@ -1,7 +1,8 @@
-package com.tecknobit.pandoro.ui.screens.notes
+package com.tecknobit.pandoro.ui.screens.notes.presenter
 
 import androidx.compose.runtime.Composable
 import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
 
 class NotesScreen: EquinoxScreen<NotesScreenViewModel>() {
 
