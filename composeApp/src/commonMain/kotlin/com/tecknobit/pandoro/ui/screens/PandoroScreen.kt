@@ -23,9 +23,13 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
 
     companion object {
 
-        private val bottomNavigationMode = 16.dp
+        private val startPaddingBottomNavigationMode = 16.dp
 
-        private val sideNavigationMode = 141.dp
+        private val startPaddingSideNavigationMode = 141.dp
+
+        private val bottomPaddingBottomNavigationMode = 106.dp
+
+        private val bottomPaddingSideNavigationMode = 16.dp
 
     }
 
@@ -45,19 +49,28 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
             modifier = Modifier
                 .padding(
                     top = 16.dp,
-                    start = calculatedPaddingStart()
+                    start = calculatedStartPadding(),
+                    end = 16.dp,
+                    bottom = calculatedBottomPadding()
                 ),
             content = content
         )
     }
 
     @Composable
-    fun calculatedPaddingStart(): Dp {
+    fun calculatedStartPadding(): Dp {
         return if(isBottomNavigationMode.value)
-            bottomNavigationMode
+            startPaddingBottomNavigationMode
         else
-            sideNavigationMode
+            startPaddingSideNavigationMode
     }
 
+    @Composable
+    fun calculatedBottomPadding(): Dp {
+        return if(isBottomNavigationMode.value)
+            bottomPaddingBottomNavigationMode
+        else
+            bottomPaddingSideNavigationMode
+    }
 
 }

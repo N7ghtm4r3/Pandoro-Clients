@@ -150,4 +150,5 @@
     <string name="language">Language</string>
     <string name="change_language">Change language</string>
     <string name="server_currently_offline">Server currently offline</string>
+    <string name="all">All</string>
 </resources>
