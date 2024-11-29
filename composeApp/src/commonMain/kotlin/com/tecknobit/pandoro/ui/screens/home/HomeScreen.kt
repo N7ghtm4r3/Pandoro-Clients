@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.ui.screens.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,6 +46,7 @@ import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.ui.icons.Activity
 import com.tecknobit.pandoro.ui.screens.notes.NotesScreen
 import com.tecknobit.pandoro.ui.screens.overview.OverviewScreen
+import com.tecknobit.pandoro.ui.screens.profile.ProfileScreen
 import com.tecknobit.pandoro.ui.screens.projects.ProjectsScreen
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
@@ -54,6 +56,7 @@ import pandoro.composeapp.generated.resources.app_version
 import pandoro.composeapp.generated.resources.logo
 import pandoro.composeapp.generated.resources.notes
 import pandoro.composeapp.generated.resources.overview
+import pandoro.composeapp.generated.resources.profile
 import pandoro.composeapp.generated.resources.projects
 
 class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
@@ -65,6 +68,8 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
         private const val NOTES_SCREEN = "NotesScreen"
 
         private const val OVERVIEW_SCREEN = "OverviewScreen"
+
+        private const val PROFILE_SCREEN = "ProfileScreen"
 
         private val destinations = listOf(
             NavigationTab(
@@ -81,6 +86,10 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
                 tabIdentifier = OVERVIEW_SCREEN,
                 icon = Activity,
                 title = Res.string.overview
+            ),
+            NavigationTab(
+                tabIdentifier = PROFILE_SCREEN,
+                title = Res.string.profile
             )
         )
 
@@ -103,6 +112,7 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
                 PROJECTS_SCREEN -> { ProjectsScreen().ShowContent() }
                 NOTES_SCREEN -> { NotesScreen().ShowContent() }
                 OVERVIEW_SCREEN -> { OverviewScreen().ShowContent() }
+                PROFILE_SCREEN -> { ProfileScreen().ShowContent() }
             }
             when(widthSizeClass) {
                 Expanded, Medium -> SideNavigationBar()
@@ -133,7 +143,8 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
                             top = 16.dp
                         )
                         .size(85.dp)
-                        .clip(CircleShape),
+                        .clip(CircleShape)
+                        .clickable { currentDestination.value = destinations.last() },
                     model = ImageRequest.Builder(LocalPlatformContext.current)
                         // TODO: TO SET THE USER PIC
                         .data("https://t4.ftcdn.net/jpg/03/86/82/73/360_F_386827376_uWOOhKGk6A4UVL5imUBt20Bh8cmODqzx.jpg")
@@ -149,23 +160,25 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
             }
         ) {
             destinations.forEach { destination ->
-                NavigationRailItem(
-                    selected = destination == currentDestination.value,
-                    icon = {
-                        Icon(
-                            imageVector = destination.icon,
-                            contentDescription = null
-                        )
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(destination.title),
-                            fontFamily = displayFontFamily
-                        )
-                    },
-                    alwaysShowLabel = false,
-                    onClick = { currentDestination.value = destination }
-                )
+                if(destination.tabIdentifier != PROFILE_SCREEN) {
+                    NavigationRailItem(
+                        selected = destination == currentDestination.value,
+                        icon = {
+                            Icon(
+                                imageVector = destination.icon!!,
+                                contentDescription = null
+                            )
+                        },
+                        label = {
+                            Text(
+                                text = stringResource(destination.title),
+                                fontFamily = displayFontFamily
+                            )
+                        },
+                        alwaysShowLabel = false,
+                        onClick = { currentDestination.value = destination }
+                    )
+                }
             }
             Column (
                 modifier = Modifier
@@ -195,13 +208,10 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
         ) {
             destinations.forEach { destination ->
                 NavigationBarItem(
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically),
                     selected = destination == currentDestination.value,
-                    icon = {
-                        Icon(
-                            imageVector = destination.icon,
-                            contentDescription = null
-                        )
-                    },
+                    icon = { destination.TabIcon() },
                     label = {
                         Text(
                             text = stringResource(destination.title),
@@ -215,6 +225,35 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
         }
     }
 
+    @Composable
+    @NonRestartableComposable
+    private fun NavigationTab.TabIcon() {
+        val icon = this.icon
+        if(icon != null) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null
+            )
+        } else {
+            AsyncImage(
+                modifier = Modifier
+                    .size(35.dp)
+                    .clip(CircleShape),
+                model = ImageRequest.Builder(LocalPlatformContext.current)
+                    // TODO: TO SET THE USER PIC
+                    .data("https://t4.ftcdn.net/jpg/03/86/82/73/360_F_386827376_uWOOhKGk6A4UVL5imUBt20Bh8cmODqzx.jpg")
+                    .crossfade(true)
+                    .crossfade(500)
+                    .build(),
+                // TODO: TO SET
+                //imageLoader = imageLoader,
+                contentDescription = "Profile pic",
+                contentScale = ContentScale.Crop,
+                error = painterResource(Res.drawable.logo)
+            )
+        }
+    }
+
     /**
      * Method to collect or instantiate the states of the screen
      */
@@ -225,7 +264,7 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
 
     private data class NavigationTab(
         val tabIdentifier: String,
-        val icon: ImageVector,
+        val icon: ImageVector? = null,
         val title: StringResource
     )
 

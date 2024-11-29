@@ -14,11 +14,13 @@ kotlinx-coroutines = "1.9.0"
 kotlinxSerializationJson = "1.7.3"
 material3WindowSizeClass = "1.7.1"
 precompose = "1.7.0-alpha03"
-adaptive = "1.0.0"
+ktor = "3.0.1"
 
 [libraries]
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
-coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coilCompose" }
+coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "ktor" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
 equinox-backend = { module = "io.github.n7ghtm4r3:equinox-backend", version.ref = "equinoxCore" }
 equinox-compose = { module = "io.github.n7ghtm4r3:Equinox-Compose", version.ref = "equinoxCompose" }
 equinox-core = { module = "io.github.n7ghtm4r3:equinox-core", version.ref = "equinoxCore" }
