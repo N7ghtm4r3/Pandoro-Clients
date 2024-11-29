@@ -71,6 +71,8 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
+            implementation(compose.material3AdaptiveNavigationSuite)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
@@ -81,6 +83,9 @@ kotlin {
             implementation(libs.equinox.core)
             implementation(libs.equinox.backend)
             implementation(libs.equinox.compose)
+            implementation(libs.material3.window.size)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor3)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -98,7 +103,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 15
-        versionName = "1.0.5"
+        versionName = "1.1.0"
     }
     packaging {
         resources {
@@ -130,8 +135,8 @@ compose.desktop {
                 "java.scripting", "java.security.jgss", "java.sql.rowset", "jdk.jfr", "jdk.unsupported"
             )
             packageName = "Pandoro"
-            packageVersion = "1.0.5"
-            version = "1.0.5"
+            packageVersion = "1.1.0"
+            version = "1.1.0"
             description = "Pandoro, open source management software"
             copyright = "© 2024 Tecknobit"
             vendor = "Tecknobit"
@@ -148,7 +153,7 @@ compose.desktop {
                 iconFile.set(project.file("src/desktopMain/resources/logo.png"))
                 packageName = "com-tecknobit-pandoro"
                 debMaintainer = "infotecknobitcompany@gmail.com"
-                appRelease = "1.0.5"
+                appRelease = "1.1.0"
                 appCategory = "PERSONALIZATION"
                 rpmLicenseType = "MIT"
             }

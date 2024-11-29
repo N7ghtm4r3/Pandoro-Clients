@@ -1,8 +1,11 @@
 package com.tecknobit.pandoro
 
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.text.font.FontFamily
 import com.tecknobit.pandoro.ui.screens.Splashscreen
+import com.tecknobit.pandoro.ui.screens.home.HomeScreen
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
@@ -35,6 +38,8 @@ lateinit var navigator: Navigator
 private val sslContext = SSLContext.getInstance("TLS")
 
 const val SPLASHSCREEN = "Splashscreen"
+
+const val HOME_SCREEN = "HomeScreen"
 
 /*
 /**
@@ -93,6 +98,11 @@ fun App() {
             ) {
                 Splashscreen().ShowContent()
             }
+            scene(
+                route = HOME_SCREEN
+            ) {
+                HomeScreen().ShowContent()
+            }
         }
     }
 }
@@ -114,7 +124,7 @@ private fun validateSelfSignedCertificate(): Array<TrustManager> {
         override fun checkClientTrusted(certs: Array<X509Certificate>, authType: String) {}
         override fun checkServerTrusted(certs: Array<X509Certificate>, authType: String) {}
     })
-}
+}*/
 
 /**
  * Function to check whether are available any updates for each platform and then launch the application
@@ -125,6 +135,7 @@ private fun validateSelfSignedCertificate(): Array<TrustManager> {
 @NonRestartableComposable
 expect fun CheckForUpdatesAndLaunch()
 
+/*
 /**
  * Function to init the local session and the related instances then start the user session
  *
@@ -157,7 +168,7 @@ expect fun setUserLanguage()
  */
 @Composable
 @NonRestartableComposable
-expect fun CloseApplicationOnNavBack()
+expect fun CloseApplicationOnNavBack()*/
 
 /**
  * Function to get the current screen dimension of the device where the application is running
@@ -166,4 +177,4 @@ expect fun CloseApplicationOnNavBack()
  * @return the width size class based on the current dimension of the screen as [WindowWidthSizeClass]
  */
 @Composable
-expect fun getCurrentWidthSizeClass(): WindowWidthSizeClass*/
+expect fun getCurrentWidthSizeClass(): WindowWidthSizeClass

@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
+import com.tecknobit.pandoro.CheckForUpdatesAndLaunch
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import org.jetbrains.compose.resources.stringResource
@@ -38,7 +39,7 @@ class Splashscreen : EquinoxScreen<EquinoxViewModel>() {
                 Text(
                     text = stringResource(Res.string.app_name),
                     fontFamily = displayFontFamily,
-                    fontSize = 75.sp,
+                    fontSize = 55.sp,
                 )
                 Row(
                     modifier = Modifier
@@ -53,6 +54,7 @@ class Splashscreen : EquinoxScreen<EquinoxViewModel>() {
                     )
                 }
             }
+            CheckForUpdatesAndLaunch()
         }
     }
 
