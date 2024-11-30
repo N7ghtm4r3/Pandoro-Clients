@@ -67,7 +67,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.ktor.client.android)
+            implementation(libs.coil.network.okhttp)
         }
         commonMain.dependencies {
             implementation(compose.runtime)

@@ -145,7 +145,7 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                             modifier = Modifier
                                 .size(
                                     width = 250.dp,
-                                    height = 175.dp
+                                    height = 200.dp
                                 ),
                             project = project
                         )
@@ -177,7 +177,7 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(
-                                    height = 185.dp
+                                    height = 200.dp
                                 ),
                             project = project
                         )

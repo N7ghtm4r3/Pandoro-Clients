@@ -8,6 +8,7 @@ import com.tecknobit.pandorocore.AUTHOR_KEY
 import com.tecknobit.pandorocore.CREATION_DATE_KEY
 import com.tecknobit.pandorocore.GROUPS_KEY
 import com.tecknobit.pandorocore.PROJECT_DESCRIPTION_KEY
+import com.tecknobit.pandorocore.PROJECT_ICON_KEY
 import com.tecknobit.pandorocore.PROJECT_REPOSITORY_KEY
 import com.tecknobit.pandorocore.PROJECT_VERSION_KEY
 import com.tecknobit.pandorocore.UPDATES_KEY
@@ -19,6 +20,8 @@ import kotlinx.serialization.Serializable
 data class Project(
     @SerialName(IDENTIFIER_KEY)
     val id: String,
+    @SerialName(PROJECT_ICON_KEY)
+    val icon: String,
     @SerialName(NAME_KEY)
     val name: String,
     @SerialName(CREATION_DATE_KEY)
