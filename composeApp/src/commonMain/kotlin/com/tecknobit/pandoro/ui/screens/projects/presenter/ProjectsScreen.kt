@@ -141,10 +141,11 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                         key = { project -> project.id }
                     ) { project ->
                         ProjectCard(
+                            viewModel = viewModel!!,
                             modifier = Modifier
                                 .size(
                                     width = 250.dp,
-                                    height = 150.dp
+                                    height = 175.dp
                                 ),
                             project = project
                         )
@@ -172,10 +173,11 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                         key = { project -> project.id }
                     ) { project ->
                         ProjectCard(
+                            viewModel = viewModel!!,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(
-                                    height = 175.dp
+                                    height = 185.dp
                                 ),
                             project = project
                         )

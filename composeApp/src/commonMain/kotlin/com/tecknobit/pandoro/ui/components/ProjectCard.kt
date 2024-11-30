@@ -1,20 +1,26 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 
 package com.tecknobit.pandoro.ui.components
 
 import CircleDashedCheck
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipBox
@@ -29,9 +35,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.displayFontFamily
+import com.tecknobit.pandoro.ui.screens.group.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
+import com.tecknobit.pandoro.ui.screens.projects.presentation.ProjectsScreenViewModel
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
@@ -153,18 +161,90 @@ private fun UpdateStatusIcon(
 @Composable
 @NonRestartableComposable
 fun ProjectCard(
+    viewModel: ProjectsScreenViewModel,
     modifier: Modifier,
     project: Project
 ) {
     Card(
         modifier = modifier
+            .combinedClickable(
+                onClick = {
+                    // TODO: NAV TO PROJECT
+                },
+                onDoubleClick = {
+
+                },
+                onLongClick = {
+                    // TODO: EDIT PROJECT
+                }
+            )
     ) {
-        Text(
-            text = project.name,
-            fontFamily = displayFontFamily,
-            fontSize = 18.sp
-        )
+        Column (
+            modifier = Modifier
+                .padding(
+                    all = 10.dp
+                )
+        ) {
+            Column {
+                Text(
+                    text = project.version.asVersionText(),
+                    fontSize = 12.sp
+                )
+                Text(
+                    text = project.name,
+                    fontFamily = displayFontFamily,
+                    fontSize = 20.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = project.description,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 3,
+                fontSize = 14.sp
+            )
+        }
+        HorizontalDivider()
+        Row (
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // TODO: CHECK IF THE USER IS A MAINTAINER OR AN ADMIN OF THAT GROUP
+            Column (
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.End
+            ) {
+                IconButton(
+                    onClick =  {
+                        viewModel.deleteProject(
+                            project = project
+                        )
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
+        }
     }
+}
+
+@Composable
+@NonRestartableComposable
+private fun GroupsIcons(
+    modifier: Modifier = Modifier,
+    groups: List<Group>
+) {
+
 }
 
 private fun String.asVersionText() : String {
