@@ -73,7 +73,7 @@ class ProjectsScreenViewModel : EquinoxViewModel(
                             ),
                             targetVersion = "1.0.0",
                             createDate = System.currentTimeMillis(),
-                            startDate = System.currentTimeMillis(),
+                            startDate = 1731588486000,
                             status = UpdateStatus.IN_DEVELOPMENT,
                             notes = listOf(
                                 Note(
@@ -86,7 +86,8 @@ class ProjectsScreenViewModel : EquinoxViewModel(
                                         email = "name.surname@gmail.com"
                                     ),
                                     creationDate = System.currentTimeMillis(),
-                                    content = "111"
+                                    content = "111",
+                                    markedAsDone = true
                                 )
                             )
                         )

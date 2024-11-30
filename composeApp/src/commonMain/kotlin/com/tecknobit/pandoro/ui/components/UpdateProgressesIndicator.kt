@@ -22,7 +22,8 @@ private val CHANGE_NOTES_COMPLETED_VALUE = 230.dp
 @NonRestartableComposable
 fun UpdateProgressesIndicator(
     modifier: Modifier = Modifier,
-    update: ProjectUpdate
+    update: ProjectUpdate,
+    onUpdateCompleted: () -> Unit = {}
 ) {
     val lineColor = MaterialTheme.colorScheme.primary
     Column (
@@ -32,6 +33,8 @@ fun UpdateProgressesIndicator(
         val totalChangeNotes = update.notes.size
         val changeNotesDone = update.notes.filter { note -> note.markedAsDone }.size
         val step = CHANGE_NOTES_COMPLETED_VALUE / totalChangeNotes
+        if(totalChangeNotes == changeNotesDone)
+            onUpdateCompleted.invoke()
         Text(
             modifier = Modifier
                 .fillMaxWidth()

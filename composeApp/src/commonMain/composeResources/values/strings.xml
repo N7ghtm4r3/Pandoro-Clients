@@ -151,4 +151,14 @@
     <string name="change_language">Change language</string>
     <string name="server_currently_offline">Server currently offline</string>
     <string name="all">All</string>
+    <plurals name="in_development_since">
+        <item formatted="false" quantity="one">In development since %1$d day</item>
+        <item formatted="false" quantity="other">In development since %1$d days</item>
+    </plurals>
+    <plurals name="update_completed_in">
+        <item formatted="false" quantity="one">Completed in %1$d day</item>
+        <item formatted="false" quantity="other">Completed in %1$d days</item>
+    </plurals>
+    <string name="update_completed_info">This update is ready to be published</string>
+    <string name="update_in_progress_info">This update is in development</string>
 </resources>

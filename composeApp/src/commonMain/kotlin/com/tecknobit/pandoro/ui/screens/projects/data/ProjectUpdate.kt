@@ -13,6 +13,11 @@ import com.tecknobit.pandorocore.UPDATE_START_DATE_KEY
 import com.tecknobit.pandorocore.UPDATE_STATUS_KEY
 import com.tecknobit.pandorocore.UPDATE_TARGET_VERSION_KEY
 import com.tecknobit.pandorocore.enums.UpdateStatus
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.daysUntil
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -38,4 +43,18 @@ data class ProjectUpdate(
     val publishDate: Long = -1,
     @SerialName(NOTES_KEY)
     val notes: List<Note>,
-)
+) {
+
+    fun allChangeNotesCompleted() : Boolean {
+        val changeNotesCount = notes.size
+        val changeNotesDone = notes.filter { changeNote-> changeNote.markedAsDone }.size
+        return changeNotesCount == changeNotesDone
+    }
+
+    fun developmentDays() : Int {
+        return Instant.fromEpochMilliseconds(startDate)
+            .toLocalDateTime(TimeZone.currentSystemDefault()).date
+            .daysUntil(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date)
+    }
+
+}

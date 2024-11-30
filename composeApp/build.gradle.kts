@@ -90,6 +90,7 @@ kotlin {
             implementation(libs.coil.network.ktor3)
             implementation(libs.pandorocore)
             implementation(libs.lazyPaginationCompose)
+            implementation(libs.kotlinx.datetime)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
