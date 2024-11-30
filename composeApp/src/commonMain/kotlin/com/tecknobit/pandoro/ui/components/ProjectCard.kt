@@ -6,6 +6,7 @@ import CircleDashedCheck
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -42,6 +43,7 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.tecknobit.pandoro.displayFontFamily
+import com.tecknobit.pandoro.ui.screens.group.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
@@ -57,7 +59,9 @@ import pandoro.composeapp.generated.resources.update_completed_in
 import pandoro.composeapp.generated.resources.update_completed_info
 import pandoro.composeapp.generated.resources.update_in_progress_info
 
-const val VERSION_PREFIX = "v"
+private const val VERSION_PREFIX = "v"
+
+private const val LIMIT_GROUPS_DISPLAYED = 5
 
 @Composable
 fun InDevelopmentProjectCard(
@@ -213,15 +217,12 @@ fun ProjectCard(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            /*GroupsIcons(
-                modifier = Modifier
-                    .weight(10f),
+            GroupsIcons(
                 groups = project.groups
-            )*/
+            )
             // TODO: CHECK IF THE USER IS A MAINTAINER OR AN ADMIN OF THAT GROUP
             Column (
                 modifier = Modifier
-                    .weight(1f)
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.End
             ) {
@@ -260,9 +261,6 @@ private fun ProjectHeader(
                 .crossfade(true)
                 .crossfade(500)
                 .build(),
-            onError = {
-                println(it.result)
-            },
             // TODO: TO SET
             //imageLoader = imageLoader,
             contentDescription = "Project icon",
@@ -297,46 +295,40 @@ private fun ProjectTitle(
 
 @Composable
 @NonRestartableComposable
-/*private fun GroupsIcons(
+private fun GroupsIcons(
     modifier: Modifier = Modifier,
     groups: List<Group>
 ) {
     Box (
         modifier = modifier
-            .fillMaxWidth()
+            .padding(
+                start = 10.dp
+            )
     ) {
-        val hashSet = HashSet<PandoroUser>()
-        groups.forEach { groups ->
-            groups.projects.forEach { project ->
-                project.updates.forEach { update ->
-
-                }
-            }
-        }
-
         groups.forEachIndexed { index, group ->
+            if(index >= LIMIT_GROUPS_DISPLAYED)
+                return@forEachIndexed
             AsyncImage(
                 modifier = Modifier
                     .padding(
                         start = (15 * index).dp
                     )
-                    .size(35.dp)
+                    .size(25.dp)
                     .clip(CircleShape),
                 model = ImageRequest.Builder(LocalPlatformContext.current)
-                    // TODO: TO SET THE USER PIC
-                    .data(group.)
+                    .data(group.logo)
                     .crossfade(true)
                     .crossfade(500)
                     .build(),
                 // TODO: TO SET
                 //imageLoader = imageLoader,
-                contentDescription = "Profile pic",
+                contentDescription = "Group logo",
                 contentScale = ContentScale.Crop,
                 error = painterResource(Res.drawable.logo)
             )
         }
     }
-}*/
+}
 
 private fun String.asVersionText() : String {
     return if(this.startsWith(VERSION_PREFIX))

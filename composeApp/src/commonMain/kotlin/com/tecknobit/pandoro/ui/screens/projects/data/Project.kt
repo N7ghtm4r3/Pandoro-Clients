@@ -20,10 +20,10 @@ import kotlinx.serialization.Serializable
 data class Project(
     @SerialName(IDENTIFIER_KEY)
     val id: String,
-    @SerialName(PROJECT_ICON_KEY)
-    val icon: String,
     @SerialName(NAME_KEY)
     val name: String,
+    @SerialName(PROJECT_ICON_KEY)
+    val icon: String,
     @SerialName(CREATION_DATE_KEY)
     val creationDate: Long,
     @SerialName(AUTHOR_KEY)
