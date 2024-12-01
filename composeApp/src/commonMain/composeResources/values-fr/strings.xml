@@ -49,7 +49,6 @@
     <string name="worst_performance">Pire performance</string>
     <string name="updates_number">Nombre de mises à jour</string>
     <string name="average_development_time">Durée moyenne de développement</string>
-    <string name="no_projects_yet">Aucun projet pour l'instant</string>
     <string name="average_development_days">Nombre moyen de jours de développement</string>
     <string name="surname">Nom de famille</string>
     <string name="email">E-mail</string>
@@ -166,4 +165,5 @@
         <item formatted="false" quantity="other">%1$d membres</item>
     </plurals>
     <string name="project_groups_title">Les groupes de %1$s</string>
+    <string name="no_projects_available">Aucun projet disponible</string>
 </resources>

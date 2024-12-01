@@ -49,7 +49,6 @@
     <string name="worst_performance">Worst performance</string>
     <string name="updates_number">Updates number</string>
     <string name="average_development_time">Average development time</string>
-    <string name="no_projects_yet">No projects yet</string>
     <string name="average_development_days">Average development days</string>
     <string name="surname">Surname</string>
     <string name="email">Email</string>
@@ -166,4 +165,5 @@
         <item formatted="false" quantity="other">%1$d members</item>
     </plurals>
     <string name="project_groups_title">%1$s's groups</string>
+    <string name="no_projects_available">No projects available</string>
 </resources>

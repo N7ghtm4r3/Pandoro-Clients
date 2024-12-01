@@ -26,6 +26,11 @@ class ProjectsScreenViewModel : EquinoxViewModel(
     )
     val inDevelopmentProject: StateFlow<List<InDevelopmentProject>> = _inDevelopmentProjects
 
+    private val _projectsAvailable = MutableStateFlow(
+        value = false
+    )
+    val projectsAvailable: StateFlow<Boolean> = _projectsAvailable
+
     val projectsState = PaginationState<Int, Project>(
         initialPageKey = DEFAULT_PAGE,
         onRequestPage = { page ->
@@ -40,7 +45,7 @@ class ProjectsScreenViewModel : EquinoxViewModel(
     ) {
         viewModelScope.launch {
             // TODO: MAKE THE PAGINATED REQUEST THEN
-            val listFromServer = listOf(
+            val listFromServer = arrayListOf(
                 Project(
                     id = Random.nextLong().toString(),
                     icon = "https://starwalk.space/gallery/images/what-is-space/1920x1080.jpg",

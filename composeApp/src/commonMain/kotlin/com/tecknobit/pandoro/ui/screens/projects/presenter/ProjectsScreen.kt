@@ -2,6 +2,11 @@
 
 package com.tecknobit.pandoro.ui.screens.projects.presenter
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,6 +19,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.FolderOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -26,9 +32,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.equinoxcompose.components.EmptyListUI
+import com.tecknobit.equinoxcompose.components.UIAnimations
+import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.ui.components.InDevelopmentProjectCard
@@ -42,6 +56,7 @@ import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.all
 import pandoro.composeapp.generated.resources.in_development
+import pandoro.composeapp.generated.resources.no_projects_available
 import pandoro.composeapp.generated.resources.projects
 
 class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
@@ -86,23 +101,29 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
     @Composable
     @NonRestartableComposable
     private fun ProjectsInDevelopmentSection() {
-        Column {
-            Text(
-                text = stringResource(Res.string.in_development)
-            )
-            LazyRow (
-                contentPadding = PaddingValues(
-                    vertical = 10.dp
-                ),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                items(
-                    items = inDevelopmentProjects.value,
-                    key = { inDevelopmentProject -> inDevelopmentProject.update.id }
-                ) { inDevelopmentProject ->
-                    InDevelopmentProjectCard(
-                        inDevelopmentProject = inDevelopmentProject
-                    )
+        AnimatedVisibility(
+            visible = inDevelopmentProjects.value.isNotEmpty(),
+            enter = scaleIn(),
+            exit = scaleOut()
+        ) {
+            Column {
+                Text(
+                    text = stringResource(Res.string.in_development)
+                )
+                LazyRow (
+                    contentPadding = PaddingValues(
+                        vertical = 10.dp
+                    ),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(
+                        items = inDevelopmentProjects.value,
+                        key = { inDevelopmentProject -> inDevelopmentProject.update.id }
+                    ) { inDevelopmentProject ->
+                        InDevelopmentProjectCard(
+                            inDevelopmentProject = inDevelopmentProject
+                        )
+                    }
                 }
             }
         }
@@ -123,6 +144,7 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
     @NonRestartableComposable
     private fun ProjectsList() {
         val windowWidthSizeClass = getCurrentWidthSizeClass()
+        var projectsAvailable by remember { mutableStateOf(false) }
         when(windowWidthSizeClass) {
             Expanded, Medium -> {
                 PaginatedLazyVerticalGrid(
@@ -136,19 +158,23 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    items(
-                        items = viewModel!!.projectsState.allItems!!,
-                        key = { project -> project.id }
-                    ) { project ->
-                        ProjectCard(
-                            viewModel = viewModel!!,
-                            modifier = Modifier
-                                .size(
-                                    width = 300.dp,
-                                    height = 200.dp
-                                ),
-                            project = project
-                        )
+                    val projects = viewModel!!.projectsState.allItems!!
+                    projectsAvailable = projects.isNotEmpty()
+                    if(projectsAvailable) {
+                        items(
+                            items = projects,
+                            key = { project -> project.id }
+                        ) { project ->
+                            ProjectCard(
+                                viewModel = viewModel!!,
+                                modifier = Modifier
+                                    .size(
+                                        width = 300.dp,
+                                        height = 200.dp
+                                    ),
+                                project = project
+                            )
+                        }
                     }
                 }
             } else -> {
@@ -168,23 +194,40 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                     newPageErrorIndicator = { e -> ... },
                     // The rest of LazyColumn params*/
                 ) {
-                    items(
-                        items = viewModel!!.projectsState.allItems!!,
-                        key = { project -> project.id }
-                    ) { project ->
-                        ProjectCard(
-                            viewModel = viewModel!!,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(
-                                    height = 210.dp
-                                ),
-                            project = project
-                        )
+                    val projects = viewModel!!.projectsState.allItems!!
+                    projectsAvailable = projects.isNotEmpty()
+                    if(projectsAvailable) {
+                        items(
+                            items = projects,
+                            key = { project -> project.id }
+                        ) { project ->
+                            ProjectCard(
+                                viewModel = viewModel!!,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(
+                                        height = 210.dp
+                                    ),
+                                project = project
+                            )
+                        }
                     }
                 }
             }
         }
+        EmptyListUI(
+            animations = UIAnimations(
+                visible = !projectsAvailable,
+                onEnter = fadeIn(),
+                onExit = fadeOut()
+            ),
+            icon = Icons.Default.FolderOff,
+            subText = Res.string.no_projects_available,
+            textStyle = TextStyle(
+                fontFamily = bodyFontFamily
+            ),
+            themeColor = MaterialTheme.colorScheme.inversePrimary
+        )
     }
 
     /**
