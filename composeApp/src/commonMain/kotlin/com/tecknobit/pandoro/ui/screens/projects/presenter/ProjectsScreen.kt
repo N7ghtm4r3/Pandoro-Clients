@@ -128,7 +128,7 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                 PaginatedLazyVerticalGrid(
                     paginationState = viewModel!!.projectsState,
                     columns = GridCells.Adaptive(
-                        minSize = 250.dp
+                        minSize = 300.dp
                     ),
                     contentPadding = PaddingValues(
                         vertical = 10.dp
@@ -144,7 +144,7 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                             viewModel = viewModel!!,
                             modifier = Modifier
                                 .size(
-                                    width = 250.dp,
+                                    width = 300.dp,
                                     height = 200.dp
                                 ),
                             project = project
@@ -177,7 +177,7 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(
-                                    height = 200.dp
+                                    height = 210.dp
                                 ),
                             project = project
                         )

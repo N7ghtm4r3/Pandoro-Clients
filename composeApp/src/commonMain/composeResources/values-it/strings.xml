@@ -4,13 +4,13 @@
     <string name="description_subtext">Pandoro è un gestionale open source utile per gestire facilmente i progetti e i loro aggiornamenti.</string>
     <string name="frequent_projects">Progetti frequenti</string>
     <string name="current_projects">Progetti attuali</string>
-    <string name="delete_project">Cancellare il progetto</string>
+    <string name="delete_project">Eliminare %1$s</string>
     <string name="projects">Progetti</string>
     <string name="notes">Appunti</string>
     <string name="notes_number">Numero di note:</string>
     <string name="overview">Panoramica</string>
     <string name="profile">Profilo</string>
-    <string name="delete_text_dialog">Se si conferma questo evento il progetto e tutte le sue informazioni saranno cancellate e non più recuperabili, confermate?</string>
+    <string name="delete_project_text_dialog">Se si conferma questo evento il progetto e tutte le sue informazioni saranno cancellate e non più recuperabili, confermi?</string>
     <string name="dismiss">Annulla</string>
     <string name="confirm">Conferma</string>
     <string name="no_projects_found">Nessun progetto trovato</string>
@@ -161,4 +161,9 @@
     </plurals>
     <string name="update_completed_info">Questo aggiornamento è pronto per essere pubblicato</string>
     <string name="update_in_progress_info">Questo aggiornamento è in fase di sviluppo</string>
+    <plurals name="members_number">
+        <item formatted="false" quantity="one">%1$d membro</item>
+        <item formatted="false" quantity="other">%1$d membri</item>
+    </plurals>
+    <string name="project_groups_title">Gruppi di %1$s</string>
 </resources>

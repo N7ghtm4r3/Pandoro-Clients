@@ -6,7 +6,6 @@ import CircleDashedCheck
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -30,6 +29,8 @@ import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +44,6 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.ui.screens.group.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
@@ -61,8 +61,6 @@ import pandoro.composeapp.generated.resources.update_in_progress_info
 
 private const val VERSION_PREFIX = "v"
 
-private const val LIMIT_GROUPS_DISPLAYED = 5
-
 @Composable
 fun InDevelopmentProjectCard(
     inDevelopmentProject: InDevelopmentProject
@@ -73,10 +71,10 @@ fun InDevelopmentProjectCard(
         modifier = Modifier
             .size(
                 width = 250.dp,
-                height = 130.dp
+                height = 150.dp
             ),
         onClick = {
-            // TODO: NAT TO PROJECT
+            // TODO: NAT TO UPDATE
         }
     ) {
         Column (
@@ -179,9 +177,6 @@ fun ProjectCard(
                 onClick = {
                     // TODO: NAV TO PROJECT
                 },
-                onDoubleClick = {
-
-                },
                 onLongClick = {
                     // TODO: EDIT PROJECT
                 }
@@ -193,15 +188,13 @@ fun ProjectCard(
                     all = 10.dp
                 )
         ) {
-            Column {
-                Text(
-                    text = project.version.asVersionText(),
-                    fontSize = 12.sp
-                )
-                ProjectHeader(
-                    project = project
-                )
-            }
+            Text(
+                text = project.version.asVersionText(),
+                fontSize = 12.sp
+            )
+            ProjectHeader(
+                project = project
+            )
             Text(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -214,24 +207,24 @@ fun ProjectCard(
         HorizontalDivider()
         Row (
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(
+                    start = 10.dp
+                ),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            GroupsIcons(
-                groups = project.groups
+            GroupIcons(
+                project = project
             )
             // TODO: CHECK IF THE USER IS A MAINTAINER OR AN ADMIN OF THAT GROUP
+            val deleteProject = remember { mutableStateOf(false) }
             Column (
                 modifier = Modifier
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.End
             ) {
                 IconButton(
-                    onClick =  {
-                        viewModel.deleteProject(
-                            project = project
-                        )
-                    }
+                    onClick =  { deleteProject.value = true }
                 ) {
                     Icon(
                         imageVector = Icons.Default.Delete,
@@ -240,6 +233,12 @@ fun ProjectCard(
                     )
                 }
             }
+            DeleteProject(
+                viewModel = viewModel,
+                show = deleteProject,
+                project = project,
+                onDelete = { viewModel.projectsState.refresh() }
+            )
         }
     }
 }
@@ -291,43 +290,6 @@ private fun ProjectTitle(
         maxLines = 1,
         overflow = TextOverflow.Ellipsis
     )
-}
-
-@Composable
-@NonRestartableComposable
-private fun GroupsIcons(
-    modifier: Modifier = Modifier,
-    groups: List<Group>
-) {
-    Box (
-        modifier = modifier
-            .padding(
-                start = 10.dp
-            )
-    ) {
-        groups.forEachIndexed { index, group ->
-            if(index >= LIMIT_GROUPS_DISPLAYED)
-                return@forEachIndexed
-            AsyncImage(
-                modifier = Modifier
-                    .padding(
-                        start = (15 * index).dp
-                    )
-                    .size(25.dp)
-                    .clip(CircleShape),
-                model = ImageRequest.Builder(LocalPlatformContext.current)
-                    .data(group.logo)
-                    .crossfade(true)
-                    .crossfade(500)
-                    .build(),
-                // TODO: TO SET
-                //imageLoader = imageLoader,
-                contentDescription = "Group logo",
-                contentScale = ContentScale.Crop,
-                error = painterResource(Res.drawable.logo)
-            )
-        }
-    }
 }
 
 private fun String.asVersionText() : String {
