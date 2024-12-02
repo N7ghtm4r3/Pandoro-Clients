@@ -167,4 +167,9 @@
     <string name="project_groups_title">%1$s's groups</string>
     <string name="no_projects_available">No projects available</string>
     <string name="retry_to_reconnect">Retry to connect</string>
+    <string name="filter_in_development_projects">Filter in development projects</string>
+    <string name="filter_projects">Filter projects</string>
+    <string name="filters_placeholder">Name, versions</string>
+    <string name="wrong_filters_text">Wrong filters value</string>
+    <string name="empty_filtered_projects">No projects found with these filters, try to change them</string>
 </resources>

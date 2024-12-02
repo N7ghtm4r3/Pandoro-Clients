@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.ui.screens.projects.presentation
 
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
@@ -12,13 +13,14 @@ import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class ProjectsScreenViewModel : EquinoxViewModel(
     snackbarHostState = SnackbarHostState()
 ) {
+
+    lateinit var inDevelopmentProjectsFilter: MutableState<String>
 
     val inDevelopmentProjectState = PaginationState<Int, InDevelopmentProject>(
         initialPageKey = DEFAULT_PAGE,
@@ -32,6 +34,7 @@ class ProjectsScreenViewModel : EquinoxViewModel(
     private fun retrieveInDevelopmentProjects(
         page: Int
     ) {
+        // TODO: TO USE THE inDevelopmentProjectsFilter AS FILTER QUERY
         viewModelScope.launch {
             // TODO: TO REMOVE THIS AND SET WHEN THE CONNECTION ERROR OCCURRED THE RELATED ERROR
             val listFromServer = arrayListOf(
@@ -549,6 +552,8 @@ class ProjectsScreenViewModel : EquinoxViewModel(
         return inDevelopmentProjects
     }
 
+    lateinit var projectsFilter: MutableState<String>
+
     val projectsState = PaginationState<Int, Project>(
         initialPageKey = DEFAULT_PAGE,
         onRequestPage = { page ->
@@ -561,6 +566,7 @@ class ProjectsScreenViewModel : EquinoxViewModel(
     private fun retrieveProjects(
         page: Int
     ) {
+        // TODO: TO USE THE projectsFilter AS FILTER QUERY
         viewModelScope.launch {
             // TODO: TO REMOVE THIS AND SET WHEN THE CONNECTION ERROR OCCURRED THE RELATED ERROR
             val listFromServer = arrayListOf(
@@ -1056,6 +1062,42 @@ class ProjectsScreenViewModel : EquinoxViewModel(
                 isLastPage = Random.nextBoolean()
             )
         }
+    }
+
+    fun areFiltersSet(
+        allProjects: Boolean
+    ) : Boolean {
+        return if(allProjects)
+            projectsFilter.value.isNotEmpty()
+        else
+            inDevelopmentProjectsFilter.value.isNotEmpty()
+    }
+
+    fun clearFilter(
+        allProjects: Boolean
+    ) {
+        if(allProjects) {
+            projectsFilter.value = ""
+            projectsState.refresh()
+        } else {
+            inDevelopmentProjectsFilter.value = ""
+            inDevelopmentProjectState.refresh()
+        }
+    }
+
+    fun filterProjects(
+        allProjects: Boolean,
+        filters: MutableState<String>,
+        onFiltersSet: () -> Unit
+    ) {
+        if(allProjects) {
+            projectsFilter.value = filters.value
+            projectsState.refresh()
+        } else {
+            inDevelopmentProjectsFilter.value = filters.value
+            inDevelopmentProjectState.refresh()
+        }
+        onFiltersSet.invoke()
     }
 
     fun deleteProject(

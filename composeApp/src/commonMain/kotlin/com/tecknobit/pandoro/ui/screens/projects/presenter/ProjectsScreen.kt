@@ -1,16 +1,18 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 
 package com.tecknobit.pandoro.ui.screens.projects.presenter
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.items
@@ -18,14 +20,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.FilterListOff
 import androidx.compose.material.icons.filled.FolderOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Medium
 import androidx.compose.runtime.Composable
@@ -33,7 +36,6 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,11 +56,11 @@ import com.tecknobit.pandoro.ui.screens.projects.presentation.ProjectsScreenView
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyRow
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyVerticalGrid
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.all
+import pandoro.composeapp.generated.resources.empty_filtered_projects
 import pandoro.composeapp.generated.resources.in_development
 import pandoro.composeapp.generated.resources.no_projects_available
 import pandoro.composeapp.generated.resources.projects
@@ -79,41 +81,14 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                 Scaffold(
                     containerColor = MaterialTheme.colorScheme.primary,
                     floatingActionButton = {
-                        Column (
-                            verticalArrangement = Arrangement.spacedBy(5.dp)
+                        val addProject = remember { mutableStateOf(false) }
+                        FloatingActionButton(
+                            onClick = { addProject.value = true }
                         ) {
-                            val scope = rememberCoroutineScope()
-                            val modalBottomSheetState = rememberModalBottomSheetState()
-                            FloatingActionButton(
-                                modifier = Modifier
-                                    .size(40.dp)
-                                    .align(Alignment.End),
-                                containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                                onClick = {
-                                    scope.launch {
-                                        modalBottomSheetState.show()
-                                    }
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.FilterList,
-                                    contentDescription = null
-                                )
-                            }
-                            FilterProjects(
-                                viewModel = viewModel!!,
-                                state = modalBottomSheetState,
-                                scope = scope
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = null
                             )
-                            val addProject = remember { mutableStateOf(false) }
-                            FloatingActionButton(
-                                onClick = { addProject.value = true }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = null
-                                )
-                            }
                         }
                     },
                     bottomBar = { AdaptBottomBarToNavigationMode() }
@@ -138,10 +113,21 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
     @NonRestartableComposable
     private fun ProjectsInDevelopmentSection() {
         var projectsAvailable by remember { mutableStateOf(false) }
+        val projectsNotFound = !projectsAvailable && viewModel!!.inDevelopmentProjectsFilter.value.isNotEmpty()
         Column {
-            if(projectsAvailable) {
+            if(projectsAvailable || viewModel!!.inDevelopmentProjectsFilter.value.isNotEmpty()) {
                 SectionHeader(
                     header = Res.string.in_development
+                )
+            }
+            if(projectsNotFound) {
+                Text(
+                    modifier = Modifier
+                        .padding(
+                            vertical = 10.dp
+                        ),
+                    text = stringResource(Res.string.empty_filtered_projects),
+                    fontSize = 14.sp
                 )
             }
             PaginatedLazyRow(
@@ -291,27 +277,46 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
     private fun SectionHeader(
         header: StringResource
     ) {
+        val filter = remember { mutableStateOf(false) }
+        val isAllProjectsFiltering = header == Res.string.all
+        val areFiltersSet = viewModel!!.areFiltersSet(
+            allProjects = isAllProjectsFiltering
+        )
         Row (
             modifier = Modifier
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             Text(
                 text = stringResource(header)
             )
-            /*IconButton(
+            IconButton(
                 modifier = Modifier
-                    .size(30.dp),
+                    .size(24.dp),
                 onClick = {
-                    // TODO: TO FILTER 
+                    if(areFiltersSet) {
+                        viewModel!!.clearFilter(
+                            allProjects = isAllProjectsFiltering
+                        )
+                    } else
+                        filter.value = true
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Default.FilterList,
+                    imageVector = if(areFiltersSet)
+                        Icons.Default.FilterListOff
+                    else
+                        Icons.Default.FilterList,
                     contentDescription = null
                 )
-            }*/
+            }
         }
+        FilterProjects(
+            show = filter,
+            viewModel = viewModel!!,
+            isAllProjectsFiltering = isAllProjectsFiltering
+        )
     }
 
     /**
@@ -319,6 +324,8 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
      */
     @Composable
     override fun CollectStates() {
+        viewModel!!.inDevelopmentProjectsFilter = remember { mutableStateOf("") }
+        viewModel!!.projectsFilter = remember { mutableStateOf("") }
     }
 
 }

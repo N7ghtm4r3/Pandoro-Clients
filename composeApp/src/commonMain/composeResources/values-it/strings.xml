@@ -167,4 +167,9 @@
     <string name="project_groups_title">Gruppi di %1$s</string>
     <string name="no_projects_available">Nessun progetto disponibile</string>
     <string name="retry_to_reconnect">Riprova a connetterti</string>
+    <string name="filter_in_development_projects">Filtra progetti in sviluppo</string>
+    <string name="filter_projects">Filtra progetti</string>
+    <string name="filters_placeholder">Nome, versioni</string>
+    <string name="wrong_filters_text">Valore filtri errato</string>
+    <string name="empty_filtered_projects">Non sono stati trovati progetti con questi filtri, prova a cambiarli</string>
 </resources>
