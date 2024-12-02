@@ -22,10 +22,10 @@ import androidx.compose.material.icons.filled.FolderOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Medium
 import androidx.compose.runtime.Composable
@@ -33,6 +33,7 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,13 +46,15 @@ import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
 import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
-import com.tecknobit.pandoro.ui.components.InDevelopmentProjectCard
-import com.tecknobit.pandoro.ui.components.ProjectCard
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.pandoro.ui.screens.projects.components.FilterProjects
+import com.tecknobit.pandoro.ui.screens.projects.components.InDevelopmentProjectCard
+import com.tecknobit.pandoro.ui.screens.projects.components.ProjectCard
 import com.tecknobit.pandoro.ui.screens.projects.presentation.ProjectsScreenViewModel
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyRow
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyVerticalGrid
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -76,14 +79,41 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                 Scaffold(
                     containerColor = MaterialTheme.colorScheme.primary,
                     floatingActionButton = {
-                        val addProject = remember { mutableStateOf(false) }
-                        FloatingActionButton(
-                            onClick = { addProject.value = true }
+                        Column (
+                            verticalArrangement = Arrangement.spacedBy(5.dp)
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = null
+                            val scope = rememberCoroutineScope()
+                            val modalBottomSheetState = rememberModalBottomSheetState()
+                            FloatingActionButton(
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .align(Alignment.End),
+                                containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                                onClick = {
+                                    scope.launch {
+                                        modalBottomSheetState.show()
+                                    }
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.FilterList,
+                                    contentDescription = null
+                                )
+                            }
+                            FilterProjects(
+                                viewModel = viewModel!!,
+                                state = modalBottomSheetState,
+                                scope = scope
                             )
+                            val addProject = remember { mutableStateOf(false) }
+                            FloatingActionButton(
+                                onClick = { addProject.value = true }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = null
+                                )
+                            }
                         }
                     },
                     bottomBar = { AdaptBottomBarToNavigationMode() }
@@ -269,7 +299,9 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
             Text(
                 text = stringResource(header)
             )
-            IconButton(
+            /*IconButton(
+                modifier = Modifier
+                    .size(30.dp),
                 onClick = {
                     // TODO: TO FILTER 
                 }
@@ -278,7 +310,7 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                     imageVector = Icons.Default.FilterList,
                     contentDescription = null
                 )
-            }
+            }*/
         }
     }
 

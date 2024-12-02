@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 
-package com.tecknobit.pandoro.ui.components
+package com.tecknobit.pandoro.ui.screens.projects.components
 
 import CircleDashedCheck
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -44,6 +44,8 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.tecknobit.pandoro.displayFontFamily
+import com.tecknobit.pandoro.ui.components.DeleteProject
+import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate

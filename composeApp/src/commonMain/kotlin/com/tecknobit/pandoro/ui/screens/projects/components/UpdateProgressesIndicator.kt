@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.ui.components
+package com.tecknobit.pandoro.ui.screens.projects.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
