@@ -166,4 +166,5 @@
     </plurals>
     <string name="project_groups_title">Les groupes de %1$s</string>
     <string name="no_projects_available">Aucun projet disponible</string>
+    <string name="retry_to_reconnect">Réessayer de se connecter</string>
 </resources>
