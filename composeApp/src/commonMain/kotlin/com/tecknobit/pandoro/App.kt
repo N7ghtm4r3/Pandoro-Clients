@@ -18,6 +18,7 @@ import com.tecknobit.pandoro.ui.screens.home.HomeScreen
 import com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen
 import com.tecknobit.pandoro.ui.theme.PandoroDialogTheme
 import com.tecknobit.pandorocore.PROJECT_IDENTIFIER_KEY
+import io.github.vinceglb.filekit.core.PlatformFile
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
@@ -244,3 +245,14 @@ expect fun CloseApplicationOnNavBack()*/
  */
 @Composable
 expect fun getCurrentWidthSizeClass(): WindowWidthSizeClass
+
+/**
+ * Function to get the image picture's path
+ *
+ * @param imagePic: the asset from fetch its path
+ *
+ * @return the asset path as [String]
+ */
+expect fun getImagePath(
+    imagePic: PlatformFile?
+): String?

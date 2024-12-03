@@ -5,7 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
-import com.tecknobit.pandoro.commondata.PandoroUser
+import com.tecknobit.pandoro.ui.commondata.PandoroUser
 import com.tecknobit.pandoro.ui.screens.group.data.Group
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject

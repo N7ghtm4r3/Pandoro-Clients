@@ -1,17 +1,15 @@
 package com.tecknobit.pandoro.ui.screens.createproject.presenter
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.GroupAdd
@@ -20,6 +18,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -27,11 +26,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -41,19 +43,36 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
+import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presentation.CreateProjectScreenViewModel
+import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
+import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectDescription
+import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectName
+import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidRepository
+import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidVersion
+import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
+import io.github.vinceglb.filekit.core.PickerMode
+import io.github.vinceglb.filekit.core.PickerType
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
+import pandoro.composeapp.generated.resources.choose_the_icon_of_the_project
 import pandoro.composeapp.generated.resources.create_project
 import pandoro.composeapp.generated.resources.description
+import pandoro.composeapp.generated.resources.edit
 import pandoro.composeapp.generated.resources.edit_project
 import pandoro.composeapp.generated.resources.logo
 import pandoro.composeapp.generated.resources.name
 import pandoro.composeapp.generated.resources.project_repository
+import pandoro.composeapp.generated.resources.save
 import pandoro.composeapp.generated.resources.version
+import pandoro.composeapp.generated.resources.wrong_description
+import pandoro.composeapp.generated.resources.wrong_name
+import pandoro.composeapp.generated.resources.wrong_project_version
+import pandoro.composeapp.generated.resources.wrong_repository_url
 
 class CreateProjectScreen(
     projectId: String?
@@ -64,6 +83,8 @@ class CreateProjectScreen(
 ) {
 
     private val isEditing: Boolean = projectId != null
+
+    private lateinit var project: State<Project?>
 
     /**
      * Method to arrange the content of the screen to display
@@ -122,8 +143,8 @@ class CreateProjectScreen(
             Card(
                 modifier = Modifier
                     .size(
-                        width = 700.dp,
-                        height = 600.dp
+                        width = 750.dp,
+                        height = 550.dp
                     )
             ) {
                 Column(
@@ -145,36 +166,45 @@ class CreateProjectScreen(
                         EquinoxOutlinedTextField(
                             modifier = Modifier
                                 .weight(1f),
-                            value = remember { mutableStateOf("") },
-                            label = Res.string.name
+                            value = viewModel!!.projectName,
+                            isError = viewModel!!.projectNameError,
+                            validator = { isValidProjectName(it) },
+                            label = Res.string.name,
+                            errorText = Res.string.wrong_name
                         )
                         EquinoxOutlinedTextField(
                             modifier = Modifier
                                 .weight(1f),
-                            value = remember { mutableStateOf("") },
-                            label = Res.string.version
+                            value = viewModel!!.projectVersion,
+                            isError = viewModel!!.projectVersionError,
+                            validator = { isValidVersion(it) },
+                            label = Res.string.version,
+                            errorText = Res.string.wrong_project_version
                         )
                     }
                     EquinoxOutlinedTextField(
                         modifier = Modifier
                             .fillMaxWidth(),
-                        value = remember { mutableStateOf("") },
-                        label = Res.string.project_repository
+                        value = viewModel!!.projectRepository,
+                        isError = viewModel!!.projectRepositoryError,
+                        validator = { isValidRepository(it) },
+                        label = Res.string.project_repository,
+                        errorText = Res.string.wrong_repository_url
                     )
                     EquinoxOutlinedTextField(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(
-                                bottom = ButtonDefaults.MinHeight + 16.dp
-                            ),
+                            .fillMaxWidth()
+                            .weight(1f),
                         maxLines = Int.MAX_VALUE,
-                        value = remember { mutableStateOf("") },
-                        label = Res.string.description
+                        value = viewModel!!.projectDescription,
+                        isError = viewModel!!.projectDescriptionError,
+                        validator = { isValidProjectDescription(it) },
+                        label = Res.string.description,
+                        errorText = Res.string.wrong_description
                     )
                     Column (
                         modifier = Modifier
-                            .weight(1f)
-                            .fillMaxSize(),
+                            .fillMaxWidth(),
                         horizontalAlignment = Alignment.End,
                         verticalArrangement = Arrangement.Bottom
                     ) {
@@ -187,7 +217,12 @@ class CreateProjectScreen(
                             }
                         ) {
                             Text(
-                                text = "Save"
+                                text = stringResource(
+                                    if(isEditing)
+                                        Res.string.edit
+                                    else
+                                        Res.string.save
+                                )
                             )
                         }
                     }
@@ -201,48 +236,50 @@ class CreateProjectScreen(
     private fun IconPicker(
         iconSize: Dp
     ) {
-        Box(
+        val launcher = rememberFilePickerLauncher(
+            type = PickerType.Image,
+            mode = PickerMode.Single,
+            title = stringResource(Res.string.choose_the_icon_of_the_project)
+        ) { image ->
+            viewModel!!.projectIcon.value = getImagePath(
+                imagePic = image
+            )
+        }
+        Column (
             modifier = Modifier
                 .fillMaxWidth(),
-            contentAlignment = Alignment.BottomCenter
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AsyncImage(
-                modifier = Modifier
-                    .size(iconSize)
-                    .clip(CircleShape)
-                    .align(Alignment.Center),
-                model = ImageRequest.Builder(LocalPlatformContext.current)
-                    .data("icon")
-                    .crossfade(true)
-                    .crossfade(500)
-                    .build(),
-                // TODO: TO SET
-                //imageLoader = imageLoader,
-                contentDescription = "Project icon",
-                contentScale = ContentScale.Crop,
-                error = painterResource(Res.drawable.logo)
-            )
-            Button(
-                modifier = Modifier
-                    .width(iconSize)
-                    .height(iconSize / 2),
-                shape = RoundedCornerShape(
-                    bottomStart = iconSize / 2,
-                    bottomEnd = iconSize / 2,
-                    topStart = 0.dp,
-                    topEnd = 0.dp
-                ),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.5f)
-                ),
-                onClick = {
-
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.AddAPhoto,
-                    contentDescription = null
+            Box {
+                AsyncImage(
+                    modifier = Modifier
+                        .size(iconSize)
+                        .clip(CircleShape)
+                        .align(Alignment.Center),
+                    model = ImageRequest.Builder(LocalPlatformContext.current)
+                        .data(viewModel!!.projectIcon.value)
+                        .crossfade(true)
+                        .crossfade(500)
+                        .build(),
+                    // TODO: TO SET
+                    //imageLoader = imageLoader,
+                    contentDescription = "Project icon",
+                    contentScale = ContentScale.Crop,
+                    error = painterResource(Res.drawable.logo)
                 )
+                IconButton(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .clip(CircleShape)
+                        .background(Color(0xD0DFD8D8))
+                        .size(40.dp),
+                    onClick = { launcher.launch() }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.AddAPhoto,
+                        contentDescription = null
+                    )
+                }
             }
         }
     }
@@ -254,10 +291,63 @@ class CreateProjectScreen(
     }
 
     /**
+     * Method invoked when the [ShowContent] composable has been started
+     */
+    override fun onStart() {
+        super.onStart()
+        viewModel!!.retrieveProject()
+    }
+
+    /**
      * Method to collect or instantiate the states of the screen
      */
     @Composable
     override fun CollectStates() {
+        project = viewModel!!.project.collectAsState()
+        viewModel!!.projectIcon = remember {
+            mutableStateOf(
+                if(isEditing)
+                    project.value!!.icon
+                else
+                    ""
+            )
+        }
+        viewModel!!.projectName = remember {
+            mutableStateOf(
+                if(isEditing)
+                    project.value!!.name
+                else
+                    ""
+            )
+        }
+        viewModel!!.projectNameError = remember { mutableStateOf(false) }
+        viewModel!!.projectVersion = remember {
+            mutableStateOf(
+                if(isEditing)
+                    project.value!!.version
+                else
+                    ""
+            )
+        }
+        viewModel!!.projectVersionError = remember { mutableStateOf(false) }
+        viewModel!!.projectRepository = remember {
+            mutableStateOf(
+                if(isEditing)
+                    project.value!!.projectRepo
+                else
+                    ""
+            )
+        }
+        viewModel!!.projectRepositoryError = remember { mutableStateOf(false) }
+        viewModel!!.projectDescription = remember {
+            mutableStateOf(
+                if(isEditing)
+                    project.value!!.description
+                else
+                    ""
+            )
+        }
+        viewModel!!.projectDescriptionError = remember { mutableStateOf(false) }
     }
 
 }

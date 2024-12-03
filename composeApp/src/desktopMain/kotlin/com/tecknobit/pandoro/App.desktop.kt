@@ -6,6 +6,7 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
+import io.github.vinceglb.filekit.core.PlatformFile
 import kotlinx.coroutines.delay
 
 /**
@@ -33,4 +34,17 @@ actual fun CheckForUpdatesAndLaunch() {
 @ExperimentalMaterial3WindowSizeClassApi
 actual fun getCurrentWidthSizeClass(): WindowWidthSizeClass {
     return calculateWindowSizeClass().widthSizeClass
+}
+
+/**
+ * Function to get the image picture's path
+ *
+ * @param imagePic: the asset from fetch its path
+ *
+ * @return the asset path as [String]
+ */
+actual fun getImagePath(
+    imagePic: PlatformFile?
+): String? {
+    return imagePic?.path
 }

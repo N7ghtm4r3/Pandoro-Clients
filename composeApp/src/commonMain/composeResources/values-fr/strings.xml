@@ -22,7 +22,6 @@
     <string name="version">Version</string>
     <string name="project_repository">Référentiel du projet</string>
     <string name="add_to_a_group">Ajouter à un groupe</string>
-    <string name="edit">Modifier</string>
     <string name="project">projet</string>
     <string name="to_a_group">à un groupe</string>
     <string name="creation_date">Date de création:</string>
@@ -147,7 +146,10 @@
     <string name="total_change_notes">Notes sur les changements totaux :</string>
     <string name="language">Langue</string>
     <string name="change_language">Changer de langue</string>
+
     <string name="server_currently_offline">Le serveur est actuellement hors ligne</string>
+
+    <!-- TODO: TO CHECK WHICH STRINGS REMOVE AFTER FINISHED -->
     <string name="all">Tous</string>
     <plurals name="in_development_since">
         <item formatted="false" quantity="one">En développement depuis %1$d jour</item>
@@ -172,4 +174,11 @@
     <string name="wrong_filters_text">Mauvaise valeur des filtres</string>
     <string name="empty_filtered_projects">Aucun projet n\'a été trouvé avec ces filtres, essayez de les changer.</string>
     <string name="create_project">Créer un projet</string>
+    <string name="save">Sauvegarder</string>
+    <string name="edit">Modifier</string>
+    <string name="wrong_name">Nom erroné</string>
+    <string name="wrong_project_version">Mauvaise version</string>
+    <string name="wrong_repository_url">Mauvaise url de dépôt</string>
+    <string name="wrong_description">Description erronée</string>
+    <string name="choose_the_icon_of_the_project">Choisir l\'icône du projet</string>
 </resources>

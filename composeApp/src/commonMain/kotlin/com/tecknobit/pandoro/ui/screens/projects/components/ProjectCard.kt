@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -251,6 +252,10 @@ private fun ProjectHeader(
     project: Project
 ) {
     Row (
+        modifier = Modifier
+            .heightIn(
+                min = 35.dp
+            ),
         verticalAlignment = Alignment.Bottom
     ) {
         project.icon?.let { icon ->

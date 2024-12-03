@@ -91,6 +91,8 @@ kotlin {
             implementation(libs.pandorocore)
             implementation(libs.lazyPaginationCompose)
             implementation(libs.kotlinx.datetime)
+            implementation(libs.filekit.core)
+            implementation(libs.filekit.compose)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -138,7 +140,7 @@ compose.desktop {
             targetFormats(Deb, Pkg, Exe)
             modules(
                 "java.compiler", "java.instrument", "java.management", "java.net.http", "java.prefs", "java.rmi",
-                "java.scripting", "java.security.jgss", "java.sql.rowset", "jdk.jfr", "jdk.unsupported"
+                "java.scripting", "java.security.jgss", "java.sql.rowset", "jdk.jfr", "jdk.unsupported", "jdk.security.auth"
             )
             packageName = "Pandoro"
             packageVersion = "1.1.0"
