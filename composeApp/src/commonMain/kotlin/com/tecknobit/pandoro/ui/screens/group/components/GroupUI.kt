@@ -124,16 +124,64 @@ fun GroupExpandedList(
                 )
                 HorizontalDivider()
             }
-            LazyColumn {
-                items(
-                    items = groups,
-                    key = { group -> group.id }
-                ) { group ->
-                    GroupListItem(
-                        group = group
-                    )
+            GroupsList(
+                groups = groups,
+                trailingContent = { group ->
+                    IconButton(
+                        onClick = {
+                            // TODO: NAV TO GROUP
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
+                            contentDescription = null
+                        )
+                    }
+                }
+            )
+        }
+    }
+}
+
+@Composable
+@NonRestartableComposable
+fun GroupsProjectCandidate(
+    state: SheetState,
+    scope: CoroutineScope,
+    groups: List<Group>,
+    trailingContent: @Composable (Group) -> Unit
+) {
+    if(state.isVisible) {
+        ModalBottomSheet(
+            onDismissRequest = {
+                scope.launch {
+                    state.hide()
                 }
             }
+        ) {
+            GroupsList(
+                groups = groups,
+                trailingContent = trailingContent
+            )
+        }
+    }
+}
+
+@Composable
+@NonRestartableComposable
+private fun GroupsList(
+    groups: List<Group>,
+    trailingContent: @Composable (Group) -> Unit
+) {
+    LazyColumn {
+        items(
+            items = groups,
+            key = { group -> group.id }
+        ) { group ->
+            GroupListItem(
+                group = group,
+                trailingContent = trailingContent
+            )
         }
     }
 }
@@ -141,7 +189,8 @@ fun GroupExpandedList(
 @Composable
 @NonRestartableComposable
 private fun GroupListItem(
-    group: Group
+    group: Group,
+    trailingContent: @Composable (Group) -> Unit
 ) {
     ListItem(
         colors = ListItemDefaults.colors(
@@ -169,18 +218,7 @@ private fun GroupListItem(
                 text = group.name
             )
         },
-        trailingContent = {
-            IconButton(
-                onClick = {
-                    // TODO: NAV TO GROUP
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
-                    contentDescription = null
-                )
-            }
-        }
+        trailingContent = { trailingContent.invoke(group) }
     )
     HorizontalDivider()
 }

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.tecknobit.pandoro.ui.screens.createproject.presenter
 
 import androidx.compose.foundation.background
@@ -16,6 +18,8 @@ import androidx.compose.material.icons.filled.GroupAdd
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -23,13 +27,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,6 +55,7 @@ import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presentation.CreateProjectScreenViewModel
+import com.tecknobit.pandoro.ui.screens.group.components.GroupsProjectCandidate
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectDescription
@@ -56,6 +65,7 @@ import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidVersion
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
 import io.github.vinceglb.filekit.core.PickerType
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -96,14 +106,44 @@ class CreateProjectScreen(
                 containerColor = MaterialTheme.colorScheme.primary,
                 snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
                 floatingActionButton = {
-                    FloatingActionButton(
-                        onClick = {
-                            // TODO: ADD GROUPS
+                    if(viewModel!!.groupAdministratedByUser.isNotEmpty()) {
+                        val modalBottomSheetState = rememberModalBottomSheetState()
+                        val scope = rememberCoroutineScope()
+                        FloatingActionButton(
+                            onClick = {
+                                scope.launch {
+                                    modalBottomSheetState.show()
+                                }
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.GroupAdd,
+                                contentDescription = null
+                            )
                         }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.GroupAdd,
-                            contentDescription = null
+                        GroupsProjectCandidate(
+                            state = modalBottomSheetState,
+                            scope = scope,
+                            groups = viewModel!!.groupAdministratedByUser,
+                            trailingContent = { group ->
+                                var added by remember {
+                                    mutableStateOf(
+                                        viewModel!!.groupAdministratedByUser.find {
+                                            it.id == group.id
+                                        } != null
+                                    )
+                                }
+                                Checkbox(
+                                    checked = added,
+                                    onCheckedChange = { selected ->
+                                        viewModel!!.manageCandidateGroup(
+                                            group = group,
+                                            added = selected
+                                        )
+                                        added = selected
+                                    }
+                                )
+                            }
                         )
                     }
                 }
@@ -296,6 +336,7 @@ class CreateProjectScreen(
     override fun onStart() {
         super.onStart()
         viewModel!!.retrieveProject()
+        viewModel!!.retrieveGroupsWhereUserIsAnAdmin()
     }
 
     /**
