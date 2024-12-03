@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.Groups3
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -43,6 +44,7 @@ import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.ui.icons.Activity
+import com.tecknobit.pandoro.ui.screens.groups.presenter.GroupsScreen
 import com.tecknobit.pandoro.ui.screens.notes.presenter.NotesScreen
 import com.tecknobit.pandoro.ui.screens.overview.OverviewScreen
 import com.tecknobit.pandoro.ui.screens.profile.ProfileScreen
@@ -53,6 +55,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.app_version
+import pandoro.composeapp.generated.resources.groups
 import pandoro.composeapp.generated.resources.logo
 import pandoro.composeapp.generated.resources.notes
 import pandoro.composeapp.generated.resources.overview
@@ -68,6 +71,8 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
         private const val NOTES_SCREEN = "NotesScreen"
 
         private const val OVERVIEW_SCREEN = "OverviewScreen"
+
+        private const val GROUPS_SCREEN = "GroupsScreen"
 
         private const val PROFILE_SCREEN = "ProfileScreen"
 
@@ -86,6 +91,11 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
                 tabIdentifier = OVERVIEW_SCREEN,
                 icon = Activity,
                 title = Res.string.overview
+            ),
+            NavigationTab(
+                tabIdentifier = GROUPS_SCREEN,
+                icon = Icons.Default.Groups3,
+                title = Res.string.groups
             ),
             NavigationTab(
                 tabIdentifier = PROFILE_SCREEN,
@@ -115,6 +125,7 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
                     PROJECTS_SCREEN -> { ProjectsScreen().ShowContent() }
                     NOTES_SCREEN -> { NotesScreen().ShowContent() }
                     OVERVIEW_SCREEN -> { OverviewScreen().ShowContent() }
+                    GROUPS_SCREEN -> { GroupsScreen().ShowContent() }
                     PROFILE_SCREEN -> { ProfileScreen().ShowContent() }
                 }
             }

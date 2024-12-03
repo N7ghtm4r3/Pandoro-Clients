@@ -28,6 +28,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Medium
@@ -45,9 +46,10 @@ import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.components.UIAnimations
 import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
+import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.bodyFontFamily
-import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
+import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.projects.components.FilterProjects
 import com.tecknobit.pandoro.ui.screens.projects.components.InDevelopmentProjectCard
@@ -80,25 +82,25 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
             content = {
                 Scaffold(
                     containerColor = MaterialTheme.colorScheme.primary,
+                    snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
                     floatingActionButton = {
-                        val addProject = remember { mutableStateOf(false) }
+                        val createProject = remember { mutableStateOf(false) }
                         FloatingActionButton(
-                            onClick = { addProject.value = true }
+                            onClick = { createProject.value = true }
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Add,
                                 contentDescription = null
                             )
                         }
+                        if(createProject.value)
+                            NavToProjectCreation()
                     },
                     bottomBar = { AdaptBottomBarToNavigationMode() }
                 ) {
-                    AdaptContentToNavigationMode {
-                        Text(
-                            text = stringResource(Res.string.projects),
-                            fontFamily = displayFontFamily,
-                            fontSize = 35.sp
-                        )
+                    AdaptContentToNavigationMode(
+                        screenTitle = Res.string.projects
+                    ) {
                         ProjectsInDevelopmentSection()
                         ProjectsSection()
                     }
@@ -107,6 +109,23 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
             serverOfflineRetryText = stringResource(Res.string.retry_to_reconnect),
             serverOfflineRetryAction = { viewModel!!.projectsState.retryLastFailedRequest() }
         )
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun NavToProjectCreation(
+        projectId: String? = null
+    ) {
+        //val windowWidthSizeClass = getCurrentWidthSizeClass()
+        val projectIdPath = if(projectId != null)
+            "/$projectId"
+        else
+            ""
+        navigator.navigate("$CREATE_PROJECT_SCREEN$projectIdPath")
+        /*when(windowWidthSizeClass) {
+            Expanded -> navigator.navigate("$CREATE_PROJECT_DIALOG_SCREEN$projectIdPath")
+            else -> navigator.navigate("$CREATE_PROJECT_SCREEN$projectIdPath")
+        }*/
     }
 
     @Composable

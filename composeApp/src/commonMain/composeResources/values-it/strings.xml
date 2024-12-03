@@ -14,7 +14,6 @@
     <string name="dismiss">Annulla</string>
     <string name="confirm">Conferma</string>
     <string name="no_projects_found">Nessun progetto trovato</string>
-    <string name="add_a_new_project">Aggiungi un nuovo progetto</string>
     <string name="edit_project">Modifica progetto</string>
     <string name="add">Aggiungi</string>
     <string name="name">Nome</string>
@@ -172,4 +171,5 @@
     <string name="filters_placeholder">Nome, versioni</string>
     <string name="wrong_filters_text">Valore filtri errato</string>
     <string name="empty_filtered_projects">Non sono stati trovati progetti con questi filtri, prova a cambiarli</string>
+    <string name="create_project">Crea un progetto</string>
 </resources>

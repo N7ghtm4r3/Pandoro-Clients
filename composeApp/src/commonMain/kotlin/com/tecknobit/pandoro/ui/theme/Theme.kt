@@ -4,6 +4,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -255,3 +256,62 @@ fun PandoroTheme(
     )
 }
 
+private val darkDialogTheme = lightColorScheme(
+    primary = surfaceContainerHighestLight,
+    onPrimary = Color(0xFF2B2B2B),
+    primaryContainer = Color(0xFFE6E6E6),
+    onPrimaryContainer = Color(0xFF3A3A3A),
+    secondary = Color(0xFFE6E6E6),
+    onSecondary = Color(0xFF2B2B2B),
+    secondaryContainer = Color(0xFFD9D9D9),
+    onSecondaryContainer = Color(0xFF404040),
+    tertiary = Color(0xFFE0E0E0),
+    onTertiary = Color(0xFF2B2B2B),
+    tertiaryContainer = Color(0xFFCCCCCC),
+    onTertiaryContainer = Color(0xFF424242),
+    error = Color(0xFFFFA29E),
+    onError = Color(0xFF870005),
+    errorContainer = Color(0xFFFFCCC9),
+    onErrorContainer = Color(0xFF5F0003),
+    background = Color(0xFFF0F0F0),
+    onBackground = Color(0xFF2B2B2B),
+    surface = Color(0xFFF0F0F0),
+    onSurface = Color(0xFF2B2B2B),
+    surfaceVariant = Color(0xFFD6D6D6),
+    onSurfaceVariant = Color(0xFF505050),
+    outline = Color(0xFF9E9E9E),
+    outlineVariant = Color(0xFFBABABA),
+    scrim = Color(0x66000000),
+    inverseSurface = Color(0xFF373737),
+    inverseOnSurface = Color(0xFFEDEDED),
+    inversePrimary = Color(0xFFD6D6D6),
+    surfaceDim = Color(0xFFE0E0E0),
+    surfaceBright = Color(0xFFF2F2F2),
+    surfaceContainerLowest = Color(0xFFDEDEDE),
+    surfaceContainerLow = Color(0xFFD9D9D9),
+    surfaceContainer = Color(0xFFD3D3D3),
+    surfaceContainerHigh = Color(0xFFCDCDCD),
+    surfaceContainerHighest = Color(0xFFC7C7C7)
+)
+
+/**
+ * Method to apply the Ametista theme to the content
+ *
+ * @param content The content to display
+ */
+@Composable
+fun PandoroDialogTheme(
+    //TODO: TO SET THE REAL FROM LOCALUSER
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable() () -> Unit
+) {
+    val colorScheme = when {
+        darkTheme -> darkDialogTheme
+        else -> darkScheme
+    }
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = AppTypography,
+        content = content
+    )
+}

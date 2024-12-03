@@ -253,26 +253,27 @@ private fun ProjectHeader(
     Row (
         verticalAlignment = Alignment.Bottom
     ) {
-        AsyncImage(
-            modifier = Modifier
-                .size(35.dp)
-                .clip(CircleShape),
-            model = ImageRequest.Builder(LocalPlatformContext.current)
-                .data(project.icon)
-                .crossfade(true)
-                .crossfade(500)
-                .build(),
-            // TODO: TO SET
-            //imageLoader = imageLoader,
-            contentDescription = "Project icon",
-            contentScale = ContentScale.Crop,
-            error = painterResource(Res.drawable.logo)
-        )
+        project.icon?.let { icon ->
+            AsyncImage(
+                modifier = Modifier
+                    .padding(
+                        end = 5.dp
+                    )
+                    .size(35.dp)
+                    .clip(CircleShape),
+                model = ImageRequest.Builder(LocalPlatformContext.current)
+                    .data(icon)
+                    .crossfade(true)
+                    .crossfade(500)
+                    .build(),
+                // TODO: TO SET
+                //imageLoader = imageLoader,
+                contentDescription = "Project icon",
+                contentScale = ContentScale.Crop,
+                error = painterResource(Res.drawable.logo)
+            )
+        }
         ProjectTitle(
-            modifier = Modifier
-                .padding(
-                    start = 5.dp
-                ),
             project = project
         )
     }

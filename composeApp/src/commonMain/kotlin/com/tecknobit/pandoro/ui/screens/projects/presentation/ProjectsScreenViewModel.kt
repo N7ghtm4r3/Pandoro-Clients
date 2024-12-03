@@ -40,7 +40,6 @@ class ProjectsScreenViewModel : EquinoxViewModel(
             val listFromServer = arrayListOf(
                 Project(
                     id = Random.nextLong().toString(),
-                    icon = "https://starwalk.space/gallery/images/what-is-space/1920x1080.jpg",
                     name = "Prova",
                     creationDate = System.currentTimeMillis(),
                     author = PandoroUser(
@@ -622,7 +621,6 @@ class ProjectsScreenViewModel : EquinoxViewModel(
                 ),
                 Project(
                     id = Random.nextLong().toString(),
-                    icon = "https://starwalk.space/gallery/images/what-is-space/1920x1080.jpg",
                     name = "Prova #1",
                     creationDate = System.currentTimeMillis(),
                     author = PandoroUser(

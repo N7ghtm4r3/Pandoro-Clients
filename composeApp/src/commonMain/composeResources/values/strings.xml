@@ -14,7 +14,6 @@
     <string name="dismiss">Dismiss</string>
     <string name="confirm">Confirm</string>
     <string name="no_projects_found">No projects found</string>
-    <string name="add_a_new_project">Add a new project</string>
     <string name="edit_project">Edit project</string>
     <string name="add">Add</string>
     <string name="name">Name</string>
@@ -172,4 +171,5 @@
     <string name="filters_placeholder">Name, versions</string>
     <string name="wrong_filters_text">Wrong filters value</string>
     <string name="empty_filtered_projects">No projects found with these filters, try to change them</string>
+    <string name="create_project">Create project</string>
 </resources>

@@ -23,7 +23,7 @@ data class Project(
     @SerialName(NAME_KEY)
     val name: String,
     @SerialName(PROJECT_ICON_KEY)
-    val icon: String,
+    val icon: String? = null,
     @SerialName(CREATION_DATE_KEY)
     val creationDate: Long,
     @SerialName(AUTHOR_KEY)
