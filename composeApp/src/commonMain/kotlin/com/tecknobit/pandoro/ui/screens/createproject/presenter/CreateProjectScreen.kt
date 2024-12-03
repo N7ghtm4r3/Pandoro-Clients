@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.ui.screens.createproject.presenter
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,16 +12,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
+import androidx.compose.material.icons.filled.GroupAdd
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
@@ -36,7 +39,7 @@ import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.tecknobit.equinoxcompose.components.EquinoxTextField
+import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
@@ -45,8 +48,12 @@ import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import org.jetbrains.compose.resources.painterResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.create_project
+import pandoro.composeapp.generated.resources.description
 import pandoro.composeapp.generated.resources.edit_project
 import pandoro.composeapp.generated.resources.logo
+import pandoro.composeapp.generated.resources.name
+import pandoro.composeapp.generated.resources.project_repository
+import pandoro.composeapp.generated.resources.version
 
 class CreateProjectScreen(
     projectId: String?
@@ -68,7 +75,16 @@ class CreateProjectScreen(
                 containerColor = MaterialTheme.colorScheme.primary,
                 snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
                 floatingActionButton = {
-
+                    FloatingActionButton(
+                        onClick = {
+                            // TODO: ADD GROUPS
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.GroupAdd,
+                            contentDescription = null
+                        )
+                    }
                 }
             ) {
                 PlaceContent(
@@ -106,8 +122,8 @@ class CreateProjectScreen(
             Card(
                 modifier = Modifier
                     .size(
-                        width = 750.dp,
-                        height = 450.dp
+                        width = 700.dp,
+                        height = 600.dp
                     )
             ) {
                 Column(
@@ -115,22 +131,65 @@ class CreateProjectScreen(
                         .padding(
                             all = 16.dp
                         )
-                        .fillMaxSize()
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     IconPicker(
-                        iconSize = 120.dp
+                        iconSize = 130.dp
                     )
-                    Column {
-                        BasicTextField(
-                            value = "",
-                            onValueChange = {
-
-                            }
-                        )
-                        EquinoxTextField(
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        EquinoxOutlinedTextField(
+                            modifier = Modifier
+                                .weight(1f),
                             value = remember { mutableStateOf("") },
-                            label = ""
+                            label = Res.string.name
                         )
+                        EquinoxOutlinedTextField(
+                            modifier = Modifier
+                                .weight(1f),
+                            value = remember { mutableStateOf("") },
+                            label = Res.string.version
+                        )
+                    }
+                    EquinoxOutlinedTextField(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        value = remember { mutableStateOf("") },
+                        label = Res.string.project_repository
+                    )
+                    EquinoxOutlinedTextField(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(
+                                bottom = ButtonDefaults.MinHeight + 16.dp
+                            ),
+                        maxLines = Int.MAX_VALUE,
+                        value = remember { mutableStateOf("") },
+                        label = Res.string.description
+                    )
+                    Column (
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxSize(),
+                        horizontalAlignment = Alignment.End,
+                        verticalArrangement = Arrangement.Bottom
+                    ) {
+                        Button(
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.error
+                            ),
+                            onClick = {
+                                viewModel!!.workOnProject()
+                            }
+                        ) {
+                            Text(
+                                text = "Save"
+                            )
+                        }
                     }
                 }
             }
