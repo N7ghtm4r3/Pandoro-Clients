@@ -136,7 +136,6 @@
     <string name="check_change_notes_message">You are publishing an update where not all the change notes are marked as done, do you want anyway publish the update?</string>
     <string name="choose_the_next_admin">Choose the next admin</string>
     <string name="no_any_groups">No-any groups</string>
-    <string name="no_any_personal_notes">No-any personal notes</string>
     <string name="no_any_changelogs">No-any changelogs</string>
     <string name="server_secret">Server secret</string>
     <string name="you_must_insert_a_correct_server_secret">You must insert a correct server secret</string>
@@ -183,4 +182,5 @@
     <string name="choose_the_icon_of_the_project">Choose the icon of the project</string>
     <string name="share_the_project">Share the project</string>
     <string name="share_project">Share project</string>
+    <string name="no_notes_available">No notes available</string>
 </resources>

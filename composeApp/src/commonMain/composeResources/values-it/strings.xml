@@ -136,7 +136,6 @@
     <string name="check_change_notes_message">Si sta pubblicando un aggiornamento in cui non tutte le change notes sono contrassegnate come eseguite, si vuole comunque pubblicare l'aggiornamento?</string>
     <string name="choose_the_next_admin">Scegli il prossimo admin</string>
     <string name="no_any_groups">Nessun gruppo</string>
-    <string name="no_any_personal_notes">Nessuna nota personale</string>
     <string name="no_any_changelogs">Nessun changelog</string>
     <string name="server_secret">Server secret</string>
     <string name="you_must_insert_a_correct_server_secret">È necessario inserire un server secret corretto</string>
@@ -180,7 +179,8 @@
     <string name="wrong_project_version">Versione errata</string>
     <string name="wrong_repository_url">Url repository errato</string>
     <string name="wrong_description">Descrizione errata</string>
-    <string name="choose_the_icon_of_the_project">Scegliere l'icona del progetto</string>
+    <string name="choose_the_icon_of_the_project">Scegli l'icona del progetto</string>
     <string name="share_the_project">Condividi il progetto</string>
     <string name="share_project">Condividi progetto</string>
+    <string name="no_notes_available">Nessun appunto disponibile</string>
 </resources>

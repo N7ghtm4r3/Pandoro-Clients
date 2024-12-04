@@ -136,7 +136,6 @@
     <string name="check_change_notes_message">Está publicando una actualización en la que no todas las notas de cambio están marcadas como realizadas, ¿quiere publicar la actualización de todos modos?</string>
     <string name="choose_the_next_admin">Elegir al siguiente administrador</string>
     <string name="no_any_groups">Ningún grupo</string>
-    <string name="no_any_personal_notes">Ninguna nota personal</string>
     <string name="no_any_changelogs">Ningún registro de cambios</string>
     <string name="server_secret">Secreto del servidor</string>
     <string name="you_must_insert_a_correct_server_secret">Debe introducir un secreto de servidor correcto</string>
@@ -183,4 +182,5 @@
     <string name="choose_the_icon_of_the_project">Elija el icono del proyecto</string>
     <string name="share_the_project">Compartir los proyecto</string>
     <string name="share_project">Compartir proyecto</string>
+    <string name="no_notes_available">No hay notas disponibles</string>
 </resources>

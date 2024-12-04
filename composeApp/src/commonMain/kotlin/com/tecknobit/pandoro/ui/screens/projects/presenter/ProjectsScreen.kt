@@ -195,6 +195,15 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     firstPageEmptyIndicator = { NoProjectsAvailable() }
+                    // TODO: TO SET
+                    /*firstPageProgressIndicator = { ... },
+                    newPageProgressIndicator = { ... },*/
+                    /*firstPageErrorIndicator = { e -> // from setError
+                        ... e.message ...
+                        ... onRetry = { paginationState.retryLastFailedRequest() } ...
+                    },
+                    newPageErrorIndicator = { e -> ... },
+                    // The rest of LazyColumn params*/
                 ) {
                     items(
                         items = viewModel!!.projectsState.allItems!!,

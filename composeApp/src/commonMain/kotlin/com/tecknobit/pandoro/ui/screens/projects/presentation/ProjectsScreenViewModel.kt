@@ -526,9 +526,9 @@ class ProjectsScreenViewModel : EquinoxViewModel(
             if(Random.nextBoolean())
                 listFromServer.clear()
             inDevelopmentProjectState.appendPage(
-                items = listFromServer.toDevelopmentProjects(),
-                nextPageKey = page + 1,
-                isLastPage = Random.nextBoolean()
+                items = listFromServer.toDevelopmentProjects(), // TODO: USE THE REAL VALUE
+                nextPageKey = page + 1, // TODO: USE THE REAL VALUE
+                isLastPage = Random.nextBoolean() // TODO: USE THE REAL VALUE
             )
         }
     }
@@ -1055,9 +1055,9 @@ class ProjectsScreenViewModel : EquinoxViewModel(
                 )
             )
             projectsState.appendPage(
-                items = listFromServer,
-                nextPageKey = page + 1,
-                isLastPage = Random.nextBoolean()
+                items = listFromServer, // TODO: USE THE REAL VALUE
+                nextPageKey = page + 1, // TODO: USE THE REAL VALUE
+                isLastPage = Random.nextBoolean() // TODO: USE THE REAL VALUE
             )
         }
     }
