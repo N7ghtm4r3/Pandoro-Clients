@@ -94,7 +94,7 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                             )
                         }
                         if(createProject.value)
-                            NavToProjectCreation()
+                            navigator.navigate(CREATE_PROJECT_SCREEN)
                     },
                     bottomBar = { AdaptBottomBarToNavigationMode() }
                 ) {
@@ -109,23 +109,6 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
             serverOfflineRetryText = stringResource(Res.string.retry_to_reconnect),
             serverOfflineRetryAction = { viewModel!!.projectsState.retryLastFailedRequest() }
         )
-    }
-
-    @Composable
-    @NonRestartableComposable
-    private fun NavToProjectCreation(
-        projectId: String? = null
-    ) {
-        //val windowWidthSizeClass = getCurrentWidthSizeClass()
-        val projectIdPath = if(projectId != null)
-            "/$projectId"
-        else
-            ""
-        navigator.navigate("$CREATE_PROJECT_SCREEN$projectIdPath")
-        /*when(windowWidthSizeClass) {
-            Expanded -> navigator.navigate("$CREATE_PROJECT_DIALOG_SCREEN$projectIdPath")
-            else -> navigator.navigate("$CREATE_PROJECT_SCREEN$projectIdPath")
-        }*/
     }
 
     @Composable

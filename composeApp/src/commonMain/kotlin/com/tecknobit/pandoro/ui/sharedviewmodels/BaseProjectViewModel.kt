@@ -12,7 +12,7 @@ abstract class BaseProjectViewModel : EquinoxViewModel(
     snackbarHostState = SnackbarHostState()
 ) {
 
-    private val _project = MutableStateFlow<Project?>(
+    protected val _project = MutableStateFlow<Project?>(
         value = null
     )
     val project: StateFlow<Project?> = _project

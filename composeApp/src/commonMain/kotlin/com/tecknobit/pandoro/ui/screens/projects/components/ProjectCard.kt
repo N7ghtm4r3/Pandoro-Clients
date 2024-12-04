@@ -30,9 +30,11 @@ import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,7 +46,9 @@ import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
+import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
@@ -174,6 +178,7 @@ fun ProjectCard(
     modifier: Modifier,
     project: Project
 ) {
+    var editProject by remember { mutableStateOf(false) }
     Card(
         modifier = modifier
             .combinedClickable(
@@ -181,7 +186,8 @@ fun ProjectCard(
                     // TODO: NAV TO PROJECT
                 },
                 onLongClick = {
-                    // TODO: EDIT PROJECT
+                    // TODO: CHECK IF THE USER IS A MAINTAINER OR AN ADMIN OF THAT GROUP
+                    editProject = true
                 }
             )
     ) {
@@ -244,6 +250,8 @@ fun ProjectCard(
             )
         }
     }
+    if(editProject)
+        navigator.navigate("$CREATE_PROJECT_SCREEN/${project.id}")
 }
 
 @Composable

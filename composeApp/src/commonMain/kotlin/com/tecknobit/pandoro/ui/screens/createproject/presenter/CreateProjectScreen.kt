@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
+import androidx.compose.material.icons.filled.GroupAdd
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -36,7 +37,9 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Medium
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
@@ -109,6 +112,8 @@ class CreateProjectScreen(
 
     private lateinit var project: State<Project?>
 
+    private lateinit var fullScreenFormType: MutableState<Boolean>
+
     /**
      * Method to arrange the content of the screen to display
      */
@@ -118,13 +123,7 @@ class CreateProjectScreen(
             Scaffold(
                 containerColor = MaterialTheme.colorScheme.primary,
                 snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
-                floatingActionButton = {
-                    FloatingActionButton(
-                        onClick = {}
-                    ) {
-                        Text("")
-                    }
-                }
+                floatingActionButton = { FabAction() }
             ) {
                 PlaceContent(
                     paddingValues = PaddingValues(
@@ -149,10 +148,52 @@ class CreateProjectScreen(
 
     @Composable
     @NonRestartableComposable
+    private fun FabAction() {
+        val modalBottomSheetState = rememberModalBottomSheetState()
+        val scope = rememberCoroutineScope()
+        if (fullScreenFormType.value && viewModel!!.groupAdministratedByUser.isNotEmpty()) {
+            FloatingActionButton(
+                onClick = {
+                    scope.launch {
+                        modalBottomSheetState.show()
+                    }
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.GroupAdd,
+                    contentDescription = null
+                )
+            }
+            GroupsProjectCandidate(
+                state = modalBottomSheetState,
+                scope = scope,
+                groups = remember { viewModel!!.projectsGroups + viewModel!!.groupAdministratedByUser }
+            ) { group ->
+                if (viewModel!!.groupAdministratedByUser.contains(group)) {
+                    var added by remember {
+                        mutableStateOf(viewModel!!.candidateGroups.contains(group.id))
+                    }
+                    Checkbox(
+                        checked = added,
+                        onCheckedChange = { selected ->
+                            viewModel!!.manageCandidateGroup(
+                                group = group,
+                                added = selected
+                            )
+                            added = selected
+                        }
+                    )
+                }
+            }
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
     private fun ProjectForm() {
         val windowWidthSizeClass = getCurrentWidthSizeClass()
         when(windowWidthSizeClass) {
-            Expanded -> ProjectCardForm()
+            Expanded, Medium -> ProjectCardForm()
             else -> FullScreenProjectForm()
         }
     }
@@ -160,6 +201,7 @@ class CreateProjectScreen(
     @Composable
     @NonRestartableComposable
     private fun ProjectCardForm() {
+        fullScreenFormType.value = false
         Column(
             modifier = Modifier
                 .fillMaxSize(),
@@ -178,57 +220,17 @@ class CreateProjectScreen(
                         .padding(
                             all = 16.dp
                         )
-                        .fillMaxSize(),
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     IconPicker(
                         iconSize = 130.dp
                     )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        EquinoxOutlinedTextField(
-                            modifier = Modifier
-                                .weight(1f),
-                            value = viewModel!!.projectName,
-                            isError = viewModel!!.projectNameError,
-                            validator = { isValidProjectName(it) },
-                            label = Res.string.name,
-                            errorText = Res.string.wrong_name
-                        )
-                        EquinoxOutlinedTextField(
-                            modifier = Modifier
-                                .weight(1f),
-                            value = viewModel!!.projectVersion,
-                            isError = viewModel!!.projectVersionError,
-                            validator = { isValidVersion(it) },
-                            label = Res.string.version,
-                            errorText = Res.string.wrong_project_version
-                        )
-                    }
-                    EquinoxOutlinedTextField(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        value = viewModel!!.projectRepository,
-                        isError = viewModel!!.projectRepositoryError,
-                        validator = { isValidRepository(it) },
-                        label = Res.string.project_repository,
-                        errorText = Res.string.wrong_repository_url
+                    ProjectCardFormDetails(
+                        descriptionModifier = Modifier
+                            .weight(1f) // TODO: TO FIX WHEN LANDSCAPE
                     )
-                    EquinoxOutlinedTextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f),
-                        maxLines = Int.MAX_VALUE,
-                        value = viewModel!!.projectDescription,
-                        isError = viewModel!!.projectDescriptionError,
-                        validator = { isValidProjectDescription(it) },
-                        label = Res.string.description,
-                        errorText = Res.string.wrong_description
-                    )
-                    ProjectCardFormActions()
                 }
             }
         }
@@ -236,13 +238,64 @@ class CreateProjectScreen(
 
     @Composable
     @NonRestartableComposable
+    private fun ProjectCardFormDetails(
+        descriptionModifier: Modifier
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            EquinoxOutlinedTextField(
+                modifier = Modifier
+                    .weight(1f),
+                value = viewModel!!.projectName,
+                isError = viewModel!!.projectNameError,
+                validator = { isValidProjectName(it) },
+                label = Res.string.name,
+                errorText = Res.string.wrong_name
+            )
+            EquinoxOutlinedTextField(
+                modifier = Modifier
+                    .weight(1f),
+                value = viewModel!!.projectVersion,
+                isError = viewModel!!.projectVersionError,
+                validator = { isValidVersion(it) },
+                label = Res.string.version,
+                errorText = Res.string.wrong_project_version
+            )
+        }
+        EquinoxOutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth(),
+            value = viewModel!!.projectRepository,
+            isError = viewModel!!.projectRepositoryError,
+            validator = { isValidRepository(it) },
+            label = Res.string.project_repository,
+            errorText = Res.string.wrong_repository_url
+        )
+        EquinoxOutlinedTextField(
+            modifier = descriptionModifier
+                .fillMaxWidth(),
+            maxLines = Int.MAX_VALUE,
+            value = viewModel!!.projectDescription,
+            isError = viewModel!!.projectDescriptionError,
+            validator = { isValidProjectDescription(it) },
+            label = Res.string.description,
+            errorText = Res.string.wrong_description
+        )
+        ProjectCardFormActions()
+    }
+
+    @Composable
+    @NonRestartableComposable
     private fun ProjectCardFormActions() {
         Row (
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ProjectGroups()
+            ProjectGroupsSection()
             Column (
                 modifier = Modifier
                     .weight(1f),
@@ -255,7 +308,7 @@ class CreateProjectScreen(
 
     @Composable
     @NonRestartableComposable
-    private fun ProjectGroups() {
+    private fun ProjectGroupsSection() {
         if(viewModel!!.groupAdministratedByUser.isNotEmpty()) {
             val modalBottomSheetState = rememberModalBottomSheetState()
             val scope = rememberCoroutineScope()
@@ -281,7 +334,6 @@ class CreateProjectScreen(
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
-
                 GroupIcons(
                     groups = viewModel!!.groupAdministratedByUser,
                     onClick = {
@@ -317,8 +369,9 @@ class CreateProjectScreen(
     @Composable
     @NonRestartableComposable
     private fun FullScreenProjectForm() {
+        fullScreenFormType.value = true
         Box {
-            ProjectFormDetails()
+            ProjectFullFormDetails()
             IconPicker(
                 modifier = Modifier
                     .padding(
@@ -331,7 +384,7 @@ class CreateProjectScreen(
 
     @Composable
     @NonRestartableComposable
-    private fun ProjectFormDetails() {
+    private fun ProjectFullFormDetails() {
         Card(
             modifier = Modifier
                 .padding(
@@ -550,6 +603,7 @@ class CreateProjectScreen(
             )
         }
         viewModel!!.projectDescriptionError = remember { mutableStateOf(false) }
+        fullScreenFormType = remember { mutableStateOf(false) }
     }
 
 }

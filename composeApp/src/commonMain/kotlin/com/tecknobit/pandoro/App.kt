@@ -1,22 +1,12 @@
 package com.tecknobit.pandoro
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.unit.dp
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen
 import com.tecknobit.pandoro.ui.screens.home.HomeScreen
 import com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen
-import com.tecknobit.pandoro.ui.theme.PandoroDialogTheme
 import com.tecknobit.pandorocore.PROJECT_IDENTIFIER_KEY
 import io.github.vinceglb.filekit.core.PlatformFile
 import moe.tlaster.precompose.PreComposeApp
@@ -56,8 +46,6 @@ const val SPLASHSCREEN = "Splashscreen"
 const val HOME_SCREEN = "HomeScreen"
 
 const val CREATE_PROJECT_SCREEN = "CreateProject"
-
-const val CREATE_PROJECT_DIALOG_SCREEN = "CreateProjectDialog"
 
 /*
 /**
@@ -128,47 +116,6 @@ fun App() {
                 CreateProjectScreen(
                     projectId = projectId
                 ).ShowContent()
-            }
-            /*dialog(
-                route = "$CREATE_PROJECT_DIALOG_SCREEN/{$PROJECT_IDENTIFIER_KEY}?"
-            ) { backstackEntry ->
-                val projectId: String? = backstackEntry.path<String>(PROJECT_IDENTIFIER_KEY)
-                CreateProjectScreen(
-                    projectId = projectId
-                ).ShowContent()
-            }*/
-        }
-    }
-}
-
-/**
- * Container to display an [PandoroScreen] as dialog
- *
- * @param dialogScreen: the screen to display as dialog
- */
-@Composable
-@NonRestartableComposable
-private fun DialogScreen(
-    dialogScreen: PandoroScreen<*>
-) {
-    PandoroDialogTheme {
-        Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Surface(
-                modifier = Modifier
-                    .size(
-                        width = 425.dp,
-                        height = 700.dp
-                    ),
-                shadowElevation = 5.dp,
-                shape = RoundedCornerShape(
-                    10.dp
-                )
-            ) {
-                dialogScreen.ShowContent()
             }
         }
     }
