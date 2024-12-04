@@ -9,12 +9,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material3.Button
@@ -22,6 +27,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -43,9 +49,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
@@ -107,9 +117,24 @@ class CreateProjectScreen(
         PandoroTheme {
             Scaffold(
                 containerColor = MaterialTheme.colorScheme.primary,
-                snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) }
+                snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = {}
+                    ) {
+                        Text("")
+                    }
+                }
             ) {
                 PlaceContent(
+                    paddingValues = PaddingValues(
+                        all = 0.dp
+                    ),
+                    titleModifier = Modifier
+                        .padding(
+                            top = 16.dp,
+                            start = 16.dp
+                        ),
                     navBackAction = { navigator.goBack() },
                     screenTitle = if(isEditing)
                         Res.string.edit_project
@@ -223,23 +248,7 @@ class CreateProjectScreen(
                     .weight(1f),
                 horizontalAlignment = Alignment.End
             ) {
-                Button(
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.error
-                    ),
-                    onClick = {
-                        viewModel!!.workOnProject()
-                    }
-                ) {
-                    Text(
-                        text = stringResource(
-                            if(isEditing)
-                                Res.string.edit
-                            else
-                                Res.string.save
-                        )
-                    )
-                }
+                SaveButton()
             }
         }
     }
@@ -307,7 +316,102 @@ class CreateProjectScreen(
 
     @Composable
     @NonRestartableComposable
+    private fun FullScreenProjectForm() {
+        Box {
+            ProjectFormDetails()
+            IconPicker(
+                modifier = Modifier
+                    .padding(
+                        top = 10.dp
+                    ),
+                iconSize = 120.dp
+            )
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun ProjectFormDetails() {
+        Card(
+            modifier = Modifier
+                .padding(
+                    top = 80.dp
+                ),
+            shape = RoundedCornerShape(
+                topStart = 50.dp,
+                topEnd = 50.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        top = 60.dp,
+                        start = 25.dp,
+                        end = 25.dp,
+                        bottom = 25.dp
+                    )
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                EquinoxOutlinedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    value = viewModel!!.projectName,
+                    isError = viewModel!!.projectNameError,
+                    validator = { isValidProjectName(it) },
+                    label = Res.string.name,
+                    errorText = Res.string.wrong_name
+                )
+                EquinoxOutlinedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    value = viewModel!!.projectVersion,
+                    isError = viewModel!!.projectVersionError,
+                    validator = { isValidVersion(it) },
+                    label = Res.string.version,
+                    errorText = Res.string.wrong_project_version
+                )
+                EquinoxOutlinedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    value = viewModel!!.projectRepository,
+                    isError = viewModel!!.projectRepositoryError,
+                    validator = { isValidRepository(it) },
+                    label = Res.string.project_repository,
+                    errorText = Res.string.wrong_repository_url
+                )
+                EquinoxOutlinedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    value = viewModel!!.projectDescription,
+                    isError = viewModel!!.projectDescriptionError,
+                    validator = { isValidProjectDescription(it) },
+                    maxLines = 8,
+                    label = Res.string.description,
+                    errorText = Res.string.wrong_description
+                )
+                SaveButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(
+                        size = 8.dp
+                    ),
+                    textStyle = TextStyle(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
     private fun IconPicker(
+        modifier: Modifier = Modifier,
         iconSize: Dp
     ) {
         val launcher = rememberFilePickerLauncher(
@@ -320,7 +424,7 @@ class CreateProjectScreen(
             )
         }
         Column (
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -360,8 +464,31 @@ class CreateProjectScreen(
 
     @Composable
     @NonRestartableComposable
-    private fun FullScreenProjectForm() {
-
+    private fun SaveButton(
+        modifier: Modifier = Modifier,
+        textStyle: TextStyle = TextStyle.Default,
+        shape: Shape = ButtonDefaults.shape
+    ) {
+        Button(
+            modifier = modifier,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.error
+            ),
+            shape = shape,
+            onClick = {
+                viewModel!!.workOnProject()
+            }
+        ) {
+            Text(
+                style = textStyle,
+                text = stringResource(
+                    if(isEditing)
+                        Res.string.edit
+                    else
+                        Res.string.save
+                )
+            )
+        }
     }
 
     /**

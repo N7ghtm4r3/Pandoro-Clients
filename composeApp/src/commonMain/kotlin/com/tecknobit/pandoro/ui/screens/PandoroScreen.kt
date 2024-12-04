@@ -81,6 +81,7 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
         paddingValues: PaddingValues = PaddingValues(
             all = 16.dp
         ),
+        titleModifier: Modifier = Modifier,
         navBackAction: (() -> Unit)? = null,
         screenTitle: StringResource? = null,
         content: @Composable ColumnScope.() -> Unit
@@ -93,6 +94,7 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
             content = {
                 screenTitle?.let { title ->
                     ScreenTitle(
+                        titleModifier = titleModifier,
                         navBackAction = navBackAction,
                         title = title
                     )
@@ -106,11 +108,12 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
     @NonRestartableComposable
     protected fun ScreenTitle(
         navBackAction: (() -> Unit)? = null,
+        titleModifier: Modifier = Modifier,
         title: StringResource
     ) {
         if(navBackAction != null) {
             Row (
-                modifier = Modifier
+                modifier = titleModifier
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
