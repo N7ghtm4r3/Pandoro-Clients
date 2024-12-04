@@ -42,7 +42,7 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
 
         private val startPaddingSideNavigationMode = 141.dp
 
-        private val bottomPaddingBottomNavigationMode = 80.dp
+        private val bottomPaddingBottomNavigationMode = 96.dp
 
         private val bottomPaddingSideNavigationMode = 16.dp
 

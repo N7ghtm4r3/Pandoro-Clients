@@ -3,8 +3,6 @@
 package com.tecknobit.pandoro.ui.screens.projects.presenter
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -44,7 +42,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EmptyListUI
-import com.tecknobit.equinoxcompose.components.UIAnimations
 import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
 import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.bodyFontFamily
@@ -115,21 +112,10 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
     @NonRestartableComposable
     private fun ProjectsInDevelopmentSection() {
         var projectsAvailable by remember { mutableStateOf(false) }
-        val projectsNotFound = !projectsAvailable && viewModel!!.inDevelopmentProjectsFilter.value.isNotEmpty()
         Column {
             if(projectsAvailable || viewModel!!.inDevelopmentProjectsFilter.value.isNotEmpty()) {
                 SectionHeader(
                     header = Res.string.in_development
-                )
-            }
-            if(projectsNotFound) {
-                Text(
-                    modifier = Modifier
-                        .padding(
-                            vertical = 10.dp
-                        ),
-                    text = stringResource(Res.string.empty_filtered_projects),
-                    fontSize = 14.sp
                 )
             }
             PaginatedLazyRow(
@@ -142,7 +128,20 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                     else
                         0.dp
                 ),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                firstPageEmptyIndicator = {
+                    projectsAvailable = false
+                    if(viewModel!!.inDevelopmentProjectsFilter.value.isNotEmpty()) {
+                        Text(
+                            modifier = Modifier
+                                .padding(
+                                    vertical = 10.dp
+                                ),
+                            text = stringResource(Res.string.empty_filtered_projects),
+                            fontSize = 14.sp
+                        )
+                    }
+                }
                 // TODO: TO SET
                 /*firstPageProgressIndicator = { ... },
                 newPageProgressIndicator = { ... },*/
@@ -153,17 +152,14 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                 newPageErrorIndicator = { e -> ... },
                 // The rest of LazyColumn params*/
             ) {
-                val inDevelopmentProjects = viewModel!!.inDevelopmentProjectState.allItems!!
-                projectsAvailable = inDevelopmentProjects.isNotEmpty()
-                if(projectsAvailable) {
-                    items(
-                        items = inDevelopmentProjects,
-                        key = { inDevelopmentProject -> inDevelopmentProject.update.id }
-                    ) { inDevelopmentProject ->
-                        InDevelopmentProjectCard(
-                            inDevelopmentProject = inDevelopmentProject
-                        )
-                    }
+                items(
+                    items = viewModel!!.inDevelopmentProjectState.allItems!!,
+                    key = { inDevelopmentProject -> inDevelopmentProject.update.id }
+                ) { inDevelopmentProject ->
+                    projectsAvailable = true
+                    InDevelopmentProjectCard(
+                        inDevelopmentProject = inDevelopmentProject
+                    )
                 }
             }
         }
@@ -184,7 +180,6 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
     @NonRestartableComposable
     private fun ProjectsList() {
         val windowWidthSizeClass = getCurrentWidthSizeClass()
-        var projectsAvailable by remember { mutableStateOf(false) }
         when(windowWidthSizeClass) {
             Expanded, Medium -> {
                 PaginatedLazyVerticalGrid(
@@ -198,25 +193,22 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                         vertical = 10.dp
                     ),
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    firstPageEmptyIndicator = { NoProjectsAvailable() }
                 ) {
-                    val projects = viewModel!!.projectsState.allItems!!
-                    projectsAvailable = projects.isNotEmpty()
-                    if(projectsAvailable) {
-                        items(
-                            items = projects,
-                            key = { project -> project.id }
-                        ) { project ->
-                            ProjectCard(
-                                viewModel = viewModel!!,
-                                modifier = Modifier
-                                    .size(
-                                        width = 300.dp,
-                                        height = 200.dp
-                                    ),
-                                project = project
-                            )
-                        }
+                    items(
+                        items = viewModel!!.projectsState.allItems!!,
+                        key = { project -> project.id }
+                    ) { project ->
+                        ProjectCard(
+                            viewModel = viewModel!!,
+                            modifier = Modifier
+                                .size(
+                                    width = 300.dp,
+                                    height = 200.dp
+                                ),
+                            project = project
+                        )
                     }
                 }
             } else -> {
@@ -227,7 +219,8 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                     contentPadding = PaddingValues(
                         vertical = 10.dp
                     ),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    firstPageEmptyIndicator = { NoProjectsAvailable() }
                     // TODO: TO SET
                     /*firstPageProgressIndicator = { ... },
                     newPageProgressIndicator = { ... },*/
@@ -238,33 +231,29 @@ class ProjectsScreen: PandoroScreen<ProjectsScreenViewModel>(
                     newPageErrorIndicator = { e -> ... },
                     // The rest of LazyColumn params*/
                 ) {
-                    val projects = viewModel!!.projectsState.allItems!!
-                    projectsAvailable = projects.isNotEmpty()
-                    if(projectsAvailable) {
-                        items(
-                            items = projects,
-                            key = { project -> project.id }
-                        ) { project ->
-                            ProjectCard(
-                                viewModel = viewModel!!,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(
-                                        height = 210.dp
-                                    ),
-                                project = project
-                            )
-                        }
+                    items(
+                        items = viewModel!!.projectsState.allItems!!,
+                        key = { project -> project.id }
+                    ) { project ->
+                        ProjectCard(
+                            viewModel = viewModel!!,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(
+                                    height = 210.dp
+                                ),
+                            project = project
+                        )
                     }
                 }
             }
         }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun NoProjectsAvailable() {
         EmptyListUI(
-            animations = UIAnimations(
-                visible = !projectsAvailable,
-                onEnter = fadeIn(),
-                onExit = fadeOut()
-            ),
             icon = Icons.Default.FolderOff,
             subText = Res.string.no_projects_available,
             textStyle = TextStyle(

@@ -19,7 +19,7 @@ material3WindowSizeClass = "1.7.1"
 pandorocore = "1.0.5"
 precompose = "1.7.0-alpha03"
 ktor = "3.0.1"
-lazy-pagination-compose = "1.3.7"
+lazy-pagination-compose = "1.4.0"
 startupRuntime = "1.2.0"
 
 [libraries]
