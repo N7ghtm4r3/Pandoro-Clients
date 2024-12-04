@@ -2,6 +2,9 @@
 
 package com.tecknobit.pandoro.ui.screens.createproject.presenter
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,13 +17,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
-import androidx.compose.material.icons.filled.GroupAdd
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -55,6 +56,7 @@ import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presentation.CreateProjectScreenViewModel
+import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.group.components.GroupsProjectCandidate
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
@@ -78,6 +80,7 @@ import pandoro.composeapp.generated.resources.logo
 import pandoro.composeapp.generated.resources.name
 import pandoro.composeapp.generated.resources.project_repository
 import pandoro.composeapp.generated.resources.save
+import pandoro.composeapp.generated.resources.share_project
 import pandoro.composeapp.generated.resources.version
 import pandoro.composeapp.generated.resources.wrong_description
 import pandoro.composeapp.generated.resources.wrong_name
@@ -104,49 +107,7 @@ class CreateProjectScreen(
         PandoroTheme {
             Scaffold(
                 containerColor = MaterialTheme.colorScheme.primary,
-                snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
-                floatingActionButton = {
-                    if(viewModel!!.groupAdministratedByUser.isNotEmpty()) {
-                        val modalBottomSheetState = rememberModalBottomSheetState()
-                        val scope = rememberCoroutineScope()
-                        FloatingActionButton(
-                            onClick = {
-                                scope.launch {
-                                    modalBottomSheetState.show()
-                                }
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.GroupAdd,
-                                contentDescription = null
-                            )
-                        }
-                        GroupsProjectCandidate(
-                            state = modalBottomSheetState,
-                            scope = scope,
-                            groups = viewModel!!.groupAdministratedByUser,
-                            trailingContent = { group ->
-                                var added by remember {
-                                    mutableStateOf(
-                                        viewModel!!.groupAdministratedByUser.find {
-                                            it.id == group.id
-                                        } != null
-                                    )
-                                }
-                                Checkbox(
-                                    checked = added,
-                                    onCheckedChange = { selected ->
-                                        viewModel!!.manageCandidateGroup(
-                                            group = group,
-                                            added = selected
-                                        )
-                                        added = selected
-                                    }
-                                )
-                            }
-                        )
-                    }
-                }
+                snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) }
             ) {
                 PlaceContent(
                     navBackAction = { navigator.goBack() },
@@ -242,32 +203,105 @@ class CreateProjectScreen(
                         label = Res.string.description,
                         errorText = Res.string.wrong_description
                     )
-                    Column (
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalAlignment = Alignment.End,
-                        verticalArrangement = Arrangement.Bottom
-                    ) {
-                        Button(
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.error
-                            ),
-                            onClick = {
-                                viewModel!!.workOnProject()
-                            }
-                        ) {
-                            Text(
-                                text = stringResource(
-                                    if(isEditing)
-                                        Res.string.edit
-                                    else
-                                        Res.string.save
-                                )
-                            )
-                        }
-                    }
+                    ProjectCardFormActions()
                 }
             }
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun ProjectCardFormActions() {
+        Row (
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ProjectGroups()
+            Column (
+                modifier = Modifier
+                    .weight(1f),
+                horizontalAlignment = Alignment.End
+            ) {
+                Button(
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error
+                    ),
+                    onClick = {
+                        viewModel!!.workOnProject()
+                    }
+                ) {
+                    Text(
+                        text = stringResource(
+                            if(isEditing)
+                                Res.string.edit
+                            else
+                                Res.string.save
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun ProjectGroups() {
+        if(viewModel!!.groupAdministratedByUser.isNotEmpty()) {
+            val modalBottomSheetState = rememberModalBottomSheetState()
+            val scope = rememberCoroutineScope()
+            AnimatedVisibility(
+                visible = viewModel!!.projectsGroups.isEmpty(),
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                Button(
+                    onClick = {
+                        scope.launch {
+                            modalBottomSheetState.show()
+                        }
+                    }
+                ) {
+                    Text(
+                        text = stringResource(Res.string.share_project)
+                    )
+                }
+            }
+            AnimatedVisibility(
+                visible = viewModel!!.projectsGroups.isNotEmpty(),
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+
+                GroupIcons(
+                    groups = viewModel!!.groupAdministratedByUser,
+                    onClick = {
+                        scope.launch {
+                            modalBottomSheetState.show()
+                        }
+                    }
+                )
+            }
+            GroupsProjectCandidate(
+                state = modalBottomSheetState,
+                scope = scope,
+                groups = viewModel!!.groupAdministratedByUser,
+                trailingContent = { group ->
+                    var added by remember {
+                        mutableStateOf(viewModel!!.candidateGroups.contains(group.id))
+                    }
+                    Checkbox(
+                        checked = added,
+                        onCheckedChange = { selected ->
+                            viewModel!!.manageCandidateGroup(
+                                group = group,
+                                added = selected
+                            )
+                            added = selected
+                        }
+                    )
+                }
+            )
         }
     }
 

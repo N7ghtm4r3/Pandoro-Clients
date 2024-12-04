@@ -181,4 +181,6 @@
     <string name="wrong_repository_url">Wrong repository url</string>
     <string name="wrong_description">Wrong description</string>
     <string name="choose_the_icon_of_the_project">Choose the icon of the project</string>
+    <string name="share_the_project">Share the project</string>
+    <string name="share_project">Share project</string>
 </resources>

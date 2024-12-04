@@ -174,11 +174,13 @@
     <string name="wrong_filters_text">Valore filtri errato</string>
     <string name="empty_filtered_projects">Non sono stati trovati progetti con questi filtri, prova a cambiarli</string>
     <string name="create_project">Crea un progetto</string>
-    <string name="save">Save</string>
+    <string name="save">Salva</string>
     <string name="edit">Modifica</string>
     <string name="wrong_name">Nome errato</string>
     <string name="wrong_project_version">Versione errata</string>
     <string name="wrong_repository_url">Url repository errato</string>
     <string name="wrong_description">Descrizione errata</string>
     <string name="choose_the_icon_of_the_project">Scegliere l'icona del progetto</string>
+    <string name="share_the_project">Condividi il progetto</string>
+    <string name="share_project">Condividi progetto</string>
 </resources>

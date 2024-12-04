@@ -49,6 +49,7 @@ import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.logo
 import pandoro.composeapp.generated.resources.members_number
 import pandoro.composeapp.generated.resources.project_groups_title
+import pandoro.composeapp.generated.resources.share_the_project
 
 private const val LIMIT_GROUPS_DISPLAYED = 5
 
@@ -57,35 +58,17 @@ private const val LIMIT_GROUPS_DISPLAYED = 5
 fun GroupIcons(
     project: Project,
 ) {
-    val groups = project.groups
     val modalBottomSheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
-    Box(
-        modifier = Modifier
-            .clip(
-                RoundedCornerShape(
-                    size = 50.dp
-                )
-            )
-            .clickable {
-                scope.launch {
-                    modalBottomSheetState.show()
-                }
+    val groups = project.groups
+    GroupIcons(
+        groups = groups,
+        onClick = {
+            scope.launch {
+                modalBottomSheetState.show()
             }
-    ) {
-        groups.forEachIndexed { index, group ->
-            if(index >= LIMIT_GROUPS_DISPLAYED)
-                return@forEachIndexed
-            GroupLogo(
-                modifier = Modifier
-                    .padding(
-                        start = (15 * index).dp
-                    )
-                    .size(30.dp),
-                group = group
-            )
         }
-    }
+    )
     GroupExpandedList(
         state = modalBottomSheetState,
         scope = scope,
@@ -145,6 +128,38 @@ fun GroupExpandedList(
 
 @Composable
 @NonRestartableComposable
+fun GroupIcons(
+    groups: List<Group>,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .clip(
+                RoundedCornerShape(
+                    size = 50.dp
+                )
+            )
+            .clickable(
+                onClick = onClick
+            )
+    ) {
+        groups.forEachIndexed { index, group ->
+            if(index >= LIMIT_GROUPS_DISPLAYED)
+                return@forEachIndexed
+            GroupLogo(
+                modifier = Modifier
+                    .padding(
+                        start = (15 * index).dp
+                    )
+                    .size(30.dp),
+                group = group
+            )
+        }
+    }
+}
+
+@Composable
+@NonRestartableComposable
 fun GroupsProjectCandidate(
     state: SheetState,
     scope: CoroutineScope,
@@ -159,6 +174,18 @@ fun GroupsProjectCandidate(
                 }
             }
         ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        bottom = 5.dp
+                    ),
+                text = stringResource(Res.string.share_the_project),
+                textAlign = TextAlign.Center,
+                fontFamily = displayFontFamily,
+                fontSize = 20.sp
+            )
+            HorizontalDivider()
             GroupsList(
                 groups = groups,
                 trailingContent = trailingContent

@@ -17,7 +17,9 @@ class CreateProjectScreenViewModel(
     val projectId: String?
 ) : BaseProjectViewModel() {
 
-    private val candidateGroups: SnapshotStateList<String> = mutableStateListOf()
+    val candidateGroups: SnapshotStateList<String> = mutableStateListOf()
+
+    val projectsGroups: SnapshotStateList<Group> = mutableStateListOf()
 
     val groupAdministratedByUser: ArrayList<Group> = arrayListOf()
 
@@ -43,6 +45,7 @@ class CreateProjectScreenViewModel(
         if(projectId == null)
             return
         // TODO: MAKE THE REQUEST
+        // projectsGroups.addAll() TODO: ADD THE CURRENT GROUPS OF THE PROJECT
     }
 
     fun retrieveGroupsWhereUserIsAnAdmin() {
@@ -252,7 +255,7 @@ class CreateProjectScreenViewModel(
                     projects = emptyList()
                 )
             ))
-        groupAdministratedByUser.clear()
+        //groupAdministratedByUser.clear()
     }
 
     fun manageCandidateGroup(
@@ -260,10 +263,13 @@ class CreateProjectScreenViewModel(
         added: Boolean
     ) {
         val groupId = group.id
-        if(added)
+        if(added) {
             candidateGroups.add(groupId)
-        else
+            projectsGroups.add(group)
+        } else {
             candidateGroups.remove(groupId)
+            projectsGroups.remove(group)
+        }
     }
 
     fun workOnProject() {

@@ -181,4 +181,6 @@
     <string name="wrong_repository_url">Url de repositorio incorrecta</string>
     <string name="wrong_description">Descripción errónea</string>
     <string name="choose_the_icon_of_the_project">Elija el icono del proyecto</string>
+    <string name="share_the_project">Compartir los proyecto</string>
+    <string name="share_project">Compartir proyecto</string>
 </resources>
