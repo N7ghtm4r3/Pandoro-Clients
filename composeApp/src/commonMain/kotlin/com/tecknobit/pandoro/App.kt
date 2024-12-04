@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro
 
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
@@ -191,7 +192,18 @@ expect fun CloseApplicationOnNavBack()*/
  * @return the width size class based on the current dimension of the screen as [WindowWidthSizeClass]
  */
 @Composable
-expect fun getCurrentWidthSizeClass(): WindowWidthSizeClass
+fun getCurrentWidthSizeClass(): WindowWidthSizeClass {
+    return getCurrentSizeClass().widthSizeClass
+}
+
+/**
+ * Function to get the current screen dimension of the device where the application is running
+ *
+ *
+ * @return the size class based on the current dimension of the screen as [WindowWidthSizeClass]
+ */
+@Composable
+expect fun getCurrentSizeClass(): WindowSizeClass
 
 /**
  * Function to get the image picture's path

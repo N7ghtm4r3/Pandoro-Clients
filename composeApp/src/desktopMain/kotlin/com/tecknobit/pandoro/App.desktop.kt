@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro
 
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
@@ -25,18 +26,6 @@ actual fun CheckForUpdatesAndLaunch() {
 }
 
 /**
- * Function to get the current screen dimension of the device where the application is running
- *
- *
- * @return the width size class based on the current dimension of the screen as [WindowWidthSizeClass]
- */
-@Composable
-@ExperimentalMaterial3WindowSizeClassApi
-actual fun getCurrentWidthSizeClass(): WindowWidthSizeClass {
-    return calculateWindowSizeClass().widthSizeClass
-}
-
-/**
  * Function to get the image picture's path
  *
  * @param imagePic: the asset from fetch its path
@@ -47,4 +36,16 @@ actual fun getImagePath(
     imagePic: PlatformFile?
 ): String? {
     return imagePic?.path
+}
+
+/**
+ * Function to get the current screen dimension of the device where the application is running
+ *
+ *
+ * @return the size class based on the current dimension of the screen as [WindowWidthSizeClass]
+ */
+@Composable
+@ExperimentalMaterial3WindowSizeClassApi
+actual fun getCurrentSizeClass(): WindowSizeClass {
+    return calculateWindowSizeClass()
 }

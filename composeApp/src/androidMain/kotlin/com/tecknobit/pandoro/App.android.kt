@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
@@ -32,21 +33,6 @@ actual fun CheckForUpdatesAndLaunch() {
         delay(1000)
         navigator.navigate(HOME_SCREEN)
     }
-}
-
-/**
- * Function to get the current screen dimension of the device where the application is running
- *
- *
- * @return the width size class based on the current dimension of the screen as [WindowWidthSizeClass]
- */
-@Composable
-@ExperimentalMaterial3WindowSizeClassApi
-actual fun getCurrentWidthSizeClass(): WindowWidthSizeClass {
-    val activity = LocalContext.current as Activity
-    return calculateWindowSizeClass(
-        activity = activity
-    ).widthSizeClass
 }
 
 /**
@@ -108,4 +94,19 @@ private fun getFilePath(
         returnCursor.close()
     }
     return file.path
+}
+
+/**
+ * Function to get the current screen dimension of the device where the application is running
+ *
+ *
+ * @return the size class based on the current dimension of the screen as [WindowWidthSizeClass]
+ */
+@Composable
+@ExperimentalMaterial3WindowSizeClassApi
+actual fun getCurrentSizeClass(): WindowSizeClass {
+    val activity = LocalContext.current as Activity
+    return calculateWindowSizeClass(
+        activity = activity
+    )
 }

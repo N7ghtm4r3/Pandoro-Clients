@@ -22,22 +22,25 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
-import androidx.compose.material.icons.filled.GroupAdd
+import androidx.compose.material.icons.filled.Groups3
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Medium
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
@@ -64,7 +67,8 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
-import com.tecknobit.pandoro.getCurrentWidthSizeClass
+import com.tecknobit.equinoxcompose.resources.loading_data
+import com.tecknobit.pandoro.getCurrentSizeClass
 import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
@@ -80,6 +84,7 @@ import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidVersion
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
 import io.github.vinceglb.filekit.core.PickerType
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -119,28 +124,102 @@ class CreateProjectScreen(
      */
     @Composable
     override fun ArrangeScreenContent() {
+        // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE REAL COMPONENT
         PandoroTheme {
-            Scaffold(
-                containerColor = MaterialTheme.colorScheme.primary,
-                snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
-                floatingActionButton = { FabAction() }
+            AnimatedVisibility(
+                visible = (isEditing && project.value != null) || !isEditing,
+                enter = fadeIn(),
+                exit = fadeOut()
             ) {
-                PlaceContent(
-                    paddingValues = PaddingValues(
-                        all = 0.dp
-                    ),
-                    titleModifier = Modifier
-                        .padding(
-                            top = 16.dp,
-                            start = 16.dp
-                        ),
-                    navBackAction = { navigator.goBack() },
-                    screenTitle = if(isEditing)
-                        Res.string.edit_project
-                    else
-                        Res.string.create_project
+                viewModel!!.projectIcon = remember {
+                    mutableStateOf(
+                        if(isEditing)
+                            project.value!!.icon
+                        else
+                            ""
+                    )
+                }
+                viewModel!!.projectName = remember {
+                    mutableStateOf(
+                        if(isEditing)
+                            project.value!!.name
+                        else
+                            ""
+                    )
+                }
+                viewModel!!.projectVersion = remember {
+                    mutableStateOf(
+                        if(isEditing)
+                            project.value!!.version
+                        else
+                            ""
+                    )
+                }
+                viewModel!!.projectRepository = remember {
+                    mutableStateOf(
+                        if(isEditing)
+                            project.value!!.projectRepo
+                        else
+                            ""
+                    )
+                }
+                viewModel!!.projectDescription = remember {
+                    mutableStateOf(
+                        if(isEditing)
+                            project.value!!.description
+                        else
+                            ""
+                    )
+                }
+                Scaffold(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
+                    floatingActionButton = { FabAction() }
                 ) {
-                    ProjectForm()
+                    PlaceContent(
+                        paddingValues = PaddingValues(
+                            all = 0.dp
+                        ),
+                        titleModifier = Modifier
+                            .padding(
+                                top = 16.dp,
+                                start = 16.dp
+                            ),
+                        navBackAction = { navigator.goBack() },
+                        screenTitle = if(isEditing)
+                            Res.string.edit_project
+                        else
+                            Res.string.create_project
+                    ) {
+                        ProjectForm()
+                    }
+                }
+            }
+            AnimatedVisibility(
+                visible = isEditing && project.value == null,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                Surface {
+                    Column (
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .size(85.dp),
+                            strokeWidth = 8.dp
+                        )
+                        Text(
+                            modifier = Modifier
+                                .padding(
+                                    top = 16.dp
+                                ),
+                            text = stringResource(com.tecknobit.equinoxcompose.resources.Res.string.loading_data)
+                        )
+                    }
                 }
             }
         }
@@ -151,7 +230,7 @@ class CreateProjectScreen(
     private fun FabAction() {
         val modalBottomSheetState = rememberModalBottomSheetState()
         val scope = rememberCoroutineScope()
-        if (fullScreenFormType.value && viewModel!!.groupAdministratedByUser.isNotEmpty()) {
+        if (fullScreenFormType.value) {
             FloatingActionButton(
                 onClick = {
                     scope.launch {
@@ -160,40 +239,36 @@ class CreateProjectScreen(
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Default.GroupAdd,
+                    imageVector = Icons.Default.Groups3,
                     contentDescription = null
                 )
             }
-            GroupsProjectCandidate(
-                state = modalBottomSheetState,
+            ProjectGroups(
+                modalBottomSheetState = modalBottomSheetState,
                 scope = scope,
-                groups = remember { viewModel!!.projectsGroups + viewModel!!.groupAdministratedByUser }
-            ) { group ->
-                if (viewModel!!.groupAdministratedByUser.contains(group)) {
-                    var added by remember {
-                        mutableStateOf(viewModel!!.candidateGroups.contains(group.id))
-                    }
-                    Checkbox(
-                        checked = added,
-                        onCheckedChange = { selected ->
-                            viewModel!!.manageCandidateGroup(
-                                group = group,
-                                added = selected
-                            )
-                            added = selected
-                        }
-                    )
-                }
-            }
+            )
         }
     }
 
     @Composable
     @NonRestartableComposable
     private fun ProjectForm() {
-        val windowWidthSizeClass = getCurrentWidthSizeClass()
-        when(windowWidthSizeClass) {
-            Expanded, Medium -> ProjectCardForm()
+        val windowSizeClass = getCurrentSizeClass()
+        val widthClass = windowSizeClass.widthSizeClass
+        val heightClass = windowSizeClass.heightSizeClass
+        when {
+            widthClass == WindowWidthSizeClass.Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
+                ProjectCardForm()
+            }
+            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
+                ProjectCardForm()
+            }
+            widthClass == WindowWidthSizeClass.Expanded && heightClass == WindowHeightSizeClass.Medium -> {
+                ProjectCardForm()
+            }
+            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
+                ProjectCardForm()
+            }
             else -> FullScreenProjectForm()
         }
     }
@@ -229,7 +304,7 @@ class CreateProjectScreen(
                     )
                     ProjectCardFormDetails(
                         descriptionModifier = Modifier
-                            .weight(1f) // TODO: TO FIX WHEN LANDSCAPE
+                            .weight(1f)
                     )
                 }
             }
@@ -295,7 +370,7 @@ class CreateProjectScreen(
                 .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ProjectGroupsSection()
+            ManageProjectGroups()
             Column (
                 modifier = Modifier
                     .weight(1f),
@@ -308,7 +383,7 @@ class CreateProjectScreen(
 
     @Composable
     @NonRestartableComposable
-    private fun ProjectGroupsSection() {
+    private fun ManageProjectGroups() {
         if(viewModel!!.groupAdministratedByUser.isNotEmpty()) {
             val modalBottomSheetState = rememberModalBottomSheetState()
             val scope = rememberCoroutineScope()
@@ -335,7 +410,7 @@ class CreateProjectScreen(
                 exit = fadeOut()
             ) {
                 GroupIcons(
-                    groups = viewModel!!.groupAdministratedByUser,
+                    groups = viewModel!!.projectsGroups,
                     onClick = {
                         scope.launch {
                             modalBottomSheetState.show()
@@ -343,25 +418,9 @@ class CreateProjectScreen(
                     }
                 )
             }
-            GroupsProjectCandidate(
-                state = modalBottomSheetState,
-                scope = scope,
-                groups = viewModel!!.groupAdministratedByUser,
-                trailingContent = { group ->
-                    var added by remember {
-                        mutableStateOf(viewModel!!.candidateGroups.contains(group.id))
-                    }
-                    Checkbox(
-                        checked = added,
-                        onCheckedChange = { selected ->
-                            viewModel!!.manageCandidateGroup(
-                                group = group,
-                                added = selected
-                            )
-                            added = selected
-                        }
-                    )
-                }
+            ProjectGroups(
+                modalBottomSheetState = modalBottomSheetState,
+                scope = scope
             )
         }
     }
@@ -371,7 +430,7 @@ class CreateProjectScreen(
     private fun FullScreenProjectForm() {
         fullScreenFormType.value = true
         Box {
-            ProjectFullFormDetails()
+            FullScreenProjectDetails()
             IconPicker(
                 modifier = Modifier
                     .padding(
@@ -384,7 +443,7 @@ class CreateProjectScreen(
 
     @Composable
     @NonRestartableComposable
-    private fun ProjectFullFormDetails() {
+    private fun FullScreenProjectDetails() {
         Card(
             modifier = Modifier
                 .padding(
@@ -456,6 +515,35 @@ class CreateProjectScreen(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     )
+                )
+            }
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun ProjectGroups(
+        modalBottomSheetState: SheetState,
+        scope: CoroutineScope
+    ) {
+        GroupsProjectCandidate(
+            state = modalBottomSheetState,
+            scope = scope,
+            groups = remember { viewModel!!.projectsGroups + viewModel!!.groupAdministratedByUser }
+        ) { group ->
+            if (viewModel!!.groupAdministratedByUser.contains(group)) {
+                var added by remember {
+                    mutableStateOf(viewModel!!.candidateGroups.contains(group.id))
+                }
+                Checkbox(
+                    checked = added,
+                    onCheckedChange = { selected ->
+                        viewModel!!.manageCandidateGroup(
+                            group = group,
+                            added = selected
+                        )
+                        added = selected
+                    }
                 )
             }
         }
@@ -559,49 +647,9 @@ class CreateProjectScreen(
     @Composable
     override fun CollectStates() {
         project = viewModel!!.project.collectAsState()
-        viewModel!!.projectIcon = remember {
-            mutableStateOf(
-                if(isEditing)
-                    project.value!!.icon
-                else
-                    ""
-            )
-        }
-        viewModel!!.projectName = remember {
-            mutableStateOf(
-                if(isEditing)
-                    project.value!!.name
-                else
-                    ""
-            )
-        }
         viewModel!!.projectNameError = remember { mutableStateOf(false) }
-        viewModel!!.projectVersion = remember {
-            mutableStateOf(
-                if(isEditing)
-                    project.value!!.version
-                else
-                    ""
-            )
-        }
         viewModel!!.projectVersionError = remember { mutableStateOf(false) }
-        viewModel!!.projectRepository = remember {
-            mutableStateOf(
-                if(isEditing)
-                    project.value!!.projectRepo
-                else
-                    ""
-            )
-        }
         viewModel!!.projectRepositoryError = remember { mutableStateOf(false) }
-        viewModel!!.projectDescription = remember {
-            mutableStateOf(
-                if(isEditing)
-                    project.value!!.description
-                else
-                    ""
-            )
-        }
         viewModel!!.projectDescriptionError = remember { mutableStateOf(false) }
         fullScreenFormType = remember { mutableStateOf(false) }
     }
