@@ -1,7 +1,10 @@
 package com.tecknobit.pandoro
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -33,6 +36,21 @@ actual fun CheckForUpdatesAndLaunch() {
         delay(1000)
         navigator.navigate(HOME_SCREEN)
     }
+}
+
+/**
+ * Function to get the current screen dimension of the device where the application is running
+ *
+ *
+ * @return the size class based on the current dimension of the screen as [WindowWidthSizeClass]
+ */
+@Composable
+@ExperimentalMaterial3WindowSizeClassApi
+actual fun getCurrentSizeClass(): WindowSizeClass {
+    val activity = LocalContext.current as Activity
+    return calculateWindowSizeClass(
+        activity = activity
+    )
 }
 
 /**
@@ -97,16 +115,18 @@ private fun getFilePath(
 }
 
 /**
- * Function to get the current screen dimension of the device where the application is running
+ * Method to copy to the clipboard a content value
  *
- *
- * @return the size class based on the current dimension of the screen as [WindowWidthSizeClass]
+ * @param content The content to copy
+ * @param onCopy The action to execute after the copy in the clipboard
  */
-@Composable
-@ExperimentalMaterial3WindowSizeClassApi
-actual fun getCurrentSizeClass(): WindowSizeClass {
-    val activity = LocalContext.current as Activity
-    return calculateWindowSizeClass(
-        activity = activity
-    )
+actual fun copyToClipboard(
+    content: String,
+    onCopy: () -> Unit
+) {
+    val context = AppContext.get()
+    val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+    val clip = ClipData.newPlainText(null, content)
+    clipboard.setPrimaryClip(clip)
+    onCopy.invoke()
 }

@@ -180,6 +180,9 @@
     <string name="share_the_project">Partager les projet</string>
     <string name="share_project">Partager le projet</string>
     <string name="no_notes_available">Pas de notes disponibles</string>
+    <string name="note_created_on">Créé le %1$s</string>
+    <string name="note_completed_on">Terminé le %1$s</string>
+    <string name="note_content_copied">Contenu de la note copié !</string>
     <string name="delete_note">Supprimer la note</string>
     <string name="delete_note_text">Si vous confirmez, la note sera supprimée et ne pourra plus être récupérée, confirmez-vous ?</string>
 </resources>

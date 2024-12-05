@@ -180,6 +180,9 @@
     <string name="share_the_project">Share the project</string>
     <string name="share_project">Share project</string>
     <string name="no_notes_available">No notes available</string>
+    <string name="note_created_on">Created on %1$s</string>
+    <string name="note_completed_on">Completed on %1$s</string>
+    <string name="note_content_copied">Content of the note copied!</string>
     <string name="delete_note">Delete note</string>
     <string name="delete_note_text">If you confirm the note will be deleted and no more recoverable, confirm?</string>
 </resources>

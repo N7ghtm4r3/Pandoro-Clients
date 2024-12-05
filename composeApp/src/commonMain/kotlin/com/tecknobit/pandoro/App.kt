@@ -215,3 +215,14 @@ expect fun getCurrentSizeClass(): WindowSizeClass
 expect fun getImagePath(
     imagePic: PlatformFile?
 ): String?
+
+/**
+ * Method to copy to the clipboard a content value
+ *
+ * @param content The content to copy
+ * @param onCopy The action to execute after the copy in the clipboard
+ */
+expect fun copyToClipboard(
+    content: String,
+    onCopy: () -> Unit = {}
+)

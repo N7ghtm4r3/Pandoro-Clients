@@ -18,7 +18,7 @@ kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_18)
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
@@ -26,7 +26,7 @@ kotlin {
         compilations.all {
             @OptIn(ExperimentalKotlinGradlePluginApi::class)
             this@jvm.compilerOptions {
-                jvmTarget.set(JvmTarget.JVM_18)
+                jvmTarget.set(JvmTarget.JVM_21)
             }
         }
     }
@@ -125,8 +125,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_18
-        targetCompatibility = JavaVersion.VERSION_18
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 

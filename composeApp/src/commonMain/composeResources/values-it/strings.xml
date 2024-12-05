@@ -180,6 +180,9 @@
     <string name="share_the_project">Condividi il progetto</string>
     <string name="share_project">Condividi progetto</string>
     <string name="no_notes_available">Nessun appunto disponibile</string>
+    <string name="note_created_on">Creato il %1$s</string>
+    <string name="note_completed_on">Completato il %1$s</string>
+    <string name="note_content_copied">Contenuto dell'appunto copiato!</string>
     <string name="delete_note">Elimina appunto</string>
     <string name="delete_note_text">Se confermi, questo appunto sarà cancellato e non più recuperabile, confermi?</string>
 </resources>

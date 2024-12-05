@@ -25,16 +25,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
+import com.tecknobit.pandoro.copyToClipboard
 import com.tecknobit.pandoro.helpers.TimeFormatter.formatAsDateString
 import com.tecknobit.pandoro.ui.components.DeleteNote
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
 import com.tecknobit.pandoro.ui.theme.Green
+import org.jetbrains.compose.resources.stringResource
+import pandoro.composeapp.generated.resources.Res
+import pandoro.composeapp.generated.resources.note_completed_on
+import pandoro.composeapp.generated.resources.note_content_copied
+import pandoro.composeapp.generated.resources.note_created_on
 
 @Composable
 @NonRestartableComposable
@@ -46,7 +53,7 @@ fun NoteCard(
     Card(
         modifier = modifier
             .then(
-                if(note.markedAsDone) {
+                if (note.markedAsDone) {
                     Modifier.colorOneSideBorder(
                         borderToColor = BorderToColor.END,
                         color = Green(),
@@ -57,7 +64,7 @@ fun NoteCard(
                     Modifier
             ),
         onClick = {
-
+            // TODO: NAV TO NOTE SCREEN 
         }
     ) {
         Text(
@@ -66,8 +73,12 @@ fun NoteCard(
                     top = 16.dp,
                     start = 16.dp
                 ),
-            text = note.creationDate.formatAsDateString(),
-            fontSize = 14.sp
+            text = if(note.markedAsDone)
+                stringResource(Res.string.note_completed_on, note.markAsDoneDate.formatAsDateString())
+            else
+                stringResource(Res.string.note_created_on, note.creationDate.formatAsDateString()),
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold
         )
         Text(
             modifier = Modifier
@@ -86,86 +97,6 @@ fun NoteCard(
         )
     }
 }
-
-/*@Composable
-@NonRestartableComposable
-fun NoteCard(
-    modifier: Modifier,
-    viewModel: NotesScreenViewModel,
-    note: Note
-) {
-    Card(
-        modifier = modifier
-            .then(
-                if(note.markedAsDone) {
-                    Modifier.colorOneSideBorder(
-                        borderToColor = BorderToColor.END,
-                        color = Green(),
-                        width = 8.dp,
-                        shape = CardDefaults.shape
-                    )
-                } else
-                    Modifier
-            ),
-        onClick = {
-
-        }
-    ) {
-        Row (
-            modifier = Modifier
-                .padding(
-                    top = 10.dp,
-                    start = 16.dp,
-                    bottom = 10.dp
-                )
-        ) {
-            Column (
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-            ) {
-                Text(
-                    fontWeight = FontWeight.Bold,
-                    text = "Data creazione",
-                    fontSize = 12.sp
-                )
-                Text(
-                    text = note.creationDate.formatAsDateString(),
-                    fontSize = 14.sp
-                )
-            }
-            Column (
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    fontWeight = FontWeight.Bold,
-                    text = "Data completamento",
-                    fontSize = 12.sp
-                )
-                Text(
-                    text = note.creationDate.formatAsDateString(),
-                    fontSize = 14.sp
-                )
-            }
-        }
-        HorizontalDivider()
-        Text(
-            modifier = Modifier
-                .padding(
-                    all = 16.dp
-                ),
-            text = note.content,
-            maxLines = 3,
-            overflow = TextOverflow.Ellipsis
-        )
-        NoteActions(
-            viewModel = viewModel,
-            note = note
-        )
-    }
-}*/
 
 @Composable
 @NonRestartableComposable
@@ -199,9 +130,13 @@ private fun NoteActions(
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ) {
+            val noteCopiedMessage = stringResource(Res.string.note_content_copied)
             IconButton(
                 onClick = {
-                    // TODO: COPY
+                    copyToClipboard(
+                        content = note.content,
+                        onCopy = { viewModel.showSnackbarMessage(noteCopiedMessage) }
+                    )
                 }
             ) {
                 Icon(
