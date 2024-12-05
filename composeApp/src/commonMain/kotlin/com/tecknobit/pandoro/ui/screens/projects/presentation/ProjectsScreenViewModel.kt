@@ -1099,7 +1099,8 @@ class ProjectsScreenViewModel : EquinoxViewModel(
     }
 
     fun deleteProject(
-        project: Project
+        project: Project,
+        onDelete: () -> Unit
     ) {
         // TODO: MAKE THE REQUEST THEN
     }

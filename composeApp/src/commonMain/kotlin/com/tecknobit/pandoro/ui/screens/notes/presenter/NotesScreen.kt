@@ -3,6 +3,8 @@ package com.tecknobit.pandoro.ui.screens.notes.presenter
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
@@ -110,6 +112,12 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                         key = { note -> note.id }
                     ) { note ->
                         NoteCard(
+                            modifier = Modifier
+                                .size(
+                                    width = 300.dp,
+                                    height = 175.dp
+                                ),
+                            viewModel = viewModel!!,
                             note = note
                         )
                     }
@@ -140,6 +148,11 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                         key = { note -> note.id }
                     ) { note ->
                         NoteCard(
+                            modifier = Modifier
+                                .height(
+                                    height = 175.dp
+                                ),
+                            viewModel = viewModel!!,
                             note = note
                         )
                     }

@@ -2,18 +2,13 @@
     <string name="app_name" translatable="false">Pandoro</string>
     <string name="app_version" translatable="false">1.1.0</string>
     <string name="description_subtext">Pandoro es un software de gestión de código abierto útil para gestionar fácilmente sus proyectos y sus actualizaciones</string>
-    <string name="frequent_projects">Proyectos frecuentes</string>
-    <string name="current_projects">Proyectos en curso</string>
-    <string name="delete_project">Suprimir %1$s</string>
     <string name="projects">Proyectos</string>
     <string name="notes">Notas</string>
     <string name="notes_number">Número de notas:</string>
     <string name="overview">Visión general</string>
     <string name="profile">Perfil</string>
-    <string name="delete_project_text_dialog">Si confirmas este evento el proyecto y toda su información será borrada y no se podrá recuperar, ¿confirmas?</string>
     <string name="dismiss">Despedir</string>
     <string name="confirm">Confirmar</string>
-    <string name="no_projects_found">No se han encontrado proyectos</string>
     <string name="edit_project">Editar proyecto</string>
     <string name="add">Agregar</string>
     <string name="name">Nombre</string>
@@ -150,6 +145,8 @@
 
     <!-- TODO: TO CHECK WHICH STRINGS REMOVE AFTER FINISHED -->
     <string name="all">Todos</string>
+    <string name="delete_project">Suprimir %1$s</string>
+    <string name="delete_project_text_dialog">Si confirmas el proyecto y toda su información será borrada y no se podrá recuperar, ¿confirmas?</string>
     <plurals name="in_development_since">
         <item formatted="false" quantity="one">En desarrollo desde %1$d día</item>
         <item formatted="false" quantity="other">En desarrollo desde %1$d días</item>
@@ -183,4 +180,6 @@
     <string name="share_the_project">Compartir los proyecto</string>
     <string name="share_project">Compartir proyecto</string>
     <string name="no_notes_available">No hay notas disponibles</string>
+    <string name="delete_note">Borrar nota</string>
+    <string name="delete_note_text">Si confirmas la nota se borrará y ya no se podrá recuperar, ¿confirmas?</string>
 </resources>

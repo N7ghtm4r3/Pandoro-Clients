@@ -220,3 +220,5 @@ val onErrorDarkHighContrast = Color(0xFFFFFFFF)
 val errorContainerDarkHighContrast = Color(0xFFFFD0D0)
 val onErrorContainerDarkHighContrast = Color(0xFF9b0000)
 
+val lightGreen = Color(4288264330)
+val darkGreen = Color(0xFF3D5B3F)

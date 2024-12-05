@@ -2,18 +2,13 @@
     <string name="app_name" translatable="false">Pandoro</string>
     <string name="app_version" translatable="false">1.1.0</string>
     <string name="description_subtext">Pandoro è un gestionale open source utile per gestire facilmente i progetti e i loro aggiornamenti.</string>
-    <string name="frequent_projects">Progetti frequenti</string>
-    <string name="current_projects">Progetti attuali</string>
-    <string name="delete_project">Eliminare %1$s</string>
     <string name="projects">Progetti</string>
     <string name="notes">Appunti</string>
     <string name="notes_number">Numero di note:</string>
     <string name="overview">Panoramica</string>
     <string name="profile">Profilo</string>
-    <string name="delete_project_text_dialog">Se si conferma questo evento il progetto e tutte le sue informazioni saranno cancellate e non più recuperabili, confermi?</string>
     <string name="dismiss">Annulla</string>
     <string name="confirm">Conferma</string>
-    <string name="no_projects_found">Nessun progetto trovato</string>
     <string name="edit_project">Modifica progetto</string>
     <string name="add">Aggiungi</string>
     <string name="name">Nome</string>
@@ -96,10 +91,10 @@
     <string name="total_members">Membri totali:</string>
     <string name="projects_number">Numero di progetti:</string>
     <string name="remove_the_user_from">Rimuovere l'utente da</string>
-    <string name="remove_user_text">Se si conferma questo evento, l'utente verrà rimosso dal gruppo e non avrà più accesso ai contenuti del gruppo stesso.</string>
+    <string name="remove_user_text">Se confermi questo evento, l'utente verrà rimosso dal gruppo e non avrà più accesso ai contenuti del gruppo stesso.</string>
     <string name="leave_group">Lascia gruppo</string>
     <string name="leave_group_text">Se confermate questo evento, sarete rimossi dal gruppo e non avrete più accesso ai suoi contenuti.</string>
-    <string name="delete_group_text">Se si conferma questo evento, il gruppo e tutte le sue informazioni saranno cancellate e non più recuperabili.</string>
+    <string name="delete_group_text">Se confermi questo evento, il gruppo e tutte le sue informazioni saranno cancellate e non più recuperabili.</string>
     <string name="delete_group">Cancellare il gruppo</string>
     <string name="add_new_members">Aggiungi nuovi membri</string>
     <string name="server_address">Indirizzo del server</string>
@@ -150,6 +145,8 @@
 
     <!-- TODO: TO CHECK WHICH STRINGS REMOVE AFTER FINISHED -->
     <string name="all">Tutti</string>
+    <string name="delete_project">Eliminare %1$s</string>
+    <string name="delete_project_text_dialog">Se confermi, il progetto e tutte le sue informazioni saranno cancellate e non più recuperabili, confermi?</string>
     <plurals name="in_development_since">
         <item formatted="false" quantity="one">In sviluppo da %1$d</item>
         <item formatted="false" quantity="other">In sviluppo da %1$d giorni</item>
@@ -183,4 +180,6 @@
     <string name="share_the_project">Condividi il progetto</string>
     <string name="share_project">Condividi progetto</string>
     <string name="no_notes_available">Nessun appunto disponibile</string>
+    <string name="delete_note">Elimina appunto</string>
+    <string name="delete_note_text">Se confermi, questo appunto sarà cancellato e non più recuperabile, confermi?</string>
 </resources>
