@@ -217,8 +217,8 @@ class CreateProjectScreen(
             Card(
                 modifier = Modifier
                     .size(
-                        width = 750.dp,
-                        height = 550.dp
+                        width = FORM_CARD_WIDTH,
+                        height = FORM_CARD_HEIGHT
                     )
             ) {
                 Column(

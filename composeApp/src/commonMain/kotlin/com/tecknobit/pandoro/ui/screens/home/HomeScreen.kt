@@ -66,15 +66,15 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
 
     companion object {
 
-        private const val PROJECTS_SCREEN = "ProjectsScreen"
+        const val PROJECTS_SCREEN = "ProjectsScreen"
 
-        private const val NOTES_SCREEN = "NotesScreen"
+        const val NOTES_SCREEN = "NotesScreen"
 
-        private const val OVERVIEW_SCREEN = "OverviewScreen"
+        const val OVERVIEW_SCREEN = "OverviewScreen"
 
-        private const val GROUPS_SCREEN = "GroupsScreen"
+        const val GROUPS_SCREEN = "GroupsScreen"
 
-        private const val PROFILE_SCREEN = "ProfileScreen"
+        const val PROFILE_SCREEN = "ProfileScreen"
 
         private val destinations = listOf(
             NavigationTab(
@@ -103,11 +103,25 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
             )
         )
 
-        private lateinit var currentDestination: MutableState<NavigationTab>
+        private var currentScreenDisplayed: Int = 0
 
         lateinit var isBottomNavigationMode: MutableState<Boolean>
 
+        fun setCurrentScreenDisplayed(
+            screen: String
+        ) {
+            currentScreenDisplayed = when(screen) {
+                NOTES_SCREEN -> 1
+                OVERVIEW_SCREEN -> 2
+                GROUPS_SCREEN -> 3
+                PROFILE_SCREEN -> 4
+                else -> 0
+            }
+        }
+
     }
+
+    private lateinit var currentDestination: MutableState<NavigationTab>
 
     /**
      * Method to arrange the content of the screen to display
@@ -273,7 +287,7 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
      */
     @Composable
     override fun CollectStates() {
-        currentDestination = remember { mutableStateOf(destinations[0]) }
+        currentDestination = remember { mutableStateOf(destinations[currentScreenDisplayed]) }
         isBottomNavigationMode = remember { mutableStateOf(false) }
     }
 

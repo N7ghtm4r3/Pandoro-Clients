@@ -1,29 +1,29 @@
 package com.tecknobit.pandoro.ui.screens.createnote.presenter
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
@@ -94,19 +94,13 @@ class CreateNoteScreen(
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
-        AnimatedVisibility(
-            visible = fullScreenFormType.value,
-            enter = fadeIn(),
-            exit = fadeOut()
+        FloatingActionButton(
+            onClick = { viewModel!!.saveNote() }
         ) {
-            FloatingActionButton(
-                onClick = { viewModel!!.saveNote() }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Done,
-                    contentDescription = null
-                )
-            }
+            Icon(
+                imageVector = Icons.Default.Done,
+                contentDescription = null
+            )
         }
     }
 
@@ -115,6 +109,33 @@ class CreateNoteScreen(
     @RequiresSuperCall
     override fun CardForm() {
         super.CardForm()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    all = 16.dp
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Card (
+                modifier = Modifier
+                    .size(
+                        width = FORM_CARD_WIDTH,
+                        height = FORM_CARD_HEIGHT
+                    ),
+                shape = RoundedCornerShape(
+                    size = 30.dp
+                )
+            ) {
+                ContentInput(
+                    shape = RoundedCornerShape(
+                        topStart = 30.dp,
+                        topEnd = 30.dp
+                    )
+                )
+            }
+        }
     }
 
     @Composable
@@ -122,40 +143,45 @@ class CreateNoteScreen(
     @RequiresSuperCall
     override fun FullScreenForm() {
         super.FullScreenForm()
-        val focusRequester = remember { FocusRequester() }
-        LaunchedEffect(Unit) {
-            focusRequester.requestFocus()
-        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .imePadding()
         ) {
-            EquinoxTextField(
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .clip(
-                        RoundedCornerShape(
-                            topStart = 10.dp,
-                            topEnd = 10.dp
-                        )
-                    )
-                    .focusRequester(
-                        focusRequester = focusRequester
-                    )
-                    .fillMaxSize(),
-                textFieldColors = TextFieldDefaults.colors(
-                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
-                ),
-                value = viewModel!!.content,
-                label = "",
-                placeholder = stringResource(Res.string.content_of_the_note),
-                maxLines = Int.MAX_VALUE,
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done
+            ContentInput(
+                shape = RoundedCornerShape(
+                    topStart = 15.dp,
+                    topEnd = 15.dp
                 )
             )
         }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun ContentInput(
+        shape: RoundedCornerShape
+    ) {
+        val focusRequester = remember { FocusRequester() }
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
+        }
+        EquinoxTextField(
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .clip(shape)
+                .focusRequester(
+                    focusRequester = focusRequester
+                )
+                .fillMaxSize(),
+            value = viewModel!!.content,
+            label = "",
+            placeholder = stringResource(Res.string.content_of_the_note),
+            maxLines = Int.MAX_VALUE,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done
+            )
+        )
     }
 
     /**

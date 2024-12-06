@@ -8,6 +8,8 @@ import androidx.compose.ui.text.font.FontFamily
 import com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen
 import com.tecknobit.pandoro.ui.screens.home.HomeScreen
+import com.tecknobit.pandoro.ui.screens.home.HomeScreen.Companion.NOTES_SCREEN
+import com.tecknobit.pandoro.ui.screens.home.HomeScreen.Companion.PROJECTS_SCREEN
 import com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen
 import com.tecknobit.pandorocore.NOTE_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.PROJECT_IDENTIFIER_KEY
@@ -118,6 +120,9 @@ fun App() {
                 route = "$CREATE_PROJECT_SCREEN/{$PROJECT_IDENTIFIER_KEY}?"
             ) { backstackEntry ->
                 val projectId: String? = backstackEntry.path<String>(PROJECT_IDENTIFIER_KEY)
+                HomeScreen.setCurrentScreenDisplayed(
+                    screen = PROJECTS_SCREEN
+                )
                 CreateProjectScreen(
                     projectId = projectId
                 ).ShowContent()
@@ -126,6 +131,9 @@ fun App() {
                 route = "$CREATE_NOTE_SCREEN/{$NOTE_IDENTIFIER_KEY}?"
             ) { backstackEntry ->
                 val noteId: String? = backstackEntry.path<String>(NOTE_IDENTIFIER_KEY)
+                HomeScreen.setCurrentScreenDisplayed(
+                    screen = NOTES_SCREEN
+                )
                 CreateNoteScreen(
                     noteId = noteId
                 ).ShowContent()
