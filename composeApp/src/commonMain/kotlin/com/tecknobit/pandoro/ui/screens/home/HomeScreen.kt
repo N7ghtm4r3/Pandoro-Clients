@@ -103,11 +103,11 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
             )
         )
 
+        private lateinit var currentDestination: MutableState<NavigationTab>
+
         lateinit var isBottomNavigationMode: MutableState<Boolean>
 
     }
-
-    private lateinit var currentDestination: MutableState<NavigationTab>
 
     /**
      * Method to arrange the content of the screen to display

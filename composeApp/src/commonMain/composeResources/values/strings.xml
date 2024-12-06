@@ -185,4 +185,7 @@
     <string name="note_content_copied">Content of the note copied!</string>
     <string name="delete_note">Delete note</string>
     <string name="delete_note_text">If you confirm the note will be deleted and no more recoverable, confirm?</string>
+    <string name="create_note">Create note</string>
+    <string name="edit_note">Edit note</string>
+    <string name="content_of_the_note">Content of the note</string>
 </resources>

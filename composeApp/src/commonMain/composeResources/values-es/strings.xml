@@ -185,4 +185,7 @@
     <string name="note_content_copied">Contenido de la nota copiado.</string>
     <string name="delete_note">Borrar nota</string>
     <string name="delete_note_text">Si confirmas la nota se borrará y ya no se podrá recuperar, ¿confirmas?</string>
+    <string name="create_note">Crear nota</string>
+    <string name="edit_note">Editar nota</string>
+    <string name="content_of_the_note">Contenido de la nota</string>
 </resources>

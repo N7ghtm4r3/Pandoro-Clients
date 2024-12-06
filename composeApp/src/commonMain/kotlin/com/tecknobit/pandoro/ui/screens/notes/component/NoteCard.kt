@@ -1,9 +1,6 @@
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.tecknobit.pandoro.ui.screens.notes.component
 
 import CircleDashedCheck
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,8 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
+import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
 import com.tecknobit.pandoro.copyToClipboard
 import com.tecknobit.pandoro.helpers.TimeFormatter.formatAsDateString
+import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteNote
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
@@ -63,9 +62,7 @@ fun NoteCard(
                 } else
                     Modifier
             ),
-        onClick = {
-            // TODO: NAV TO NOTE SCREEN 
-        }
+        onClick = { navigator.navigate("$CREATE_NOTE_SCREEN/${note.id}") }
     ) {
         Text(
             modifier = Modifier

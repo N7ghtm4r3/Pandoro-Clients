@@ -185,4 +185,7 @@
     <string name="note_content_copied">Contenu de la note copié !</string>
     <string name="delete_note">Supprimer la note</string>
     <string name="delete_note_text">Si vous confirmez, la note sera supprimée et ne pourra plus être récupérée, confirmez-vous ?</string>
+    <string name="create_note">Créer une note</string>
+    <string name="edit_note">Edit note</string>
+    <string name="content_of_the_note">Contenu de la note</string>
 </resources>

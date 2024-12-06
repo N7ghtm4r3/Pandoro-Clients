@@ -27,7 +27,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -36,15 +35,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -67,16 +61,14 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
-import com.tecknobit.equinoxcompose.resources.loading_data
-import com.tecknobit.pandoro.getCurrentSizeClass
+import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.navigator
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.pandoro.ui.screens.CreateScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presentation.CreateProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.group.components.GroupsProjectCandidate
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
-import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectDescription
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectName
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidRepository
@@ -107,119 +99,80 @@ import pandoro.composeapp.generated.resources.wrong_repository_url
 
 class CreateProjectScreen(
     projectId: String?
-) : PandoroScreen<CreateProjectScreenViewModel>(
+) : CreateScreen<Project, CreateProjectScreenViewModel>(
+    itemId = projectId,
     viewModel = CreateProjectScreenViewModel(
         projectId = projectId
     )
 ) {
-
-    private val isEditing: Boolean = projectId != null
-
-    private lateinit var project: State<Project?>
-
-    private lateinit var fullScreenFormType: MutableState<Boolean>
 
     /**
      * Method to arrange the content of the screen to display
      */
     @Composable
     override fun ArrangeScreenContent() {
-        // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE REAL COMPONENT
-        PandoroTheme {
-            AnimatedVisibility(
-                visible = (isEditing && project.value != null) || !isEditing,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                viewModel!!.projectIcon = remember {
-                    mutableStateOf(
-                        if(isEditing)
-                            project.value!!.icon
-                        else
-                            ""
-                    )
-                }
-                viewModel!!.projectName = remember {
-                    mutableStateOf(
-                        if(isEditing)
-                            project.value!!.name
-                        else
-                            ""
-                    )
-                }
-                viewModel!!.projectVersion = remember {
-                    mutableStateOf(
-                        if(isEditing)
-                            project.value!!.version
-                        else
-                            ""
-                    )
-                }
-                viewModel!!.projectRepository = remember {
-                    mutableStateOf(
-                        if(isEditing)
-                            project.value!!.projectRepo
-                        else
-                            ""
-                    )
-                }
-                viewModel!!.projectDescription = remember {
-                    mutableStateOf(
-                        if(isEditing)
-                            project.value!!.description
-                        else
-                            ""
-                    )
-                }
-                Scaffold(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
-                    floatingActionButton = { FabAction() }
-                ) {
-                    PlaceContent(
-                        paddingValues = PaddingValues(
-                            all = 0.dp
-                        ),
-                        titleModifier = Modifier
-                            .padding(
-                                top = 16.dp,
-                                start = 16.dp
-                            ),
-                        navBackAction = { navigator.goBack() },
-                        screenTitle = if(isEditing)
-                            Res.string.edit_project
-                        else
-                            Res.string.create_project
-                    ) {
-                        ProjectForm()
-                    }
-                }
+        LoadAwareContent {
+            viewModel!!.projectIcon = remember {
+                mutableStateOf(
+                    if(isEditing)
+                        item.value!!.icon
+                    else
+                        ""
+                )
             }
-            AnimatedVisibility(
-                visible = isEditing && project.value == null,
-                enter = fadeIn(),
-                exit = fadeOut()
+            viewModel!!.projectName = remember {
+                mutableStateOf(
+                    if(isEditing)
+                        item.value!!.name
+                    else
+                        ""
+                )
+            }
+            viewModel!!.projectVersion = remember {
+                mutableStateOf(
+                    if(isEditing)
+                        item.value!!.version
+                    else
+                        ""
+                )
+            }
+            viewModel!!.projectRepository = remember {
+                mutableStateOf(
+                    if(isEditing)
+                        item.value!!.projectRepo
+                    else
+                        ""
+                )
+            }
+            viewModel!!.projectDescription = remember {
+                mutableStateOf(
+                    if(isEditing)
+                        item.value!!.description
+                    else
+                        ""
+                )
+            }
+            Scaffold(
+                containerColor = MaterialTheme.colorScheme.primary,
+                snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
+                floatingActionButton = { FabAction() }
             ) {
-                Surface {
-                    Column (
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .size(85.dp),
-                            strokeWidth = 8.dp
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(
-                                    top = 16.dp
-                                ),
-                            text = stringResource(com.tecknobit.equinoxcompose.resources.Res.string.loading_data)
-                        )
-                    }
+                PlaceContent(
+                    paddingValues = PaddingValues(
+                        all = 0.dp
+                    ),
+                    titleModifier = Modifier
+                        .padding(
+                            top = 16.dp,
+                            start = 16.dp
+                        ),
+                    navBackAction = { navigator.goBack() },
+                    screenTitle = if(isEditing)
+                        Res.string.edit_project
+                    else
+                        Res.string.create_project
+                ) {
+                    Form()
                 }
             }
         }
@@ -227,7 +180,7 @@ class CreateProjectScreen(
 
     @Composable
     @NonRestartableComposable
-    private fun FabAction() {
+    override fun FabAction() {
         val modalBottomSheetState = rememberModalBottomSheetState()
         val scope = rememberCoroutineScope()
         if (fullScreenFormType.value) {
@@ -252,31 +205,9 @@ class CreateProjectScreen(
 
     @Composable
     @NonRestartableComposable
-    private fun ProjectForm() {
-        val windowSizeClass = getCurrentSizeClass()
-        val widthClass = windowSizeClass.widthSizeClass
-        val heightClass = windowSizeClass.heightSizeClass
-        when {
-            widthClass == WindowWidthSizeClass.Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
-                ProjectCardForm()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
-                ProjectCardForm()
-            }
-            widthClass == WindowWidthSizeClass.Expanded && heightClass == WindowHeightSizeClass.Medium -> {
-                ProjectCardForm()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
-                ProjectCardForm()
-            }
-            else -> FullScreenProjectForm()
-        }
-    }
-
-    @Composable
-    @NonRestartableComposable
-    private fun ProjectCardForm() {
-        fullScreenFormType.value = false
+    @RequiresSuperCall
+    override fun CardForm() {
+        super.CardForm()
         Column(
             modifier = Modifier
                 .fillMaxSize(),
@@ -427,8 +358,9 @@ class CreateProjectScreen(
 
     @Composable
     @NonRestartableComposable
-    private fun FullScreenProjectForm() {
-        fullScreenFormType.value = true
+    @RequiresSuperCall
+    override fun FullScreenForm() {
+        super.FullScreenForm()
         Box {
             FullScreenProjectDetails()
             IconPicker(
@@ -645,13 +577,14 @@ class CreateProjectScreen(
      * Method to collect or instantiate the states of the screen
      */
     @Composable
+    @RequiresSuperCall
     override fun CollectStates() {
-        project = viewModel!!.project.collectAsState()
+        super.CollectStates()
+        item = viewModel!!.project.collectAsState()
         viewModel!!.projectNameError = remember { mutableStateOf(false) }
         viewModel!!.projectVersionError = remember { mutableStateOf(false) }
         viewModel!!.projectRepositoryError = remember { mutableStateOf(false) }
         viewModel!!.projectDescriptionError = remember { mutableStateOf(false) }
-        fullScreenFormType = remember { mutableStateOf(false) }
     }
 
 }

@@ -5,9 +5,11 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.text.font.FontFamily
+import com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen
 import com.tecknobit.pandoro.ui.screens.home.HomeScreen
 import com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen
+import com.tecknobit.pandorocore.NOTE_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.PROJECT_IDENTIFIER_KEY
 import io.github.vinceglb.filekit.core.PlatformFile
 import moe.tlaster.precompose.PreComposeApp
@@ -47,6 +49,8 @@ const val SPLASHSCREEN = "Splashscreen"
 const val HOME_SCREEN = "HomeScreen"
 
 const val CREATE_PROJECT_SCREEN = "CreateProject"
+
+const val CREATE_NOTE_SCREEN = "CreateNote"
 
 /*
 /**
@@ -116,6 +120,14 @@ fun App() {
                 val projectId: String? = backstackEntry.path<String>(PROJECT_IDENTIFIER_KEY)
                 CreateProjectScreen(
                     projectId = projectId
+                ).ShowContent()
+            }
+            scene(
+                route = "$CREATE_NOTE_SCREEN/{$NOTE_IDENTIFIER_KEY}?"
+            ) { backstackEntry ->
+                val noteId: String? = backstackEntry.path<String>(NOTE_IDENTIFIER_KEY)
+                CreateNoteScreen(
+                    noteId = noteId
                 ).ShowContent()
             }
         }

@@ -185,4 +185,7 @@
     <string name="note_content_copied">Contenuto dell'appunto copiato!</string>
     <string name="delete_note">Elimina appunto</string>
     <string name="delete_note_text">Se confermi, questo appunto sarà cancellato e non più recuperabile, confermi?</string>
+    <string name="create_note">Crea un appunto</string>
+    <string name="edit_note">Modifica un appunto</string>
+    <string name="content_of_the_note">Contenuto dell'appunto</string>
 </resources>

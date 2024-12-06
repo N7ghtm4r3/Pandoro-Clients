@@ -22,8 +22,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
+import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
 import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
+import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.icons.AddNotes
 import com.tecknobit.pandoro.ui.icons.ClipboardList
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
@@ -54,9 +56,7 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                     snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
                     floatingActionButton = {
                         FloatingActionButton(
-                            onClick = {
-                                // TODO: ADD NOTE 
-                            }
+                            onClick = { navigator.navigate(CREATE_NOTE_SCREEN) }
                         ) {
                             Icon(
                                 imageVector = AddNotes,
