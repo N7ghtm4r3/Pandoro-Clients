@@ -28,7 +28,24 @@ data class Group(
     @SerialName(GROUP_DESCRIPTION_KEY)
     val description: String,
     @SerialName(GROUP_MEMBER_KEY)
-    val members: List<PandoroUser>,
+    val members: List<PandoroUser>, // TODO: TO CHANGE IN HashSet
     @SerialName(PROJECTS_KEY)
-    val projects: List<Project>
-)
+    val projects: List<Project>,
+) {
+
+    fun iAmTheAuthor() : Boolean {
+        // TODO: USE THE LOCAL USER ID
+        return true
+    }
+
+    fun iAmAMaintainer() : Boolean {
+        // TODO: USE THE LOCAL USER ID
+        return iAmAnAdmin() || true
+    }
+
+    fun iAmAnAdmin() : Boolean {
+        // TODO: USE THE LOCAL USER ID
+        return true
+    }
+
+}

@@ -143,7 +143,7 @@
 
     <!-- TODO: TO CHECK WHICH STRINGS REMOVE AFTER FINISHED -->
     <string name="all">Tutti</string>
-    <string name="delete_project">Eliminare %1$s</string>
+    <string name="delete_item">Eliminare %1$s</string>
     <string name="delete_project_text_dialog">Se confermi, il progetto e tutte le sue informazioni saranno cancellate e non più recuperabili, confermi?</string>
     <plurals name="in_development_since">
         <item formatted="false" quantity="one">In sviluppo da %1$d</item>
@@ -193,4 +193,5 @@
     <string name="no_groups_available">Nessun gruppo disponibile</string>
     <string name="my_groups">I miei gruppi</string>
     <string name="empty_filtered_groups">Non sono stati trovati gruppi con questi filtri, provare a cambiarli</string>
+    <string name="delete_group_text_dialog">Se confermi, il gruppo e tutte le sue informazioni saranno cancellate e non più recuperabili, confermi?</string>
 </resources>

@@ -50,25 +50,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
-import coil3.compose.LocalPlatformContext
-import coil3.request.ImageRequest
-import coil3.request.crossfade
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.navigator
-import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
+import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.createproject.presentation.CreateProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.group.components.GroupsProjectCandidate
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
+import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectDescription
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectName
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidRepository
@@ -78,7 +74,6 @@ import io.github.vinceglb.filekit.core.PickerMode
 import io.github.vinceglb.filekit.core.PickerType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.choose_the_icon_of_the_project
@@ -86,7 +81,6 @@ import pandoro.composeapp.generated.resources.create_project
 import pandoro.composeapp.generated.resources.description
 import pandoro.composeapp.generated.resources.edit
 import pandoro.composeapp.generated.resources.edit_project
-import pandoro.composeapp.generated.resources.logo
 import pandoro.composeapp.generated.resources.name
 import pandoro.composeapp.generated.resources.project_repository
 import pandoro.composeapp.generated.resources.save
@@ -502,21 +496,12 @@ class CreateProjectScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box {
-                AsyncImage(
+                Thumbnail(
                     modifier = Modifier
-                        .size(iconSize)
-                        .clip(CircleShape)
                         .align(Alignment.Center),
-                    model = ImageRequest.Builder(LocalPlatformContext.current)
-                        .data(viewModel!!.projectIcon.value)
-                        .crossfade(true)
-                        .crossfade(500)
-                        .build(),
-                    // TODO: TO SET
-                    //imageLoader = imageLoader,
-                    contentDescription = "Project icon",
-                    contentScale = ContentScale.Crop,
-                    error = painterResource(Res.drawable.logo)
+                    size = iconSize,
+                    thumbnailData = viewModel!!.projectIcon.value,
+                    contentDescription = "Project icon"
                 )
                 IconButton(
                     modifier = Modifier

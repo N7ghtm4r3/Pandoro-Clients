@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -32,17 +31,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
-import coil3.compose.LocalPlatformContext
-import coil3.request.ImageRequest
-import coil3.request.crossfade
 import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
+import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.icons.Activity
 import com.tecknobit.pandoro.ui.screens.groups.presenter.GroupsScreen
 import com.tecknobit.pandoro.ui.screens.notes.presenter.NotesScreen
@@ -51,12 +46,10 @@ import com.tecknobit.pandoro.ui.screens.profile.ProfileScreen
 import com.tecknobit.pandoro.ui.screens.projects.presenter.ProjectsScreen
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.app_version
 import pandoro.composeapp.generated.resources.groups
-import pandoro.composeapp.generated.resources.logo
 import pandoro.composeapp.generated.resources.notes
 import pandoro.composeapp.generated.resources.overview
 import pandoro.composeapp.generated.resources.profile
@@ -164,25 +157,17 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
                 .width(125.dp),
             containerColor = MaterialTheme.colorScheme.surfaceContainer,
             header = {
-                AsyncImage(
+                Thumbnail(
                     modifier = Modifier
                         .padding(
                             top = 16.dp
                         )
-                        .size(75.dp)
                         .clip(CircleShape)
                         .clickable { currentDestination.value = destinations.last() },
-                    model = ImageRequest.Builder(LocalPlatformContext.current)
-                        // TODO: TO SET THE USER PIC
-                        .data("https://t4.ftcdn.net/jpg/03/86/82/73/360_F_386827376_uWOOhKGk6A4UVL5imUBt20Bh8cmODqzx.jpg")
-                        .crossfade(true)
-                        .crossfade(500)
-                        .build(),
-                    // TODO: TO SET
-                    //imageLoader = imageLoader,
-                    contentDescription = "Profile pic",
-                    contentScale = ContentScale.Crop,
-                    error = painterResource(Res.drawable.logo)
+                    size = 75.dp,
+                    // TODO: TO SET THE USER PIC
+                    thumbnailData = "https://t4.ftcdn.net/jpg/03/86/82/73/360_F_386827376_uWOOhKGk6A4UVL5imUBt20Bh8cmODqzx.jpg",
+                    contentDescription = "Profile pic"
                 )
             }
         ) {
@@ -263,21 +248,10 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
                 contentDescription = null
             )
         } else {
-            AsyncImage(
-                modifier = Modifier
-                    .size(35.dp)
-                    .clip(CircleShape),
-                model = ImageRequest.Builder(LocalPlatformContext.current)
-                    // TODO: TO SET THE USER PIC
-                    .data("https://t4.ftcdn.net/jpg/03/86/82/73/360_F_386827376_uWOOhKGk6A4UVL5imUBt20Bh8cmODqzx.jpg")
-                    .crossfade(true)
-                    .crossfade(500)
-                    .build(),
-                // TODO: TO SET
-                //imageLoader = imageLoader,
-                contentDescription = "Profile pic",
-                contentScale = ContentScale.Crop,
-                error = painterResource(Res.drawable.logo)
+            // TODO: TO SET THE USER PIC
+            Thumbnail(
+                thumbnailData = "https://t4.ftcdn.net/jpg/03/86/82/73/360_F_386827376_uWOOhKGk6A4UVL5imUBt20Bh8cmODqzx.jpg",
+                contentDescription = "Profile pic"
             )
         }
     }

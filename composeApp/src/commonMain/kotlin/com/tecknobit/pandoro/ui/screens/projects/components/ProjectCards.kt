@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.NewReleases
@@ -37,31 +36,24 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
-import coil3.compose.LocalPlatformContext
-import coil3.request.ImageRequest
-import coil3.request.crossfade
 import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
+import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.projects.presentation.ProjectsScreenViewModel
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.in_development_since
-import pandoro.composeapp.generated.resources.logo
 import pandoro.composeapp.generated.resources.update_completed_in
 import pandoro.composeapp.generated.resources.update_completed_info
 import pandoro.composeapp.generated.resources.update_in_progress_info
@@ -81,7 +73,7 @@ fun InDevelopmentProjectCard(
                 height = 150.dp
             ),
         onClick = {
-            // TODO: NAT TO UPDATE
+            // TODO: NAV TO UPDATE
         }
     ) {
         Column (
@@ -264,26 +256,13 @@ private fun ProjectHeader(
             .heightIn(
                 min = 35.dp
             ),
-        verticalAlignment = Alignment.Bottom
+        verticalAlignment = Alignment.Bottom,
+        horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         project.icon?.let { icon ->
-            AsyncImage(
-                modifier = Modifier
-                    .padding(
-                        end = 5.dp
-                    )
-                    .size(35.dp)
-                    .clip(CircleShape),
-                model = ImageRequest.Builder(LocalPlatformContext.current)
-                    .data(icon)
-                    .crossfade(true)
-                    .crossfade(500)
-                    .build(),
-                // TODO: TO SET
-                //imageLoader = imageLoader,
+            Thumbnail(
+                thumbnailData = icon,
                 contentDescription = "Project icon",
-                contentScale = ContentScale.Crop,
-                error = painterResource(Res.drawable.logo)
             )
         }
         ProjectTitle(

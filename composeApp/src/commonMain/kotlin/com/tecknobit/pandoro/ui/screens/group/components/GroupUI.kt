@@ -6,10 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
@@ -29,24 +27,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
-import coil3.compose.LocalPlatformContext
-import coil3.request.ImageRequest
-import coil3.request.crossfade
 import com.tecknobit.pandoro.displayFontFamily
+import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
-import pandoro.composeapp.generated.resources.logo
 import pandoro.composeapp.generated.resources.members_number
 import pandoro.composeapp.generated.resources.project_groups_title
 import pandoro.composeapp.generated.resources.share_the_project
@@ -146,13 +138,14 @@ fun GroupIcons(
         groups.forEachIndexed { index, group ->
             if(index >= LIMIT_GROUPS_DISPLAYED)
                 return@forEachIndexed
-            GroupLogo(
+            Thumbnail(
                 modifier = Modifier
                     .padding(
                         start = (15 * index).dp
-                    )
-                    .size(30.dp),
-                group = group
+                    ),
+                size = 30.dp,
+                thumbnailData = group.logo,
+                contentDescription = "Group logo"
             )
         }
     }
@@ -224,10 +217,10 @@ private fun GroupListItem(
             containerColor = Color.Transparent
         ),
         leadingContent = {
-            GroupLogo(
-                modifier = Modifier
-                    .size(50.dp),
-                group = group
+            Thumbnail(
+                size = 50.dp,
+                thumbnailData = group.logo,
+                contentDescription = "Group logo"
             )
         },
         overlineContent = {
@@ -248,26 +241,4 @@ private fun GroupListItem(
         trailingContent = { trailingContent.invoke(group) }
     )
     HorizontalDivider()
-}
-
-@Composable
-@NonRestartableComposable
-private fun GroupLogo(
-    modifier: Modifier,
-    group: Group
-) {
-    AsyncImage(
-        modifier = modifier
-            .clip(CircleShape),
-        model = ImageRequest.Builder(LocalPlatformContext.current)
-            .data(group.logo)
-            .crossfade(true)
-            .crossfade(500)
-            .build(),
-        // TODO: TO SET
-        //imageLoader = imageLoader,
-        contentDescription = "Group logo",
-        contentScale = ContentScale.Crop,
-        error = painterResource(Res.drawable.logo)
-    )
 }

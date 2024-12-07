@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
+import com.tecknobit.pandoro.ui.screens.groups.components.MyGroup
 import com.tecknobit.pandoro.ui.screens.groups.presentation.GroupsScreenViewModel
 import com.tecknobit.pandoro.ui.screens.shared.screens.ListsScreen
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
@@ -86,6 +87,10 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
                 key = { group -> group.id }
             ) { group ->
                 groupsAvailable = true
+                MyGroup(
+                    viewModel = viewModel!!,
+                    group = group
+                )
             }
         }
     }
