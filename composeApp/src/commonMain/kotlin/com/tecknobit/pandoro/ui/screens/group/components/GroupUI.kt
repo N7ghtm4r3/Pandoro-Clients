@@ -38,7 +38,7 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.ui.screens.group.data.Group
+import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

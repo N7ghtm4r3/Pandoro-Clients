@@ -3,7 +3,7 @@ package com.tecknobit.pandoro.ui.screens.projects.data
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.IDENTIFIER_KEY
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY
 import com.tecknobit.pandoro.ui.commondata.PandoroUser
-import com.tecknobit.pandoro.ui.screens.group.data.Group
+import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandorocore.AUTHOR_KEY
 import com.tecknobit.pandorocore.CREATION_DATE_KEY
 import com.tecknobit.pandorocore.GROUPS_KEY

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -33,6 +32,7 @@ import com.tecknobit.pandoro.copyToClipboard
 import com.tecknobit.pandoro.helpers.TimeFormatter.formatAsDateString
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteNote
+import com.tecknobit.pandoro.ui.icons.Copy
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
 import com.tecknobit.pandoro.ui.theme.Green
@@ -137,7 +137,7 @@ private fun NoteActions(
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Default.ContentCopy,
+                    imageVector = Copy,
                     contentDescription = null,
                 )
             }

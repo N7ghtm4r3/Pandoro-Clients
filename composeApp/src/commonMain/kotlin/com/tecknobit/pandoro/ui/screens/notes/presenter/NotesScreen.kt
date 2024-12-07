@@ -1,24 +1,45 @@
 package com.tecknobit.pandoro.ui.screens.notes.presenter
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Medium
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
@@ -35,9 +56,12 @@ import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyVerticalGrid
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
+import pandoro.composeapp.generated.resources.completed
 import pandoro.composeapp.generated.resources.no_notes_available
 import pandoro.composeapp.generated.resources.notes
 import pandoro.composeapp.generated.resources.retry_to_reconnect
+import pandoro.composeapp.generated.resources.status
+import pandoro.composeapp.generated.resources.to_do
 
 class NotesScreen: PandoroScreen<NotesScreenViewModel>(
     viewModel = NotesScreenViewModel()
@@ -69,13 +93,100 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                     AdaptContentToNavigationMode(
                         screenTitle = Res.string.notes
                     ) {
-                       Notes()
+                        Filters()
+                        Notes()
                     }
                 }
             },
             serverOfflineRetryText = stringResource(Res.string.retry_to_reconnect),
             serverOfflineRetryAction = { viewModel!!.notesState.retryLastFailedRequest() }
         )
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun Filters() {
+        Row (
+            modifier = Modifier
+                .width(150.dp)
+                .padding(
+                    vertical = 5.dp
+                )
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    shape = RoundedCornerShape(
+                        size = 10.dp
+                    )
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(
+                        start = 15.dp
+                    )
+                    .weight(1f),
+                textAlign = TextAlign.Left,
+                text = stringResource(Res.string.status)
+            )
+            var menuOpened by remember { mutableStateOf(false) }
+            IconButton(
+                onClick = { menuOpened = !menuOpened }
+            ) {
+                Icon(
+                    imageVector = if(menuOpened)
+                        Icons.Default.KeyboardArrowUp
+                    else
+                        Icons.Default.KeyboardArrowDown,
+                    contentDescription = null
+                )
+            }
+            DropdownMenu(
+                expanded = menuOpened,
+                onDismissRequest = { menuOpened = false }
+            ) {
+                DropdownMenuItem(
+                    text = {
+                        Row (
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = stringResource(Res.string.to_do)
+                            )
+                            Column (
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalAlignment = Alignment.End
+                            ) {
+                                Checkbox(
+                                    checked = viewModel!!.selectToDoNotes.value,
+                                    onCheckedChange = { viewModel!!.manageToDoNotesFilter() }
+                                )
+                            }
+                        }
+                    },
+                    onClick = { viewModel!!.manageToDoNotesFilter() }
+                )
+                DropdownMenuItem(
+                    text = {
+                        Row (
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = stringResource(Res.string.completed)
+                            )
+                            Checkbox(
+                                checked = viewModel!!.selectCompletedNotes.value,
+                                onCheckedChange = { viewModel!!.manageCompletedNotesFilter() }
+                            )
+                        }
+                    },
+                    onClick = { viewModel!!.manageCompletedNotesFilter() }
+                )
+            }
+        }
     }
 
     @Composable
@@ -179,6 +290,8 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
      */
     @Composable
     override fun CollectStates() {
+        viewModel!!.selectToDoNotes = remember { mutableStateOf(true) }
+        viewModel!!.selectCompletedNotes = remember { mutableStateOf(true) }
     }
 
 }

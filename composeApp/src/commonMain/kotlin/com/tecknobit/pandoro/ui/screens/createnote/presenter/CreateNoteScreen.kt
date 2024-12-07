@@ -168,7 +168,6 @@ class CreateNoteScreen(
         }
         EquinoxTextField(
             modifier = Modifier
-                .padding(top = 16.dp)
                 .clip(shape)
                 .focusRequester(
                     focusRequester = focusRequester

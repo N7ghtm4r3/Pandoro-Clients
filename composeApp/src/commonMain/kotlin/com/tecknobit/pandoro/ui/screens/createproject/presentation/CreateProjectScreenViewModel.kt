@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.commondata.PandoroUser
-import com.tecknobit.pandoro.ui.screens.group.data.Group
+import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
@@ -164,7 +164,7 @@ class CreateProjectScreenViewModel(
                             )
                         ),
                         projects = emptyList()
-                    ),Group(
+                    ), Group(
                         id = Random.nextLong().toString(),
                         name = "Group",
                         logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -189,7 +189,7 @@ class CreateProjectScreenViewModel(
                             )
                         ),
                         projects = emptyList()
-                    ),Group(
+                    ), Group(
                         id = Random.nextLong().toString(),
                         name = "Group",
                         logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -214,7 +214,7 @@ class CreateProjectScreenViewModel(
                             )
                         ),
                         projects = emptyList()
-                    ),Group(
+                    ), Group(
                         id = Random.nextLong().toString(),
                         name = "Group",
                         logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -239,7 +239,7 @@ class CreateProjectScreenViewModel(
                             )
                         ),
                         projects = emptyList()
-                    ),Group(
+                    ), Group(
                         id = Random.nextLong().toString(),
                         name = "Group",
                         logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -264,7 +264,7 @@ class CreateProjectScreenViewModel(
                             )
                         ),
                         projects = emptyList()
-                    ),Group(
+                    ), Group(
                         id = Random.nextLong().toString(),
                         name = "Group",
                         logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -596,7 +596,7 @@ class CreateProjectScreenViewModel(
                         )
                     ),
                     projects = emptyList()
-                ),Group(
+                ), Group(
                     id = Random.nextLong().toString(),
                     name = "Group",
                     logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -621,7 +621,7 @@ class CreateProjectScreenViewModel(
                         )
                     ),
                     projects = emptyList()
-                ),Group(
+                ), Group(
                     id = Random.nextLong().toString(),
                     name = "Group",
                     logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -646,7 +646,7 @@ class CreateProjectScreenViewModel(
                         )
                     ),
                     projects = emptyList()
-                ),Group(
+                ), Group(
                     id = Random.nextLong().toString(),
                     name = "Group",
                     logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -671,7 +671,7 @@ class CreateProjectScreenViewModel(
                         )
                     ),
                     projects = emptyList()
-                ),Group(
+                ), Group(
                     id = Random.nextLong().toString(),
                     name = "Group",
                     logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -696,7 +696,7 @@ class CreateProjectScreenViewModel(
                         )
                     ),
                     projects = emptyList()
-                ),Group(
+                ), Group(
                     id = Random.nextLong().toString(),
                     name = "Group",
                     logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",

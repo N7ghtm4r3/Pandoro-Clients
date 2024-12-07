@@ -83,7 +83,6 @@
     <string name="content_copied">Content copied successfully</string>
     <string name="wrong_group_list">Wrong groups list</string>
     <string name="target_version">Target version</string>
-    <string name="groups">Groups</string>
     <string name="groups_number">Groups number:</string>
     <string name="stats">Stats</string>
     <string name="total_development_days">Total development days:</string>
@@ -188,4 +187,8 @@
     <string name="create_note">Create note</string>
     <string name="edit_note">Edit note</string>
     <string name="content_of_the_note">Content of the note</string>
+    <string name="status">Status</string>
+    <string name="to_do">To do</string>
+    <string name="completed">Completed</string>
+    <string name="groups">Groups</string>
 </resources>

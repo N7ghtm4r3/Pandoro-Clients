@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.ui.screens.notes.presentation
 
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.MutableState
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse
 import com.tecknobit.pandoro.ui.commondata.PandoroUser
@@ -11,6 +12,10 @@ import kotlin.random.Random
 class NotesScreenViewModel: EquinoxViewModel(
     snackbarHostState = SnackbarHostState()
 ) {
+
+    lateinit var selectToDoNotes: MutableState<Boolean>
+
+    lateinit var selectCompletedNotes: MutableState<Boolean>
 
     val notesState = PaginationState<Int, Note>(
         initialPageKey = PaginatedResponse.DEFAULT_PAGE,
@@ -64,6 +69,16 @@ class NotesScreenViewModel: EquinoxViewModel(
             nextPageKey = page + 1, // TODO: USE THE REAL VALUE
             isLastPage = Random.nextBoolean()  // TODO: USE THE REAL VALUE
         )
+    }
+
+    fun manageToDoNotesFilter() {
+        selectToDoNotes.value = !selectToDoNotes.value
+        notesState.refresh()
+    }
+
+    fun manageCompletedNotesFilter() {
+        selectCompletedNotes.value = !selectCompletedNotes.value
+        notesState.refresh()
     }
 
     fun manageNoteStatus(

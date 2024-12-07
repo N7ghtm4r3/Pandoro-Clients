@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
 import com.tecknobit.pandoro.ui.commondata.PandoroUser
-import com.tecknobit.pandoro.ui.screens.group.data.Group
+import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
@@ -177,7 +177,7 @@ class ProjectsScreenViewModel : EquinoxViewModel(
                                 )
                             ),
                             projects = emptyList()
-                        ),Group(
+                        ), Group(
                             id = Random.nextLong().toString(),
                             name = "Group",
                             logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -202,7 +202,7 @@ class ProjectsScreenViewModel : EquinoxViewModel(
                                 )
                             ),
                             projects = emptyList()
-                        ),Group(
+                        ), Group(
                             id = Random.nextLong().toString(),
                             name = "Group",
                             logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -227,7 +227,7 @@ class ProjectsScreenViewModel : EquinoxViewModel(
                                 )
                             ),
                             projects = emptyList()
-                        ),Group(
+                        ), Group(
                             id = Random.nextLong().toString(),
                             name = "Group",
                             logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -252,7 +252,7 @@ class ProjectsScreenViewModel : EquinoxViewModel(
                                 )
                             ),
                             projects = emptyList()
-                        ),Group(
+                        ), Group(
                             id = Random.nextLong().toString(),
                             name = "Group",
                             logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -277,7 +277,7 @@ class ProjectsScreenViewModel : EquinoxViewModel(
                                 )
                             ),
                             projects = emptyList()
-                        ),Group(
+                        ), Group(
                             id = Random.nextLong().toString(),
                             name = "Group",
                             logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -708,7 +708,7 @@ class ProjectsScreenViewModel : EquinoxViewModel(
                                 )
                             ),
                             projects = emptyList()
-                        ),Group(
+                        ), Group(
                             id = Random.nextLong().toString(),
                             name = "Group",
                             logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -733,7 +733,7 @@ class ProjectsScreenViewModel : EquinoxViewModel(
                                 )
                             ),
                             projects = emptyList()
-                        ),Group(
+                        ), Group(
                             id = Random.nextLong().toString(),
                             name = "Group",
                             logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -758,7 +758,7 @@ class ProjectsScreenViewModel : EquinoxViewModel(
                                 )
                             ),
                             projects = emptyList()
-                        ),Group(
+                        ), Group(
                             id = Random.nextLong().toString(),
                             name = "Group",
                             logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -783,7 +783,7 @@ class ProjectsScreenViewModel : EquinoxViewModel(
                                 )
                             ),
                             projects = emptyList()
-                        ),Group(
+                        ), Group(
                             id = Random.nextLong().toString(),
                             name = "Group",
                             logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",
@@ -808,7 +808,7 @@ class ProjectsScreenViewModel : EquinoxViewModel(
                                 )
                             ),
                             projects = emptyList()
-                        ),Group(
+                        ), Group(
                             id = Random.nextLong().toString(),
                             name = "Group",
                             logo = "https://img.freepik.com/foto-gratuito/sfondo-astratto-nebulosa-ultra-dettagliata-4_1562-749.jpg",

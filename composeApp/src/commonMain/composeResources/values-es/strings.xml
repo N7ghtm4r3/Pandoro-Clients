@@ -83,7 +83,6 @@
     <string name="content_copied">Contenido copiado correctamente</string>
     <string name="wrong_group_list">Lista de grupos errónea</string>
     <string name="target_version">Versión objetivo</string>
-    <string name="groups">Grupos</string>
     <string name="groups_number">Grupos número:</string>
     <string name="stats">Estadísticas</string>
     <string name="total_development_days">Total de días de desarrollo:</string>
@@ -188,4 +187,8 @@
     <string name="create_note">Crear nota</string>
     <string name="edit_note">Editar nota</string>
     <string name="content_of_the_note">Contenido de la nota</string>
+    <string name="status">Estado</string>
+    <string name="to_do">Qué hacer</string>
+    <string name="completed">Completado</string>
+    <string name="groups">Grupos</string>
 </resources>
