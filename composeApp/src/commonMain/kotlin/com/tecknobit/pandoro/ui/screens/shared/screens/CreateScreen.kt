@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.ui.screens
+package com.tecknobit.pandoro.ui.screens.shared.screens
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -27,6 +27,7 @@ import com.tecknobit.equinoxcompose.resources.loading_data
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.getCurrentSizeClass
+import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import org.jetbrains.compose.resources.stringResource
 

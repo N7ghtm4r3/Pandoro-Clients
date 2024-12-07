@@ -64,7 +64,7 @@ import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.navigator
-import com.tecknobit.pandoro.ui.screens.CreateScreen
+import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presentation.CreateProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.group.components.GroupsProjectCandidate

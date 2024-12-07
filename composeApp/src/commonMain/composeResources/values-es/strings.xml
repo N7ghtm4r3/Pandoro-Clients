@@ -50,7 +50,6 @@
     <string name="delete">Borrar</string>
     <string name="profile_details">Detalles perfil</string>
     <string name="changelogs">Cambios</string>
-    <string name="my_groups">Mis grupos</string>
     <string name="role">Papel:</string>
     <string name="change_email">Cambiar correo electrónico</string>
     <string name="new_email">Nuevo correo electrónico</string>
@@ -191,4 +190,7 @@
     <string name="to_do">Qué hacer</string>
     <string name="completed">Completado</string>
     <string name="groups">Grupos</string>
+    <string name="no_groups_available">No hay grupos disponibles</string>
+    <string name="my_groups">Mis grupos</string>
+    <string name="empty_filtered_groups">No se han encontrado grupos con estos filtros, intente cambiarlos</string>
 </resources>

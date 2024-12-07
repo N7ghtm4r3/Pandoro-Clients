@@ -1,9 +1,7 @@
 package com.tecknobit.pandoro.ui.screens.projects.presentation
 
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
 import com.tecknobit.pandoro.ui.commondata.PandoroUser
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
@@ -11,14 +9,13 @@ import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
+import com.tecknobit.pandoro.ui.screens.shared.viewmodels.MultipleListViewModel
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-class ProjectsScreenViewModel : EquinoxViewModel(
-    snackbarHostState = SnackbarHostState()
-) {
+class ProjectsScreenViewModel : MultipleListViewModel() {
 
     lateinit var inDevelopmentProjectsFilter: MutableState<String>
 
@@ -1062,19 +1059,24 @@ class ProjectsScreenViewModel : EquinoxViewModel(
         }
     }
 
-    fun areFiltersSet(
-        allProjects: Boolean
-    ) : Boolean {
-        return if(allProjects)
+    override fun retryRetrieveLists() {
+        inDevelopmentProjectState.retryLastFailedRequest()
+        projectsState.retryLastFailedRequest()
+    }
+
+    override fun areFiltersSet(
+        allItems: Boolean
+    ): Boolean {
+        return if(allItems)
             projectsFilter.value.isNotEmpty()
         else
             inDevelopmentProjectsFilter.value.isNotEmpty()
     }
 
-    fun clearFilter(
-        allProjects: Boolean
+    override fun clearFilters(
+        allItems: Boolean
     ) {
-        if(allProjects) {
+        if(allItems) {
             projectsFilter.value = ""
             projectsState.refresh()
         } else {

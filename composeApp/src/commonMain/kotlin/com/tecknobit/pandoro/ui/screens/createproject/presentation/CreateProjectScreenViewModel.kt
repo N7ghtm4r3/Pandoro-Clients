@@ -9,7 +9,7 @@ import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
-import com.tecknobit.pandoro.ui.sharedviewmodels.BaseProjectViewModel
+import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseProjectViewModel
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectDescription
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectName

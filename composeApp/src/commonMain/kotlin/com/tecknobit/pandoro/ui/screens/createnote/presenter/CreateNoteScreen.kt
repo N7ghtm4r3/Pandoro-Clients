@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.navigator
-import com.tecknobit.pandoro.ui.screens.CreateScreen
+import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
 import com.tecknobit.pandoro.ui.screens.createnote.presentation.CreateNoteScreenViewModel
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import org.jetbrains.compose.resources.stringResource
