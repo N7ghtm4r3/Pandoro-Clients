@@ -47,7 +47,7 @@ fun MyGroup(
     Card(
         modifier = Modifier
             .size(
-                width = 350.dp,
+                width = 325.dp,
                 height = 200.dp
             )
             .combinedClickable(

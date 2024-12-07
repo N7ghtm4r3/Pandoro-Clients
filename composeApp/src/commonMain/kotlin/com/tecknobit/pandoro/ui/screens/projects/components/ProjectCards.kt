@@ -45,6 +45,7 @@ import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
+import com.tecknobit.pandoro.ui.screens.project.components.asVersionText
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
@@ -57,8 +58,6 @@ import pandoro.composeapp.generated.resources.in_development_since
 import pandoro.composeapp.generated.resources.update_completed_in
 import pandoro.composeapp.generated.resources.update_completed_info
 import pandoro.composeapp.generated.resources.update_in_progress_info
-
-private const val VERSION_PREFIX = "v"
 
 @Composable
 fun InDevelopmentProjectCard(
@@ -285,11 +284,4 @@ private fun ProjectTitle(
         maxLines = 1,
         overflow = TextOverflow.Ellipsis
     )
-}
-
-private fun String.asVersionText() : String {
-    return if(this.startsWith(VERSION_PREFIX))
-        return this
-    else
-        "$VERSION_PREFIX$this"
 }
