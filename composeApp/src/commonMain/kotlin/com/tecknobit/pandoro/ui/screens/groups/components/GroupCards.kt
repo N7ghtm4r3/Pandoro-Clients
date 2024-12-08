@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,17 +36,18 @@ import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.groups.presentation.GroupsScreenViewModel
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectIcons
+import com.tecknobit.pandorocore.enums.Role
 import org.jetbrains.compose.resources.pluralStringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.members_number
 
 @Composable
 @NonRestartableComposable
-fun MyGroup(
+fun MyGroupCard(
     viewModel: GroupsScreenViewModel,
     group: Group
 ) {
-    Card(
+    GroupCardContent(
         modifier = Modifier
             .size(
                 width = 325.dp,
@@ -57,7 +60,59 @@ fun MyGroup(
                 onLongClick = {
                     // TODO: NAV TO EDIT GROUP
                 }
+            ),
+        viewModel = viewModel,
+        group = group,
+        memberAllowedToDelete = true
+    )
+}
+
+@Composable
+@NonRestartableComposable
+fun GroupCard(
+    modifier: Modifier,
+    viewModel: GroupsScreenViewModel,
+    group: Group
+) {
+    GroupCardContent(
+        modifier = modifier
+            .height(200.dp)
+            .combinedClickable(
+                onClick = {
+                    // TODO: NAV TO GROUP
+                },
+                onLongClick = {
+                    // TODO: NAV TO EDIT GROUP IF AUTHORIZED
+                }
+            ),
+        viewModel = viewModel,
+        group = group,
+        extraTitleInfo = {
+            val role = group.findMyRole()
+            Text(
+                text = role.name.lowercase().capitalize(),
+                color = if(role == Role.ADMIN)
+                    MaterialTheme.colorScheme.error
+                else
+                    Color.Unspecified,
+                fontSize = 14.sp
             )
+        },
+        memberAllowedToDelete = group.iAmTheAuthor()
+    )
+}
+
+@Composable
+@NonRestartableComposable
+private fun GroupCardContent(
+    modifier: Modifier = Modifier,
+    viewModel: GroupsScreenViewModel,
+    group: Group,
+    extraTitleInfo: @Composable (() -> Unit)? = null,
+    memberAllowedToDelete: Boolean
+) {
+    Card(
+        modifier = modifier
     ) {
         val membersNumber = group.members.size
         Column (
@@ -75,7 +130,8 @@ fun MyGroup(
                 fontSize = 12.sp
             )
             GroupTitle(
-                group = group
+                group = group,
+                extraInfo = extraTitleInfo
             )
             Text(
                 modifier = Modifier
@@ -89,7 +145,8 @@ fun MyGroup(
         HorizontalDivider()
         CardFooter(
             viewModel = viewModel,
-            group = group
+            group = group,
+            memberAllowedToDelete = memberAllowedToDelete
         )
     }
 }
@@ -98,7 +155,8 @@ fun MyGroup(
 @NonRestartableComposable
 private fun GroupTitle(
     modifier: Modifier = Modifier,
-    group: Group
+    group: Group,
+    extraInfo: @Composable (() -> Unit)? = null
 ) {
     Row (
         modifier = Modifier
@@ -120,6 +178,7 @@ private fun GroupTitle(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
+        extraInfo?.invoke()
     }
 }
 
@@ -129,11 +188,15 @@ private fun GroupTitle(
 @NonRestartableComposable
 private fun CardFooter(
     viewModel: GroupsScreenViewModel,
-    group: Group
+    group: Group,
+    memberAllowedToDelete: Boolean
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .heightIn(
+                min = 50.dp
+            )
             .padding(
                 start = 10.dp
             ),
@@ -142,10 +205,12 @@ private fun CardFooter(
         ProjectIcons(
             group = group
         )
-        DeleteGroupButton(
-            viewModel = viewModel,
-            group = group
-        )
+        if(memberAllowedToDelete) {
+            DeleteGroupButton(
+                viewModel = viewModel,
+                group = group
+            )
+        }
     }
 }
 

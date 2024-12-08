@@ -3,6 +3,8 @@ package com.tecknobit.pandoro.ui.screens.groups.presenter
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
@@ -20,7 +22,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
-import com.tecknobit.pandoro.ui.screens.groups.components.MyGroup
+import com.tecknobit.pandoro.ui.screens.groups.components.GroupCard
+import com.tecknobit.pandoro.ui.screens.groups.components.MyGroupCard
 import com.tecknobit.pandoro.ui.screens.groups.presentation.GroupsScreenViewModel
 import com.tecknobit.pandoro.ui.screens.shared.screens.ListsScreen
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
@@ -87,7 +90,7 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
                 key = { group -> group.id }
             ) { group ->
                 groupsAvailable = true
-                MyGroup(
+                MyGroupCard(
                     viewModel = viewModel!!,
                     group = group
                 )
@@ -137,42 +140,52 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
                         items = viewModel!!.allGroupsState.allItems!!,
                         key = { group -> group.id }
                     ) { group ->
-
+                        GroupCard(
+                            modifier = Modifier
+                                .width(325.dp),
+                            viewModel = viewModel!!,
+                            group = group
+                        )
                     }
                 }
             } else -> {
-            PaginatedLazyColumn(
-                modifier = Modifier
-                    .animateContentSize(),
-                paginationState = viewModel!!.allGroupsState,
-                contentPadding = PaddingValues(
-                    vertical = 10.dp
-                ),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                firstPageEmptyIndicator = {
-                    NoDataAvailable(
-                        icon = Icons.Default.Groups3,
-                        subText = Res.string.no_groups_available,
-                    )
-                }
-                // TODO: TO SET
-                /*firstPageProgressIndicator = { ... },
-                newPageProgressIndicator = { ... },*/
-                /*firstPageErrorIndicator = { e -> // from setError
-                    ... e.message ...
-                    ... onRetry = { paginationState.retryLastFailedRequest() } ...
-                },
-                newPageErrorIndicator = { e -> ... },
-                // The rest of LazyColumn params*/
-            ) {
-                items(
-                    items = viewModel!!.allGroupsState.allItems!!,
-                    key = { group -> group.id }
-                ) { group ->
-
+                PaginatedLazyColumn(
+                    modifier = Modifier
+                        .animateContentSize(),
+                    paginationState = viewModel!!.allGroupsState,
+                    contentPadding = PaddingValues(
+                        vertical = 10.dp
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    firstPageEmptyIndicator = {
+                        NoDataAvailable(
+                            icon = Icons.Default.Groups3,
+                            subText = Res.string.no_groups_available,
+                        )
+                    }
+                    // TODO: TO SET
+                    /*firstPageProgressIndicator = { ... },
+                    newPageProgressIndicator = { ... },*/
+                    /*firstPageErrorIndicator = { e -> // from setError
+                        ... e.message ...
+                        ... onRetry = { paginationState.retryLastFailedRequest() } ...
+                    },
+                    newPageErrorIndicator = { e -> ... },
+                    // The rest of LazyColumn params*/
+                ) {
+                    items(
+                        items = viewModel!!.allGroupsState.allItems!!,
+                        key = { group -> group.id }
+                    ) { group ->
+                        GroupCard(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            viewModel = viewModel!!,
+                            group = group
+                        )
+                    }
                 }
             }
-        }
         }
     }
 

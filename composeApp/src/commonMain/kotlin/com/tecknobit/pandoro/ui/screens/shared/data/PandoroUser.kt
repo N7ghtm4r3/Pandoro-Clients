@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.ui.commondata
+package com.tecknobit.pandoro.ui.screens.shared.data
 
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.EMAIL_KEY
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.IDENTIFIER_KEY

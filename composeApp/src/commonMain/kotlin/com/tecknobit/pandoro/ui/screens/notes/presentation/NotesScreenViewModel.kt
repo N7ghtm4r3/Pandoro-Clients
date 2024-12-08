@@ -4,7 +4,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.MutableState
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse
-import com.tecknobit.pandoro.ui.commondata.PandoroUser
+import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlin.random.Random
