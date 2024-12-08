@@ -11,11 +11,8 @@
     <string name="confirm">Confirmer</string>
     <string name="edit_project">Edit project</string>
     <string name="add">Ajouter</string>
-    <string name="name">Nom</string>
-    <string name="description">Description</string>
     <string name="short_description">Short description</string>
     <string name="version">Version</string>
-    <string name="project_repository">Référentiel du projet</string>
     <string name="add_to_a_group">Ajouter à un groupe</string>
     <string name="project">projet</string>
     <string name="to_a_group">à un groupe</string>
@@ -164,6 +161,7 @@
     <string name="retry_to_reconnect">Réessayer de se connecter</string>
     <string name="filter_in_development_projects">Filtre dans les projets de développement</string>
     <string name="filter_projects">Filtrer les projets</string>
+    <string name="project_repository">Référentiel du projet</string>
     <string name="filters_placeholder">Nom, versions</string>
     <string name="wrong_filters_text">Mauvaise valeur des filtres</string>
     <string name="empty_filtered_projects">Aucun projet n\'a été trouvé avec ces filtres, essayez de les changer.</string>
@@ -194,4 +192,11 @@
     <string name="my_groups">Mes groupes</string>
     <string name="empty_filtered_groups">Aucun groupe n\'a été trouvé avec ces filtres, essayez de les changer.</string>
     <string name="delete_group_text_dialog">Si vous confirmez, le groupe et toutes ses informations seront supprimés et ne pourront plus être récupérés, confirmez-vous \?</string>
+    <string name="create_group">Créer un groupe</string>
+    <string name="edit_group">Edit group</string>
+    <string name="name">Nom</string>
+    <string name="description">Description</string>
+    <string name="add_projects">Ajouter des projets</string>
+    <string name="member_details_hint">Courriel, nom ou prénom</string>
+    <string name="no_members_in_group">Pas de membres dans le groupe</string>
 </resources>

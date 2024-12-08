@@ -81,6 +81,80 @@ private fun ProjectsListExpanded(
     scope: CoroutineScope,
     group: Group
 ) {
+    ProjectsListExpanded(
+        modalBottomSheetState = modalBottomSheetState,
+        scope = scope,
+        projects = group.projects,
+        trailingContent = {
+            IconButton(
+                onClick = {
+                    // TODO: NAV TO PROJECT
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
+                    contentDescription = null
+                )
+            }
+        }
+    )
+}
+
+@Composable
+@NonRestartableComposable
+fun ProjectIcons(
+    projects: List<Project>,
+    onClick: () -> Unit
+) {
+    Box (
+        modifier = Modifier
+            .clip(
+                RoundedCornerShape(
+                    size = 50.dp
+                )
+            )
+            .clickable(
+                onClick = onClick
+            )
+    ) {
+        projects.forEachIndexed { index, project ->
+            Thumbnail(
+                modifier = Modifier
+                    .padding(
+                        start = 15.dp * index
+                    ),
+                size = 30.dp,
+                thumbnailData = project.icon,
+                contentDescription = "Project Icon"
+            )
+        }
+    }
+}
+
+@Composable
+@NonRestartableComposable
+fun GroupProjectsCandidate(
+    modalBottomSheetState: SheetState,
+    scope: CoroutineScope,
+    projects: List<Project>,
+    trailingContent: @Composable (Project) -> Unit
+) {
+    ProjectsListExpanded(
+        modalBottomSheetState = modalBottomSheetState,
+        scope = scope,
+        projects = projects,
+        trailingContent = trailingContent
+    )
+}
+
+@Composable
+@NonRestartableComposable
+private fun ProjectsListExpanded(
+    modalBottomSheetState: SheetState,
+    scope: CoroutineScope,
+    projects: List<Project>,
+    trailingContent: @Composable (Project) -> Unit
+) {
     if(modalBottomSheetState.isVisible) {
         ModalBottomSheet(
             onDismissRequest = {
@@ -89,11 +163,12 @@ private fun ProjectsListExpanded(
         ) {
             LazyColumn {
                 items(
-                    items = group.projects,
+                    items = projects,
                     key = { project -> project.id }
                 ) { project ->
                     ProjectListItem(
-                        project = project
+                        project = project,
+                        trailingContent = trailingContent
                     )
                 }
             }
@@ -104,7 +179,8 @@ private fun ProjectsListExpanded(
 @Composable
 @NonRestartableComposable
 private fun ProjectListItem(
-    project: Project
+    project: Project,
+    trailingContent: @Composable (Project) -> Unit
 ) {
     ListItem(
         colors = ListItemDefaults.colors(
@@ -127,18 +203,7 @@ private fun ProjectListItem(
                 text = project.name
             )
         },
-        trailingContent = {
-            IconButton(
-                onClick = {
-                    // TODO: NAV TO PROJECT
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
-                    contentDescription = null
-                )
-            }
-        }
+        trailingContent = { trailingContent.invoke(project) }
     )
     HorizontalDivider()
 }

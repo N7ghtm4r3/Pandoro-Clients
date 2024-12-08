@@ -54,17 +54,14 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
-        val createProject = remember { mutableStateOf(false) }
         FloatingActionButton(
-            onClick = { createProject.value = true }
+            onClick = { navigator.navigate(CREATE_PROJECT_SCREEN) }
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
                 contentDescription = null
             )
         }
-        if(createProject.value)
-            navigator.navigate(CREATE_PROJECT_SCREEN)
     }
 
     @Composable

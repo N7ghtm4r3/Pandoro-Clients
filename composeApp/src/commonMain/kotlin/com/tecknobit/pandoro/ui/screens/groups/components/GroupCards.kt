@@ -30,7 +30,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
+import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteGroup
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
@@ -58,7 +60,9 @@ fun MyGroupCard(
                     // TODO: NAV TO GROUP
                 },
                 onLongClick = {
-                    // TODO: NAV TO EDIT GROUP
+                    navToEditGroup(
+                        group = group
+                    )
                 }
             ),
         viewModel = viewModel,
@@ -81,9 +85,14 @@ fun GroupCard(
                 onClick = {
                     // TODO: NAV TO GROUP
                 },
-                onLongClick = {
-                    // TODO: NAV TO EDIT GROUP IF AUTHORIZED
-                }
+                onLongClick = if(group.iAmAnAdmin()) {
+                    {
+                        navToEditGroup(
+                            group = group
+                        )
+                    }
+                } else
+                    null
             ),
         viewModel = viewModel,
         group = group,
@@ -242,4 +251,10 @@ private fun DeleteGroupButton(
             onDelete = { deleteGroup.value = false }
         )
     }
+}
+
+private fun navToEditGroup(
+    group: Group
+) {
+    navigator.navigate("$CREATE_GROUP_SCREEN/${group.id}")
 }

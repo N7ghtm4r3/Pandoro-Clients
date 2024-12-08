@@ -2,7 +2,6 @@ package com.tecknobit.pandoro.ui.screens.createnote.presenter
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -14,9 +13,6 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
@@ -32,15 +28,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
-import com.tecknobit.pandoro.navigator
-import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
 import com.tecknobit.pandoro.ui.screens.createnote.presentation.CreateNoteScreenViewModel
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
+import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.content_of_the_note
-import pandoro.composeapp.generated.resources.create_note
-import pandoro.composeapp.generated.resources.edit_note
+import pandoro.composeapp.generated.resources.create_project
+import pandoro.composeapp.generated.resources.edit_project
 
 class CreateNoteScreen(
     noteId: String?
@@ -56,7 +51,10 @@ class CreateNoteScreen(
      */
     @Composable
     override fun ArrangeScreenContent() {
-        LoadAwareContent {
+        LoadAwareContent(
+            creationTitle = Res.string.create_project,
+            editingTitle = Res.string.edit_project
+        ) {
             viewModel!!.content = remember {
                 mutableStateOf(
                     if(isEditing)
@@ -64,29 +62,6 @@ class CreateNoteScreen(
                     else
                         ""
                 )
-            }
-            Scaffold(
-                containerColor = MaterialTheme.colorScheme.primary,
-                snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
-                floatingActionButton = { FabAction() }
-            ) {
-                PlaceContent(
-                    paddingValues = PaddingValues(
-                        all = 0.dp
-                    ),
-                    titleModifier = Modifier
-                        .padding(
-                            top = 16.dp,
-                            start = 16.dp
-                        ),
-                    navBackAction = { navigator.goBack() },
-                    screenTitle = if(isEditing)
-                        Res.string.edit_note
-                    else
-                        Res.string.create_note
-                ) {
-                    Form()
-                }
             }
         }
     }

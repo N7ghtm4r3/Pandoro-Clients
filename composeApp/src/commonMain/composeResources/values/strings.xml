@@ -11,11 +11,8 @@
     <string name="confirm">Confirm</string>
     <string name="edit_project">Edit project</string>
     <string name="add">Add</string>
-    <string name="name">Name</string>
-    <string name="description">Description</string>
     <string name="short_description">Short description</string>
     <string name="version">Version</string>
-    <string name="project_repository">Project repository</string>
     <string name="add_to_a_group">Add to a group</string>
     <string name="project">project</string>
     <string name="to_a_group">to a group</string>
@@ -164,6 +161,7 @@
     <string name="retry_to_reconnect">Retry to connect</string>
     <string name="filter_in_development_projects">Filter in development projects</string>
     <string name="filter_projects">Filter projects</string>
+    <string name="project_repository">Project repository</string>
     <string name="filters_placeholder">Name, versions</string>
     <string name="wrong_filters_text">Wrong filters value</string>
     <string name="empty_filtered_projects">No projects found with these filters, try to change them</string>
@@ -194,4 +192,11 @@
     <string name="my_groups">My groups</string>
     <string name="empty_filtered_groups">No groups found with these filters, try to change them</string>
     <string name="delete_group_text_dialog">If you confirm the group and its all information will be deleted and no more recoverable, confirm?</string>
+    <string name="create_group">Create group</string>
+    <string name="edit_group">Edit group</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="add_projects">Add projects</string>
+    <string name="member_details_hint">Email, name or surname</string>
+    <string name="no_members_in_group">No members in the group</string>
 </resources>

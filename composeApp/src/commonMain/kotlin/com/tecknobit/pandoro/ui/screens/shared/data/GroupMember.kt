@@ -24,4 +24,10 @@ data class GroupMember(
     val email: String,
     @SerialName(MEMBER_ROLE_KEY)
     val role: Role
-)
+) {
+
+    fun completeName() : String {
+        return "$name $surname"
+    }
+
+}

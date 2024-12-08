@@ -5,11 +5,9 @@ package com.tecknobit.pandoro.ui.screens.createproject.presenter
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,24 +15,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.Groups3
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -47,9 +38,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -58,8 +46,6 @@ import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.getImagePath
-import com.tecknobit.pandoro.navigator
-import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.createproject.presentation.CreateProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.group.components.GroupsProjectCandidate
@@ -69,21 +55,15 @@ import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectDe
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectName
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidRepository
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidVersion
-import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
-import io.github.vinceglb.filekit.core.PickerMode
-import io.github.vinceglb.filekit.core.PickerType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
-import pandoro.composeapp.generated.resources.choose_the_icon_of_the_project
 import pandoro.composeapp.generated.resources.create_project
 import pandoro.composeapp.generated.resources.description
-import pandoro.composeapp.generated.resources.edit
 import pandoro.composeapp.generated.resources.edit_project
 import pandoro.composeapp.generated.resources.name
 import pandoro.composeapp.generated.resources.project_repository
-import pandoro.composeapp.generated.resources.save
 import pandoro.composeapp.generated.resources.share_project
 import pandoro.composeapp.generated.resources.version
 import pandoro.composeapp.generated.resources.wrong_description
@@ -105,7 +85,10 @@ class CreateProjectScreen(
      */
     @Composable
     override fun ArrangeScreenContent() {
-        LoadAwareContent {
+        LoadAwareContent(
+            creationTitle = Res.string.create_project,
+            editingTitle = Res.string.edit_project
+        ) {
             viewModel!!.projectIcon = remember {
                 mutableStateOf(
                     if(isEditing)
@@ -145,29 +128,6 @@ class CreateProjectScreen(
                     else
                         ""
                 )
-            }
-            Scaffold(
-                containerColor = MaterialTheme.colorScheme.primary,
-                snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
-                floatingActionButton = { FabAction() }
-            ) {
-                PlaceContent(
-                    paddingValues = PaddingValues(
-                        all = 0.dp
-                    ),
-                    titleModifier = Modifier
-                        .padding(
-                            top = 16.dp,
-                            start = 16.dp
-                        ),
-                    navBackAction = { navigator.goBack() },
-                    screenTitle = if(isEditing)
-                        Res.string.edit_project
-                    else
-                        Res.string.create_project
-                ) {
-                    Form()
-                }
             }
         }
     }
@@ -301,7 +261,9 @@ class CreateProjectScreen(
                     .weight(1f),
                 horizontalAlignment = Alignment.End
             ) {
-                SaveButton()
+                SaveButton {
+                    viewModel!!.workOnProject()
+                }
             }
         }
     }
@@ -313,7 +275,7 @@ class CreateProjectScreen(
             val modalBottomSheetState = rememberModalBottomSheetState()
             val scope = rememberCoroutineScope()
             AnimatedVisibility(
-                visible = viewModel!!.projectsGroups.isEmpty(),
+                visible = viewModel!!.projectGroups.isEmpty(),
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
@@ -330,12 +292,12 @@ class CreateProjectScreen(
                 }
             }
             AnimatedVisibility(
-                visible = viewModel!!.projectsGroups.isNotEmpty(),
+                visible = viewModel!!.projectGroups.isNotEmpty(),
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
                 GroupIcons(
-                    groups = viewModel!!.projectsGroups,
+                    groups = viewModel!!.projectGroups,
                     onClick = {
                         scope.launch {
                             modalBottomSheetState.show()
@@ -440,7 +402,8 @@ class CreateProjectScreen(
                     textStyle = TextStyle(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
-                    )
+                    ),
+                    onClick = { viewModel!!.workOnProject() }
                 )
             }
         }
@@ -455,7 +418,7 @@ class CreateProjectScreen(
         GroupsProjectCandidate(
             state = modalBottomSheetState,
             scope = scope,
-            groups = remember { viewModel!!.projectsGroups + viewModel!!.groupAdministratedByUser }
+            groups = remember { viewModel!!.projectGroups + viewModel!!.groupAdministratedByUser }
         ) { group ->
             if (viewModel!!.groupAdministratedByUser.contains(group)) {
                 var added by remember {
@@ -481,72 +444,17 @@ class CreateProjectScreen(
         modifier: Modifier = Modifier,
         iconSize: Dp
     ) {
-        val launcher = rememberFilePickerLauncher(
-            type = PickerType.Image,
-            mode = PickerMode.Single,
-            title = stringResource(Res.string.choose_the_icon_of_the_project)
-        ) { image ->
-            viewModel!!.projectIcon.value = getImagePath(
-                imagePic = image
-            )
-        }
-        Column (
-            modifier = modifier
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Box {
-                Thumbnail(
-                    modifier = Modifier
-                        .align(Alignment.Center),
-                    size = iconSize,
-                    thumbnailData = viewModel!!.projectIcon.value,
-                    contentDescription = "Project icon"
-                )
-                IconButton(
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .clip(CircleShape)
-                        .background(Color(0xD0DFD8D8))
-                        .size(40.dp),
-                    onClick = { launcher.launch() }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.AddAPhoto,
-                        contentDescription = null
-                    )
-                }
-            }
-        }
-    }
-
-    @Composable
-    @NonRestartableComposable
-    private fun SaveButton(
-        modifier: Modifier = Modifier,
-        textStyle: TextStyle = TextStyle.Default,
-        shape: Shape = ButtonDefaults.shape
-    ) {
-        Button(
+        ImagePicker(
             modifier = modifier,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.error
-            ),
-            shape = shape,
-            onClick = {
-                viewModel!!.workOnProject()
-            }
-        ) {
-            Text(
-                style = textStyle,
-                text = stringResource(
-                    if(isEditing)
-                        Res.string.edit
-                    else
-                        Res.string.save
+            iconSize = iconSize,
+            imageData = viewModel!!.projectIcon.value,
+            contentDescription = "Project icon",
+            onImagePicked = { image ->
+                viewModel!!.projectIcon.value = getImagePath(
+                    imagePic = image
                 )
-            )
-        }
+            }
+        )
     }
 
     /**
