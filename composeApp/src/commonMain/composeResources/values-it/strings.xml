@@ -197,6 +197,8 @@
     <string name="name">Nome</string>
     <string name="description">Descrizione</string>
     <string name="add_projects">Aggiungi progetti</string>
-    <string name="member_details_hint">Email, nome o cognome</string>
-    <string name="no_members_in_group">Nessun membro nel gruppo</string>
+    <string name="wrong_logo">Scegli un logo valido per il gruppo</string>
+    <string name="invite">Invito</string>
+    <string name="remove">Rimuovere</string>
+    <string name="no_members_available">Nessun membro disponibile</string>
 </resources>

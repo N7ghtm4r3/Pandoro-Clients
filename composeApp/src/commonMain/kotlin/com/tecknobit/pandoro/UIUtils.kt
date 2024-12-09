@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro
 
+// TODO: CHECK TO REMOVE THIS SCRIPT 
 /**
  * the primary color value
  */

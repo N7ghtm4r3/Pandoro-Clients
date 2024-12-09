@@ -38,6 +38,14 @@ data class Group(
     val projects: List<Project>,
 ) {
 
+    companion object {
+
+        fun Role.asText() : String {
+            return this.name.lowercase().capitalize()
+        }
+
+    }
+
     fun iAmTheAuthor() : Boolean {
         // TODO: USE THE LOCAL USER ID
         // author.id == localUser.id

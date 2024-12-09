@@ -45,9 +45,9 @@ import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
-import com.tecknobit.pandoro.ui.screens.project.components.asVersionText
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
+import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.projects.presentation.ProjectsScreenViewModel
 import kotlinx.coroutines.launch

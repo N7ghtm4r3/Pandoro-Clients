@@ -36,6 +36,7 @@ import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteGroup
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
+import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.asText
 import com.tecknobit.pandoro.ui.screens.groups.presentation.GroupsScreenViewModel
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectIcons
 import com.tecknobit.pandorocore.enums.Role
@@ -67,7 +68,18 @@ fun MyGroupCard(
             ),
         viewModel = viewModel,
         group = group,
-        memberAllowedToDelete = true
+        memberAllowedToDelete = true,
+        overlineText = {
+            val membersNumber = group.members.size
+            Text(
+                text = pluralStringResource(
+                    resource = Res.plurals.members_number,
+                    quantity = membersNumber,
+                    membersNumber
+                ),
+                fontSize = 12.sp
+            )
+        }
     )
 }
 
@@ -96,18 +108,18 @@ fun GroupCard(
             ),
         viewModel = viewModel,
         group = group,
-        extraTitleInfo = {
+        memberAllowedToDelete = group.iAmTheAuthor(),
+        overlineText = {
             val role = group.findMyRole()
             Text(
-                text = role.name.lowercase().capitalize(),
+                text = role.asText(),
                 color = if(role == Role.ADMIN)
                     MaterialTheme.colorScheme.error
                 else
                     Color.Unspecified,
-                fontSize = 14.sp
+                fontSize = 12.sp
             )
-        },
-        memberAllowedToDelete = group.iAmTheAuthor()
+        }
     )
 }
 
@@ -117,30 +129,21 @@ private fun GroupCardContent(
     modifier: Modifier = Modifier,
     viewModel: GroupsScreenViewModel,
     group: Group,
-    extraTitleInfo: @Composable (() -> Unit)? = null,
-    memberAllowedToDelete: Boolean
+    memberAllowedToDelete: Boolean,
+    overlineText: @Composable () -> Unit
 ) {
     Card(
         modifier = modifier
     ) {
-        val membersNumber = group.members.size
         Column (
             modifier = Modifier
                 .padding(
                     all = 10.dp
                 )
         ) {
-            Text(
-                text = pluralStringResource(
-                    resource = Res.plurals.members_number,
-                    quantity = membersNumber,
-                    membersNumber
-                ),
-                fontSize = 12.sp
-            )
+            overlineText.invoke()
             GroupTitle(
-                group = group,
-                extraInfo = extraTitleInfo
+                group = group
             )
             Text(
                 modifier = Modifier
@@ -164,8 +167,7 @@ private fun GroupCardContent(
 @NonRestartableComposable
 private fun GroupTitle(
     modifier: Modifier = Modifier,
-    group: Group,
-    extraInfo: @Composable (() -> Unit)? = null
+    group: Group
 ) {
     Row (
         modifier = Modifier
@@ -187,7 +189,6 @@ private fun GroupTitle(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-        extraInfo?.invoke()
     }
 }
 

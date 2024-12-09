@@ -3,6 +3,9 @@ package com.tecknobit.pandoro.ui.screens.creategroup.presentation
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.lifecycle.viewModelScope
+import com.tecknobit.equinoxcore.pagination.PaginatedResponse
+import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
@@ -12,6 +15,13 @@ import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseGroupViewModel
 import com.tecknobit.pandorocore.enums.Role
 import com.tecknobit.pandorocore.enums.UpdateStatus
+import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isGroupDescriptionValid
+import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isGroupNameValid
+import io.github.ahmad_hamwi.compose.pagination.PaginationState
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
+import pandoro.composeapp.generated.resources.Res
+import pandoro.composeapp.generated.resources.wrong_logo
 import kotlin.random.Random
 
 class CreateGroupScreenViewModel(
@@ -34,18 +44,25 @@ class CreateGroupScreenViewModel(
 
     lateinit var groupDescriptionError: MutableState<Boolean>
 
-    lateinit var memberDetails: MutableState<String>
+    val candidateMembersState = PaginationState<Int, GroupMember>(
+        initialPageKey = PaginatedResponse.DEFAULT_PAGE,
+        onRequestPage = { page ->
+            loadCandidateMembersState(
+                page = page
+            )
+        }
+    )
+
+    lateinit var candidateMembersAvailable: MutableState<Boolean>
 
     val groupMembers: SnapshotStateList<GroupMember> = mutableStateListOf()
-
-    val candidateMembers: SnapshotStateList<GroupMember> = mutableStateListOf()
 
     override fun retrieveGroup() {
         if(groupId == null)
             return
         // TODO: MAKE THE REQUEST
         // groupProjects.addAll() TODO: ADD THE CURRENT PROJECTS OF THE GROUP
-        // groupProjects.addAll() TODO: ADD THE CURRENT MEMBERS OF THE GROUP
+        // groupMembers.addAll() TODO: ADD THE CURRENT MEMBERS OF THE GROUP
         // TODO: MAKE THE REQUEST THEN
         _group.value = Group(
             id = Random.nextLong().toString(),
@@ -115,7 +132,7 @@ class CreateGroupScreenViewModel(
                     "Sed a tempus ligula. Ut pretium lobortis odio, sit amet fermentum felis. Phasellus porttitor lorem eget orci pharetra, in tempor urna aliquam. Nullam feugiat ante felis, sit amet tincidunt massa venenatis et. Proin tincidunt eget nisi ut tempus. Vestibulum lectus tellus, cursus vitae dui nec, egestas gravida mauris. Mauris pharetra accumsan consequat.",
             members = listOf(
                 GroupMember(
-                    id = Random.nextLong().toString(),
+                    id = "1",
                     profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
                     "name",
                     "surname",
@@ -124,6 +141,14 @@ class CreateGroupScreenViewModel(
                 )
             )
         )
+        groupMembers.add(GroupMember(
+            id = Random.nextLong().toString(),
+            profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+            "name",
+            "surname",
+            email = "name.surname@gmail.com",
+            role = Role.ADMIN
+        ),)
     }
 
     fun retrieveUserProjects() {
@@ -574,27 +599,72 @@ class CreateGroupScreenViewModel(
         ))
     }
 
-    fun getCandidateMembers() {
-        // TODO: MAKE THE REQUEST TO GET THE BASED on the memberDetails
-        if(memberDetails.value.contains("prova")) {
-            candidateMembers.clear()
-            candidateMembers.add(
-                GroupMember(
-                    id = Random.nextLong().toString(),
-                    profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
-                    "name",
-                    "surname",
-                    email = "name.surname@gmail.com",
-                    role = Role.DEVELOPER
-                )
-            )
-        }
+    fun loadCandidateMembersState(
+        page: Int
+    ) {
+        val list = retrieveCandidateMembers(
+            page = page
+        )
+        candidateMembersState.appendPage(
+            items = if(Random.nextBoolean())
+                list
+            else
+                emptyList(), // TODO: USE THE REAL VALUE
+            nextPageKey = page + 1, // TODO: USE THE REAL VALUE
+            isLastPage = Random.nextBoolean()  // TODO: USE THE REAL VALUE
+        )
     }
 
-    fun addCandidateMember(
-        member: GroupMember
-    ) {
-        groupMembers.add(member)
+    fun retrieveCandidateMembers(
+        page: Int = PaginatedResponse.DEFAULT_PAGE
+    ) : List<GroupMember> {
+        // TODO: MAKE THE REQUEST THEN
+        val list = listOf(
+            GroupMember(
+                id = Random.nextLong().toString(),
+                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                "name",
+                "surname",
+                email = "name.surname@gmail.com",
+                role = Role.ADMIN
+            ),
+
+            GroupMember(
+                id = Random.nextLong().toString(),
+                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                "name",
+                "surname",
+                email = "name.surname@gmail.com",
+                role = Role.ADMIN
+            ),
+
+            GroupMember(
+                id = Random.nextLong().toString(),
+                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                "name",
+                "surname",
+                email = "name.surname@gmail.com",
+                role = Role.ADMIN
+            ),
+
+            GroupMember(
+                id = Random.nextLong().toString(),
+                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                "name",
+                "surname",
+                email = "name.surname@gmail.com",
+                role = Role.ADMIN
+            ),
+            GroupMember(
+                id = Random.nextLong().toString(),
+                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                "name",
+                "surname",
+                email = "name.surname@gmail.com",
+                role = Role.DEVELOPER
+            )
+        )
+        return list
     }
 
     fun manageProjectCandidate(
@@ -611,7 +681,32 @@ class CreateGroupScreenViewModel(
     }
 
     fun workOnGroup() {
-        // TODO: MAKE THE REQUEST
+        if(!validForm())
+            return
+        // TODO: MAKE THE REQUEST THEN
+        navigator.goBack()
+    }
+
+    private fun validForm() : Boolean {
+        if(groupLogo.value.isNullOrEmpty()) {
+            viewModelScope.launch {
+                showSnackbarMessage(
+                    message = getString(
+                        resource = Res.string.wrong_logo
+                    )
+                )
+            }
+            return false
+        }
+        if(!isGroupNameValid(groupName.value)) {
+            groupNameError.value = true
+            return false
+        }
+        if(!isGroupDescriptionValid(groupDescription.value)) {
+            groupDescriptionError.value = true
+            return false
+        }
+        return true
     }
 
 }

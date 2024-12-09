@@ -2,8 +2,8 @@ package com.tecknobit.pandoro.ui.screens.projects.data
 
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.IDENTIFIER_KEY
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY
-import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
+import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandorocore.AUTHOR_KEY
 import com.tecknobit.pandorocore.CREATION_DATE_KEY
 import com.tecknobit.pandorocore.GROUPS_KEY
@@ -39,6 +39,19 @@ data class Project(
     @SerialName(PROJECT_REPOSITORY_KEY)
     val projectRepo: String = ""
 ) {
+
+    companion object {
+
+        private const val VERSION_PREFIX = "v"
+
+        fun String.asVersionText() : String {
+            return if(this.startsWith(VERSION_PREFIX))
+                return this
+            else
+                "$VERSION_PREFIX$this"
+        }
+
+    }
 
     fun getRepositoryPlatform() : RepositoryPlatform? {
         return if(projectRepo.isNotEmpty())

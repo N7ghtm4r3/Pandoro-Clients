@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -260,13 +261,17 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
         shape: Shape = ButtonDefaults.shape,
         onClick: () -> Unit
     ) {
+        val localSoftInputKeyboard = LocalSoftwareKeyboardController.current
         Button(
             modifier = modifier,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.error
             ),
             shape = shape,
-            onClick = onClick
+            onClick = {
+                localSoftInputKeyboard?.hide()
+                onClick.invoke()
+            }
         ) {
             Text(
                 style = textStyle,

@@ -7,6 +7,9 @@ import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.PROFILE_PIC_K
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.SURNAME_KEY
 import com.tecknobit.pandorocore.MEMBER_ROLE_KEY
 import com.tecknobit.pandorocore.enums.Role
+import com.tecknobit.pandorocore.enums.Role.ADMIN
+import com.tecknobit.pandorocore.enums.Role.DEVELOPER
+import com.tecknobit.pandorocore.enums.Role.MAINTAINER
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -23,11 +26,19 @@ data class GroupMember(
     @SerialName(EMAIL_KEY)
     val email: String,
     @SerialName(MEMBER_ROLE_KEY)
-    val role: Role
+    val role: Role = DEVELOPER
 ) {
 
     fun completeName() : String {
         return "$name $surname"
+    }
+
+    fun isAMaintainer() : Boolean {
+        return isAnAdmin() || role == MAINTAINER
+    }
+
+    fun isAnAdmin() : Boolean {
+        return role == ADMIN
     }
 
 }

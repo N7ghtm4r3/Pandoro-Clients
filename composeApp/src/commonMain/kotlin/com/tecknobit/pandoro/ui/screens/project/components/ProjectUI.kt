@@ -30,10 +30,9 @@ import androidx.compose.ui.unit.dp
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
+import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-
-private const val VERSION_PREFIX = "v"
 
 @Composable
 @NonRestartableComposable
@@ -208,9 +207,3 @@ private fun ProjectListItem(
     HorizontalDivider()
 }
 
-fun String.asVersionText() : String {
-    return if(this.startsWith(VERSION_PREFIX))
-        return this
-    else
-        "$VERSION_PREFIX$this"
-}
