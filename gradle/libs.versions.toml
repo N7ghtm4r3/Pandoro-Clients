@@ -11,6 +11,7 @@ equinoxCompose = "1.0.3"
 equinoxCore = "1.0.5"
 filekitCore = "0.8.7"
 filekitCompose = "0.8.7"
+kmprefs = "1.0.0"
 kotlin = "2.0.21"
 kotlinx-coroutines = "1.9.0"
 kotlinxDatetime = "0.6.1"
@@ -28,6 +29,7 @@ coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.r
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
 filekit-compose = { module = "io.github.vinceglb:filekit-compose", version.ref = "filekitCompose" }
 filekit-core = { module = "io.github.vinceglb:filekit-core", version.ref = "filekitCore" }
+kmprefs = { module = "io.github.n7ghtm4r3:KMPrefs", version.ref = "kmprefs" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
 equinox-backend = { module = "io.github.n7ghtm4r3:equinox-backend", version.ref = "equinoxCore" }

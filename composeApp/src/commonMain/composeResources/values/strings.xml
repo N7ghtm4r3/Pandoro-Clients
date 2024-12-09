@@ -2,13 +2,7 @@
     <string name="app_name" translatable="false">Pandoro</string>
     <string name="app_version" translatable="false">1.1.0</string>
     <string name="description_subtext">Pandoro is an open source management software useful for easily managing your projects and their updates</string>
-    <string name="projects">Projects</string>
-    <string name="notes">Notes</string>
     <string name="notes_number">Notes number:</string>
-    <string name="overview">Overview</string>
-    <string name="profile">Profile</string>
-    <string name="dismiss">Dismiss</string>
-    <string name="confirm">Confirm</string>
     <string name="edit_project">Edit project</string>
     <string name="add">Add</string>
     <string name="short_description">Short description</string>
@@ -138,6 +132,10 @@
     <string name="server_currently_offline">Server currently offline</string>
 
     <!-- TODO: TO CHECK WHICH STRINGS REMOVE AFTER FINISHED -->
+    <string name="projects">Projects</string>
+    <string name="notes">Notes</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="confirm">Confirm</string>
     <string name="all">All</string>
     <string name="delete_item">Delete %1$s</string>
     <string name="delete_project_text_dialog">If you confirm the project and its all information will be deleted and no more recoverable, confirm?</string>
@@ -204,4 +202,6 @@
     <string name="filter_groups">Filter groups</string>
     <string name="group_filter_placeholder">Filter by name</string>
     <string name="role">Role</string>
+    <string name="overview">Overview</string>
+    <string name="profile">Profile</string>
 </resources>

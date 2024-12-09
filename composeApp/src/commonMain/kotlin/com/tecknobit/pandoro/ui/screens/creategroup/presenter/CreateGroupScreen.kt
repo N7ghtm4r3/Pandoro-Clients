@@ -69,6 +69,7 @@ import com.tecknobit.pandoro.ui.screens.project.components.ProjectIcons
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
 import com.tecknobit.pandoro.ui.theme.Green
+import com.tecknobit.pandorocore.enums.Role
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isGroupDescriptionValid
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isGroupNameValid
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
@@ -494,10 +495,13 @@ class CreateGroupScreen(
                 )
             },
             overlineContent = {
-                val isAdmin = member.isAnAdmin()
+                val role = if(item.value != null)
+                    item.value!!.findMyRole()
+                else
+                    Role.DEVELOPER
                 Text(
                     text = member.role.asText(),
-                    color = if(isAdmin)
+                    color = if(role == Role.ADMIN)
                         MaterialTheme.colorScheme.error
                     else
                         Color.Unspecified

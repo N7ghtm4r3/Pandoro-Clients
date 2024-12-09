@@ -16,6 +16,7 @@ import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.filter_groups
 import pandoro.composeapp.generated.resources.filter_my_groups
 import pandoro.composeapp.generated.resources.group_filter_placeholder
+import pandoro.composeapp.generated.resources.name
 import pandoro.composeapp.generated.resources.wrong_filters_text
 
 @Composable
@@ -47,7 +48,7 @@ fun FilterGroups(
                 EquinoxOutlinedTextField(
                     value = filters,
                     isError = filtersError,
-                    label = "",
+                    label = stringResource(Res.string.name),
                     placeholder = stringResource(Res.string.group_filter_placeholder),
                     validator = if(filterNameRequired) {
                         {

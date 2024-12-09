@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
@@ -25,12 +26,21 @@ fun Thumbnail(
     size: Dp = 35.dp,
     shape: Shape = CircleShape,
     thumbnailData: String?,
-    contentDescription: String
+    contentDescription: String,
+    onClick: (() -> Unit)? = null
 ) {
     AsyncImage(
         modifier = modifier
             .size(size)
-            .clip(shape),
+            .clip(shape)
+            .then(
+                if(onClick != null) {
+                    Modifier.clickable(
+                        onClick = onClick
+                    )
+                } else
+                    Modifier
+            ),
         model = ImageRequest.Builder(LocalPlatformContext.current)
             .data(thumbnailData)
             .crossfade(true)

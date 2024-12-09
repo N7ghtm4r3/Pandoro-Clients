@@ -94,6 +94,7 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.filekit.core)
             implementation(libs.filekit.compose)
+            implementation(libs.kmprefs)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

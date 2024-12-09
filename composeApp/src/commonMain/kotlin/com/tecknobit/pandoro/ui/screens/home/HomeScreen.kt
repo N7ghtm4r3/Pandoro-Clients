@@ -1,13 +1,11 @@
 package com.tecknobit.pandoro.ui.screens.home
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.filled.Folder
@@ -29,7 +27,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,7 +39,7 @@ import com.tecknobit.pandoro.ui.icons.Activity
 import com.tecknobit.pandoro.ui.screens.groups.presenter.GroupsScreen
 import com.tecknobit.pandoro.ui.screens.notes.presenter.NotesScreen
 import com.tecknobit.pandoro.ui.screens.overview.OverviewScreen
-import com.tecknobit.pandoro.ui.screens.profile.ProfileScreen
+import com.tecknobit.pandoro.ui.screens.profile.presenter.ProfileScreen
 import com.tecknobit.pandoro.ui.screens.projects.presenter.ProjectsScreen
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import org.jetbrains.compose.resources.StringResource
@@ -161,13 +158,12 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
                     modifier = Modifier
                         .padding(
                             top = 16.dp
-                        )
-                        .clip(CircleShape)
-                        .clickable { currentDestination.value = destinations.last() },
+                        ),
                     size = 75.dp,
                     // TODO: TO SET THE USER PIC
                     thumbnailData = "https://t4.ftcdn.net/jpg/03/86/82/73/360_F_386827376_uWOOhKGk6A4UVL5imUBt20Bh8cmODqzx.jpg",
-                    contentDescription = "Profile pic"
+                    contentDescription = "Profile pic",
+                    onClick = { currentDestination.value = destinations.last() }
                 )
             }
         ) {

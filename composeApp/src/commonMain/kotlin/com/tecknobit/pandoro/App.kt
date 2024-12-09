@@ -5,6 +5,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.text.font.FontFamily
+import com.tecknobit.pandoro.helpers.PandoroLocalUser
 import com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen
 import com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen
@@ -66,15 +67,15 @@ const val CREATE_GROUP_SCREEN = "CreateGroup"
 lateinit var imageLoader: ImageLoader
 
 /**
- * **localUser** -> the helper to manage the local sessions stored locally in
- * the device
- */
-val localUser = AmetistaLocalUser()
-
-/**
  * **requester** -> the instance to manage the requests with the backend
  */
 lateinit var requester: AmetistaRequester*/
+
+/**
+ * **localUser** -> the helper to manage the local sessions stored locally in
+ * the device
+ */
+val localUser = PandoroLocalUser()
 
 /**
  * Common entry point of the **Ametista** application
