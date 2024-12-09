@@ -3,16 +3,21 @@ package com.tecknobit.pandoro.ui.screens.groups.presenter
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Groups3
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Medium
 import androidx.compose.runtime.Composable
@@ -22,24 +27,32 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.ui.screens.groups.components.FilterGroups
 import com.tecknobit.pandoro.ui.screens.groups.components.GroupCard
 import com.tecknobit.pandoro.ui.screens.groups.components.MyGroupCard
+import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.asText
 import com.tecknobit.pandoro.ui.screens.groups.presentation.GroupsScreenViewModel
 import com.tecknobit.pandoro.ui.screens.shared.screens.ListsScreen
+import com.tecknobit.pandorocore.enums.Role
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyRow
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyVerticalGrid
+import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.all
 import pandoro.composeapp.generated.resources.empty_filtered_groups
 import pandoro.composeapp.generated.resources.groups
 import pandoro.composeapp.generated.resources.my_groups
 import pandoro.composeapp.generated.resources.no_groups_available
+import pandoro.composeapp.generated.resources.role
 
 class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
     viewModel = GroupsScreenViewModel(),
@@ -207,6 +220,11 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
     override fun FilterRowItemsUi(
         show: MutableState<Boolean>
     ) {
+        FilterGroups(
+            show = show,
+            isAllProjectsFiltering = false,
+            viewModel = viewModel!!
+        )
     }
 
     @Composable
@@ -214,6 +232,50 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
     override fun FilterAllItemsUi(
         show: MutableState<Boolean>
     ) {
+        FilterGroups(
+            show = show,
+            isAllProjectsFiltering = true,
+            viewModel = viewModel!!,
+            extraFilters = {
+                Text(
+                    modifier = Modifier
+                        .padding(
+                            top = 16.dp
+                        ),
+                    text = stringResource(Res.string.role),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+                LazyColumn {
+                    items(
+                        items = Role.entries,
+                    ) { role ->
+                        var selected by remember {
+                            mutableStateOf(viewModel!!.roleFilters.contains(role))
+                        }
+                        Row (
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Checkbox(
+                                checked = selected,
+                                onCheckedChange = {
+                                    selected = it
+                                    viewModel!!.manageRoleFilter(
+                                        role = role,
+                                        selected = it
+                                    )
+                                }
+                            )
+                            Text(
+                                text = role.asText()
+                            )
+                        }
+                    }
+                }
+            },
+            filterNameRequired = false,
+            onDismissAction = { viewModel!!.resetRoles() }
+        )
     }
 
     /**

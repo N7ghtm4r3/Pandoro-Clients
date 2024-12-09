@@ -1103,12 +1103,12 @@ class ProjectsScreenViewModel : MultipleListViewModel() {
         }
     }
 
-    fun filterProjects(
-        allProjects: Boolean,
+    override fun filterItems(
+        allItems: Boolean,
         filters: MutableState<String>,
         onFiltersSet: () -> Unit
     ) {
-        if(allProjects) {
+        if(allItems) {
             projectsFilter.value = filters.value
             projectsState.refresh()
         } else {

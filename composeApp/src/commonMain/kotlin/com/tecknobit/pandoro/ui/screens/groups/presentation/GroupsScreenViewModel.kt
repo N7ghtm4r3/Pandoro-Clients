@@ -1,6 +1,8 @@
 package com.tecknobit.pandoro.ui.screens.groups.presentation
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
@@ -123,6 +125,8 @@ class GroupsScreenViewModel : MultipleListViewModel() {
 
     lateinit var allGroupsStateFilters: MutableState<String>
 
+    val roleFilters: SnapshotStateList<Role> = Role.entries.toMutableStateList()
+
     val allGroupsState = PaginationState<Int, Group>(
         initialPageKey = DEFAULT_PAGE,
         onRequestPage = { page ->
@@ -232,13 +236,53 @@ class GroupsScreenViewModel : MultipleListViewModel() {
     override fun areFiltersSet(
         allItems: Boolean
     ): Boolean {
-        return allItems
+        return if(allItems) {
+            allGroupsStateFilters.value.isNotEmpty() || roleFilters.size != Role.entries.size
+        } else
+            myGroupsStateFilters.value.isNotEmpty()
+    }
+
+    fun manageRoleFilter(
+        selected: Boolean,
+        role: Role
+    ) {
+        if(selected)
+            roleFilters.remove(role)
+        else
+            roleFilters.add(role)
     }
 
     override fun clearFilters(
         allItems: Boolean
     ) {
+        if(allItems) {
+            allGroupsStateFilters.value = ""
+            resetRoles()
+            allGroupsState.refresh()
+        } else {
+            myGroupsStateFilters.value = ""
+            myGroupsState.refresh()
+        }
+    }
 
+    fun resetRoles() {
+        roleFilters.clear()
+        roleFilters.addAll(Role.entries)
+    }
+
+    override fun filterItems(
+        allItems: Boolean,
+        filters: MutableState<String>,
+        onFiltersSet: () -> Unit
+    ) {
+        if(allItems) {
+            allGroupsStateFilters.value = filters.value
+            allGroupsState.refresh()
+        } else {
+            myGroupsStateFilters.value = filters.value
+            myGroupsState.refresh()
+        }
+        onFiltersSet.invoke()
     }
 
     fun deleteGroup(

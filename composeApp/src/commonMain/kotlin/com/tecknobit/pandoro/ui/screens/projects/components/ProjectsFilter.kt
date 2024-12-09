@@ -50,13 +50,14 @@ fun FilterProjects(
         },
         onDismissAction = closeFilteringOpe,
         confirmAction = {
-            if(!filtersError.value) {
-                viewModel.filterProjects(
-                    allProjects = isAllProjectsFiltering,
+            if(filters.value.isNotEmpty()) {
+                viewModel.filterItems(
+                    allItems = isAllProjectsFiltering,
                     filters = filters,
                     onFiltersSet = closeFilteringOpe
                 )
-            }
+            } else
+                filtersError.value = true
         }
     )
 }

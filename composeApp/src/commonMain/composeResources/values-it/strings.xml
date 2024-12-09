@@ -47,7 +47,6 @@
     <string name="delete">Elimina</string>
     <string name="profile_details">Dettagli profilo</string>
     <string name="changelogs">Changelog</string>
-    <string name="role">Ruolo:</string>
     <string name="change_email">Cambia email</string>
     <string name="new_email">Nuova e-mail</string>
     <string name="change_password">Cambiare la password</string>
@@ -163,7 +162,7 @@
     <string name="filter_projects">Filtra progetti</string>
     <string name="project_repository">Repository del progetto</string>
     <string name="filters_placeholder">Nome, versioni</string>
-    <string name="wrong_filters_text">Valore filtri errato</string>
+    <string name="wrong_filters_text">Valore dei filtri errato</string>
     <string name="empty_filtered_projects">Non sono stati trovati progetti con questi filtri, prova a cambiarli</string>
     <string name="create_project">Crea un progetto</string>
     <string name="save">Salva</string>
@@ -198,7 +197,11 @@
     <string name="description">Descrizione</string>
     <string name="add_projects">Aggiungi progetti</string>
     <string name="wrong_logo">Scegli un logo valido per il gruppo</string>
-    <string name="invite">Invito</string>
-    <string name="remove">Rimuovere</string>
+    <string name="invite">Invita</string>
+    <string name="remove">Rimuovi</string>
     <string name="no_members_available">Nessun membro disponibile</string>
+    <string name="filter_my_groups">Filtra i miei gruppi</string>
+    <string name="filter_groups">Filtra gruppi</string>
+    <string name="group_filter_placeholder">Filtra per nome</string>
+    <string name="role">Ruolo</string>
 </resources>

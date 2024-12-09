@@ -224,7 +224,6 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
         )
     }
 
-
     @Composable
     @NonRestartableComposable
     override fun FilterAllItemsUi(

@@ -47,7 +47,6 @@
     <string name="delete">Supprimer</string>
     <string name="profile_details">Détails du profil</string>
     <string name="changelogs">Changelogs</string>
-    <string name="role">Rôle :</string>
     <string name="change_email">Changer l'e-mail</string>
     <string name="new_email">Nouveau courriel</string>
     <string name="change_password">Changer le mot de passe</string>
@@ -201,4 +200,8 @@
     <string name="invite">Invite</string>
     <string name="remove">Retirer</string>
     <string name="no_members_available">Pas de membres disponibles</string>
+    <string name="filter_my_groups">Filtrer mes groupes</string>
+    <string name="filter_groups">Groupes de filtres</string>
+    <string name="group_filter_placeholder">Filtrer par nom</string>
+    <string name="role">Rôle</string>
 </resources>
