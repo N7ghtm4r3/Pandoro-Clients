@@ -198,7 +198,9 @@
     <string name="settings">Ajustes</string>
     <string name="surname">Apellido</string>
     <string name="email">Correo electrónico</string>
+    <string name="wrong_email">Correo electrónico incorrecto</string>
     <string name="password">Contraseña</string>
+    <string name="wrong_password">Contraseña incorrecta</string>
     <string name="logout">Cierre de sesión</string>
     <string name="logout_warn_text">Si confirma, saldrá de la sesión actual. ¿Desea continuar\?</string>
     <string name="delete">Borrar</string>

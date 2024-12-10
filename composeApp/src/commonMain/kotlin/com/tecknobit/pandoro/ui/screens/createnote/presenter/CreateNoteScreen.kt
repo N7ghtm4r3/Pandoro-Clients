@@ -31,11 +31,10 @@ import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.ui.screens.createnote.presentation.CreateNoteScreenViewModel
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
-import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.content_of_the_note
-import pandoro.composeapp.generated.resources.create_project
-import pandoro.composeapp.generated.resources.edit_project
+import pandoro.composeapp.generated.resources.create_note
+import pandoro.composeapp.generated.resources.edit_note
 
 class CreateNoteScreen(
     noteId: String?
@@ -52,8 +51,8 @@ class CreateNoteScreen(
     @Composable
     override fun ArrangeScreenContent() {
         LoadAwareContent(
-            creationTitle = Res.string.create_project,
-            editingTitle = Res.string.edit_project
+            creationTitle = Res.string.create_note,
+            editingTitle = Res.string.edit_note
         ) {
             viewModel!!.content = remember {
                 mutableStateOf(
@@ -149,8 +148,7 @@ class CreateNoteScreen(
                 )
                 .fillMaxSize(),
             value = viewModel!!.content,
-            label = "",
-            placeholder = stringResource(Res.string.content_of_the_note),
+            placeholder = Res.string.content_of_the_note,
             maxLines = Int.MAX_VALUE,
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done

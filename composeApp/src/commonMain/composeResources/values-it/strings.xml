@@ -198,7 +198,9 @@
     <string name="settings">Impostazioni</string>
     <string name="surname">Cognome</string>
     <string name="email">Email</string>
+    <string name="wrong_email">Email sbagliata</string>
     <string name="password">Password</string>
+    <string name="wrong_password">Password sbagliata</string>
     <string name="logout">Logout</string>
     <string name="logout_warn_text">Se confermi, verrai disconness dalla sessione corrente. Desideri procedere?</string>
     <string name="delete">Elimina</string>

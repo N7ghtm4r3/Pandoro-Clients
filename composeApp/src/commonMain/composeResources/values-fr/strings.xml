@@ -198,7 +198,9 @@
     <string name="settings">Paramètres</string>
     <string name="surname">Nom de famille</string>
     <string name="email">E-mail</string>
+    <string name="wrong_email">Courriel erroné</string>
     <string name="password">Mot de passe</string>
+    <string name="wrong_password">Mot de passe erroné</string>
     <string name="logout">Déconnexion</string>
     <string name="logout_warn_text">Si vous confirmez, vous serez déconnecté de la session en cours. Souhaitez-vous poursuivre \?</string>
     <string name="delete">Supprimer</string>
