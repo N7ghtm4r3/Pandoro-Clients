@@ -34,17 +34,8 @@
     <string name="updates_number">Numero di aggiornamenti</string>
     <string name="average_development_time">Tempo medio di sviluppo</string>
     <string name="average_development_days">Giorni medi di sviluppo</string>
-    <string name="surname">Cognome</string>
-    <string name="email">E-mail</string>
-    <string name="password">Password</string>
-    <string name="logout">Logout</string>
-    <string name="delete">Elimina</string>
     <string name="profile_details">Dettagli profilo</string>
-    <string name="changelogs">Changelog</string>
-    <string name="change_email">Cambia email</string>
-    <string name="new_email">Nuova e-mail</string>
-    <string name="change_password">Cambiare la password</string>
-    <string name="new_password">Nuova password</string>
+
     <string name="create_a_new_group">Crea un nuovo gruppo</string>
     <string name="email_of_the_member">Email membro</string>
     <string name="members_of_the_group">Membri del gruppo</string>
@@ -204,4 +195,16 @@
     <string name="role">Ruolo</string>
     <string name="overview">Panoramica</string>
     <string name="profile">Profilo</string>
+    <string name="surname">Cognome</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="logout">Logout</string>
+    <string name="delete">Elimina</string>
+    <string name="changelogs">Changelog</string>
+    <string name="change_email">Cambia email</string>
+    <string name="new_email">Nuova email</string>
+    <string name="change_password">Cambia la password</string>
+    <string name="change_theme">Cambia tema</string>
+    <string name="new_password">Nuova password</string>
+    <string name="settings">Impostazioni</string>
 </resources>

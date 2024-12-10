@@ -9,6 +9,10 @@ class PandoroLocalUser : EquinoxLocalUser() {
         path = "Pandoro"
     )
 
+    init {
+        initLocalUser()
+    }
+
     /**
      * Method to store and set a preference
      *
@@ -45,6 +49,7 @@ class PandoroLocalUser : EquinoxLocalUser() {
      */
     override fun clear() {
         kmPrefs.clearAll()
+        initLocalUser()
     }
 
 }

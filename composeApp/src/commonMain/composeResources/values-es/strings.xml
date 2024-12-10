@@ -34,17 +34,8 @@
     <string name="updates_number">Número de actualizaciones</string>
     <string name="average_development_time">Tiempo medio de desarrollo</string>
     <string name="average_development_days">Días medios de desarrollo</string>
-    <string name="surname">Apellido</string>
-    <string name="email">Correo electrónico</string>
-    <string name="password">Contraseña</string>
-    <string name="logout">Cierre de sesión</string>
-    <string name="delete">Borrar</string>
     <string name="profile_details">Detalles perfil</string>
-    <string name="changelogs">Cambios</string>
-    <string name="change_email">Cambiar correo electrónico</string>
-    <string name="new_email">Nuevo correo electrónico</string>
-    <string name="change_password">Cambiar contraseña</string>
-    <string name="new_password">Nueva contraseña</string>
+
     <string name="create_a_new_group">Crear un nuevo grupo</string>
     <string name="email_of_the_member">Correo electrónico del afiliado</string>
     <string name="members_of_the_group">Miembros del grupo</string>
@@ -204,4 +195,16 @@
     <string name="role">Papel</string>
     <string name="overview">Visión general</string>
     <string name="profile">Perfil</string>
+    <string name="surname">Apellido</string>
+    <string name="email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="logout">Cierre de sesión</string>
+    <string name="delete">Borrar</string>
+    <string name="changelogs">Cambios</string>
+    <string name="change_email">Cambiar correo electrónico</string>
+    <string name="new_email">Nuevo correo electrónico</string>
+    <string name="change_password">Cambiar contraseña</string>
+    <string name="change_theme">Cambiar de tema</string>
+    <string name="new_password">Nueva contraseña</string>
+    <string name="settings">Ajustes</string>
 </resources>

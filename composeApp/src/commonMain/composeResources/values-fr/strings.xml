@@ -34,17 +34,8 @@
     <string name="updates_number">Nombre de mises à jour</string>
     <string name="average_development_time">Durée moyenne de développement</string>
     <string name="average_development_days">Nombre moyen de jours de développement</string>
-    <string name="surname">Nom de famille</string>
-    <string name="email">E-mail</string>
-    <string name="password">Mot de passe</string>
-    <string name="logout">Déconnexion</string>
-    <string name="delete">Supprimer</string>
     <string name="profile_details">Détails du profil</string>
-    <string name="changelogs">Changelogs</string>
-    <string name="change_email">Changer l'e-mail</string>
-    <string name="new_email">Nouveau courriel</string>
-    <string name="change_password">Changer le mot de passe</string>
-    <string name="new_password">Nouveau mot de passe</string>
+
     <string name="create_a_new_group">Créer un nouveau groupe</string>
     <string name="email_of_the_member">Email du membre</string>
     <string name="members_of_the_group">Membres du groupe</string>
@@ -204,4 +195,16 @@
     <string name="role">Rôle</string>
     <string name="overview">Vue d'ensemble</string>
     <string name="profile">Profil</string>
+    <string name="surname">Nom de famille</string>
+    <string name="email">E-mail</string>
+    <string name="password">Mot de passe</string>
+    <string name="logout">Déconnexion</string>
+    <string name="delete">Supprimer</string>
+    <string name="changelogs">Changelogs</string>
+    <string name="change_email">Changer l'e-mail</string>
+    <string name="new_email">Nouveau courriel</string>
+    <string name="change_password">Changer le mot de passe</string>
+    <string name="change_theme">Changer de thème</string>
+    <string name="new_password">Nouveau mot de passe</string>
+    <string name="settings">Paramètres</string>
 </resources>
