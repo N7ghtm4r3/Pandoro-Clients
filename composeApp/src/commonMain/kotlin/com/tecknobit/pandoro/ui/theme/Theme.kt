@@ -5,6 +5,9 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.ApplicationTheme.Dark
+import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.ApplicationTheme.Light
+import com.tecknobit.pandoro.localUser
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -236,7 +239,7 @@ private val highContrastDarkColorScheme = darkColorScheme(
 
 @Composable
 fun Green(): Color {
-    return if(isSystemInDarkTheme())
+    return if(isDarkThemeSelected())
         darkGreen
     else
         lightGreen
@@ -249,9 +252,8 @@ fun Green(): Color {
  */
 @Composable
 fun PandoroTheme(
-    //TODO: TO SET THE REAL FROM LOCALUSER
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable() () -> Unit
+    darkTheme: Boolean = isDarkThemeSelected(),
+    content: @Composable () -> Unit
 ) {
     val colorScheme = when {
         darkTheme -> lightScheme
@@ -264,3 +266,11 @@ fun PandoroTheme(
     )
 }
 
+@Composable
+private fun isDarkThemeSelected(): Boolean {
+    return when(localUser.theme) {
+        Dark -> true
+        Light -> false
+        else -> isSystemInDarkTheme()
+    }
+}

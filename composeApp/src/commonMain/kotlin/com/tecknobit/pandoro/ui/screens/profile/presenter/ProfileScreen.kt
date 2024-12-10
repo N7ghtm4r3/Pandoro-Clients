@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -20,6 +21,8 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Password
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -27,6 +30,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
@@ -36,8 +40,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -49,19 +55,26 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.ApplicationTheme
 import com.tecknobit.equinoxcompose.components.ChameleonText
+import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
 import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
+import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.LANGUAGES_SUPPORTED
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isEmailValid
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isPasswordValid
+import com.tecknobit.pandoro.SPLASHSCREEN
 import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.localUser
+import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteAccount
 import com.tecknobit.pandoro.ui.components.Logout
 import com.tecknobit.pandoro.ui.components.Thumbnail
@@ -259,7 +272,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     leadingIcon = Icons.Default.AlternateEmail,
                     actionText = Res.string.change_email,
                     actionContent = { ChangeEmail() },
-                    action = { visible ->
+                    confirmAction = { visible ->
                         changeEmail {
                             visible.value = false
                         }
@@ -269,24 +282,33 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     leadingIcon = Icons.Default.Password,
                     actionText = Res.string.change_password,
                     actionContent = { ChangePassword() },
-                    action = { visible ->
+                    confirmAction = { visible ->
                         changePassword {
                             visible.value = false
                         }
                     }
                 )
+                val language = remember { mutableStateOf(localUser.language) }
                 ProfileAction(
                     leadingIcon = Icons.Default.Language,
                     actionText = Res.string.change_language,
                     actionContent = {
-
+                        ChangeLanguage(
+                            currentLanguage = language
+                        )
                     },
-                    action = { visible ->
-                        changeEmail {
-                            visible.value = false
-                        }
+                    dismissAction = { language.value = localUser.language },
+                    confirmAction = { visible ->
+                        changeLanguage(
+                            newLanguage = language.value,
+                            onSuccess = {
+                                visible.value = false
+                                navigator.navigate(SPLASHSCREEN)
+                            }
+                        )
                     }
                 )
+                val theme = remember { mutableStateOf(localUser.theme) }
                 ProfileAction(
                     shape = RoundedCornerShape(
                         bottomStart = 12.dp,
@@ -295,9 +317,18 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     leadingIcon = Icons.Default.Palette,
                     actionText = Res.string.change_theme,
                     actionContent = {
-
+                        ChangeTheme(
+                            currentTheme = theme
+                        )
                     },
-                    action = { visible ->
+                    confirmAction = { visible ->
+                        changeTheme(
+                            newTheme = theme.value,
+                            onChange = {
+                                visible.value = false
+                                navigator.navigate(SPLASHSCREEN)
+                            }
+                        )
                     },
                     bottomDivider = false
                 )
@@ -314,41 +345,35 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         }
         viewModel!!.newEmail = remember { mutableStateOf("") }
         viewModel!!.newEmailError = remember { mutableStateOf(false) }
-        Column(
+        EquinoxTextField(
             modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            HorizontalDivider()
-            EquinoxTextField(
-                modifier = Modifier
-                    .focusRequester(focusRequester),
-                textFieldColors = TextFieldDefaults.colors(
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    errorIndicatorColor = Color.Transparent
-                ),
-                value = viewModel!!.newEmail,
-                textFieldStyle = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    fontFamily = bodyFontFamily
-                ),
-                isError = viewModel!!.newEmailError,
-                mustBeInLowerCase = true,
-                allowsBlankSpaces = false,
-                validator = { isEmailValid(it) },
-                errorText = Res.string.wrong_email,
-                errorTextStyle = TextStyle(
-                    fontSize = 14.sp,
-                    fontFamily = bodyFontFamily
-                ),
-                placeholder = Res.string.new_email,
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done,
-                    keyboardType = KeyboardType.Email
-                )
+                .focusRequester(focusRequester),
+            textFieldColors = TextFieldDefaults.colors(
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                errorIndicatorColor = Color.Transparent
+            ),
+            value = viewModel!!.newEmail,
+            textFieldStyle = TextStyle(
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = bodyFontFamily
+            ),
+            isError = viewModel!!.newEmailError,
+            mustBeInLowerCase = true,
+            allowsBlankSpaces = false,
+            validator = { isEmailValid(it) },
+            errorText = Res.string.wrong_email,
+            errorTextStyle = TextStyle(
+                fontSize = 14.sp,
+                fontFamily = bodyFontFamily
+            ),
+            placeholder = Res.string.new_email,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Email
             )
-        }
+        )
     }
 
     @Composable
@@ -360,39 +385,101 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         }
         viewModel!!.newPassword = remember { mutableStateOf("") }
         viewModel!!.newPasswordError = remember { mutableStateOf(false) }
-        Column(
+        var hiddenPassword by remember { mutableStateOf(true) }
+        EquinoxOutlinedTextField(
             modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            HorizontalDivider()
-            EquinoxTextField(
-                modifier = Modifier
-                    .focusRequester(focusRequester),
-                textFieldColors = TextFieldDefaults.colors(
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    errorIndicatorColor = Color.Transparent
-                ),
-                value = viewModel!!.newPassword,
-                textFieldStyle = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    fontFamily = bodyFontFamily
-                ),
-                isError = viewModel!!.newPasswordError,
-                allowsBlankSpaces = false,
-                validator = { isPasswordValid(it) },
-                errorText = Res.string.wrong_password,
-                errorTextStyle = TextStyle(
-                    fontSize = 14.sp,
-                    fontFamily = bodyFontFamily
-                ),
-                placeholder = Res.string.new_password,
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done,
-                    keyboardType = KeyboardType.Password
-                )
+                .focusRequester(focusRequester),
+            outlinedTextFieldColors = TextFieldDefaults.colors(
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                errorIndicatorColor = Color.Transparent
+            ),
+            value = viewModel!!.newPassword,
+            outlinedTextFieldStyle = TextStyle(
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = bodyFontFamily
+            ),
+            isError = viewModel!!.newPasswordError,
+            allowsBlankSpaces = false,
+            trailingIcon = {
+                IconButton(
+                    onClick = { hiddenPassword = !hiddenPassword }
+                ) {
+                    Icon(
+                        imageVector = if (hiddenPassword)
+                            Icons.Default.Visibility
+                        else
+                            Icons.Default.VisibilityOff,
+                        contentDescription = null
+                    )
+                }
+            },
+            visualTransformation = if (hiddenPassword)
+                PasswordVisualTransformation()
+            else
+                VisualTransformation.None,
+            validator = { isPasswordValid(it) },
+            errorText = stringResource(Res.string.wrong_password),
+            errorTextStyle = TextStyle(
+                fontSize = 14.sp,
+                fontFamily = bodyFontFamily
+            ),
+            placeholder = stringResource(Res.string.new_password),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Password
             )
+        )
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun ChangeLanguage(
+        currentLanguage: MutableState<String>
+    ) {
+        Column (
+            modifier = Modifier
+                .selectableGroup()
+        ) {
+            LANGUAGES_SUPPORTED.entries.forEach { entry ->
+                Row (
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
+                        selected = currentLanguage.value == entry.key,
+                        onClick = { currentLanguage.value = entry.key }
+                    )
+                    Text(
+                        text = entry.value
+                    )
+                }
+            }
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun ChangeTheme(
+        currentTheme: MutableState<ApplicationTheme>
+    ) {
+        Column (
+            modifier = Modifier
+                .selectableGroup()
+        ) {
+            ApplicationTheme.entries.forEach { entry ->
+                Row (
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
+                        selected = currentTheme.value == entry,
+                        onClick = { currentTheme.value = entry }
+                    )
+                    Text(
+                        text = entry.name
+                    )
+                }
+            }
         }
     }
 
@@ -424,8 +511,9 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         ),
         leadingIcon: ImageVector,
         actionText: StringResource,
-        actionContent: @Composable () -> Unit,
-        action: ProfileScreenViewModel.(MutableState<Boolean>) -> Unit,
+        actionContent: @Composable ColumnScope.() -> Unit,
+        dismissAction: (() -> Unit)? = null,
+        confirmAction: ProfileScreenViewModel.(MutableState<Boolean>) -> Unit,
         bottomDivider: Boolean = true
     ) {
         Card (
@@ -461,7 +549,10 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     ) {
                         Row{
                             IconButton(
-                                onClick = { expanded.value = !expanded.value }
+                                onClick = {
+                                    dismissAction?.invoke()
+                                    expanded.value = !expanded.value
+                                }
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Cancel,
@@ -471,7 +562,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                             }
                             IconButton(
                                 onClick = {
-                                    action.invoke(
+                                    confirmAction.invoke(
                                         viewModel!!,
                                         expanded
                                     )
@@ -502,7 +593,13 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
             AnimatedVisibility(
                 visible = expanded.value
             ) {
-                actionContent.invoke()
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    HorizontalDivider()
+                    actionContent.invoke(this)
+                }
             }
         }
         if(bottomDivider)
