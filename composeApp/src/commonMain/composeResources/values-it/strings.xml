@@ -195,16 +195,18 @@
     <string name="role">Ruolo</string>
     <string name="overview">Panoramica</string>
     <string name="profile">Profilo</string>
+    <string name="settings">Impostazioni</string>
     <string name="surname">Cognome</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="logout">Logout</string>
+    <string name="logout_warn_text">Se confermi, verrai disconness dalla sessione corrente. Desideri procedere?</string>
     <string name="delete">Elimina</string>
+    <string name="delete_warn_text">Se confermi, il tuo account e tutti i dati associati saranno eliminati in modo permanente. Questa azione non può essere annullata. Desideri procedere?</string>
     <string name="changelogs">Changelog</string>
     <string name="change_email">Cambia email</string>
     <string name="new_email">Nuova email</string>
     <string name="change_password">Cambia la password</string>
     <string name="change_theme">Cambia tema</string>
     <string name="new_password">Nuova password</string>
-    <string name="settings">Impostazioni</string>
 </resources>

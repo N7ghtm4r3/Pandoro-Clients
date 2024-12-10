@@ -41,12 +41,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.ChameleonText
 import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
-import com.tecknobit.pandoro.SPLASHSCREEN
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.localUser
-import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.ui.components.DeleteAccount
+import com.tecknobit.pandoro.ui.components.Logout
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.profile.presentation.ProfileScreenViewModel
@@ -145,48 +145,56 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     overflow = TextOverflow.Ellipsis,
                     fontSize = 12.sp
                 )
-                Row (
-                    horizontalArrangement = Arrangement.spacedBy(5.dp)
-                ) {
-                    Button(
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.inversePrimary
-                        ),
-                        shape = RoundedCornerShape(
-                            size = 10.dp
-                        ),
-                        onClick = {
-                            viewModel!!.clearSession {
-                                navigator.navigate(SPLASHSCREEN)
-                            }
-                        }
-                    ) {
-                        ChameleonText(
-                            text = stringResource(Res.string.logout),
-                            fontSize = 12.sp,
-                            backgroundColor = MaterialTheme.colorScheme.inversePrimary
-                        )
-                    }
-                    Button(
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.error
-                        ),
-                        shape = RoundedCornerShape(
-                            size = 10.dp
-                        ),
-                        onClick = {
-                            viewModel!!.deleteAccount {
-                                navigator.navigate(SPLASHSCREEN)
-                            }
-                        }
-                    ) {
-                        Text(
-                            text = stringResource(Res.string.delete),
-                            fontSize = 12.sp
-                        )
-                    }
-                }
+                ActionButtons()
             }
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun ActionButtons() {
+        Row (
+            horizontalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            val logout = remember { mutableStateOf(false) }
+            Button(
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.inversePrimary
+                ),
+                shape = RoundedCornerShape(
+                    size = 10.dp
+                ),
+                onClick = { logout.value = true }
+            ) {
+                ChameleonText(
+                    text = stringResource(Res.string.logout),
+                    fontSize = 12.sp,
+                    backgroundColor = MaterialTheme.colorScheme.inversePrimary
+                )
+            }
+            Logout(
+                viewModel = viewModel!!,
+                show = logout
+            )
+            val deleteAccount = remember { mutableStateOf(false) }
+            Button(
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.error
+                ),
+                shape = RoundedCornerShape(
+                    size = 10.dp
+                ),
+                onClick = { deleteAccount.value = true }
+            ) {
+                Text(
+                    text = stringResource(Res.string.delete),
+                    fontSize = 12.sp
+                )
+            }
+            DeleteAccount(
+                viewModel = viewModel!!,
+                show = deleteAccount
+            )
         }
     }
 

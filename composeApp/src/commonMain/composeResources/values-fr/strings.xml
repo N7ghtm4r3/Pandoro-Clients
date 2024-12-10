@@ -195,16 +195,18 @@
     <string name="role">Rôle</string>
     <string name="overview">Vue d'ensemble</string>
     <string name="profile">Profil</string>
+    <string name="settings">Paramètres</string>
     <string name="surname">Nom de famille</string>
     <string name="email">E-mail</string>
     <string name="password">Mot de passe</string>
     <string name="logout">Déconnexion</string>
+    <string name="logout_warn_text">Si vous confirmez, vous serez déconnecté de la session en cours. Souhaitez-vous poursuivre \?</string>
     <string name="delete">Supprimer</string>
+    <string name="delete_warn_text">Si vous confirmez, votre compte et toutes les données associées seront définitivement supprimés. Cette action ne peut être annulée. Souhaitez-vous continuer \?</string>
     <string name="changelogs">Changelogs</string>
     <string name="change_email">Changer l'e-mail</string>
     <string name="new_email">Nouveau courriel</string>
     <string name="change_password">Changer le mot de passe</string>
     <string name="change_theme">Changer de thème</string>
     <string name="new_password">Nouveau mot de passe</string>
-    <string name="settings">Paramètres</string>
 </resources>
