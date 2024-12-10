@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,7 +36,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Compact
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -120,7 +121,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     AdaptContentToNavigationMode(
                         screenTitle = Res.string.profile
                     ) {
-                        ProfileContent()
+                        ProfileContentManager()
                     }
                 }
             }
@@ -129,21 +130,28 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
 
     @Composable
     @NonRestartableComposable
-    private fun ProfileContent() {
+    private fun ProfileContentManager() {
         val widthSizeClass = getCurrentWidthSizeClass()
         when(widthSizeClass) {
-            Compact -> { CompactProfile() }
-            else -> {
-
+            Expanded -> {
+                ProfileContent(
+                    modifier = Modifier
+                        .widthIn(
+                            max = FORM_CARD_WIDTH
+                        )
+                )
             }
+            else -> { ProfileContent() }
         }
     }
 
     @Composable
     @NonRestartableComposable
-    private fun CompactProfile() {
+    private fun ProfileContent(
+        modifier: Modifier = Modifier
+    ) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(10.dp)
@@ -539,56 +547,11 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                         ),
                     text = stringResource(actionText)
                 )
-                Column (
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.End
-                ) {
-                    AnimatedVisibility(
-                        visible = expanded.value
-                    ) {
-                        Row{
-                            IconButton(
-                                onClick = {
-                                    dismissAction?.invoke()
-                                    expanded.value = !expanded.value
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Cancel,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.error
-                                )
-                            }
-                            IconButton(
-                                onClick = {
-                                    confirmAction.invoke(
-                                        viewModel!!,
-                                        expanded
-                                    )
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.CheckCircle,
-                                    contentDescription = null,
-                                    tint = Green()
-                                )
-                            }
-                        }
-                    }
-                    AnimatedVisibility(
-                        visible = !expanded.value
-                    ) {
-                        IconButton(
-                            onClick = { expanded.value = true }
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                                contentDescription = null
-                            )
-                        }
-                    }
-                }
+                ActionControls(
+                    expanded = expanded,
+                    dismissAction = dismissAction,
+                    confirmAction = confirmAction
+                )
             }
             AnimatedVisibility(
                 visible = expanded.value
@@ -604,6 +567,65 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         }
         if(bottomDivider)
             HorizontalDivider()
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun ActionControls(
+        expanded: MutableState<Boolean>,
+        dismissAction: (() -> Unit)?,
+        confirmAction: ProfileScreenViewModel.(MutableState<Boolean>) -> Unit,
+    ) {
+        Column (
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.End
+        ) {
+            AnimatedVisibility(
+                visible = expanded.value
+            ) {
+                Row{
+                    IconButton(
+                        onClick = {
+                            dismissAction?.invoke()
+                            expanded.value = !expanded.value
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Cancel,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                    }
+                    IconButton(
+                        onClick = {
+                            confirmAction.invoke(
+                                viewModel!!,
+                                expanded
+                            )
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.CheckCircle,
+                            contentDescription = null,
+                            tint = Green()
+                        )
+                    }
+                }
+            }
+            AnimatedVisibility(
+                visible = !expanded.value
+            ) {
+                IconButton(
+                    onClick = { expanded.value = true }
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        contentDescription = null
+                    )
+                }
+            }
+        }
     }
 
     /**

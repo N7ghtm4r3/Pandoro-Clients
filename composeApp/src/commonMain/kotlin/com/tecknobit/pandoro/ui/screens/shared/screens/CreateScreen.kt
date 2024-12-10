@@ -70,10 +70,6 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
     viewModel = viewModel
 ) {
 
-    protected val FORM_CARD_WIDTH = 750.dp
-
-    protected val FORM_CARD_HEIGHT = 550.dp
-
     protected val isEditing: Boolean = itemId != null
 
     protected lateinit var item: State<I?>

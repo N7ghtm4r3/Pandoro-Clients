@@ -38,6 +38,10 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
 
     companion object {
 
+        val FORM_CARD_WIDTH = 750.dp
+
+        val FORM_CARD_HEIGHT = 550.dp
+
         private val startPaddingBottomNavigationMode = 16.dp
 
         private val startPaddingSideNavigationMode = 141.dp
