@@ -50,6 +50,8 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
 
         private val bottomPaddingSideNavigationMode = 16.dp
 
+        const val PROJECT_SCREEN = "ProjectScreen"
+
     }
 
     @Composable
@@ -90,6 +92,29 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
         screenTitle: StringResource? = null,
         content: @Composable ColumnScope.() -> Unit
     ) {
+        PlaceContent(
+            paddingValues = paddingValues,
+            titleModifier = titleModifier,
+            navBackAction = navBackAction,
+            screenTitle = if(screenTitle != null)
+                stringResource(screenTitle)
+            else
+                null,
+            content = content
+        )
+    }
+
+    @Composable
+    @NonRestartableComposable
+    protected fun PlaceContent(
+        paddingValues: PaddingValues = PaddingValues(
+            all = 16.dp
+        ),
+        titleModifier: Modifier = Modifier,
+        navBackAction: (() -> Unit)? = null,
+        screenTitle: String?,
+        content: @Composable ColumnScope.() -> Unit
+    ) {
         Column(
             modifier = Modifier
                 .padding(
@@ -113,7 +138,7 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
     protected fun ScreenTitle(
         navBackAction: (() -> Unit)? = null,
         titleModifier: Modifier = Modifier,
-        title: StringResource
+        title: String
     ) {
         if(navBackAction != null) {
             Row (
@@ -146,10 +171,10 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
     @Composable
     @NonRestartableComposable
     private fun Title(
-        title: StringResource
+        title: String
     ) {
         Text(
-            text = stringResource(title),
+            text = title,
             fontFamily = displayFontFamily,
             fontSize = 35.sp
         )

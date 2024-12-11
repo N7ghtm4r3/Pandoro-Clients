@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.text.font.FontFamily
 import com.tecknobit.pandoro.helpers.PandoroLocalUser
+import com.tecknobit.pandoro.ui.screens.PandoroScreen.Companion.PROJECT_SCREEN
 import com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen
 import com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen
@@ -13,6 +14,7 @@ import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.GROUPS_SCREEN
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.NOTES_SCREEN
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.PROJECTS_SCREEN
+import com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen
 import com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen
 import com.tecknobit.pandorocore.GROUP_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.NOTE_IDENTIFIER_KEY
@@ -153,6 +155,14 @@ fun App() {
                 )
                 CreateGroupScreen(
                     groupId = groupId
+                ).ShowContent()
+            }
+            scene(
+                route = "$PROJECT_SCREEN/{$PROJECT_IDENTIFIER_KEY}"
+            ) { backstackEntry ->
+                val projectId: String = backstackEntry.path<String>(PROJECT_IDENTIFIER_KEY)!!
+                ProjectScreen(
+                    projectId = projectId
                 ).ShowContent()
             }
         }

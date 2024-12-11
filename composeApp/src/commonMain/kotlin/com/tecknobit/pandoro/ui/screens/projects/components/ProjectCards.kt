@@ -44,6 +44,7 @@ import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.components.Thumbnail
+import com.tecknobit.pandoro.ui.screens.PandoroScreen.Companion.PROJECT_SCREEN
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
@@ -169,17 +170,18 @@ fun ProjectCard(
     modifier: Modifier,
     project: Project
 ) {
+    val amITheProjectAuthor = project.amITheProjectAuthor()
     var editProject by remember { mutableStateOf(false) }
     Card(
         modifier = modifier
             .combinedClickable(
-                onClick = {
-                    // TODO: NAV TO PROJECT
-                },
-                onLongClick = {
-                    // TODO: CHECK IF THE USER IS A MAINTAINER OR AN ADMIN OF THAT GROUP
-                    editProject = true
-                }
+                onClick = { navigator.navigate("$PROJECT_SCREEN/${project.id}") },
+                onLongClick = if(amITheProjectAuthor) {
+                    {
+                        editProject = true
+                    }
+                } else
+                    null
             )
     ) {
         Column (
@@ -216,29 +218,30 @@ fun ProjectCard(
             GroupIcons(
                 project = project
             )
-            // TODO: CHECK IF THE USER IS A MAINTAINER OR AN ADMIN OF THAT GROUP
-            val deleteProject = remember { mutableStateOf(false) }
-            Column (
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.End
-            ) {
-                IconButton(
-                    onClick =  { deleteProject.value = true }
+            if(amITheProjectAuthor) {
+                val deleteProject = remember { mutableStateOf(false) }
+                Column (
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.End
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.error
-                    )
+                    IconButton(
+                        onClick =  { deleteProject.value = true }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                    }
                 }
+                DeleteProject(
+                    viewModel = viewModel,
+                    show = deleteProject,
+                    project = project,
+                    onDelete = { viewModel.projectsState.refresh() }
+                )
             }
-            DeleteProject(
-                viewModel = viewModel,
-                show = deleteProject,
-                project = project,
-                onDelete = { viewModel.projectsState.refresh() }
-            )
         }
     }
     if(editProject)
