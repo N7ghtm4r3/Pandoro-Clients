@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.ui.screens.overview
 
 import androidx.compose.runtime.Composable
 import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 
 class OverviewScreen : EquinoxScreen<OverviewScreenViewModel>() {
 
@@ -10,6 +11,10 @@ class OverviewScreen : EquinoxScreen<OverviewScreenViewModel>() {
      */
     @Composable
     override fun ArrangeScreenContent() {
+    }
+
+    override fun onCreate() {
+        viewModel!!.setActiveContext(HomeScreen::class.java)
     }
 
     /**

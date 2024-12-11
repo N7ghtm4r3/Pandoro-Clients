@@ -88,6 +88,7 @@ import com.tecknobit.pandoro.ui.components.DeleteAccount
 import com.tecknobit.pandoro.ui.components.Logout
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.profile.components.ChangelogItem
 import com.tecknobit.pandoro.ui.screens.profile.presentation.ProfileScreenViewModel
 import com.tecknobit.pandoro.ui.theme.Green
@@ -743,6 +744,10 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         }
         if(bottomDivider)
             HorizontalDivider()
+    }
+
+    override fun onCreate() {
+        viewModel!!.setActiveContext(HomeScreen::class.java)
     }
 
     /**

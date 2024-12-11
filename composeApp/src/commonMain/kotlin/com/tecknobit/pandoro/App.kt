@@ -9,10 +9,10 @@ import com.tecknobit.pandoro.helpers.PandoroLocalUser
 import com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen
 import com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen
-import com.tecknobit.pandoro.ui.screens.home.HomeScreen
-import com.tecknobit.pandoro.ui.screens.home.HomeScreen.Companion.GROUPS_SCREEN
-import com.tecknobit.pandoro.ui.screens.home.HomeScreen.Companion.NOTES_SCREEN
-import com.tecknobit.pandoro.ui.screens.home.HomeScreen.Companion.PROJECTS_SCREEN
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.GROUPS_SCREEN
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.NOTES_SCREEN
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.PROJECTS_SCREEN
 import com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen
 import com.tecknobit.pandorocore.GROUP_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.NOTE_IDENTIFIER_KEY

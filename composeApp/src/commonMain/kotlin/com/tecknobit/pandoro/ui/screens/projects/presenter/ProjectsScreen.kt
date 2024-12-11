@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.projects.components.FilterProjects
 import com.tecknobit.pandoro.ui.screens.projects.components.InDevelopmentProjectCard
 import com.tecknobit.pandoro.ui.screens.projects.components.ProjectCard
@@ -234,6 +235,10 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
             viewModel = viewModel!!,
             isAllProjectsFiltering = true
         )
+    }
+
+    override fun onCreate() {
+        viewModel!!.setActiveContext(HomeScreen::class.java)
     }
 
     /**

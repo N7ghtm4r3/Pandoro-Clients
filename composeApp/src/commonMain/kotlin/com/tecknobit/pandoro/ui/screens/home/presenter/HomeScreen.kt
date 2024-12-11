@@ -1,5 +1,7 @@
-package com.tecknobit.pandoro.ui.screens.home
+package com.tecknobit.pandoro.ui.screens.home.presenter
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +12,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.Groups3
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -23,20 +27,24 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
+import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.icons.Activity
 import com.tecknobit.pandoro.ui.screens.groups.presenter.GroupsScreen
+import com.tecknobit.pandoro.ui.screens.home.presentation.HomeScreenViewModel
 import com.tecknobit.pandoro.ui.screens.notes.presenter.NotesScreen
 import com.tecknobit.pandoro.ui.screens.overview.OverviewScreen
 import com.tecknobit.pandoro.ui.screens.profile.presenter.ProfileScreen
@@ -52,9 +60,13 @@ import pandoro.composeapp.generated.resources.overview
 import pandoro.composeapp.generated.resources.profile
 import pandoro.composeapp.generated.resources.projects
 
-class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
+class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
+    viewModel = HomeScreenViewModel()
+) {
 
     companion object {
+
+        private const val MAX_CHANGELOGS_DISPLAYABLE_VALUE = 99
 
         const val PROJECTS_SCREEN = "ProjectsScreen"
 
@@ -111,6 +123,8 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
 
     }
 
+    private lateinit var unreadChangelogs: State<Int>
+
     private lateinit var currentDestination: MutableState<NavigationTab>
 
     /**
@@ -154,15 +168,12 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
                 .width(125.dp),
             containerColor = MaterialTheme.colorScheme.surfaceContainer,
             header = {
-                Thumbnail(
+                ProfilePic(
                     modifier = Modifier
                         .padding(
                             top = 16.dp
                         ),
                     size = 75.dp,
-                    // TODO: TO SET THE USER PIC
-                    thumbnailData = "https://t4.ftcdn.net/jpg/03/86/82/73/360_F_386827376_uWOOhKGk6A4UVL5imUBt20Bh8cmODqzx.jpg",
-                    contentDescription = "Profile pic",
                     onClick = { currentDestination.value = destinations.last() }
                 )
             }
@@ -243,13 +254,58 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
                 imageVector = icon,
                 contentDescription = null
             )
-        } else {
-            // TODO: TO SET THE USER PIC
+        } else
+            ProfilePic()
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun ProfilePic(
+        modifier: Modifier = Modifier,
+        size: Dp = 35.dp,
+        onClick: (() -> Unit)? = null
+    ) {
+        BadgedBox(
+            modifier = modifier,
+            badge = {
+                androidx.compose.animation.AnimatedVisibility(
+                    visible = unreadChangelogs.value > 0,
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    PandoroTheme {
+                        Badge(
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd),
+                            containerColor = MaterialTheme.colorScheme.error
+                        ) {
+                            Text(
+                                text = unreadChangelogs.value.formatUnreadChangelogsValue()
+                            )
+                        }
+                    }
+                }
+            }
+        ) {
             Thumbnail(
-                thumbnailData = "https://t4.ftcdn.net/jpg/03/86/82/73/360_F_386827376_uWOOhKGk6A4UVL5imUBt20Bh8cmODqzx.jpg",
-                contentDescription = "Profile pic"
+                size = size,
+                thumbnailData = localUser.profilePic,
+                contentDescription = "Profile pic",
+                onClick = onClick
             )
         }
+    }
+
+    private fun Int.formatUnreadChangelogsValue() : String {
+        return if(this > MAX_CHANGELOGS_DISPLAYABLE_VALUE)
+            return "$MAX_CHANGELOGS_DISPLAYABLE_VALUE+"
+        else
+            this.toString()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel!!.countUnreadChangelogs()
     }
 
     /**
@@ -259,6 +315,7 @@ class HomeScreen: EquinoxScreen<EquinoxViewModel>() {
     override fun CollectStates() {
         currentDestination = remember { mutableStateOf(destinations[currentScreenDisplayed]) }
         isBottomNavigationMode = remember { mutableStateOf(false) }
+        unreadChangelogs = viewModel!!.unreadChangelog.collectAsState()
     }
 
     private data class NavigationTab(

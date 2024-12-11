@@ -217,7 +217,10 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
             )
         )
         changelogsState.appendPage(
-            items = emptyList(), // TODO: USE THE REAL VALUE
+            items = if(Random.nextBoolean())
+                emptyList()
+            else
+                changelogs, // TODO: USE THE REAL VALUE
             nextPageKey = page + 1, // TODO: USE THE REAL VALUE
             isLastPage = Random.nextBoolean()  // TODO: USE THE REAL VALUE
         )

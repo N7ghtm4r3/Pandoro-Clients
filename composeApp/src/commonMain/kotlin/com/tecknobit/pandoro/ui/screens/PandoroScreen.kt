@@ -25,7 +25,7 @@ import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.ui.screens.home.HomeScreen.Companion.isBottomNavigationMode
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.isBottomNavigationMode
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 

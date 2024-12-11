@@ -30,6 +30,7 @@ import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.MultipleListViewModel
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
@@ -176,5 +177,9 @@ abstract class ListsScreen<V: MultipleListViewModel>(
     abstract fun FilterAllItemsUi(
         show: MutableState<Boolean>
     )
+
+    override fun onCreate() {
+        viewModel!!.setActiveContext(HomeScreen::class.java)
+    }
 
 }

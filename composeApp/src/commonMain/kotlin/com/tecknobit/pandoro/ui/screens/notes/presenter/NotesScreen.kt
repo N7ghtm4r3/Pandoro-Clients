@@ -49,6 +49,7 @@ import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.icons.AddNotes
 import com.tecknobit.pandoro.ui.icons.ClipboardList
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.notes.components.NoteCard
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
@@ -282,6 +283,10 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
             ),
             themeColor = MaterialTheme.colorScheme.inversePrimary
         )
+    }
+
+    override fun onCreate() {
+        viewModel!!.setActiveContext(HomeScreen::class.java)
     }
 
     /**
