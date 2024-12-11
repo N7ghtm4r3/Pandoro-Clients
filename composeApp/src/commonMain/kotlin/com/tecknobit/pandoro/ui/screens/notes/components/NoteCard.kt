@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.ui.screens.notes.component
+package com.tecknobit.pandoro.ui.screens.notes.components
 
 import CircleDashedCheck
 import androidx.compose.foundation.layout.Arrangement

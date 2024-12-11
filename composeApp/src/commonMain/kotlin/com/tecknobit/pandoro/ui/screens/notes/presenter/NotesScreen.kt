@@ -28,8 +28,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Medium
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Compact
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
@@ -50,7 +49,7 @@ import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.icons.AddNotes
 import com.tecknobit.pandoro.ui.icons.ClipboardList
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
-import com.tecknobit.pandoro.ui.screens.notes.component.NoteCard
+import com.tecknobit.pandoro.ui.screens.notes.components.NoteCard
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyVerticalGrid
@@ -194,7 +193,42 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
     private fun Notes() {
         val widthSizeClass = getCurrentWidthSizeClass()
         when(widthSizeClass) {
-            Expanded, Medium -> {
+            Compact -> {
+                PaginatedLazyColumn(
+                    modifier = Modifier
+                        .animateContentSize(),
+                    paginationState = viewModel!!.notesState,
+                    contentPadding = PaddingValues(
+                        vertical = 10.dp
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    firstPageEmptyIndicator = { NoNotesAvailable() }
+                    // TODO: TO SET
+                    /*firstPageProgressIndicator = { ... },
+                    newPageProgressIndicator = { ... },*/
+                    /*firstPageErrorIndicator = { e -> // from setError
+                        ... e.message ...
+                        ... onRetry = { paginationState.retryLastFailedRequest() } ...
+                    },
+                    newPageErrorIndicator = { e -> ... },
+                    // The rest of LazyColumn params*/
+                ) {
+                    items(
+                        items = viewModel!!.notesState.allItems!!,
+                        key = { note -> note.id }
+                    ) { note ->
+                        NoteCard(
+                            modifier = Modifier
+                                .height(
+                                    height = 175.dp
+                                ),
+                            viewModel = viewModel!!,
+                            note = note
+                        )
+                    }
+                }
+            }
+            else -> {
                 PaginatedLazyVerticalGrid(
                     modifier = Modifier
                         .animateContentSize(),
@@ -226,41 +260,6 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                             modifier = Modifier
                                 .size(
                                     width = 300.dp,
-                                    height = 175.dp
-                                ),
-                            viewModel = viewModel!!,
-                            note = note
-                        )
-                    }
-                }
-            }
-            else -> {
-                PaginatedLazyColumn(
-                    modifier = Modifier
-                        .animateContentSize(),
-                    paginationState = viewModel!!.notesState,
-                    contentPadding = PaddingValues(
-                        vertical = 10.dp
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                    firstPageEmptyIndicator = { NoNotesAvailable() }
-                    // TODO: TO SET
-                    /*firstPageProgressIndicator = { ... },
-                    newPageProgressIndicator = { ... },*/
-                    /*firstPageErrorIndicator = { e -> // from setError
-                        ... e.message ...
-                        ... onRetry = { paginationState.retryLastFailedRequest() } ...
-                    },
-                    newPageErrorIndicator = { e -> ... },
-                    // The rest of LazyColumn params*/
-                ) {
-                    items(
-                        items = viewModel!!.notesState.allItems!!,
-                        key = { note -> note.id }
-                    ) { note ->
-                        NoteCard(
-                            modifier = Modifier
-                                .height(
                                     height = 175.dp
                                 ),
                             viewModel = viewModel!!,

@@ -211,4 +211,26 @@
     <string name="change_password">Changer le mot de passe</string>
     <string name="change_theme">Changer de thème</string>
     <string name="new_password">Nouveau mot de passe</string>
+    <string name="no_changelogs_available">Tout est calme en ce moment</string><string name="invited_group_title">Invité à un groupe</string>
+    <string name="joined_group_title">Adhérer à un groupe</string>
+    <string name="role_changed_title">Rôle actualisé</string>
+    <string name="left_group_title">A quitté le groupe</string>
+    <string name="group_deleted_title">Groupe supprimé</string>
+    <string name="project_added_title">Projet ajouté</string>
+    <string name="project_removed_title">Projet supprimé</string>
+    <string name="update_scheduled_title">Mise à jour prévue</string>
+    <string name="update_started_title">La mise à jour a commencé</string>
+    <string name="update_published_title">Mise à jour publiée</string>
+    <string name="update_deleted_title">Mise à jour supprimée</string>
+    <string name="invited_group">Invité à rejoindre le groupe %1$s</string>
+    <string name="joined_group">A rejoint le groupe %1$s</string>
+    <string name="role_changed">Devenu %1$s dans le groupe %2$s</string>
+    <string name="left_group">A quitté le groupe %1$s</string>
+    <string name="group_deleted">Le groupe %1$s a été supprimé</string>
+    <string name="project_added">Projet %1$s ajouté</string>
+    <string name="project_removed">Projet %1$s supprimé</string>
+    <string name="update_scheduled">Mise à jour prévue pour le projet %1$s %2$s</string>
+    <string name="update_started">Mise à jour %1$s pour le projet %2$s</string>
+    <string name="update_published">Mise à jour %1$s publiée pour le projet %2$s</string>
+    <string name="update_deleted">Mise à jour de %1$s supprimé pour le projet de %2$s</string>
 </resources>

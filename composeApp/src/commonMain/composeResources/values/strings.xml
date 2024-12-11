@@ -211,4 +211,26 @@
     <string name="change_password">Change password</string>
     <string name="change_theme">Change theme</string>
     <string name="new_password">New password</string>
+    <string name="no_changelogs_available">All quiet at the moment</string><string name="invited_group_title">Invited to a group</string>
+    <string name="joined_group_title">Joined a group</string>
+    <string name="role_changed_title">Role updated</string>
+    <string name="left_group_title">Left the group</string>
+    <string name="group_deleted_title">Group deleted</string>
+    <string name="project_added_title">Project added</string>
+    <string name="project_removed_title">Project removed</string>
+    <string name="update_scheduled_title">Update scheduled</string>
+    <string name="update_started_title">Update started</string>
+    <string name="update_published_title">Update published</string>
+    <string name="update_deleted_title">Update deleted</string>
+    <string name="invited_group">Invited to join the %1$s group</string>
+    <string name="joined_group">Joined the %1$s group</string>
+    <string name="role_changed">Became %1$s in the %2$s group</string>
+    <string name="left_group">Left the %1$s group</string>
+    <string name="group_deleted">The %1$s group was deleted</string>
+    <string name="project_added">Project %1$s added</string>
+    <string name="project_removed">Project %1$s removed</string>
+    <string name="update_scheduled">Update scheduled for %1$s's project %2$s</string>
+    <string name="update_started">Update %1$s started for %2$s's project</string>
+    <string name="update_published">Update %1$s published for %2$s's project</string>
+    <string name="update_deleted">Update %1$s deleted for %2$s's project</string>
 </resources>

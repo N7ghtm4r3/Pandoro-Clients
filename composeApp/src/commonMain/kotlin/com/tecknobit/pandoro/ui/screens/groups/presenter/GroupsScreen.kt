@@ -18,8 +18,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Medium
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Compact
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
@@ -133,7 +132,45 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
         )
         val windowWidthSizeClass = getCurrentWidthSizeClass()
         when(windowWidthSizeClass) {
-            Expanded, Medium -> {
+            Compact -> {
+                PaginatedLazyColumn(
+                    modifier = Modifier
+                        .animateContentSize(),
+                    paginationState = viewModel!!.allGroupsState,
+                    contentPadding = PaddingValues(
+                        vertical = 10.dp
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    firstPageEmptyIndicator = {
+                        NoDataAvailable(
+                            icon = Icons.Default.Groups3,
+                            subText = Res.string.no_groups_available,
+                        )
+                    }
+                    // TODO: TO SET
+                    /*firstPageProgressIndicator = { ... },
+                    newPageProgressIndicator = { ... },*/
+                    /*firstPageErrorIndicator = { e -> // from setError
+                        ... e.message ...
+                        ... onRetry = { paginationState.retryLastFailedRequest() } ...
+                    },
+                    newPageErrorIndicator = { e -> ... },
+                    // The rest of LazyColumn params*/
+                ) {
+                    items(
+                        items = viewModel!!.allGroupsState.allItems!!,
+                        key = { group -> group.id }
+                    ) { group ->
+                        GroupCard(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            viewModel = viewModel!!,
+                            group = group
+                        )
+                    }
+                }
+            }
+            else -> {
                 PaginatedLazyVerticalGrid(
                     modifier = Modifier
                         .animateContentSize(),
@@ -169,43 +206,6 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
                         GroupCard(
                             modifier = Modifier
                                 .width(325.dp),
-                            viewModel = viewModel!!,
-                            group = group
-                        )
-                    }
-                }
-            } else -> {
-                PaginatedLazyColumn(
-                    modifier = Modifier
-                        .animateContentSize(),
-                    paginationState = viewModel!!.allGroupsState,
-                    contentPadding = PaddingValues(
-                        vertical = 10.dp
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                    firstPageEmptyIndicator = {
-                        NoDataAvailable(
-                            icon = Icons.Default.Groups3,
-                            subText = Res.string.no_groups_available,
-                        )
-                    }
-                    // TODO: TO SET
-                    /*firstPageProgressIndicator = { ... },
-                    newPageProgressIndicator = { ... },*/
-                    /*firstPageErrorIndicator = { e -> // from setError
-                        ... e.message ...
-                        ... onRetry = { paginationState.retryLastFailedRequest() } ...
-                    },
-                    newPageErrorIndicator = { e -> ... },
-                    // The rest of LazyColumn params*/
-                ) {
-                    items(
-                        items = viewModel!!.allGroupsState.allItems!!,
-                        key = { group -> group.id }
-                    ) { group ->
-                        GroupCard(
-                            modifier = Modifier
-                                .fillMaxWidth(),
                             viewModel = viewModel!!,
                             group = group
                         )

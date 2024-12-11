@@ -205,10 +205,32 @@
     <string name="logout_warn_text">Se confermi, verrai disconness dalla sessione corrente. Desideri procedere?</string>
     <string name="delete">Elimina</string>
     <string name="delete_warn_text">Se confermi, il tuo account e tutti i dati associati saranno eliminati in modo permanente. Questa azione non può essere annullata. Desideri procedere?</string>
-    <string name="changelogs">Changelog</string>
+    <string name="changelogs">Changelogs</string>
     <string name="change_email">Cambia email</string>
     <string name="new_email">Nuova email</string>
     <string name="change_password">Cambia la password</string>
     <string name="change_theme">Cambia tema</string>
     <string name="new_password">Nuova password</string>
+    <string name="no_changelogs_available">Tutto tranquillo al momento</string><string name="invited_group_title">Invitat ad un gruppo</string>
+    <string name="joined_group_title">Unisciti ad un gruppo</string>
+    <string name="role_changed_title">Ruolo aggiornato</string>
+    <string name="left_group_title">Lascia il gruppo</string>
+    <string name="group_deleted_title">Gruppo eliminato</string>
+    <string name="project_added_title">Progetto aggiunto</string>
+    <string name="project_removed_title">Progetto rimosso</string>
+    <string name="update_scheduled_title">Aggiornamento programmato</string>
+    <string name="update_started_title">Aggiornamento iniziato</string>
+    <string name="update_published_title">Aggiornamento pubblicato</string>
+    <string name="update_deleted_title">Aggiornamento cancellato</string>
+    <string name="invited_group">Invitat a partecipare al gruppo %1$s</string>
+    <string name="joined_group">Si è unit al gruppo %1$s</string>
+    <string name="role_changed">Diventat %1$s nel gruppo %2$s</string>
+    <string name="left_group">Ha lasciato il gruppo %1$s</string>
+    <string name="group_deleted">Il gruppo %1$s è stato eliminato</string>
+    <string name="project_added">Progetto %1$s aggiunto</string>
+    <string name="project_removed">Progetto %1$s rimosso</string>
+    <string name="update_scheduled">Aggiornamento programmato per il progetto %1$s %2$s</string>
+    <string name="update_started">Aggiornamento %1$s avviato per il progetto %2$s</string>
+    <string name="update_published">Aggiornamento %1$s pubblicato per il progetto %2$s</string>
+    <string name="update_deleted">Aggiornamento di %1$s cancellato per il progetto di %2$s</string>
 </resources>

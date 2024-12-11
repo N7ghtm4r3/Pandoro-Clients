@@ -17,8 +17,7 @@ import androidx.compose.material.icons.filled.FolderOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Medium
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Compact
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
@@ -124,7 +123,48 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
         )
         val windowWidthSizeClass = getCurrentWidthSizeClass()
         when(windowWidthSizeClass) {
-            Expanded, Medium -> {
+            Compact -> {
+                PaginatedLazyColumn(
+                    modifier = Modifier
+                        .animateContentSize(),
+                    paginationState = viewModel!!.projectsState,
+                    contentPadding = PaddingValues(
+                        vertical = 10.dp
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    firstPageEmptyIndicator = {
+                        NoDataAvailable(
+                            icon = Icons.Default.FolderOff,
+                            subText = Res.string.no_projects_available
+                        )
+                    }
+                    // TODO: TO SET
+                    /*firstPageProgressIndicator = { ... },
+                    newPageProgressIndicator = { ... },*/
+                    /*firstPageErrorIndicator = { e -> // from setError
+                        ... e.message ...
+                        ... onRetry = { paginationState.retryLastFailedRequest() } ...
+                    },
+                    newPageErrorIndicator = { e -> ... },
+                    // The rest of LazyColumn params*/
+                ) {
+                    items(
+                        items = viewModel!!.projectsState.allItems!!,
+                        key = { project -> project.id }
+                    ) { project ->
+                        ProjectCard(
+                            viewModel = viewModel!!,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(
+                                    height = 210.dp
+                                ),
+                            project = project
+                        )
+                    }
+                }
+            }
+            else -> {
                 PaginatedLazyVerticalGrid(
                     modifier = Modifier
                         .animateContentSize(),
@@ -163,46 +203,6 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
                                 .size(
                                     width = 300.dp,
                                     height = 200.dp
-                                ),
-                            project = project
-                        )
-                    }
-                }
-            } else -> {
-                PaginatedLazyColumn(
-                    modifier = Modifier
-                        .animateContentSize(),
-                    paginationState = viewModel!!.projectsState,
-                    contentPadding = PaddingValues(
-                        vertical = 10.dp
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                    firstPageEmptyIndicator = {
-                        NoDataAvailable(
-                            icon = Icons.Default.FolderOff,
-                            subText = Res.string.no_projects_available
-                        )
-                    }
-                    // TODO: TO SET
-                    /*firstPageProgressIndicator = { ... },
-                    newPageProgressIndicator = { ... },*/
-                    /*firstPageErrorIndicator = { e -> // from setError
-                        ... e.message ...
-                        ... onRetry = { paginationState.retryLastFailedRequest() } ...
-                    },
-                    newPageErrorIndicator = { e -> ... },
-                    // The rest of LazyColumn params*/
-                ) {
-                    items(
-                        items = viewModel!!.projectsState.allItems!!,
-                        key = { project -> project.id }
-                    ) { project ->
-                        ProjectCard(
-                            viewModel = viewModel!!,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(
-                                    height = 210.dp
                                 ),
                             project = project
                         )
