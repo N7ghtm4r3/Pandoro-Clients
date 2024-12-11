@@ -50,6 +50,7 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -519,7 +520,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                         PaginatedLazyColumn(
                             modifier = Modifier
                                 .heightIn(
-                                    max = 500.dp
+                                    max = FORM_CARD_HEIGHT
                                 )
                                 .animateContentSize(),
                             paginationState = viewModel!!.changelogsState,
@@ -706,7 +707,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         Card (
             shape = shape
         ) {
-            val expanded = remember { mutableStateOf(false) }
+            val expanded = rememberSaveable { mutableStateOf(false) }
             Row (
                 modifier = Modifier
                     .fillMaxWidth()

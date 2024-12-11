@@ -217,13 +217,27 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
             )
         )
         changelogsState.appendPage(
-            items = changelogs, // TODO: USE THE REAL VALUE
+            items = emptyList(), // TODO: USE THE REAL VALUE
             nextPageKey = page + 1, // TODO: USE THE REAL VALUE
             isLastPage = Random.nextBoolean()  // TODO: USE THE REAL VALUE
         )
     }
 
     fun readChangelog(
+        changelog: Changelog
+    ) {
+        // TODO: MAKE THE REQUEST THEN
+        changelogsState.refresh()
+    }
+
+    fun acceptInvite(
+        changelog: Changelog
+    ) {
+        // TODO: MAKE THE REQUEST THEN
+        changelogsState.refresh()
+    }
+
+    fun declineInvite(
         changelog: Changelog
     ) {
         // TODO: MAKE THE REQUEST THEN

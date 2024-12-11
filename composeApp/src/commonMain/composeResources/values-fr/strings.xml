@@ -103,8 +103,6 @@
     <string name="you_must_insert_a_correct_group_description">Vous devez insérer une description correcte du groupe</string>
     <string name="you_must_insert_a_correct_members_list">Vous devez insérer une liste de membres correcte</string>
     <string name="you_must_insert_one_member_at_least">Vous devez insérer un membre au moins</string>
-    <string name="decline">Déclin</string>
-    <string name="join">Rejoindre</string>
     <string name="accept_invite">Accepter l'invitation</string>
     <string name="not_all_the_change_notes_are_done">Toutes les notes de modification ne sont pas encore terminées</string>
     <string name="check_change_notes_message">Vous publiez une mise à jour dont toutes les notes de changement ne sont pas marquées comme effectuées, voulez-vous quand même publier la mise à jour ?</string>
@@ -233,4 +231,6 @@
     <string name="update_started">Mise à jour %1$s pour le projet %2$s</string>
     <string name="update_published">Mise à jour %1$s publiée pour le projet %2$s</string>
     <string name="update_deleted">Mise à jour de %1$s supprimé pour le projet de %2$s</string>
+    <string name="join">Rejoindre</string>
+    <string name="decline">Déclin</string>
 </resources>

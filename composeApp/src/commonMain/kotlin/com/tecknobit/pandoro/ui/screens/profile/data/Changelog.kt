@@ -122,4 +122,8 @@ data class Changelog(
             project?.icon
     }
 
+    fun isInviteToGroupType() : Boolean {
+        return event == INVITED_GROUP
+    }
+
 }
