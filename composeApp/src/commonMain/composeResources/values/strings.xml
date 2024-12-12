@@ -10,7 +10,6 @@
     <string name="add_to_a_group">Add to a group</string>
     <string name="project">project</string>
     <string name="to_a_group">to a group</string>
-    <string name="creation_date">Creation date:</string>
     <string name="date_of_mark">Date of mark:</string>
     <string name="note_info">Note info</string>
     <string name="create_a_new_note">Create a new note</string>
@@ -43,10 +42,6 @@
     <string name="author">Author: </string>
     <string name="last_update">Last update:</string>
     <string name="update_id">Id:</string>
-    <string name="started_by">Started by:</string>
-    <string name="start_date">Start date:</string>
-    <string name="published_by">Published by:</string>
-    <string name="publish_date">Publish date:</string>
     <string name="update_info">Update info</string>
     <string name="change_notes">Change notes</string>
     <string name="development_duration">Development duration</string>
@@ -233,4 +228,10 @@
     <string name="update_deleted">Update %1$s deleted for %2$s's project</string>
     <string name="join">Join</string>
     <string name="decline">Decline</string>
+    <string name="no_updates_scheduled">No updates scheduled</string>
+    <string name="creation_date">Creation date</string>
+    <string name="started_by">Started by</string>
+    <string name="start_date">Start date</string>
+    <string name="published_by">Published by</string>
+    <string name="publish_date">Publish date</string>
 </resources>

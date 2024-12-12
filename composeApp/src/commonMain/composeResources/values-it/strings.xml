@@ -10,7 +10,6 @@
     <string name="add_to_a_group">Aggiungi ad un gruppo</string>
     <string name="project">progetto</string>
     <string name="to_a_group">a un gruppo</string>
-    <string name="creation_date">Data di creazione:</string>
     <string name="date_of_mark">Data del marchio:</string>
     <string name="note_info">Info nota</string>
     <string name="create_a_new_note">Crea una nuova nota</string>
@@ -43,10 +42,6 @@
     <string name="author">Autore: </string>
     <string name="last_update">Ultimo aggiornamento:</string>
     <string name="update_id">Id:</string>
-    <string name="started_by">Iniziato da:</string>
-    <string name="start_date">Data di inizio:</string>
-    <string name="published_by">Pubblicato da:</string>
-    <string name="publish_date">Data di pubblicazione:</string>
     <string name="update_info">Aggiornamento info</string>
     <string name="change_notes">Change notes</string>
     <string name="development_duration">Durata sviluppo</string>
@@ -233,4 +228,10 @@
     <string name="update_deleted">Aggiornamento di %1$s cancellato per il progetto di %2$s</string>
     <string name="join">Unisciti</string>
     <string name="decline">Rifiuta</string>
+    <string name="no_updates_scheduled">Nessun aggiornamento programmato</string>
+    <string name="creation_date">Data creazione</string>
+    <string name="started_by">Iniziato da</string>
+    <string name="start_date">Data inizio</string>
+    <string name="published_by">Pubblicato da</string>
+    <string name="publish_date">Data pubblicazione</string>
 </resources>

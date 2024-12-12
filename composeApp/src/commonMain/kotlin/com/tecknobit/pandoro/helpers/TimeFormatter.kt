@@ -17,24 +17,37 @@ object TimeFormatter {
 
     private var defaultDatePattern: String = "dd/MM/yyyy"
 
+    var invalidTimeGuard: Long = -1
+
     @Wrapper
-    fun Long.formatAsDateString(): String {
+    fun Long.formatAsDateString(
+        invalidTimeDefValue: String? = null
+    ): String {
         return formatAsTimeString(
+            invalidTimeDefValue = invalidTimeDefValue,
             pattern = defaultDatePattern
         )
     }
 
     @Wrapper
-    fun Long.formatAsTimeString(): String {
+    fun Long.formatAsTimeString(
+        invalidTimeDefValue: String? = null
+    ): String {
         return formatAsTimeString(
+            invalidTimeDefValue = invalidTimeDefValue,
             pattern = defaultPattern
         )
     }
 
     @OptIn(FormatStringsInDatetimeFormats::class)
     fun Long.formatAsTimeString(
+        invalidTimeDefValue: String? = null,
         pattern: String
     ): String {
+        invalidTimeDefValue?.let { defValue ->
+            if(this == invalidTimeGuard)
+                return defValue
+        }
         val instant = Instant.fromEpochMilliseconds(this)
         val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
         return LocalDateTime.Format {

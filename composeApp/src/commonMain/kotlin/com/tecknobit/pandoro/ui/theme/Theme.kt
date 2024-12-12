@@ -245,6 +245,14 @@ fun Green(): Color {
         lightGreen
 }
 
+@Composable
+fun Yellow(): Color {
+    return if(isDarkThemeSelected())
+        darkYellow
+    else
+        lightYellow
+}
+
 /**
  * Method to apply the Ametista theme to the content
  *

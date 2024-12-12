@@ -1,5 +1,10 @@
+@file:OptIn(ExperimentalPaginationApi::class)
+
 package com.tecknobit.pandoro.ui.screens.project.presentation
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
+import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE_SIZE
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
@@ -10,11 +15,28 @@ import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseProjectViewModel
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseProjectViewModel.ProjectDeleter
 import com.tecknobit.pandorocore.enums.Role
 import com.tecknobit.pandorocore.enums.UpdateStatus
+import io.github.ahmad_hamwi.compose.pagination.ExperimentalPaginationApi
+import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlin.random.Random
 
 class ProjectScreenViewModel(
     projectId: String
 ) : BaseProjectViewModel(), ProjectDeleter {
+
+    private val totalUpdates = mutableSetOf<ProjectUpdate>()
+
+    private val currentUpdatesLoaded = mutableListOf<ProjectUpdate>()
+
+    lateinit var updateStatusesFilters: SnapshotStateList<UpdateStatus>
+
+    val updatesState = PaginationState<Int, ProjectUpdate>(
+        initialPageKey = DEFAULT_PAGE,
+        onRequestPage = { page ->
+            appendUpdates(
+                page = page
+            )
+        }
+    )
 
     override fun retrieveProject() {
         // TODO: MAKE THE REQUEST THEN
@@ -65,6 +87,65 @@ class ProjectScreenViewModel(
                             markedAsDone = true
                         )
                     )
+                ),
+
+                ProjectUpdate(
+                    id = Random.nextLong().toString(),
+                    author = PandoroUser(
+                        id = Random.nextLong().toString(),
+                        profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                        "name",
+                        "surname",
+                        email = "name.surname@gmail.com"
+                    ),
+                    targetVersion = "1.0.0",
+                    createDate = System.currentTimeMillis(),
+                    startDate = 1731588486000,
+                    status = UpdateStatus.PUBLISHED,
+                    notes = listOf(
+                        Note(
+                            id = Random.nextLong().toString(),
+                            author = PandoroUser(
+                                id = Random.nextLong().toString(),
+                                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                                "name",
+                                "surname",
+                                email = "name.surname@gmail.com"
+                            ),
+                            creationDate = System.currentTimeMillis(),
+                            content = "111",
+                            markedAsDone = true
+                        )
+                    )
+                ),
+                ProjectUpdate(
+                    id = Random.nextLong().toString(),
+                    author = PandoroUser(
+                        id = Random.nextLong().toString(),
+                        profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                        "name",
+                        "surname",
+                        email = "name.surname@gmail.com"
+                    ),
+                    targetVersion = "1.0.0",
+                    createDate = System.currentTimeMillis(),
+                    //startDate = 1731588486000,
+                    status = UpdateStatus.SCHEDULED,
+                    notes = listOf(
+                        Note(
+                            id = Random.nextLong().toString(),
+                            author = PandoroUser(
+                                id = Random.nextLong().toString(),
+                                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                                "name",
+                                "surname",
+                                email = "name.surname@gmail.com"
+                            ),
+                            creationDate = System.currentTimeMillis(),
+                            content = "111",
+                            markedAsDone = true
+                        )
+                    )
                 )
             ),
             projectRepo = "https://github.com/N7ghtm4r3/Pandoro-Clients",
@@ -97,6 +178,42 @@ class ProjectScreenViewModel(
                     projects = emptyList()
                 )
             )
+        )
+        totalUpdates.addAll(_project.value!!.updates)
+    }
+
+    fun manageStatusesFilter(
+        updateStatus: UpdateStatus,
+        selected: Boolean
+    ) {
+        if(selected)
+            updateStatusesFilters.add(updateStatus)
+        else
+            updateStatusesFilters.remove(updateStatus)
+        updatesState.appendPageWithUpdates(
+            allItems = totalUpdates.filter { update -> updateStatusesFilters.contains(update.status) },
+            nextPageKey = 0,
+            isLastPage = true
+        )
+    }
+
+    private fun appendUpdates(
+        page: Int
+    ) {
+        val toIndex = ((page + 1) * DEFAULT_PAGE_SIZE)
+        val lastIndex = totalUpdates.size
+        val pagedUpdates = totalUpdates.toList().subList(
+            fromIndex = currentUpdatesLoaded.size,
+            toIndex = if(toIndex > lastIndex)
+                lastIndex
+            else
+                toIndex
+        )
+        currentUpdatesLoaded.addAll(pagedUpdates)
+        updatesState.appendPage(
+            items = pagedUpdates,
+            nextPageKey = page + 1,
+            isLastPage = currentUpdatesLoaded.size == totalUpdates.size
         )
     }
 

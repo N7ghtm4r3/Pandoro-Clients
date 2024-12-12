@@ -1,8 +1,12 @@
 package com.tecknobit.pandoro.ui.screens.projects.data
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.IDENTIFIER_KEY
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
+import com.tecknobit.pandoro.ui.theme.Green
+import com.tecknobit.pandoro.ui.theme.Yellow
 import com.tecknobit.pandorocore.AUTHOR_KEY
 import com.tecknobit.pandorocore.NOTES_KEY
 import com.tecknobit.pandorocore.UPDATE_CREATE_DATE_KEY
@@ -44,6 +48,23 @@ data class ProjectUpdate(
     @SerialName(NOTES_KEY)
     val notes: List<Note>,
 ) {
+
+    companion object {
+
+        @Composable
+        fun UpdateStatus.toColor(): androidx.compose.ui.graphics.Color {
+            return when(this) {
+                UpdateStatus.SCHEDULED -> MaterialTheme.colorScheme.error
+                UpdateStatus.IN_DEVELOPMENT -> Yellow()
+                UpdateStatus.PUBLISHED -> Green()
+            }
+        }
+
+        fun UpdateStatus.asText(): String {
+            return this.name.lowercase().capitalize().replace("_", " ")
+        }
+
+    }
 
     fun allChangeNotesCompleted() : Boolean {
         val changeNotesCount = notes.size
