@@ -235,5 +235,10 @@
     <string name="publish_date">Date de publication</string>
     <string name="timeline">Chronologie</string>
     <string name="yet_to_complete">A compléter</string>
-    <string name="days">jours</string>
+    <string name="note_created">Note créée</string>
+    <plurals name="note_completed_in">
+        <item formatted="false" quantity="one">Note complétée en %1$d jour</item>
+        <item formatted="false" quantity="other">Note terminée dans %1$d jours</item>
+    </plurals>
+    <string name="not_available">Non disponible</string>
 </resources>

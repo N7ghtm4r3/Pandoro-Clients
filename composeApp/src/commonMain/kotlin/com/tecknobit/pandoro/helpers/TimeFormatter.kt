@@ -57,6 +57,7 @@ object TimeFormatter {
         }.format(localDateTime)
     }
 
+    @Wrapper
     fun Long.daysUntilNow() : Int {
         return daysUntil(
             untilDate = Clock.System.now().toEpochMilliseconds()

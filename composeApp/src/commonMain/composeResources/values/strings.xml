@@ -235,8 +235,10 @@
     <string name="publish_date">Publish date</string>
     <string name="timeline">Timeline</string>
     <string name="yet_to_complete">Yet to complete</string>
-    <plurals name="days">
-        <item formatted="false" quantity="one">%1$d day</item>
-        <item formatted="false" quantity="other">%1$d days</item>
+    <string name="note_created">Note created</string>
+    <plurals name="note_completed_in">
+        <item formatted="false" quantity="one">Note completed in %1$d day</item>
+        <item formatted="false" quantity="other">Note completed in %1$d days</item>
     </plurals>
+    <string name="not_available">Not available</string>
 </resources>

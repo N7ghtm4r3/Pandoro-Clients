@@ -98,7 +98,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
             PlaceContent(
                 paddingValues = PaddingValues(
                     top = 16.dp,
-                    start = 10.dp,
+                    start = 6.dp,
                     end = 16.dp,
                     bottom = 16.dp
                 ),

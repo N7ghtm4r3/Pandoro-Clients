@@ -8,9 +8,13 @@ import CircleDashedCheck
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
@@ -44,8 +48,8 @@ import com.pushpal.jetlime.EventPointType
 import com.pushpal.jetlime.ItemsList
 import com.pushpal.jetlime.JetLimeColumn
 import com.pushpal.jetlime.JetLimeDefaults
+import com.pushpal.jetlime.JetLimeEvent
 import com.pushpal.jetlime.JetLimeEventDefaults
-import com.pushpal.jetlime.JetLimeExtendedEvent
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
 import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
@@ -55,6 +59,7 @@ import com.tecknobit.pandoro.helpers.TimeFormatter.formatAsDateString
 import com.tecknobit.pandoro.helpers.TimeFormatter.formatAsTimeString
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteNote
+import com.tecknobit.pandoro.ui.icons.ClockLoader20
 import com.tecknobit.pandoro.ui.icons.Copy
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
@@ -64,9 +69,12 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
-import pandoro.composeapp.generated.resources.days
+import pandoro.composeapp.generated.resources.content
+import pandoro.composeapp.generated.resources.not_available
+import pandoro.composeapp.generated.resources.note_completed_in
 import pandoro.composeapp.generated.resources.note_completed_on
 import pandoro.composeapp.generated.resources.note_content_copied
+import pandoro.composeapp.generated.resources.note_created
 import pandoro.composeapp.generated.resources.note_created_on
 import pandoro.composeapp.generated.resources.timeline
 import pandoro.composeapp.generated.resources.yet_to_complete
@@ -131,7 +139,7 @@ fun NoteCard(
             note = note
         )
     }
-    NoteTimeline(
+    NoteDetails(
         note = note,
         modalBottomSheetState = modalBottomSheetState,
         scope = scope
@@ -206,13 +214,11 @@ private fun NoteActions(
 
 @Composable
 @NonRestartableComposable
-private fun NoteTimeline(
+private fun NoteDetails(
     note: Note,
     modalBottomSheetState: SheetState,
     scope: CoroutineScope
 ) {
-    val noteCompleted = note.markedAsDone
-    val yetToCompleteText = stringResource(Res.string.yet_to_complete)
     if(modalBottomSheetState.isVisible) {
         ModalBottomSheet(
             onDismissRequest = {
@@ -221,68 +227,135 @@ private fun NoteTimeline(
                 }
             }
         ) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        bottom = 5.dp
-                    ),
-                text = stringResource(Res.string.timeline),
-                textAlign = TextAlign.Center,
-                fontFamily = displayFontFamily,
-                fontSize = 20.sp
+            NoteTimeline(
+                note = note
             )
-            HorizontalDivider()
-            val items = remember {
-                listOf(
-                    note.creationDate.formatAsTimeString(),
-                    note.markAsDoneDate.formatAsTimeString(
-                        invalidTimeDefValue = yetToCompleteText
-                    )
+            NoteContent(
+                note = note
+            )
+        }
+    }
+}
+
+@Composable
+@NonRestartableComposable
+private fun NoteTimeline(
+    note: Note
+) {
+    val noteCompleted = note.markedAsDone
+    val yetToCompleteText = stringResource(Res.string.yet_to_complete)
+    Text(
+        modifier = Modifier
+            .padding(
+                start = 16.dp
+            ),
+        text = stringResource(Res.string.timeline),
+        fontFamily = displayFontFamily,
+        fontSize = 20.sp
+    )
+    val items = remember {
+        listOf(
+            note.creationDate.formatAsTimeString(),
+            note.markAsDoneDate.formatAsTimeString(
+                invalidTimeDefValue = yetToCompleteText
+            )
+        )
+    }
+    JetLimeColumn(
+        modifier = Modifier
+            .padding(
+                top = 10.dp,
+                start = 16.dp
+            ),
+        style = if(noteCompleted)
+            JetLimeDefaults.columnStyle()
+        else {
+            JetLimeDefaults.columnStyle(
+                pathEffect = PathEffect.dashPathEffect(
+                    intervals = FloatArray(items.size) { 10f },
+                    phase = 0f,
                 )
-            }
-            JetLimeColumn(
-                modifier = Modifier
-                    .padding(
-                        all = 16.dp
-                    ),
-                style = if(noteCompleted)
-                    JetLimeDefaults.columnStyle()
-                else {
-                    JetLimeDefaults.columnStyle(
-                        pathEffect = PathEffect.dashPathEffect(
-                            intervals = floatArrayOf(30f, 30f),
-                            phase = 0f,
-                        )
+            )
+        },
+        itemsList = ItemsList(items),
+    ) { _, date, position ->
+        val startPosition = position.isNotEnd()
+        JetLimeEvent(
+            style = JetLimeEventDefaults.eventStyle(
+                position = position,
+                pointType = if(!startPosition) {
+                    EventPointType.custom(
+                        icon = rememberVectorPainter(
+                            image = if(noteCompleted)
+                                Icons.Default.CheckCircle
+                            else
+                                ClockLoader20
+                        ),
+                        tint = MaterialTheme.colorScheme.primary
                     )
-                },
-                itemsList = ItemsList(items),
-            ) { _, date, position ->
-                val completionDays = note.completionDays()
-                JetLimeExtendedEvent(
-                    style = JetLimeEventDefaults.eventStyle(
-                        position = position,
-                        pointType = EventPointType.custom(
-                            icon = rememberVectorPainter(
-                                image = Icons.Default.CheckCircle
-                            )
-                        )
-                    ),
-                    additionalContent = {
-                        Text(
-                            text = pluralStringResource(
-                                resource = Res.plurals.days,
+                } else
+                    EventPointType.Default
+            )
+        ) {
+            Column (
+                modifier = Modifier
+                    .height(60.dp)
+            ) {
+                Text(
+                    text = if(noteCompleted || startPosition)
+                        date
+                    else
+                        stringResource(Res.string.not_available),
+                    fontSize = 12.sp
+                )
+                Text(
+                    text = if(startPosition)
+                        stringResource(Res.string.note_created)
+                    else {
+                        if(noteCompleted) {
+                            val completionDays = note.completionDays()
+                            pluralStringResource(
+                                resource = Res.plurals.note_completed_in,
                                 quantity = completionDays,
                                 completionDays
                             )
-                        )
-                    }
-                ) {
-                    Text(
-                        text = date
-                    )
-                }
+                        } else
+                            date
+                    },
+                    fontFamily = displayFontFamily
+                )
             }
         }
     }
+    HorizontalDivider()
+}
+
+@Composable
+@NonRestartableComposable
+private fun NoteContent(
+    note: Note
+) {
+    Text(
+        modifier = Modifier
+            .padding(
+                top = 10.dp,
+                start = 16.dp
+            ),
+        text = stringResource(Res.string.content),
+        fontFamily = displayFontFamily,
+        fontSize = 20.sp
+    )
+    Text(
+        modifier = Modifier
+            .padding(
+                horizontal = 16.dp
+            )
+            .padding(
+                top = 5.dp,
+                bottom = 16.dp
+            )
+            .verticalScroll(rememberScrollState()),
+        text = note.content,
+        textAlign = TextAlign.Justify
+    )
 }
