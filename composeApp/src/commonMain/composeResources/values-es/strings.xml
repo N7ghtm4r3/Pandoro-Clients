@@ -45,7 +45,6 @@
     <string name="update_info">Información actualizada</string>
     <string name="change_notes">Cambiar notas</string>
     <string name="development_duration">Duración del desarrollo</string>
-    <string name="days">días</string>
     <string name="day">día</string>
     <string name="start_update">Iniciar actualización</string>
     <string name="publish">Publique</string>
@@ -234,4 +233,7 @@
     <string name="start_date">Fecha de inicio</string>
     <string name="published_by">Publicado por</string>
     <string name="publish_date">Fecha de publicación</string>
+    <string name="timeline">Cronología</string>
+    <string name="yet_to_complete">Aún por completar</string>
+    <string name="days">días</string>
 </resources>

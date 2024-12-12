@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.ui.screens.projects.data
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.IDENTIFIER_KEY
+import com.tecknobit.pandoro.helpers.TimeFormatter.daysUntilNow
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.theme.Green
@@ -17,11 +18,6 @@ import com.tecknobit.pandorocore.UPDATE_START_DATE_KEY
 import com.tecknobit.pandorocore.UPDATE_STATUS_KEY
 import com.tecknobit.pandorocore.UPDATE_TARGET_VERSION_KEY
 import com.tecknobit.pandorocore.enums.UpdateStatus
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.daysUntil
-import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -73,9 +69,7 @@ data class ProjectUpdate(
     }
 
     fun developmentDays() : Int {
-        return Instant.fromEpochMilliseconds(startDate)
-            .toLocalDateTime(TimeZone.currentSystemDefault()).date
-            .daysUntil(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date)
+        return startDate.daysUntilNow()
     }
 
 }

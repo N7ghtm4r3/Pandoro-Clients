@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.ui.screens.notes.data
 
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.IDENTIFIER_KEY
+import com.tecknobit.pandoro.helpers.TimeFormatter.daysUntil
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandorocore.AUTHOR_KEY
 import com.tecknobit.pandorocore.CONTENT_NOTE_KEY
@@ -27,4 +28,12 @@ data class Note(
     val markedAsDoneBy: PandoroUser? = null,
     @SerialName(MARKED_AS_DONE_DATE_KEY)
     val markAsDoneDate: Long = -1,
-)
+) {
+
+    fun completionDays() : Int {
+        return creationDate.daysUntil(
+            untilDate = markAsDoneDate
+        )
+    }
+
+}

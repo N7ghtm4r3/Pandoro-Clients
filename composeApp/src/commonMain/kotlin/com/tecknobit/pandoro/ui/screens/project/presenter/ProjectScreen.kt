@@ -74,6 +74,8 @@ import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.PROJECTS_SCREEN
 import com.tecknobit.pandoro.ui.screens.project.components.UpdateCard
 import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
@@ -132,7 +134,12 @@ class ProjectScreen(
             horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             ScreenTitle(
-                navBackAction = { navigator.goBack() },
+                navBackAction = {
+                    HomeScreen.setCurrentScreenDisplayed(
+                        screen = PROJECTS_SCREEN
+                    )
+                    navigator.goBack()
+                },
                 title = item.value!!.name
             )
             item.value!!.getRepositoryPlatform()?.let { platform ->

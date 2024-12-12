@@ -1,9 +1,11 @@
 package com.tecknobit.pandoro.helpers
 
 import com.tecknobit.equinoxcore.annotations.Wrapper
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.daysUntil
 import kotlinx.datetime.format.FormatStringsInDatetimeFormats
 import kotlinx.datetime.format.byUnicodePattern
 import kotlinx.datetime.toLocalDateTime
@@ -53,6 +55,27 @@ object TimeFormatter {
         return LocalDateTime.Format {
             byUnicodePattern(pattern)
         }.format(localDateTime)
+    }
+
+    fun Long.daysUntilNow() : Int {
+        return daysUntil(
+            untilDate = Clock.System.now().toEpochMilliseconds()
+        )
+    }
+
+    fun Long.daysUntil(
+        untilDate: Long
+    ) : Int {
+        val startDate = Instant.fromEpochMilliseconds(this)
+            .toLocalDateTime(TimeZone.currentSystemDefault())
+            .date
+        val endDate = Instant.fromEpochMilliseconds(untilDate)
+            .toLocalDateTime(TimeZone.currentSystemDefault())
+            .date
+        return startDate
+            .daysUntil(
+                other = endDate
+            )
     }
 
 }

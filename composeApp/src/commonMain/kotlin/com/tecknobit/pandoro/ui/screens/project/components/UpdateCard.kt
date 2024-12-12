@@ -51,7 +51,7 @@ fun UpdateCard(
             .colorOneSideBorder(
                 borderToColor = BorderToColor.END,
                 color = update.status.toColor(),
-                width = 10.dp,
+                width = 8.dp,
                 shape = CardDefaults.shape
             )
     ) {
