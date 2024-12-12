@@ -10,6 +10,7 @@ import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
+import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseProjectViewModel.ProjectDeleter
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.MultipleListViewModel
 import com.tecknobit.pandorocore.enums.Role
 import com.tecknobit.pandorocore.enums.UpdateStatus
@@ -17,7 +18,7 @@ import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-class ProjectsScreenViewModel : MultipleListViewModel() {
+class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
 
     lateinit var inDevelopmentProjectsFilter: MutableState<String>
 
@@ -1116,13 +1117,6 @@ class ProjectsScreenViewModel : MultipleListViewModel() {
             inDevelopmentProjectState.refresh()
         }
         onFiltersSet.invoke()
-    }
-
-    fun deleteProject(
-        project: Project,
-        onDelete: () -> Unit
-    ) {
-        // TODO: MAKE THE REQUEST THEN
     }
 
 }

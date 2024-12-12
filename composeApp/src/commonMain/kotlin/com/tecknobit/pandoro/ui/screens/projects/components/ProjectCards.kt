@@ -184,6 +184,7 @@ fun ProjectCard(
                     null
             )
     ) {
+        val showCardFooter = amITheProjectAuthor || project.isSharedWithGroups()
         Column (
             modifier = Modifier
                 .padding(
@@ -202,45 +203,61 @@ fun ProjectCard(
                     .fillMaxWidth(),
                 text = project.description,
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 3,
+                maxLines = if(showCardFooter)
+                    3
+                else
+                    Int.MAX_VALUE,
                 fontSize = 14.sp
             )
         }
-        HorizontalDivider()
-        Row (
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 10.dp
-                ),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            GroupIcons(
-                project = project
-            )
-            if(amITheProjectAuthor) {
-                val deleteProject = remember { mutableStateOf(false) }
-                Column (
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.End
-                ) {
-                    IconButton(
-                        onClick =  { deleteProject.value = true }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.error
-                        )
-                    }
-                }
-                DeleteProject(
-                    viewModel = viewModel,
-                    show = deleteProject,
-                    project = project,
-                    onDelete = { viewModel.projectsState.refresh() }
+        if(showCardFooter) {
+            HorizontalDivider()
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(
+                        min = 50.dp
+                    )
+                    .padding(
+                        start = 10.dp
+                    ),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                GroupIcons(
+                    project = project
                 )
+                if(amITheProjectAuthor) {
+                    val deleteProject = remember { mutableStateOf(false) }
+                    Column (
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.End
+                    ) {
+                        IconButton(
+                            onClick =  { deleteProject.value = true }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.error
+                            )
+                        }
+                    }
+                    DeleteProject(
+                        viewModel = viewModel,
+                        show = deleteProject,
+                        project = project,
+                        deleteRequest = {
+                            viewModel.deleteProject(
+                                project = project,
+                                onDelete = {
+                                    deleteProject.value = false
+                                    viewModel.projectsState.refresh()
+                                }
+                            )
+                        }
+                    )
+                }
             }
         }
     }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -25,6 +24,7 @@ import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.displayFontFamily
+import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.isBottomNavigationMode
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
@@ -135,6 +135,27 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
 
     @Composable
     @NonRestartableComposable
+    protected fun PlaceContent(
+        paddingValues: PaddingValues = PaddingValues(
+            all = 16.dp
+        ),
+        screenTitle: @Composable (() -> Unit)? = null,
+        content: @Composable ColumnScope.() -> Unit
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(
+                    paddingValues = paddingValues
+                ),
+            content = {
+                screenTitle?.invoke()
+                content.invoke(this)
+            }
+        )
+    }
+
+    @Composable
+    @NonRestartableComposable
     protected fun ScreenTitle(
         navBackAction: (() -> Unit)? = null,
         titleModifier: Modifier = Modifier,
@@ -142,20 +163,12 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
     ) {
         if(navBackAction != null) {
             Row (
-                modifier = titleModifier
-                    .fillMaxWidth(),
+                modifier = titleModifier,
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                IconButton(
-                    modifier = Modifier
-                        .size(30.dp),
-                    onClick = navBackAction
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBackIosNew,
-                        contentDescription = null
-                    )
+                NabBackButton {
+                    navBackAction.invoke()
                 }
                 Title(
                     title = title
@@ -170,14 +183,55 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
 
     @Composable
     @NonRestartableComposable
-    private fun Title(
+    protected fun NabBackButton(
+        navBackAction: () -> Unit = { navigator.goBack() }
+    ) {
+        IconButton(
+            modifier = Modifier
+                .size(30.dp),
+            onClick = navBackAction
+        ) {
+            Icon(
+                imageVector = Icons.Default.ArrowBackIosNew,
+                contentDescription = null
+            )
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    protected fun Title(
+        modifier: Modifier = Modifier,
         title: String
     ) {
         Text(
+            modifier = modifier,
             text = title,
             fontFamily = displayFontFamily,
             fontSize = 35.sp
         )
+    }
+
+    @Composable
+    @NonRestartableComposable
+    protected fun Section(
+        modifier: Modifier = Modifier,
+        header: StringResource,
+        content: @Composable ColumnScope.() -> Unit
+    ) {
+        Column (
+            modifier = modifier,
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Text(
+                text = stringResource(header),
+                fontFamily = displayFontFamily,
+                fontSize = 22.sp
+            )
+            Column(
+                content = content
+            )
+        }
     }
 
     @Composable

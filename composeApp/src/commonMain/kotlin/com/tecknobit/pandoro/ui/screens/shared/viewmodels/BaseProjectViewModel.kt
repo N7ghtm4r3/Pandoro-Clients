@@ -19,4 +19,16 @@ abstract class BaseProjectViewModel : EquinoxViewModel(
 
     abstract fun retrieveProject()
 
+    interface ProjectDeleter {
+
+        fun deleteProject(
+            project: Project,
+            onDelete: () -> Unit
+        ) {
+            // TODO: MAKE THE REQUEST THEN
+            onDelete.invoke()
+        }
+
+    }
+
 }

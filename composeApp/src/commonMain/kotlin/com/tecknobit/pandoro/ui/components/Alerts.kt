@@ -10,6 +10,7 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EquinoxAlertDialog
+import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.SPLASHSCREEN
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
@@ -18,7 +19,6 @@ import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
 import com.tecknobit.pandoro.ui.screens.profile.presentation.ProfileScreenViewModel
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
-import com.tecknobit.pandoro.ui.screens.projects.presentation.ProjectsScreenViewModel
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.confirm
@@ -36,10 +36,10 @@ import pandoro.composeapp.generated.resources.logout_warn_text
 @Composable
 @NonRestartableComposable
 fun DeleteProject(
-    viewModel: ProjectsScreenViewModel,
+    viewModel: EquinoxViewModel,
     project: Project,
     show: MutableState<Boolean>,
-    onDelete: () -> Unit
+    deleteRequest: (Project) -> Unit
 ) {
     EquinoxAlertDialog(
         icon = Icons.Default.Delete,
@@ -52,10 +52,7 @@ fun DeleteProject(
         title = stringResource(Res.string.delete_item, project.name),
         text = stringResource(Res.string.delete_project_text_dialog),
         confirmAction = {
-            viewModel.deleteProject(
-                project = project,
-                onDelete = onDelete
-            )
+            deleteRequest.invoke(project)
         },
         confirmText = stringResource(Res.string.confirm),
         dismissText = stringResource(Res.string.dismiss)

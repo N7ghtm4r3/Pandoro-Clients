@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -24,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcompose.resources.loading_data
 import com.tecknobit.equinoxcore.annotations.Structure
-import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import org.jetbrains.compose.resources.stringResource
@@ -97,15 +97,12 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
         ) {
             PlaceContent(
                 paddingValues = PaddingValues(
-                    all = 0.dp
+                    top = 16.dp,
+                    start = 10.dp,
+                    end = 16.dp,
+                    bottom = 16.dp
                 ),
-                titleModifier = Modifier
-                    .padding(
-                        top = 16.dp,
-                        start = 16.dp
-                    ),
-                navBackAction = { navigator.goBack() },
-                screenTitle = getItemName()
+                screenTitle = { ItemScreenTitle() },
             ) {
                 ScreenContent()
             }
@@ -114,14 +111,14 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
 
     @Composable
     @NonRestartableComposable
+    protected abstract fun ItemScreenTitle()
+
+    @Composable
+    @NonRestartableComposable
+    protected abstract fun ColumnScope.ScreenContent()
+
+    @Composable
+    @NonRestartableComposable
     protected abstract fun FabAction()
-
-    @Composable
-    @NonRestartableComposable
-    protected abstract fun getItemName() : String
-
-    @Composable
-    @NonRestartableComposable
-    protected abstract fun ScreenContent()
 
 }

@@ -20,4 +20,10 @@ data class PandoroUser(
     val surname: String,
     @SerialName(EMAIL_KEY)
     val email: String
-)
+) {
+
+    fun completeName() : String {
+        return "$name $surname"
+    }
+
+}

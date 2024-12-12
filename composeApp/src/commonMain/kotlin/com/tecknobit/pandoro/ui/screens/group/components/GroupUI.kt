@@ -48,12 +48,14 @@ private const val LIMIT_GROUPS_DISPLAYED = 5
 @Composable
 @NonRestartableComposable
 fun GroupIcons(
+    modifier: Modifier = Modifier,
     project: Project,
 ) {
     val modalBottomSheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
     val groups = project.groups
     GroupIcons(
+        modifier = modifier,
         groups = groups,
         onClick = {
             scope.launch {
@@ -121,11 +123,12 @@ fun GroupExpandedList(
 @Composable
 @NonRestartableComposable
 fun GroupIcons(
+    modifier: Modifier = Modifier,
     groups: List<Group>,
     onClick: () -> Unit
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .clip(
                 RoundedCornerShape(
                     size = 50.dp

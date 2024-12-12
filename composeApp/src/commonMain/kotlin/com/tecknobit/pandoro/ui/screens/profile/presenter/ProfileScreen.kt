@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.ui.screens.profile.presenter
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -79,7 +81,6 @@ import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isEmailValid
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isPasswordValid
 import com.tecknobit.pandoro.SPLASHSCREEN
 import com.tecknobit.pandoro.bodyFontFamily
-import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.localUser
@@ -225,6 +226,12 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
             }
         }
         Thumbnail(
+            modifier = Modifier
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    shape = CircleShape
+                ),
             size = 100.dp,
             contentDescription = "Profile pic",
             thumbnailData = viewModel!!.profilePic.value,
@@ -583,26 +590,6 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                 )
             }
         )
-    }
-
-    @Composable
-    @NonRestartableComposable
-    private fun Section(
-        header: StringResource,
-        content: @Composable ColumnScope.() -> Unit
-    ) {
-        Column (
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            Text(
-                text = stringResource(header),
-                fontFamily = displayFontFamily,
-                fontSize = 22.sp
-            )
-            Column(
-                content = content
-            )
-        }
     }
 
     @Composable
