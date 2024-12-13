@@ -119,13 +119,6 @@ class ProjectScreenViewModel(
                                 "surname",
                                 email = "name.surname@gmail.com"
                             ),
-                            publishedBy = GroupMember(
-                                id = Random.nextLong().toString(),
-                                profilePic = "https://starwalk.space/gallery/images/what-is-space/1920x1080.jpg",
-                                "fafaf",
-                                "egwg",
-                                email = "name.surname@gmail.com"
-                            ),
                             status = UpdateStatus.PUBLISHED,
                             notes = listOf(
                                 Note(

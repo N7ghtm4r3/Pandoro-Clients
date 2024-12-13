@@ -33,6 +33,7 @@ import com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
+import pandoro.composeapp.generated.resources.account_deleted
 import pandoro.composeapp.generated.resources.at
 import pandoro.composeapp.generated.resources.timeline
 import pandoro.composeapp.generated.resources.update_published_by
@@ -184,7 +185,7 @@ fun SharedUpdateTimeline(
                 if(update.status == IN_DEVELOPMENT || updatePublished) {
                     SharedTimelineEvent(
                         position = position,
-                        eventAuthor = update.startedBy!!,
+                        eventAuthor = update.startedBy,
                         contentDescription = "User who started the update profile pic",
                         eventMessage = Res.string.update_started_by,
                         eventDate = date
@@ -195,7 +196,7 @@ fun SharedUpdateTimeline(
                 if(updatePublished) {
                     SharedTimelineEvent(
                         position = position,
-                        eventAuthor = update.publishedBy!!,
+                        eventAuthor = update.publishedBy,
                         contentDescription = "User who published the update profile pic",
                         eventMessage = Res.string.update_published_by,
                         eventDate = date
@@ -210,7 +211,7 @@ fun SharedUpdateTimeline(
 @NonRestartableComposable
 private fun SharedTimelineEvent(
     position: EventPosition,
-    eventAuthor: GroupMember,
+    eventAuthor: GroupMember?,
     contentDescription: String,
     eventMessage: StringResource,
     eventDate: Long
@@ -226,11 +227,14 @@ private fun SharedTimelineEvent(
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Thumbnail(
-                    thumbnailData = eventAuthor.profilePic,
+                    thumbnailData = eventAuthor?.profilePic,
                     contentDescription = contentDescription
                 )
                 Text(
-                    text = eventAuthor.completeName(),
+                    text = if(eventAuthor == null)
+                        stringResource(Res.string.account_deleted)
+                    else
+                        eventAuthor.completeName(),
                     maxLines = 1,
                     fontFamily = displayFontFamily,
                     overflow = TextOverflow.Ellipsis
@@ -243,7 +247,7 @@ private fun SharedTimelineEvent(
                         pattern = "dd/MM/yyyy"
                     )
                 ),
-                maxLines = 2,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 fontSize = 12.sp
             )

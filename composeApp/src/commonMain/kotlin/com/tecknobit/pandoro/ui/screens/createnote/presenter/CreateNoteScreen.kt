@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
@@ -147,6 +149,9 @@ class CreateNoteScreen(
                     focusRequester = focusRequester
                 )
                 .fillMaxSize(),
+            textFieldColors = TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.Transparent
+            ),
             value = viewModel!!.content,
             placeholder = Res.string.content_of_the_note,
             maxLines = Int.MAX_VALUE,

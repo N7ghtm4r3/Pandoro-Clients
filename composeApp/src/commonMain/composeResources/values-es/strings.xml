@@ -253,4 +253,5 @@
     <string name="update_started_by">Ha iniciado esta actualización el %1$s</string>
     <string name="update_published_by">Ha publicado esta actualización en %1$s</string>
     <string name="at">A %1$s</string>
+    <string name="account_deleted">Cuenta eliminada</string>
 </resources>
