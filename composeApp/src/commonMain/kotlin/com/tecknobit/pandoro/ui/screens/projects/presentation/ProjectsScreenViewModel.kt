@@ -58,7 +58,7 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                     updates = listOf(
                         ProjectUpdate(
                             id = Random.nextLong().toString(),
-                            author = PandoroUser(
+                            author = GroupMember(
                                 id = Random.nextLong().toString(),
                                 profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
                                 "name",
@@ -66,7 +66,7 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                                 email = "name.surname@gmail.com"
                             ),
                             targetVersion = "1.0.0",
-                            createDate = System.currentTimeMillis(),
+                            creationDate = System.currentTimeMillis(),
                             startDate = 1731588486000,
                             status = UpdateStatus.IN_DEVELOPMENT,
                             notes = listOf(
@@ -319,7 +319,7 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                     updates = listOf(
                         ProjectUpdate(
                             id = Random.nextLong().toString(),
-                            author = PandoroUser(
+                            author = GroupMember(
                                 id = Random.nextLong().toString(),
                                 profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
                                 "name",
@@ -327,7 +327,7 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                                 email = "name.surname@gmail.com"
                             ),
                             targetVersion = "1.0.0",
-                            createDate = System.currentTimeMillis(),
+                            creationDate = System.currentTimeMillis(),
                             startDate = System.currentTimeMillis(),
                             status = UpdateStatus.IN_DEVELOPMENT,
                             notes = listOf(
@@ -598,7 +598,7 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                     updates = listOf(
                         ProjectUpdate(
                             id = Random.nextLong().toString(),
-                            author = PandoroUser(
+                            author = GroupMember(
                                 id = Random.nextLong().toString(),
                                 profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
                                 "name",
@@ -606,7 +606,7 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                                 email = "name.surname@gmail.com"
                             ),
                             targetVersion = "1.0.0",
-                            createDate = System.currentTimeMillis(),
+                            creationDate = System.currentTimeMillis(),
                             startDate = 1731588486000,
                             status = UpdateStatus.IN_DEVELOPMENT,
                             notes = listOf(
@@ -858,7 +858,7 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                     updates = listOf(
                         ProjectUpdate(
                             id = Random.nextLong().toString(),
-                            author = PandoroUser(
+                            author = GroupMember(
                                 id = Random.nextLong().toString(),
                                 profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
                                 "name",
@@ -866,7 +866,7 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                                 email = "name.surname@gmail.com"
                             ),
                             targetVersion = "1.0.0",
-                            createDate = System.currentTimeMillis(),
+                            creationDate = System.currentTimeMillis(),
                             startDate = System.currentTimeMillis(),
                             status = UpdateStatus.IN_DEVELOPMENT,
                             notes = listOf(

@@ -104,8 +104,6 @@
     <string name="server_secret">Secreto del servidor</string>
     <string name="you_must_insert_a_correct_server_secret">Debe introducir un secreto de servidor correcto</string>
     <string name="copy_note">Copia</string>
-    <string name="export_notes">Notas de exportación</string>
-    <string name="notes_formatted_in_markdown_copied">¡Notas formateadas en markdown copiadas!</string>
     <string name="total_change_notes">Notas de cambio total:</string>
     <string name="language">Idioma</string>
     <string name="change_language">Cambiar de idioma</string>
@@ -193,7 +191,6 @@
     <string name="wrong_password">Contraseña incorrecta</string>
     <string name="logout">Cierre de sesión</string>
     <string name="logout_warn_text">Si confirma, saldrá de la sesión actual. ¿Desea continuar\?</string>
-    <string name="delete">Borrar</string>
     <string name="delete_warn_text">Si confirma, su cuenta y todos los datos asociados se eliminarán de forma permanente. Esta acción no se puede deshacer. ¿Desea continuar\?</string>
     <string name="changelogs">Cambios</string>
     <string name="change_email">Cambiar correo electrónico</string>
@@ -250,4 +247,10 @@
         <item formatted="false" quantity="other">%1$d cambios completados en %2$d</item>
     </plurals>
     <string name="delete_update_text_dialog">Si confirma la actualización y su toda la información será eliminada y no más recuperable, confirmar\?</string>
+    <string name="delete">Borrar</string>
+    <string name="notes_formatted_in_markdown_copied">¡Notas formateadas en markdown copiadas!</string>
+    <string name="update_scheduled_by">Ha programado esta actualización el %1$s</string>
+    <string name="update_started_by">Ha iniciado esta actualización el %1$s</string>
+    <string name="update_published_by">Ha publicado esta actualización en %1$s</string>
+    <string name="at">A %1$s</string>
 </resources>

@@ -104,8 +104,6 @@
     <string name="server_secret">Server secret</string>
     <string name="you_must_insert_a_correct_server_secret">You must insert a correct server secret</string>
     <string name="copy_note">Copy</string>
-    <string name="export_notes">Export notes</string>
-    <string name="notes_formatted_in_markdown_copied">Notes formatted in markdown copied!</string>
     <string name="total_change_notes">Total change notes:</string>
     <string name="language">Language</string>
     <string name="change_language">Change language</string>
@@ -193,7 +191,6 @@
     <string name="wrong_password">Wrong password</string>
     <string name="logout">Logout</string>
     <string name="logout_warn_text">If you confirm, you will be logged out of the current session. Do you wish to proceed?</string>
-    <string name="delete">Delete</string>
     <string name="delete_warn_text">If you confirm, your account and all associated data will be permanently deleted. This action cannot be undone. Do you wish to proceed?</string>
     <string name="changelogs">Changelogs</string>
     <string name="change_email">Change email</string>
@@ -250,4 +247,10 @@
         <item formatted="false" quantity="other">%1$d changes completed on %2$d</item>
     </plurals>
     <string name="delete_update_text_dialog">If you confirm the update and its all information will be deleted and no more recoverable, confirm?</string>
+    <string name="delete">Delete</string>
+    <string name="notes_formatted_in_markdown_copied">Notes formatted in markdown copied!</string>
+    <string name="update_scheduled_by">Has scheduled this update on %1$s</string>
+    <string name="update_started_by">Has started this update on %1$s</string>
+    <string name="update_published_by">Has published this update on %1$s</string>
+    <string name="at">At %1$s</string>
 </resources>

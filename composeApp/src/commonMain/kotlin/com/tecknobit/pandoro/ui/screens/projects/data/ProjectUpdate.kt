@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.IDENTIFIER_KEY
 import com.tecknobit.pandoro.helpers.TimeFormatter.daysUntil
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
-import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
+import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.theme.Green
 import com.tecknobit.pandoro.ui.theme.Yellow
 import com.tecknobit.pandorocore.AUTHOR_KEY
@@ -28,19 +28,19 @@ data class ProjectUpdate(
     @SerialName(IDENTIFIER_KEY)
     val id: String,
     @SerialName(AUTHOR_KEY)
-    val author: PandoroUser,
+    val author: GroupMember,
     @SerialName(UPDATE_CREATE_DATE_KEY)
-    val createDate: Long,
+    val creationDate: Long,
     @SerialName(UPDATE_TARGET_VERSION_KEY)
     val targetVersion: String,
     @SerialName(UPDATE_STATUS_KEY)
     val status: UpdateStatus,
     @SerialName(UPDATE_STARTED_BY_KEY)
-    val startedBy: PandoroUser? = null,
+    val startedBy: GroupMember? = null,
     @SerialName(UPDATE_START_DATE_KEY)
     val startDate: Long = -1,
     @SerialName(UPDATE_PUBLISHED_BY_KEY)
-    val publishedBy: PandoroUser? = null,
+    val publishedBy: GroupMember? = null,
     @SerialName(UPDATE_PUBLISH_DATE_KEY)
     val publishDate: Long = -1,
     @SerialName(NOTES_KEY)

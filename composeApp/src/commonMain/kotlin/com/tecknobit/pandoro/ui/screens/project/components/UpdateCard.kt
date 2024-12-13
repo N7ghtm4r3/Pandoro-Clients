@@ -23,11 +23,13 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.PlainTooltip
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
@@ -41,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.pandoro.copyToClipboard
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.ui.components.DeleteUpdate
@@ -56,12 +59,14 @@ import com.tecknobit.pandorocore.enums.UpdateStatus
 import com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT
 import com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED
 import com.tecknobit.pandorocore.enums.UpdateStatus.SCHEDULED
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.changes_are_planned
 import pandoro.composeapp.generated.resources.changes_completed_on
+import pandoro.composeapp.generated.resources.notes_formatted_in_markdown_copied
 import pandoro.composeapp.generated.resources.update_completed_in
 import pandoro.composeapp.generated.resources.update_completed_info
 
@@ -152,6 +157,7 @@ private fun CardHeader(
             ) {
                 UpdateActions(
                     viewModel = viewModel,
+                    project = project,
                     update = update
                 )
             }
@@ -164,44 +170,27 @@ private fun CardHeader(
 @NonRestartableComposable
 private fun UpdateActions(
     viewModel: ProjectScreenViewModel,
+    project: Project,
     update: ProjectUpdate
 ) {
-    val widthSizeClass = getCurrentWidthSizeClass()
-    when(widthSizeClass) {
-        Expanded -> {
-            ActionTexts(
-                viewModel = viewModel,
-                update = update
-            )
-        }
-        else -> {
-            ActionIcons(
-                viewModel = viewModel,
-                update = update
-            )
-        }
-    }
-}
-
-@Composable
-@NonRestartableComposable
-private fun ActionIcons(
-    viewModel: ProjectScreenViewModel,
-    update: ProjectUpdate
-) {
+    val viewChangeNotes = remember { mutableStateOf(false) }
     IconButton(
-        onClick = {
-
-        }
+        onClick = { viewChangeNotes.value = true }
     ) {
         Icon(
             imageVector = ClipboardList,
             contentDescription = null
         )
     }
+    val timelineBottomSheet = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+    val timelineScope = rememberCoroutineScope()
     IconButton(
         onClick = {
-
+            timelineScope.launch {
+                timelineBottomSheet.show()
+            }
         }
     ) {
         Icon(
@@ -209,10 +198,26 @@ private fun ActionIcons(
             contentDescription = null
         )
     }
+    ViewTimeline(
+        state = timelineBottomSheet,
+        scope = timelineScope,
+        project = project,
+        update = update
+    )
+    val notesFormatted = stringResource(Res.string.notes_formatted_in_markdown_copied)
     IconButton(
         enabled = update.notes.isNotEmpty(),
         onClick = {
-
+            copyToClipboard(
+                content = formatNotesAsMarkdown(
+                    update = update
+                ),
+                onCopy = {
+                    viewModel.showSnackbarMessage(
+                        message = notesFormatted
+                    )
+                }
+            )
         }
     ) {
         Icon(
@@ -230,70 +235,6 @@ private fun ActionIcons(
             tint = MaterialTheme.colorScheme.error
         )
     }
-    DeleteUpdateAction(
-        viewModel = viewModel,
-        deleteUpdate = deleteUpdate,
-        update = update
-    )
-}
-
-@Composable
-@NonRestartableComposable
-private fun ActionTexts(
-    viewModel: ProjectScreenViewModel,
-    update: ProjectUpdate
-) {
-    TextButton(
-        onClick = {
-
-        }
-    ) {
-        Text(
-            text = "View change notes"
-        )
-    }
-    TextButton(
-        onClick = {
-
-        }
-    ) {
-        Text(
-            text = "View timeline"
-        )
-    }
-    TextButton(
-        enabled = update.notes.isNotEmpty(),
-        onClick = {
-
-        }
-    ) {
-        Text(
-            text = "Export notes"
-        )
-    }
-    val deleteUpdate = remember { mutableStateOf(false) }
-    TextButton(
-        onClick = { deleteUpdate.value = true }
-    ) {
-        Text(
-            text = "Delete",
-            color = MaterialTheme.colorScheme.error
-        )
-    }
-    DeleteUpdateAction(
-        viewModel = viewModel,
-        deleteUpdate = deleteUpdate,
-        update = update
-    )
-}
-
-@Composable
-@NonRestartableComposable
-private fun DeleteUpdateAction(
-    viewModel: ProjectScreenViewModel,
-    deleteUpdate: MutableState<Boolean>,
-    update: ProjectUpdate
-) {
     DeleteUpdate(
         viewModel = viewModel,
         show = deleteUpdate,
@@ -303,6 +244,72 @@ private fun DeleteUpdateAction(
             viewModel.updatesState.refresh()
         }
     )
+}
+
+@Composable
+@NonRestartableComposable
+private fun ViewChangeNotes(
+    view: MutableState<Boolean>,
+    update: ProjectUpdate
+) {
+    val widthSizeClass = getCurrentWidthSizeClass()
+    when(widthSizeClass) {
+        Expanded -> {}
+        else -> {
+            val modalBottomSheetState = rememberModalBottomSheetState(
+                skipPartiallyExpanded = true
+            )
+            val scope = rememberCoroutineScope()
+            if(modalBottomSheetState.isVisible) {
+
+            }
+        }
+    }
+}
+
+@Composable
+@NonRestartableComposable
+private fun ViewTimeline(
+    state: SheetState,
+    scope: CoroutineScope,
+    project: Project,
+    update: ProjectUpdate
+) {
+    if(state.isVisible) {
+        ModalBottomSheet(
+            onDismissRequest = {
+                scope.launch {
+                    state.hide()
+                }
+            }
+        ) {
+            if(project.isSharedWithGroups()) {
+                SharedUpdateTimeline(
+                    update = update
+                )
+            } else {
+                UpdateTimeline(
+                    update = update
+                )
+            }
+        }
+    }
+}
+
+
+/**
+ * Method to format on **markdown** the notes of an update
+ *
+ * @param update The update from format the notes
+ *
+ * @return the notes of an update formatted as markdown as [String]
+ */
+private fun formatNotesAsMarkdown(update: ProjectUpdate): String {
+    val builder = StringBuilder()
+    update.notes.forEach { note ->
+        builder.append("- ").append(note.content).append("\n")
+    }
+    return builder.toString()
 }
 
 @Composable
