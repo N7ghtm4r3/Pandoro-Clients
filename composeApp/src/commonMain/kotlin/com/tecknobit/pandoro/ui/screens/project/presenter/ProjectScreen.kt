@@ -8,7 +8,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.items
@@ -26,8 +24,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.FilterListOff
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -98,7 +96,6 @@ import pandoro.composeapp.generated.resources.edit
 import pandoro.composeapp.generated.resources.github
 import pandoro.composeapp.generated.resources.gitlab
 import pandoro.composeapp.generated.resources.no_updates_scheduled
-import pandoro.composeapp.generated.resources.status
 import pandoro.composeapp.generated.resources.updates
 
 class ProjectScreen(
@@ -354,10 +351,10 @@ class ProjectScreen(
                     start = 10.dp
                 )
                 .fillMaxSize(),
-            header = Res.string.updates
+            header = Res.string.updates,
+            filtersContent = { Filters() }
         ) {
             Column {
-                Filters()
                 val widthSizeClass = getCurrentWidthSizeClass()
                 when(widthSizeClass) {
                     Compact -> { UpdatesColumn() }
@@ -370,89 +367,74 @@ class ProjectScreen(
     @Composable
     @NonRestartableComposable
     private fun Filters() {
-        Row (
+        var menuOpened by remember { mutableStateOf(false) }
+        val areFiltersSet = viewModel!!.areFiltersSet()
+        IconButton(
             modifier = Modifier
-                .width(150.dp)
-                .border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    shape = RoundedCornerShape(
-                        size = 10.dp
-                    )
-                ),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.End
-        ) {
-            Text(
-                modifier = Modifier
-                    .padding(
-                        start = 15.dp
-                    )
-                    .weight(1f),
-                textAlign = TextAlign.Left,
-                text = stringResource(Res.string.status)
-            )
-            var menuOpened by remember { mutableStateOf(false) }
-            IconButton(
-                onClick = { menuOpened = !menuOpened }
-            ) {
-                Icon(
-                    imageVector = if(menuOpened)
-                        Icons.Default.KeyboardArrowUp
-                    else
-                        Icons.Default.KeyboardArrowDown,
-                    contentDescription = null
-                )
+                .size(24.dp),
+            onClick = {
+                if(areFiltersSet)
+                    viewModel!!.clearFilters()
+                else
+                    menuOpened = true
             }
-            DropdownMenu(
-                expanded = menuOpened,
-                onDismissRequest = { menuOpened = false }
-            ) {
-                UpdateStatus.entries.forEach { status ->
-                    var selected by remember {
-                        mutableStateOf(viewModel!!.updateStatusesFilters.contains(status))
-                    }
-                    DropdownMenuItem(
-                        modifier = Modifier
-                            .colorOneSideBorder(
-                                borderToColor = BorderToColor.START,
-                                width = 5.dp,
-                                color = status.toColor()
-                            ),
-                        text = {
-                            Row (
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = status.asText()
-                                )
-                                Column (
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
-                                    horizontalAlignment = Alignment.End
-                                ) {
-                                    Checkbox(
-                                        checked = selected,
-                                        onCheckedChange = {
-                                            selected = it
-                                            viewModel!!.manageStatusesFilter(
-                                                selected = selected,
-                                                updateStatus = status
-                                            )
-                                        }
-                                    )
-                                }
-                            }
-                        },
-                        onClick = {
-                            selected = !selected
-                            viewModel!!.manageStatusesFilter(
-                                selected = selected,
-                                updateStatus = status
-                            )
-                        }
-                    )
+        ) {
+            Icon(
+                imageVector = if(areFiltersSet)
+                    Icons.Default.FilterListOff
+                else
+                    Icons.Default.FilterList,
+                contentDescription = null
+            )
+        }
+        DropdownMenu(
+            expanded = menuOpened,
+            onDismissRequest = { menuOpened = false }
+        ) {
+            UpdateStatus.entries.forEach { status ->
+                var selected by remember {
+                    mutableStateOf(viewModel!!.updateStatusesFilters.contains(status))
                 }
+                DropdownMenuItem(
+                    modifier = Modifier
+                        .colorOneSideBorder(
+                            borderToColor = BorderToColor.START,
+                            width = 5.dp,
+                            color = status.toColor()
+                        ),
+                    text = {
+                        Row (
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = status.asText()
+                            )
+                            Column (
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalAlignment = Alignment.End
+                            ) {
+                                Checkbox(
+                                    checked = selected,
+                                    onCheckedChange = {
+                                        selected = it
+                                        viewModel!!.manageStatusesFilter(
+                                            selected = selected,
+                                            updateStatus = status
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                    },
+                    onClick = {
+                        selected = !selected
+                        viewModel!!.manageStatusesFilter(
+                            selected = selected,
+                            updateStatus = status
+                        )
+                    }
+                )
             }
         }
     }
@@ -465,9 +447,6 @@ class ProjectScreen(
                 .fillMaxWidth()
                 .animateContentSize(),
             paginationState = viewModel!!.updatesState,
-            contentPadding = PaddingValues(
-                vertical = 10.dp
-            ),
             verticalArrangement = Arrangement.spacedBy(10.dp),
             firstPageEmptyIndicator = { NoUpdatesAvailable() }
             // TODO: TO SET
@@ -490,6 +469,7 @@ class ProjectScreen(
                             height = 200.dp
                         ),
                     viewModel = viewModel!!,
+                    project = item.value!!,
                     update = update
                 )
             }
@@ -501,14 +481,12 @@ class ProjectScreen(
     private fun UpdatesGrid() {
         PaginatedLazyVerticalGrid(
             modifier = Modifier
+                .widthIn(
+                    max = FORM_CARD_WIDTH
+                )
                 .animateContentSize(),
-            columns = GridCells.Adaptive(
-                minSize = 350.dp
-            ),
+            columns = GridCells.Fixed(1),
             paginationState = viewModel!!.updatesState,
-            contentPadding = PaddingValues(
-                vertical = 10.dp
-            ),
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             firstPageEmptyIndicator = { NoUpdatesAvailable() }
@@ -533,6 +511,7 @@ class ProjectScreen(
                             height = 200.dp
                         ),
                     viewModel = viewModel!!,
+                    project = item.value!!,
                     update = update
                 )
             }

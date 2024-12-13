@@ -13,7 +13,6 @@
     <string name="date_of_mark">Date de la marque :</string>
     <string name="note_info">Note info</string>
     <string name="create_a_new_note">Créer une nouvelle note</string>
-    <string name="content">Contenu</string>
     <string name="create">Créer</string>
     <string name="personal">Personnel</string>
     <string name="group">Groupe</string>
@@ -56,7 +55,6 @@
     <string name="update_version">Version de mise à jour :</string>
     <string name="content_copied">Contenu copié avec succès</string>
     <string name="wrong_group_list">Mauvaise liste de groupes</string>
-    <string name="target_version">Version cible</string>
     <string name="groups_number">Numéro de groupe :</string>
     <string name="stats">Statistiques</string>
     <string name="total_development_days">Nombre total de jours de développement :</string>
@@ -171,7 +169,7 @@
     <string name="no_groups_available">Pas de groupes disponibles</string>
     <string name="my_groups">Mes groupes</string>
     <string name="empty_filtered_groups">Aucun groupe n\'a été trouvé avec ces filtres, essayez de les changer.</string>
-    <string name="delete_group_text_dialog">Si vous confirmez, le groupe et toutes ses informations seront supprimés et ne pourront plus être récupérés, confirmez-vous \?</string>
+    <string name="delete_group_text_dialog">Si vous confirmez, le groupe et toutes ses informations seront supprimés et ne pourront plus être récupérés, confirmez-vous ?</string>
     <string name="create_group">Créer un groupe</string>
     <string name="edit_group">Edit group</string>
     <string name="name">Nom</string>
@@ -194,9 +192,9 @@
     <string name="password">Mot de passe</string>
     <string name="wrong_password">Mot de passe erroné</string>
     <string name="logout">Déconnexion</string>
-    <string name="logout_warn_text">Si vous confirmez, vous serez déconnecté de la session en cours. Souhaitez-vous poursuivre \?</string>
+    <string name="logout_warn_text">Si vous confirmez, vous serez déconnecté de la session en cours. Souhaitez-vous poursuivre ?</string>
     <string name="delete">Supprimer</string>
-    <string name="delete_warn_text">Si vous confirmez, votre compte et toutes les données associées seront définitivement supprimés. Cette action ne peut être annulée. Souhaitez-vous continuer \?</string>
+    <string name="delete_warn_text">Si vous confirmez, votre compte et toutes les données associées seront définitivement supprimés. Cette action ne peut être annulée. Souhaitez-vous continuer ?</string>
     <string name="changelogs">Changelogs</string>
     <string name="change_email">Changer l'e-mail</string>
     <string name="new_email">Nouveau courriel</string>
@@ -241,4 +239,8 @@
         <item formatted="false" quantity="other">Note terminée dans %1$d jours</item>
     </plurals>
     <string name="not_available">Non disponible</string>
+    <string name="content">Contenu</string>
+    <string name="target_version">Version cible</string>
+    <string name="change_notes_scheduled">Modifier les notes programmées</string>
+    <string name="delete_update_text_dialog">Si vous confirmez la mise à jour et que toutes ses informations seront supprimées et ne pourront plus être récupérées, confirmez-vous ?</string>
 </resources>

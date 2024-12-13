@@ -217,17 +217,24 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
     protected fun Section(
         modifier: Modifier = Modifier,
         header: StringResource,
+        filtersContent: @Composable () -> Unit = {},
         content: @Composable ColumnScope.() -> Unit
     ) {
         Column (
             modifier = modifier,
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Text(
-                text = stringResource(header),
-                fontFamily = displayFontFamily,
-                fontSize = 22.sp
-            )
+            Row (
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                Text(
+                    text = stringResource(header),
+                    fontFamily = displayFontFamily,
+                    fontSize = 22.sp
+                )
+                filtersContent.invoke()
+            }
             Column(
                 content = content
             )

@@ -8,17 +8,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxAlertDialog
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.SPLASHSCREEN
+import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.groups.presentation.GroupsScreenViewModel
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
 import com.tecknobit.pandoro.ui.screens.profile.presentation.ProfileScreenViewModel
+import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
+import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
+import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.confirm
@@ -28,10 +34,16 @@ import pandoro.composeapp.generated.resources.delete_item
 import pandoro.composeapp.generated.resources.delete_note
 import pandoro.composeapp.generated.resources.delete_note_text
 import pandoro.composeapp.generated.resources.delete_project_text_dialog
+import pandoro.composeapp.generated.resources.delete_update_text_dialog
 import pandoro.composeapp.generated.resources.delete_warn_text
 import pandoro.composeapp.generated.resources.dismiss
 import pandoro.composeapp.generated.resources.logout
 import pandoro.composeapp.generated.resources.logout_warn_text
+
+val titleStyle = TextStyle(
+    fontFamily = displayFontFamily,
+    fontSize = 18.sp
+)
 
 @Composable
 @NonRestartableComposable
@@ -50,9 +62,40 @@ fun DeleteProject(
         viewModel = viewModel,
         show = show,
         title = stringResource(Res.string.delete_item, project.name),
+        titleStyle = titleStyle,
         text = stringResource(Res.string.delete_project_text_dialog),
         confirmAction = {
             deleteRequest.invoke(project)
+        },
+        confirmText = stringResource(Res.string.confirm),
+        dismissText = stringResource(Res.string.dismiss)
+    )
+}
+
+@Composable
+@NonRestartableComposable
+fun DeleteUpdate(
+    viewModel: ProjectScreenViewModel,
+    update: ProjectUpdate,
+    show: MutableState<Boolean>,
+    onDelete: () -> Unit
+) {
+    EquinoxAlertDialog(
+        icon = Icons.Default.Delete,
+        modifier = Modifier
+            .widthIn(
+                max = 400.dp
+            ),
+        viewModel = viewModel,
+        show = show,
+        title = stringResource(Res.string.delete_item, update.targetVersion.asVersionText()),
+        titleStyle = titleStyle,
+        text = stringResource(Res.string.delete_update_text_dialog),
+        confirmAction = {
+            viewModel.deleteUpdate(
+                update = update,
+                onDelete = onDelete
+            )
         },
         confirmText = stringResource(Res.string.confirm),
         dismissText = stringResource(Res.string.dismiss)
@@ -76,6 +119,7 @@ fun DeleteNote(
         viewModel = viewModel,
         show = show,
         title = stringResource(Res.string.delete_note),
+        titleStyle = titleStyle,
         text = stringResource(Res.string.delete_note_text),
         confirmAction = {
             viewModel.deleteNote(
@@ -105,6 +149,7 @@ fun DeleteGroup(
         viewModel = viewModel,
         show = show,
         title = stringResource(Res.string.delete_item, group.name),
+        titleStyle = titleStyle,
         text = stringResource(Res.string.delete_group_text_dialog),
         confirmAction = {
             viewModel.deleteGroup(
@@ -132,6 +177,7 @@ fun Logout(
         viewModel = viewModel,
         show = show,
         title = Res.string.logout,
+        titleStyle = titleStyle,
         text = Res.string.logout_warn_text,
         confirmAction = {
             viewModel.clearSession {
@@ -156,6 +202,7 @@ fun DeleteAccount(
         viewModel = viewModel,
         show = show,
         title = Res.string.delete,
+        titleStyle = titleStyle,
         text = Res.string.delete_warn_text,
         confirmAction = {
             viewModel.deleteAccount {

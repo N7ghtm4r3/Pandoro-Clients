@@ -190,6 +190,20 @@ class ProjectScreenViewModel(
             updateStatusesFilters.add(updateStatus)
         else
             updateStatusesFilters.remove(updateStatus)
+        filterList()
+    }
+
+    fun areFiltersSet() : Boolean {
+        return updateStatusesFilters.size != UpdateStatus.entries.size
+    }
+
+    fun clearFilters() {
+        updateStatusesFilters.clear()
+        updateStatusesFilters.addAll(UpdateStatus.entries)
+        filterList()
+    }
+
+    private fun filterList() {
         updatesState.appendPageWithUpdates(
             allItems = totalUpdates.filter { update -> updateStatusesFilters.contains(update.status) },
             nextPageKey = 0,
@@ -215,6 +229,13 @@ class ProjectScreenViewModel(
             nextPageKey = page + 1,
             isLastPage = currentUpdatesLoaded.size == totalUpdates.size
         )
+    }
+
+    fun deleteUpdate(
+        update: ProjectUpdate,
+        onDelete: () -> Unit
+    ) {
+        // TODO: MAKE THE REQUEST THEN
     }
 
 }

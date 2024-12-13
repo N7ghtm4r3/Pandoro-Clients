@@ -350,6 +350,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                             currentTheme = theme
                         )
                     },
+                    dismissAction = { theme.value = localUser.theme },
                     confirmAction = { visible ->
                         changeTheme(
                             newTheme = theme.value,

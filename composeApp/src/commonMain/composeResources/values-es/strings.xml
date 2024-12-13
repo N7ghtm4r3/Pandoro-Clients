@@ -13,7 +13,6 @@
     <string name="date_of_mark">Fecha de la marca:</string>
     <string name="note_info">Nota informativa</string>
     <string name="create_a_new_note">Crear una nueva nota</string>
-    <string name="content">Contenido</string>
     <string name="create">Cree</string>
     <string name="personal">Personal</string>
     <string name="group">Grupo</string>
@@ -56,7 +55,6 @@
     <string name="update_version">Actualizar versión:</string>
     <string name="content_copied">Contenido copiado correctamente</string>
     <string name="wrong_group_list">Lista de grupos errónea</string>
-    <string name="target_version">Versión objetivo</string>
     <string name="groups_number">Grupos número:</string>
     <string name="stats">Estadísticas</string>
     <string name="total_development_days">Total de días de desarrollo:</string>
@@ -241,4 +239,8 @@
         <item formatted="false" quantity="other">Nota completada en %1$d días</item>
     </plurals>
     <string name="not_available">No disponible</string>
+    <string name="content">Contenido</string>
+    <string name="target_version">Versión objetivo</string>
+    <string name="change_notes_scheduled">Notas de cambio programadas</string>
+    <string name="delete_update_text_dialog">Si confirma la actualización y su toda la información será eliminada y no más recuperable, confirmar\?</string>
 </resources>
