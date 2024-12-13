@@ -15,9 +15,15 @@ import kotlinx.datetime.toLocalDateTime
 )
 object TimeFormatter {
 
-    private var defaultPattern: String = "dd/MM/yyyy HH:mm:ss"
+    const val COMPLETE_DATE_PATTERN = "dd/MM/yyyy HH:mm:ss"
 
-    private var defaultDatePattern: String = "dd/MM/yyyy"
+    const val DATE_PATTERN = "dd/MM/yyyy"
+
+    const val H24_HOURS_MINUTES_PATTERN = "HH:mm"
+
+    private var defaultPattern: String = COMPLETE_DATE_PATTERN
+
+    private var defaultDatePattern: String = DATE_PATTERN
 
     var invalidTimeGuard: Long = -1
 

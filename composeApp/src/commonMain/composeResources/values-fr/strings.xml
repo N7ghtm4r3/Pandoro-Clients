@@ -140,7 +140,7 @@
     <string name="project_repository">Référentiel du projet</string>
     <string name="filters_placeholder">Nom, versions</string>
     <string name="wrong_filters_text">Mauvaise valeur des filtres</string>
-    <string name="empty_filtered_projects">Aucun projet n\'a été trouvé avec ces filtres, essayez de les changer.</string>
+    <string name="empty_filtered_projects">Aucun projet n'a été trouvé avec ces filtres, essayez de les changer.</string>
     <string name="create_project">Créer un projet</string>
     <string name="save">Sauvegarder</string>
     <string name="edit">Modifier</string>
@@ -166,7 +166,7 @@
     <string name="groups">Groupes</string>
     <string name="no_groups_available">Pas de groupes disponibles</string>
     <string name="my_groups">Mes groupes</string>
-    <string name="empty_filtered_groups">Aucun groupe n\'a été trouvé avec ces filtres, essayez de les changer.</string>
+    <string name="empty_filtered_groups">Aucun groupe n'a été trouvé avec ces filtres, essayez de les changer.</string>
     <string name="delete_group_text_dialog">Si vous confirmez, le groupe et toutes ses informations seront supprimés et ne pourront plus être récupérés, confirmez-vous ?</string>
     <string name="create_group">Créer un groupe</string>
     <string name="edit_group">Edit group</string>
@@ -249,9 +249,11 @@
     <string name="delete_update_text_dialog">Si vous confirmez la mise à jour et que toutes ses informations seront supprimées et ne pourront plus être récupérées, confirmez-vous ?</string>
     <string name="delete">Supprimer</string>
     <string name="notes_formatted_in_markdown_copied">Notes formatées en markdown copiées !</string>
-    <string name="update_scheduled_by">A programmé cette mise à jour le %1$s</string>
-    <string name="update_started_by">A commencé cette mise à jour le %1$s</string>
-    <string name="update_published_by">A publié cette mise à jour le %1$s</string>
-    <string name="at">À %1$s</string>
     <string name="account_deleted">Compte supprimé</string>
+    <string name="update_scheduled_by">A planifié cette mise à jour le %1$s à %2$s</string>
+    <string name="update_started_by">A commencé cette mise à jour le %1$s à %2$s</string>
+    <string name="update_published_by">A publié cette mise à jour le %1$s à %2$s</string>
+    <string name="update_scheduled_myself">Vous avez programmé cette mise à jour le %1$s à %2$s</string>
+    <string name="update_started_myself">Vous avez démarré cette mise à jour le %1$s à %2$s</string>
+    <string name="update_published_myself">Vous avez publié cette mise à jour le %1$s à %2$s</string>
 </resources>

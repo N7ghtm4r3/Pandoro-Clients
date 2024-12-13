@@ -249,9 +249,11 @@
     <string name="delete_update_text_dialog">Si confirma la actualización y su toda la información será eliminada y no más recuperable, confirmar\?</string>
     <string name="delete">Borrar</string>
     <string name="notes_formatted_in_markdown_copied">¡Notas formateadas en markdown copiadas!</string>
-    <string name="update_scheduled_by">Ha programado esta actualización el %1$s</string>
-    <string name="update_started_by">Ha iniciado esta actualización el %1$s</string>
-    <string name="update_published_by">Ha publicado esta actualización en %1$s</string>
-    <string name="at">A %1$s</string>
     <string name="account_deleted">Cuenta eliminada</string>
+    <string name="update_scheduled_by">Ha programado esta actualización el %1$s a las %2$s</string>
+    <string name="update_started_by">Ha iniciado esta actualización el %1$s a las %2$s</string>
+    <string name="update_published_by">Ha publicado esta actualización el %1$s a las %2$s</string>
+    <string name="update_scheduled_myself">Programaste esta actualización el %1$s a las %2$s</string>
+    <string name="update_started_myself">Comenzaste esta actualización el %1$s a las %2$s</string>
+    <string name="update_published_myself">Publicaste esta actualización el %1$s a las %2$s</string>
 </resources>

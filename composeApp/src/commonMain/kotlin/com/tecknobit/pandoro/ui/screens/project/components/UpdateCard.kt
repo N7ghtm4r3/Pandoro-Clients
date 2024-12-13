@@ -239,10 +239,7 @@ private fun UpdateActions(
         viewModel = viewModel,
         show = deleteUpdate,
         update = update,
-        onDelete = {
-            deleteUpdate.value = false
-            viewModel.updatesState.refresh()
-        }
+        onDelete = { deleteUpdate.value = false }
     )
 }
 

@@ -22,6 +22,7 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcompose.resources.loading_data
 import com.tecknobit.equinoxcore.annotations.Structure
@@ -90,23 +91,28 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
     @Composable
     @NonRestartableComposable
     protected fun ItemLoadedContent() {
-        Scaffold(
-            containerColor = MaterialTheme.colorScheme.primary,
-            snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
-            floatingActionButton = { FabAction() }
-        ) {
-            PlaceContent(
-                paddingValues = PaddingValues(
-                    top = 16.dp,
-                    start = 6.dp,
-                    end = 16.dp,
-                    bottom = 16.dp
-                ),
-                screenTitle = { ItemScreenTitle() },
-            ) {
-                ScreenContent()
+        ManagedContent(
+            viewModel = viewModel!!,
+            content = {
+                Scaffold(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
+                    floatingActionButton = { FabAction() }
+                ) {
+                    PlaceContent(
+                        paddingValues = PaddingValues(
+                            top = 16.dp,
+                            start = 6.dp,
+                            end = 16.dp,
+                            bottom = 16.dp
+                        ),
+                        screenTitle = { ItemScreenTitle() },
+                    ) {
+                        ScreenContent()
+                    }
+                }
             }
-        }
+        )
     }
 
     @Composable

@@ -249,9 +249,11 @@
     <string name="delete_update_text_dialog">If you confirm the update and its all information will be deleted and no more recoverable, confirm?</string>
     <string name="delete">Delete</string>
     <string name="notes_formatted_in_markdown_copied">Notes formatted in markdown copied!</string>
-    <string name="update_scheduled_by">Has scheduled this update on %1$s</string>
-    <string name="update_started_by">Has started this update on %1$s</string>
-    <string name="update_published_by">Has published this update on %1$s</string>
-    <string name="at">At %1$s</string>
+    <string name="update_scheduled_by">Has scheduled this update on %1$s at %2$s</string>
+    <string name="update_started_by">Has started this update on %1$s at %2$s</string>
+    <string name="update_published_by">Has published this update on %1$s at %2$s</string>
     <string name="account_deleted">Account deleted</string>
+    <string name="update_scheduled_myself">You scheduled this update on %1$s at %2$s</string>
+    <string name="update_started_myself">You started this update on %1$s at %2$s</string>
+    <string name="update_published_myself">You published this update on %1$s at %2$s</string>
 </resources>
