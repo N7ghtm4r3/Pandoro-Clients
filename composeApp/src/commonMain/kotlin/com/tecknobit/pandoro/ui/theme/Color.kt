@@ -225,3 +225,6 @@ val darkGreen = Color(0xFF3D5B3F)
 
 val lightYellow = Color(0xFFFFE082)
 val darkYellow = Color(4292130864)
+
+val darkChangeNoteCardBackground = Color(4292071131)
+val lightChangeNoteCardBackground = Color(4284636780)

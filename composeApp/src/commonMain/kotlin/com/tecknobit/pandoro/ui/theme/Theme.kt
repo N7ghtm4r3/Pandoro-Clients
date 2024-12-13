@@ -253,6 +253,14 @@ fun Yellow(): Color {
         lightYellow
 }
 
+@Composable
+fun ChangeNoteBackground() : Color {
+    return if(isDarkThemeSelected())
+        darkChangeNoteCardBackground
+    else
+        lightChangeNoteCardBackground
+}
+
 /**
  * Method to apply the Ametista theme to the content
  *

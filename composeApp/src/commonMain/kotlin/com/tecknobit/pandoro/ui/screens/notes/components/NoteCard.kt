@@ -1,6 +1,4 @@
-@file:OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
-    ExperimentalComposeApi::class
-)
+@file:OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 
 package com.tecknobit.pandoro.ui.screens.notes.components
 
@@ -12,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -19,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -30,7 +30,6 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +49,7 @@ import com.pushpal.jetlime.JetLimeColumn
 import com.pushpal.jetlime.JetLimeDefaults
 import com.pushpal.jetlime.JetLimeEvent
 import com.pushpal.jetlime.JetLimeEventDefaults
+import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
 import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
@@ -63,6 +63,10 @@ import com.tecknobit.pandoro.ui.icons.ClockLoader20
 import com.tecknobit.pandoro.ui.icons.Copy
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
+import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
+import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
+import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
+import com.tecknobit.pandoro.ui.theme.ChangeNoteBackground
 import com.tecknobit.pandoro.ui.theme.Green
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -86,6 +90,43 @@ fun NoteCard(
     viewModel: NotesScreenViewModel,
     note: Note
 ) {
+    NoteCardContent(
+        modifier = modifier,
+        viewModel = viewModel,
+        note = note,
+        onDelete = { viewModel.notesState.refresh() }
+    )
+}
+
+@Composable
+@NonRestartableComposable
+fun ChangeNoteCard(
+    modifier: Modifier,
+    viewModel: ProjectScreenViewModel,
+    update: ProjectUpdate,
+    note: Note
+) {
+    NoteCardContent(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(
+            containerColor = ChangeNoteBackground()
+        ),
+        viewModel = viewModel,
+        update = update,
+        note = note
+    )
+}
+
+@Composable
+@NonRestartableComposable
+private fun NoteCardContent(
+    modifier: Modifier,
+    colors: CardColors = CardDefaults.cardColors(),
+    viewModel: EquinoxViewModel,
+    update: ProjectUpdate? = null,
+    note: Note,
+    onDelete: () -> Unit = {}
+) {
     val modalBottomSheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
     Card(
@@ -108,7 +149,8 @@ fun NoteCard(
                     )
                 } else
                     Modifier
-            )
+            ),
+        colors = colors
     ) {
         Text(
             modifier = Modifier
@@ -129,6 +171,9 @@ fun NoteCard(
                     start = 16.dp,
                     end = 16.dp,
                     bottom = 16.dp
+                )
+                .heightIn(
+                    min = 75.dp
                 ),
             text = note.content,
             maxLines = 3,
@@ -136,7 +181,9 @@ fun NoteCard(
         )
         NoteActions(
             viewModel = viewModel,
-            note = note
+            update = update,
+            note = note,
+            onDelete = onDelete
         )
     }
     NoteDetails(
@@ -149,8 +196,10 @@ fun NoteCard(
 @Composable
 @NonRestartableComposable
 private fun NoteActions(
-    viewModel: NotesScreenViewModel,
-    note: Note
+    viewModel: EquinoxViewModel,
+    update: ProjectUpdate?,
+    note: Note,
+    onDelete: () -> Unit,
 ) {
     HorizontalDivider()
     Row (
@@ -160,7 +209,8 @@ private fun NoteActions(
     ) {
         IconButton(
             onClick = {
-                viewModel.manageNoteStatus(
+                (viewModel as NotesManager).manageNoteStatus(
+                    update = update,
                     note = note
                 )
             }
@@ -205,8 +255,9 @@ private fun NoteActions(
             DeleteNote(
                 viewModel = viewModel,
                 show = deleteNote,
+                update = update,
                 note = note,
-                onDelete = { viewModel.notesState.refresh() }
+                onDelete = onDelete
             )
         }
     }

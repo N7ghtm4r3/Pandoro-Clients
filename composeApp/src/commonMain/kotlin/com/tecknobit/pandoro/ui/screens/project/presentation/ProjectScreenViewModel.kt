@@ -15,6 +15,7 @@ import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseProjectViewModel
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseProjectViewModel.ProjectDeleter
+import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
 import com.tecknobit.pandorocore.enums.Role
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import io.github.ahmad_hamwi.compose.pagination.ExperimentalPaginationApi
@@ -24,7 +25,7 @@ import kotlin.random.Random
 
 class ProjectScreenViewModel(
     projectId: String
-) : BaseProjectViewModel(), ProjectDeleter {
+) : BaseProjectViewModel(), ProjectDeleter, NotesManager {
 
     private val totalUpdates = mutableSetOf<ProjectUpdate>()
 
@@ -390,6 +391,21 @@ class ProjectScreenViewModel(
     ) {
         // TODO: MAKE THE REQUEST THEN
         onDelete.invoke()
+    }
+
+    override fun manageNoteStatus(
+        update: ProjectUpdate?,
+        note: Note
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteNote(
+        update: ProjectUpdate?,
+        note: Note,
+        onDelete: () -> Unit
+    ) {
+        TODO("Not yet implemented")
     }
 
 }

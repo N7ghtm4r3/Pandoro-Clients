@@ -5,13 +5,15 @@ import androidx.compose.runtime.MutableState
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
+import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
+import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlin.random.Random
 
 class NotesScreenViewModel: EquinoxViewModel(
     snackbarHostState = SnackbarHostState()
-) {
+), NotesManager {
 
     lateinit var selectToDoNotes: MutableState<Boolean>
 
@@ -80,16 +82,17 @@ class NotesScreenViewModel: EquinoxViewModel(
         notesState.refresh()
     }
 
-    fun manageNoteStatus(
+    override fun manageNoteStatus(
+        update: ProjectUpdate?,
         note: Note
     ) {
         // TODO: MAKE THE REQUEST THEN
         notesState.refresh()
     }
 
-    fun deleteNote(
-        note: Note,
-        onDelete: () -> Unit
+    override fun deleteNote(
+        update: ProjectUpdate?,
+        note: Note, onDelete: () -> Unit
     ) {
         // TODO: MAKE THE REQUEST THEN
         onDelete.invoke()

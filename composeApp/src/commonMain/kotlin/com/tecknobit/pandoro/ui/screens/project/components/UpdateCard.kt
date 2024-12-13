@@ -3,15 +3,21 @@
 package com.tecknobit.pandoro.ui.screens.project.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -49,6 +55,8 @@ import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.ui.components.DeleteUpdate
 import com.tecknobit.pandoro.ui.icons.ClipboardList
 import com.tecknobit.pandoro.ui.icons.ExportNotes
+import com.tecknobit.pandoro.ui.screens.PandoroScreen.Companion.FORM_CARD_HEIGHT
+import com.tecknobit.pandoro.ui.screens.notes.components.ChangeNoteCard
 import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
@@ -82,12 +90,16 @@ fun UpdateCard(
         modifier = modifier
             .fillMaxSize()
     ) {
+        val viewChangeNotes = remember { mutableStateOf(false) }
         CardHeader(
             viewModel = viewModel,
+            viewChangeNotes = viewChangeNotes,
             project = project,
             update = update
         )
         update.status.Content(
+            viewModel = viewModel,
+            viewChangeNotes = viewChangeNotes,
             update = update
         )
     }
@@ -97,6 +109,7 @@ fun UpdateCard(
 @NonRestartableComposable
 private fun CardHeader(
     viewModel: ProjectScreenViewModel,
+    viewChangeNotes: MutableState<Boolean>,
     project: Project,
     update: ProjectUpdate
 ) {
@@ -108,7 +121,6 @@ private fun CardHeader(
         Column(
             modifier = Modifier
                 .weight(0.8f)
-                .fillMaxWidth()
         ) {
             Text(
                 modifier = Modifier
@@ -148,8 +160,7 @@ private fun CardHeader(
                         Expanded -> 2f
                         else -> 1f
                     }
-                )
-                .fillMaxWidth(),
+                ),
             horizontalAlignment = Alignment.End
         ) {
             Row(
@@ -157,6 +168,7 @@ private fun CardHeader(
             ) {
                 UpdateActions(
                     viewModel = viewModel,
+                    viewChangeNotes = viewChangeNotes,
                     project = project,
                     update = update
                 )
@@ -170,12 +182,12 @@ private fun CardHeader(
 @NonRestartableComposable
 private fun UpdateActions(
     viewModel: ProjectScreenViewModel,
+    viewChangeNotes: MutableState<Boolean>,
     project: Project,
     update: ProjectUpdate
 ) {
-    val viewChangeNotes = remember { mutableStateOf(false) }
     IconButton(
-        onClick = { viewChangeNotes.value = true }
+        onClick = { viewChangeNotes.value = !viewChangeNotes.value }
     ) {
         Icon(
             imageVector = ClipboardList,
@@ -245,27 +257,6 @@ private fun UpdateActions(
 
 @Composable
 @NonRestartableComposable
-private fun ViewChangeNotes(
-    view: MutableState<Boolean>,
-    update: ProjectUpdate
-) {
-    val widthSizeClass = getCurrentWidthSizeClass()
-    when(widthSizeClass) {
-        Expanded -> {}
-        else -> {
-            val modalBottomSheetState = rememberModalBottomSheetState(
-                skipPartiallyExpanded = true
-            )
-            val scope = rememberCoroutineScope()
-            if(modalBottomSheetState.isVisible) {
-
-            }
-        }
-    }
-}
-
-@Composable
-@NonRestartableComposable
 private fun ViewTimeline(
     state: SheetState,
     scope: CoroutineScope,
@@ -312,6 +303,8 @@ private fun formatNotesAsMarkdown(update: ProjectUpdate): String {
 @Composable
 @NonRestartableComposable
 private fun UpdateStatus.Content(
+    viewModel: ProjectScreenViewModel,
+    viewChangeNotes: MutableState<Boolean>,
     update: ProjectUpdate
 ) {
     Column(
@@ -395,6 +388,55 @@ private fun UpdateStatus.Content(
                     ),
                     fontSize = 14.sp
                 )
+            }
+        }
+        ViewChangeNotes(
+            viewChangeNotes = viewChangeNotes,
+            viewModel = viewModel,
+            update = update
+        )
+    }
+}
+
+@Composable
+@NonRestartableComposable
+private fun ViewChangeNotes(
+    viewChangeNotes: MutableState<Boolean>,
+    viewModel: ProjectScreenViewModel,
+    update: ProjectUpdate
+) {
+    AnimatedVisibility(
+        visible = viewChangeNotes.value
+    ) {
+        val widthSizeClass = getCurrentWidthSizeClass()
+        when(widthSizeClass) {
+            else -> {
+                LazyColumn(
+                    modifier = Modifier
+                        .heightIn(
+                            max = FORM_CARD_HEIGHT
+                        )
+                        .animateContentSize(),
+                    contentPadding = PaddingValues(
+                        vertical = 10.dp
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(
+                        items = update.notes,
+                        key = { note -> note.id }
+                    ) { note ->
+                        ChangeNoteCard(
+                            modifier = Modifier
+                                .height(
+                                    height = 175.dp
+                                ),
+                            viewModel = viewModel,
+                            update = update,
+                            note = note
+                        )
+                    }
+                }
             }
         }
     }
