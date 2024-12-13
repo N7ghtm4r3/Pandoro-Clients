@@ -241,6 +241,13 @@
     <string name="not_available">Non disponibile</string>
     <string name="content">Contenuto</string>
     <string name="target_version">Versione target</string>
-    <string name="change_notes_scheduled">Appunti modifica previsti</string>
+    <plurals name="changes_are_planned">
+        <item formatted="false" quantity="one">È prevista una modifica</item>
+        <item formatted="false" quantity="other">Sono previste %1$d modifiche</item>
+    </plurals>
+    <plurals name="changes_completed_on">
+        <item formatted="false" quantity="one">%1$d modifica completata su %2$d</item>
+        <item formatted="false" quantity="other">%1$d modifiche completate su %2$d</item>
+    </plurals>
     <string name="delete_update_text_dialog">Se confermi, l'aggiornamento e le sue informazioni saranno cancellate e non più recuperabili, confermi?</string>
 </resources>

@@ -96,6 +96,7 @@ kotlin {
             implementation(libs.filekit.compose)
             implementation(libs.kmprefs)
             implementation(libs.jetlime)
+            implementation (libs.compose.charts)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

@@ -7,6 +7,7 @@ androidx-activityCompose = "1.9.3"
 androidx-lifecycle = "2.8.4"
 coilCompose = "3.0.4"
 compose-multiplatform = "1.7.1"
+composeCharts = "0.1.0"
 equinoxCompose = "1.0.3"
 equinoxCore = "1.0.5"
 filekitCore = "0.8.7"
@@ -28,6 +29,7 @@ startupRuntime = "1.2.0"
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "ktor" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
+compose-charts = { module = "io.github.ehsannarmani:compose-charts", version.ref = "composeCharts" }
 filekit-compose = { module = "io.github.vinceglb:filekit-compose", version.ref = "filekitCompose" }
 filekit-core = { module = "io.github.vinceglb:filekit-core", version.ref = "filekitCore" }
 jetlime = { module = "io.github.pushpalroy:jetlime", version.ref = "jetlime" }

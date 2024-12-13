@@ -11,13 +11,10 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -42,7 +39,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Compact
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.collectAsState
@@ -67,7 +63,6 @@ import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
 import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.components.Thumbnail
@@ -84,7 +79,6 @@ import com.tecknobit.pandoro.ui.screens.shared.screens.ItemScreen
 import com.tecknobit.pandorocore.enums.RepositoryPlatform
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
-import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyVerticalGrid
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
@@ -354,11 +348,43 @@ class ProjectScreen(
             header = Res.string.updates,
             filtersContent = { Filters() }
         ) {
-            Column {
-                val widthSizeClass = getCurrentWidthSizeClass()
-                when(widthSizeClass) {
-                    Compact -> { UpdatesColumn() }
-                    else -> { UpdatesGrid() }
+            PaginatedLazyColumn(
+                modifier = Modifier
+                    .widthIn(
+                        max = FORM_CARD_WIDTH
+                    )
+                    .animateContentSize(),
+                paginationState = viewModel!!.updatesState,
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                firstPageEmptyIndicator = {
+                    EmptyListUI(
+                        icon = CalendarPlus,
+                        subText = Res.string.no_updates_scheduled,
+                        textStyle = TextStyle(
+                            fontFamily = bodyFontFamily
+                        ),
+                        themeColor = MaterialTheme.colorScheme.inversePrimary
+                    )
+                }
+                // TODO: TO SET
+                /*firstPageProgressIndicator = { ... },
+                newPageProgressIndicator = { ... },*/
+                /*firstPageErrorIndicator = { e -> // from setError
+                    ... e.message ...
+                    ... onRetry = { paginationState.retryLastFailedRequest() } ...
+                },
+                newPageErrorIndicator = { e -> ... },
+                // The rest of LazyColumn params*/
+            ) {
+                items(
+                    items = viewModel!!.updatesState.allItems!!,
+                    key = { update -> update.id }
+                ) { update ->
+                    UpdateCard(
+                        viewModel = viewModel!!,
+                        project = item.value!!,
+                        update = update
+                    )
                 }
             }
         }
@@ -437,98 +463,6 @@ class ProjectScreen(
                 )
             }
         }
-    }
-
-    @Composable
-    @NonRestartableComposable
-    private fun UpdatesColumn() {
-        PaginatedLazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .animateContentSize(),
-            paginationState = viewModel!!.updatesState,
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            firstPageEmptyIndicator = { NoUpdatesAvailable() }
-            // TODO: TO SET
-            /*firstPageProgressIndicator = { ... },
-            newPageProgressIndicator = { ... },*/
-            /*firstPageErrorIndicator = { e -> // from setError
-                ... e.message ...
-                ... onRetry = { paginationState.retryLastFailedRequest() } ...
-            },
-            newPageErrorIndicator = { e -> ... },
-            // The rest of LazyColumn params*/
-        ) {
-            items(
-                items = viewModel!!.updatesState.allItems!!,
-                key = { update -> update.id }
-            ) { update ->
-                UpdateCard(
-                    modifier = Modifier
-                        .height(
-                            height = 200.dp
-                        ),
-                    viewModel = viewModel!!,
-                    project = item.value!!,
-                    update = update
-                )
-            }
-        }
-    }
-
-    @Composable
-    @NonRestartableComposable
-    private fun UpdatesGrid() {
-        PaginatedLazyVerticalGrid(
-            modifier = Modifier
-                .widthIn(
-                    max = FORM_CARD_WIDTH
-                )
-                .animateContentSize(),
-            columns = GridCells.Fixed(1),
-            paginationState = viewModel!!.updatesState,
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            firstPageEmptyIndicator = { NoUpdatesAvailable() }
-            // TODO: TO SET
-            /*firstPageProgressIndicator = { ... },
-            newPageProgressIndicator = { ... },*/
-            /*firstPageErrorIndicator = { e -> // from setError
-                ... e.message ...
-                ... onRetry = { paginationState.retryLastFailedRequest() } ...
-            },
-            newPageErrorIndicator = { e -> ... },
-            // The rest of LazyColumn params*/
-        ) {
-            items(
-                items = viewModel!!.updatesState.allItems!!,
-                key = { update -> update.id }
-            ) { update ->
-                UpdateCard(
-                    modifier = Modifier
-                        .size(
-                            width = 350.dp,
-                            height = 200.dp
-                        ),
-                    viewModel = viewModel!!,
-                    project = item.value!!,
-                    update = update
-                )
-            }
-        }
-    }
-
-    @Composable
-    @NonRestartableComposable
-    private fun NoUpdatesAvailable() {
-        EmptyListUI(
-            icon = CalendarPlus,
-            subText = Res.string.no_updates_scheduled,
-            textStyle = TextStyle(
-                fontFamily = bodyFontFamily
-            ),
-            themeColor = MaterialTheme.colorScheme.inversePrimary
-        )
     }
 
     @Composable

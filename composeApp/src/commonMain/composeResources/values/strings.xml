@@ -241,6 +241,13 @@
     <string name="not_available">Not available</string>
     <string name="content">Content</string>
     <string name="target_version">Target version</string>
-    <string name="change_notes_scheduled">Change notes scheduled</string>
+    <plurals name="changes_are_planned">
+        <item formatted="false" quantity="one">%1$d change is planned</item>
+        <item formatted="false" quantity="other">%1$d changes are planned</item>
+    </plurals>
+    <plurals name="changes_completed_on">
+        <item formatted="false" quantity="one">%1$d change completed on %2$d</item>
+        <item formatted="false" quantity="other">%1$d changes completed on %2$d</item>
+    </plurals>
     <string name="delete_update_text_dialog">If you confirm the update and its all information will be deleted and no more recoverable, confirm?</string>
 </resources>

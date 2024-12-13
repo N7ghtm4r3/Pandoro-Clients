@@ -3,7 +3,7 @@ package com.tecknobit.pandoro.ui.screens.projects.data
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.IDENTIFIER_KEY
-import com.tecknobit.pandoro.helpers.TimeFormatter.daysUntilNow
+import com.tecknobit.pandoro.helpers.TimeFormatter.daysUntil
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.theme.Green
@@ -18,6 +18,8 @@ import com.tecknobit.pandorocore.UPDATE_START_DATE_KEY
 import com.tecknobit.pandorocore.UPDATE_STATUS_KEY
 import com.tecknobit.pandorocore.UPDATE_TARGET_VERSION_KEY
 import com.tecknobit.pandorocore.enums.UpdateStatus
+import com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED
+import kotlinx.datetime.Clock
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -52,7 +54,7 @@ data class ProjectUpdate(
             return when(this) {
                 UpdateStatus.SCHEDULED -> MaterialTheme.colorScheme.error
                 UpdateStatus.IN_DEVELOPMENT -> Yellow()
-                UpdateStatus.PUBLISHED -> Green()
+                PUBLISHED -> Green()
             }
         }
 
@@ -63,13 +65,20 @@ data class ProjectUpdate(
     }
 
     fun allChangeNotesCompleted() : Boolean {
-        val changeNotesCount = notes.size
-        val changeNotesDone = notes.filter { changeNote-> changeNote.markedAsDone }.size
-        return changeNotesCount == changeNotesDone
+        return notes.size == completedChangeNotes()
+    }
+
+    fun completedChangeNotes(): Int {
+        return notes.filter { changeNote-> changeNote.markedAsDone }.size
     }
 
     fun developmentDays() : Int {
-        return startDate.daysUntilNow()
+        return startDate.daysUntil(
+            untilDate = if(status == PUBLISHED)
+                publishDate
+            else
+                Clock.System.now().toEpochMilliseconds()
+        )
     }
 
 }

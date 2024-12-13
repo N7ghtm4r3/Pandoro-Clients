@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.tecknobit.pandoro.ui.screens.project.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,20 +15,27 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.material.icons.filled.Timeline
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,11 +53,22 @@ import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.asText
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.toColor
 import com.tecknobit.pandorocore.enums.UpdateStatus
+import com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT
+import com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED
+import com.tecknobit.pandorocore.enums.UpdateStatus.SCHEDULED
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.pluralStringResource
+import org.jetbrains.compose.resources.stringResource
+import pandoro.composeapp.generated.resources.Res
+import pandoro.composeapp.generated.resources.changes_are_planned
+import pandoro.composeapp.generated.resources.changes_completed_on
+import pandoro.composeapp.generated.resources.update_completed_in
+import pandoro.composeapp.generated.resources.update_completed_info
 
 @Composable
 @NonRestartableComposable
 fun UpdateCard(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     viewModel: ProjectScreenViewModel,
     project: Project,
     update: ProjectUpdate
@@ -61,23 +82,9 @@ fun UpdateCard(
             project = project,
             update = update
         )
-        Text(
-            text = "Sono previsti 19 cambiamenti"
+        update.status.Content(
+            update = update
         )
-        if(update.status == UpdateStatus.IN_DEVELOPMENT) {
-            Text(
-                text = "In sviluppo da 19 giorni"
-            )
-            Text(
-                text = "Avanzamento 1 su 9 cambiamenti completati",
-                fontFamily = displayFontFamily
-            )
-        }
-        if(update.status == UpdateStatus.PUBLISHED) {
-            Text(
-                text = "Completato in 19 giorni"
-            )
-        }
     }
 }
 
@@ -296,4 +303,95 @@ private fun DeleteUpdateAction(
             viewModel.updatesState.refresh()
         }
     )
+}
+
+@Composable
+@NonRestartableComposable
+private fun UpdateStatus.Content(
+    update: ProjectUpdate
+) {
+    Column(
+        modifier = Modifier
+            .padding(
+                all = 10.dp
+            )
+    ) {
+        val notesNumber = update.notes.size
+        when(this@Content) {
+            SCHEDULED -> {
+                Text(
+                    text = pluralStringResource(
+                        resource = Res.plurals.changes_are_planned,
+                        quantity = notesNumber,
+                        notesNumber
+                    ),
+                    fontSize = 14.sp
+                )
+            }
+            IN_DEVELOPMENT -> {
+                val completedChangeNotes = update.completedChangeNotes()
+                Row (
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = pluralStringResource(
+                            resource = Res.plurals.changes_completed_on,
+                            quantity = completedChangeNotes,
+                            completedChangeNotes, notesNumber
+                        ),
+                        fontSize = 14.sp
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.End
+                    ) {
+                        AnimatedVisibility(
+                            visible = update.allChangeNotesCompleted()
+                        ) {
+                            val state = rememberTooltipState()
+                            val scope = rememberCoroutineScope()
+                            TooltipBox(
+                                positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                                tooltip = {
+                                    PlainTooltip {
+                                        Text(
+                                            text = stringResource(Res.string.update_completed_info)
+                                        )
+                                    }
+                                },
+                                state = state
+                            ) {
+                                IconButton(
+                                    modifier = Modifier
+                                        .size(25.dp),
+                                    onClick = {
+                                        scope.launch {
+                                            state.show()
+                                        }
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.NewReleases,
+                                        contentDescription = null
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            PUBLISHED -> {
+                val completionDays = update.developmentDays()
+                Text(
+                    text = pluralStringResource(
+                        resource = Res.plurals.update_completed_in,
+                        quantity = completionDays,
+                        completionDays
+                    ),
+                    fontSize = 14.sp
+                )
+            }
+        }
+    }
 }
