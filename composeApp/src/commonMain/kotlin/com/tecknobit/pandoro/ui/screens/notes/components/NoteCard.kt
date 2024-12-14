@@ -3,6 +3,7 @@
 package com.tecknobit.pandoro.ui.screens.notes.components
 
 import CircleDashedCheck
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -72,6 +73,7 @@ import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
 import com.tecknobit.pandoro.ui.theme.ChangeNoteBackground
 import com.tecknobit.pandoro.ui.theme.Green
+import com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.pluralStringResource
@@ -121,6 +123,7 @@ fun ChangeNoteCard(
         viewModel = viewModel,
         noteShared = project.isSharedWithGroups(),
         update = update,
+        allowDeletion = update.status != PUBLISHED,
         note = note
     )
 }
@@ -132,6 +135,7 @@ private fun NoteCardContent(
     colors: CardColors = CardDefaults.cardColors(),
     viewModel: EquinoxViewModel,
     noteShared: Boolean = false,
+    allowDeletion: Boolean = true,
     update: ProjectUpdate? = null,
     note: Note,
     onDelete: () -> Unit = {}
@@ -193,7 +197,8 @@ private fun NoteCardContent(
             viewModel = viewModel,
             update = update,
             note = note,
-            onDelete = onDelete
+            onDelete = onDelete,
+            allowDeletion = allowDeletion
         )
     }
     NoteDetails(
@@ -211,6 +216,7 @@ private fun NoteActions(
     update: ProjectUpdate?,
     note: Note,
     onDelete: () -> Unit,
+    allowDeletion: Boolean
 ) {
     HorizontalDivider()
     Row (
@@ -236,7 +242,10 @@ private fun NoteActions(
         }
         Row (
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(
+                    end = 5.dp
+                ),
             horizontalArrangement = Arrangement.End
         ) {
             val noteCopiedMessage = stringResource(Res.string.note_content_copied)
@@ -253,23 +262,27 @@ private fun NoteActions(
                     contentDescription = null,
                 )
             }
-            val deleteNote = remember { mutableStateOf(false) }
-            IconButton(
-                onClick = { deleteNote.value = true }
+            AnimatedVisibility(
+                visible = allowDeletion
             ) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.error
+                val deleteNote = remember { mutableStateOf(false) }
+                IconButton(
+                    onClick = { deleteNote.value = true }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.error
+                    )
+                }
+                DeleteNote(
+                    viewModel = viewModel,
+                    show = deleteNote,
+                    update = update,
+                    note = note,
+                    onDelete = onDelete
                 )
             }
-            DeleteNote(
-                viewModel = viewModel,
-                show = deleteNote,
-                update = update,
-                note = note,
-                onDelete = onDelete
-            )
         }
     }
 }

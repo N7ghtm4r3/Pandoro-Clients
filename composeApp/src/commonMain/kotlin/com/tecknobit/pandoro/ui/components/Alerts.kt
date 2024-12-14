@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
@@ -27,6 +28,7 @@ import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
+import pandoro.composeapp.generated.resources.check_change_notes_message
 import pandoro.composeapp.generated.resources.confirm
 import pandoro.composeapp.generated.resources.delete
 import pandoro.composeapp.generated.resources.delete_group_text_dialog
@@ -39,6 +41,7 @@ import pandoro.composeapp.generated.resources.delete_warn_text
 import pandoro.composeapp.generated.resources.dismiss
 import pandoro.composeapp.generated.resources.logout
 import pandoro.composeapp.generated.resources.logout_warn_text
+import pandoro.composeapp.generated.resources.not_all_the_change_notes_are_done
 
 val titleStyle = TextStyle(
     fontFamily = displayFontFamily,
@@ -210,6 +213,33 @@ fun DeleteAccount(
             viewModel.deleteAccount {
                 navigator.navigate(SPLASHSCREEN)
             }
+        }
+    )
+}
+
+@Composable
+@NonRestartableComposable
+fun NotAllChangeNotesCompleted(
+    viewModel: ProjectScreenViewModel,
+    show: MutableState<Boolean>,
+    update: ProjectUpdate
+) {
+    EquinoxAlertDialog(
+        icon = Icons.Default.Warning,
+        modifier = Modifier
+            .widthIn(
+                max = 400.dp
+            ),
+        viewModel = viewModel,
+        show = show,
+        title = Res.string.not_all_the_change_notes_are_done,
+        titleStyle = titleStyle,
+        text = Res.string.check_change_notes_message,
+        confirmAction = {
+            viewModel.publishUpdate(
+                update = update
+            )
+            show.value = false
         }
     )
 }

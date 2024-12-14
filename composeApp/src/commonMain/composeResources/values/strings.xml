@@ -96,8 +96,6 @@
     <string name="you_must_insert_a_correct_members_list">You must insert a correct members list</string>
     <string name="you_must_insert_one_member_at_least">You must insert one member at least</string>
     <string name="accept_invite">Accept invite</string>
-    <string name="not_all_the_change_notes_are_done">Not all the change notes are done</string>
-    <string name="check_change_notes_message">You are publishing an update where not all the change notes are marked as done, do you want anyway publish the update?</string>
     <string name="choose_the_next_admin">Choose the next admin</string>
     <string name="no_any_groups">No-any groups</string>
     <string name="no_any_changelogs">No-any changelogs</string>
@@ -261,4 +259,8 @@
         <item formatted="false" quantity="one">%1$s has completed the note in %2$d day</item>
         <item formatted="false" quantity="other">%1$s has completed the note in %2$d days</item>
     </plurals>
+    <string name="start_development">Start development</string>
+    <string name="publish_update">Publish</string>
+    <string name="not_all_the_change_notes_are_done">Not all the change notes are completed</string>
+    <string name="check_change_notes_message">You are publishing an update where not all the change notes are completed, do you want anyway publish the update?</string>
 </resources>

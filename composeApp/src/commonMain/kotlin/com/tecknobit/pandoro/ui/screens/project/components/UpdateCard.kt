@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,10 +23,13 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.material.icons.filled.Timeline
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -51,12 +55,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.copyToClipboard
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.ui.components.DeleteUpdate
+import com.tecknobit.pandoro.ui.components.NotAllChangeNotesCompleted
 import com.tecknobit.pandoro.ui.icons.ClipboardList
 import com.tecknobit.pandoro.ui.icons.ClipboardMinus
 import com.tecknobit.pandoro.ui.icons.ExportNotes
@@ -68,18 +74,23 @@ import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersio
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.asText
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.toColor
+import com.tecknobit.pandoro.ui.theme.Green
+import com.tecknobit.pandoro.ui.theme.Yellow
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT
 import com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED
 import com.tecknobit.pandorocore.enums.UpdateStatus.SCHEDULED
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.changes_are_planned
 import pandoro.composeapp.generated.resources.changes_completed_on
 import pandoro.composeapp.generated.resources.notes_formatted_in_markdown_copied
+import pandoro.composeapp.generated.resources.publish_update
+import pandoro.composeapp.generated.resources.start_development
 import pandoro.composeapp.generated.resources.update_completed_in
 import pandoro.composeapp.generated.resources.update_completed_info
 
@@ -319,6 +330,7 @@ private fun UpdateStatus.Content(
 ) {
     Column(
         modifier = Modifier
+            .fillMaxWidth()
             .padding(
                 all = 10.dp
             )
@@ -405,6 +417,64 @@ private fun UpdateStatus.Content(
             viewModel = viewModel,
             project = project,
             update = update
+        )
+        when(this@Content) {
+            SCHEDULED -> {
+                ActionButton(
+                    color = Yellow(),
+                    action = {
+                        viewModel.startUpdate(
+                            update = update
+                        )
+                    },
+                    text = Res.string.start_development
+                )
+            }
+            IN_DEVELOPMENT -> {
+                val showWarningMessage = remember { mutableStateOf(false) }
+                ActionButton(
+                    color = Green(),
+                    action = {
+                        if(update.allChangeNotesCompleted()) {
+                            viewModel.publishUpdate(
+                                update = update
+                            )
+                        } else
+                            showWarningMessage.value = true
+                    },
+                    text = Res.string.publish_update
+                )
+                NotAllChangeNotesCompleted(
+                    viewModel = viewModel,
+                    show = showWarningMessage,
+                    update = update
+                )
+            }
+            else -> {}
+        }
+    }
+}
+
+@Composable
+@NonRestartableComposable
+private fun ColumnScope.ActionButton(
+    color: Color,
+    action: () -> Unit,
+    text: StringResource
+) {
+    Button(
+        modifier = Modifier
+            .align(Alignment.End),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = color
+        ),
+        shape = RoundedCornerShape(
+            size = 10.dp
+        ),
+        onClick = action
+    ) {
+        Text(
+            text = stringResource(text),
         )
     }
 }

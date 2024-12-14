@@ -96,8 +96,6 @@
     <string name="you_must_insert_a_correct_members_list">Vous devez insérer une liste de membres correcte</string>
     <string name="you_must_insert_one_member_at_least">Vous devez insérer un membre au moins</string>
     <string name="accept_invite">Accepter l'invitation</string>
-    <string name="not_all_the_change_notes_are_done">Toutes les notes de modification ne sont pas encore terminées</string>
-    <string name="check_change_notes_message">Vous publiez une mise à jour dont toutes les notes de changement ne sont pas marquées comme effectuées, voulez-vous quand même publier la mise à jour ?</string>
     <string name="choose_the_next_admin">Choisir l'administrateur suivant</string>
     <string name="no_any_groups">Aucun groupe</string>
     <string name="no_any_changelogs">Pas de changelogs</string>
@@ -261,4 +259,7 @@
         <item formatted="false" quantity="one">%1$s a complété la note en %2$d jour</item>
         <item formatted="false" quantity="other">%1$s a complété la note dans %2$d jours</item>
     </plurals>
-</resources>
+    <string name="start_development">Démarrer développement</string>
+    <string name="publish_update">Publier</string>
+    <string name="not_all_the_change_notes_are_done">Toutes les modifications ne sont pas terminées</string>
+    <string name="check_change_notes_message">Vous publiez une mise à jour dans laquelle toutes les modifications n'ont pas été effectuées, souhaitez-vous quand même publier la mise à jour?</string></resources>
