@@ -248,12 +248,17 @@
     </plurals>
     <string name="delete_update_text_dialog">Se confermi, l'aggiornamento e le sue informazioni saranno cancellate e non più recuperabili, confermi?</string>
     <string name="delete">Elimina</string>
-    <string name="account_deleted">Account eliminato</string>
     <string name="notes_formatted_in_markdown_copied">Note formattate in markdown copiate!</string>
     <string name="update_scheduled_by">Ha programmato l'aggiornamento il %1$s alle %2$s</string>
     <string name="update_started_by">Ha avviato l'aggiornamento il %1$s alle %2$s</string>
     <string name="update_published_by">Ha pubblicato l'aggiornamento il %1$s alle %2$s</string>
+    <string name="account_deleted">Account eliminato</string>
     <string name="update_scheduled_myself">Hai programmato l'aggiornamento il %1$s alle %2$s</string>
     <string name="update_started_myself">Hai avviato l'aggiornamento il %1$s alle %2$s</string>
     <string name="update_published_myself">Hai pubblicato l'aggiornamento il %1$s alle %2$s</string>
+    <string name="has_created_the_note">%1$s ha creato l'appunto</string>
+    <plurals name="has_completed_the_note">
+        <item formatted="false" quantity="one">%1$s ha completato l'appunto in %2$d giorno</item>
+        <item formatted="false" quantity="other">%1$s ha completato l'appunto in %2$d giorni</item>
+    </plurals>
 </resources>

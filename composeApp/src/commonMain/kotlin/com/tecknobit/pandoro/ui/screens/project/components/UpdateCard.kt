@@ -17,6 +17,9 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -37,6 +40,7 @@ import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTooltipState
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Compact
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -54,6 +58,7 @@ import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.ui.components.DeleteUpdate
 import com.tecknobit.pandoro.ui.icons.ClipboardList
+import com.tecknobit.pandoro.ui.icons.ClipboardMinus
 import com.tecknobit.pandoro.ui.icons.ExportNotes
 import com.tecknobit.pandoro.ui.screens.PandoroScreen.Companion.FORM_CARD_HEIGHT
 import com.tecknobit.pandoro.ui.screens.notes.components.ChangeNoteCard
@@ -100,6 +105,7 @@ fun UpdateCard(
         update.status.Content(
             viewModel = viewModel,
             viewChangeNotes = viewChangeNotes,
+            project = project,
             update = update
         )
     }
@@ -190,7 +196,10 @@ private fun UpdateActions(
         onClick = { viewChangeNotes.value = !viewChangeNotes.value }
     ) {
         Icon(
-            imageVector = ClipboardList,
+            imageVector = if(viewChangeNotes.value)
+                ClipboardMinus
+            else
+                ClipboardList,
             contentDescription = null
         )
     }
@@ -305,6 +314,7 @@ private fun formatNotesAsMarkdown(update: ProjectUpdate): String {
 private fun UpdateStatus.Content(
     viewModel: ProjectScreenViewModel,
     viewChangeNotes: MutableState<Boolean>,
+    project: Project,
     update: ProjectUpdate
 ) {
     Column(
@@ -393,6 +403,7 @@ private fun UpdateStatus.Content(
         ViewChangeNotes(
             viewChangeNotes = viewChangeNotes,
             viewModel = viewModel,
+            project = project,
             update = update
         )
     }
@@ -403,6 +414,7 @@ private fun UpdateStatus.Content(
 private fun ViewChangeNotes(
     viewChangeNotes: MutableState<Boolean>,
     viewModel: ProjectScreenViewModel,
+    project: Project,
     update: ProjectUpdate
 ) {
     AnimatedVisibility(
@@ -410,7 +422,7 @@ private fun ViewChangeNotes(
     ) {
         val widthSizeClass = getCurrentWidthSizeClass()
         when(widthSizeClass) {
-            else -> {
+            Compact -> {
                 LazyColumn(
                     modifier = Modifier
                         .heightIn(
@@ -432,7 +444,39 @@ private fun ViewChangeNotes(
                                     height = 175.dp
                                 ),
                             viewModel = viewModel,
+                            project = project,
                             update = update,
+                            note = note
+                        )
+                    }
+                }
+            }
+            else -> {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier
+                        .heightIn(
+                            max = FORM_CARD_HEIGHT
+                        )
+                        .animateContentSize(),
+                    contentPadding = PaddingValues(
+                        vertical = 10.dp
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(
+                        items = update.notes,
+                        key = { note -> note.id }
+                    ) { note ->
+                        ChangeNoteCard(
+                            modifier = Modifier
+                                .height(
+                                    height = 175.dp
+                                ),
+                            viewModel = viewModel,
+                            update = update,
+                            project = project,
                             note = note
                         )
                     }

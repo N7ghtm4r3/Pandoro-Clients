@@ -100,7 +100,14 @@ class ProjectScreenViewModel(
                                             ),
                                             creationDate = System.currentTimeMillis(),
                                             content = "111",
-                                            markedAsDone = true
+                                            markedAsDone = true,
+                                            markedAsDoneBy = PandoroUser(
+                                                id = Random.nextLong().toString(),
+                                                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                                                "name",
+                                                "surname",
+                                                email = "name.surname@gmail.com"
+                                            )
                                         )
                                     )
                                 ),
@@ -137,7 +144,14 @@ class ProjectScreenViewModel(
                                             ),
                                             creationDate = System.currentTimeMillis(),
                                             content = "111",
-                                            markedAsDone = true
+                                            markedAsDone = true,
+                                            markedAsDoneBy = PandoroUser(
+                                                id = Random.nextLong().toString(),
+                                                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                                                "name",
+                                                "surname",
+                                                email = "name.surname@gmail.com"
+                                            )
                                         )
                                     )
                                 ),
@@ -166,7 +180,14 @@ class ProjectScreenViewModel(
                                             ),
                                             creationDate = System.currentTimeMillis(),
                                             content = "111",
-                                            markedAsDone = true
+                                            markedAsDone = false,
+                                            markedAsDoneBy = PandoroUser(
+                                                id = Random.nextLong().toString(),
+                                                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                                                "name",
+                                                "surname",
+                                                email = "name.surname@gmail.com"
+                                            )
                                         )
                                     )
                                 )
@@ -254,7 +275,14 @@ class ProjectScreenViewModel(
                                             ),
                                             creationDate = System.currentTimeMillis(),
                                             content = "111",
-                                            markedAsDone = true
+                                            markedAsDone = true,
+                                            markedAsDoneBy = PandoroUser(
+                                                id = Random.nextLong().toString(),
+                                                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                                                "name",
+                                                "surname",
+                                                email = "name.surname@gmail.com"
+                                            )
                                         )
                                     )
                                 ),
@@ -291,7 +319,14 @@ class ProjectScreenViewModel(
                                             ),
                                             creationDate = System.currentTimeMillis(),
                                             content = "111",
-                                            markedAsDone = true
+                                            markedAsDone = true,
+                                            markedAsDoneBy = PandoroUser(
+                                                id = Random.nextLong().toString(),
+                                                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                                                "name",
+                                                "surname",
+                                                email = "name.surname@gmail.com"
+                                            )
                                         )
                                     )
                                 ),
@@ -320,7 +355,93 @@ class ProjectScreenViewModel(
                                             ),
                                             creationDate = System.currentTimeMillis(),
                                             content = "111",
-                                            markedAsDone = true
+                                            markedAsDone = true,
+                                            markedAsDoneBy = PandoroUser(
+                                                id = Random.nextLong().toString(),
+                                                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                                                "name",
+                                                "surname",
+                                                email = "name.surname@gmail.com"
+                                            )
+                                        ),
+
+                                        Note(
+                                            id = Random.nextLong().toString(),
+                                            author = PandoroUser(
+                                                id = Random.nextLong().toString(),
+                                                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                                                "name",
+                                                "surname",
+                                                email = "name.surname@gmail.com"
+                                            ),
+                                            creationDate = System.currentTimeMillis(),
+                                            content = "111"
+                                        ),
+                                        Note(
+                                            id = Random.nextLong().toString(),
+                                            author = PandoroUser(
+                                                id = Random.nextLong().toString(),
+                                                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                                                "name",
+                                                "surname",
+                                                email = "name.surname@gmail.com"
+                                            ),
+                                            creationDate = System.currentTimeMillis(),
+                                            content = "111",
+                                            markedAsDone = true,
+                                            markedAsDoneBy = PandoroUser(
+                                                id = Random.nextLong().toString(),
+                                                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                                                "name",
+                                                "surname",
+                                                email = "name.surname@gmail.com"
+                                            )
+                                        ),
+
+                                        Note(
+                                            id = Random.nextLong().toString(),
+                                            author = PandoroUser(
+                                                id = Random.nextLong().toString(),
+                                                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                                                "name",
+                                                "surname",
+                                                email = "name.surname@gmail.com"
+                                            ),
+                                            creationDate = System.currentTimeMillis(),
+                                            content = "111"
+                                        ),
+                                        Note(
+                                            id = Random.nextLong().toString(),
+                                            author = PandoroUser(
+                                                id = Random.nextLong().toString(),
+                                                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                                                "name",
+                                                "surname",
+                                                email = "name.surname@gmail.com"
+                                            ),
+                                            creationDate = System.currentTimeMillis(),
+                                            content = "111",
+                                            markedAsDone = true,
+                                            markedAsDoneBy = PandoroUser(
+                                                id = Random.nextLong().toString(),
+                                                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                                                "name",
+                                                "surname",
+                                                email = "name.surname@gmail.com"
+                                            )
+                                        ),
+
+                                        Note(
+                                            id = Random.nextLong().toString(),
+                                            author = PandoroUser(
+                                                id = Random.nextLong().toString(),
+                                                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
+                                                "name",
+                                                "surname",
+                                                email = "name.surname@gmail.com"
+                                            ),
+                                            creationDate = System.currentTimeMillis(),
+                                            content = "111"
                                         )
                                     )
                                 )
