@@ -19,6 +19,8 @@ import com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen
 import com.tecknobit.pandorocore.GROUP_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.NOTE_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.PROJECT_IDENTIFIER_KEY
+import com.tecknobit.pandorocore.UPDATE_IDENTIFIER_KEY
+import com.tecknobit.pandorocore.UPDATE_TARGET_VERSION_KEY
 import io.github.vinceglb.filekit.core.PlatformFile
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.NavHost
@@ -59,6 +61,8 @@ const val HOME_SCREEN = "HomeScreen"
 const val CREATE_PROJECT_SCREEN = "CreateProject"
 
 const val CREATE_NOTE_SCREEN = "CreateNote"
+
+const val CREATE_CHANGE_NOTE_SCREEN = "CreateChangeNote"
 
 const val CREATE_GROUP_SCREEN = "CreateGroup"
 
@@ -143,6 +147,19 @@ fun App() {
                     screen = NOTES_SCREEN
                 )
                 CreateNoteScreen(
+                    noteId = noteId
+                ).ShowContent()
+            }
+            scene(
+                route = "$CREATE_CHANGE_NOTE_SCREEN/{${UPDATE_IDENTIFIER_KEY}}" +
+                        "/{${UPDATE_TARGET_VERSION_KEY}}/{$NOTE_IDENTIFIER_KEY}?"
+            ) { backstackEntry ->
+                val updateId: String = backstackEntry.path<String>(UPDATE_IDENTIFIER_KEY)!!
+                val targetVersion: String = backstackEntry.path<String>(UPDATE_TARGET_VERSION_KEY)!!
+                val noteId: String? = backstackEntry.path<String>(NOTE_IDENTIFIER_KEY)
+                CreateNoteScreen(
+                    updateId = updateId,
+                    targetVersion = targetVersion,
                     noteId = noteId
                 ).ShowContent()
             }

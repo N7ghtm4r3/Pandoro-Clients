@@ -90,6 +90,7 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
         titleModifier: Modifier = Modifier,
         navBackAction: (() -> Unit)? = null,
         screenTitle: StringResource? = null,
+        subTitle: @Composable (() -> Unit)? = null,
         content: @Composable ColumnScope.() -> Unit
     ) {
         PlaceContent(
@@ -100,6 +101,7 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
                 stringResource(screenTitle)
             else
                 null,
+            subTitle = subTitle,
             content = content
         )
     }
@@ -113,6 +115,7 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
         titleModifier: Modifier = Modifier,
         navBackAction: (() -> Unit)? = null,
         screenTitle: String?,
+        subTitle: @Composable (() -> Unit)? = null,
         content: @Composable ColumnScope.() -> Unit
     ) {
         Column(
@@ -128,6 +131,7 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
                         title = title
                     )
                 }
+                subTitle?.invoke()
                 content.invoke(this)
             }
         )
@@ -140,6 +144,7 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
             all = 16.dp
         ),
         screenTitle: @Composable (() -> Unit)? = null,
+        subTitle: @Composable (() -> Unit)? = null,
         content: @Composable ColumnScope.() -> Unit
     ) {
         Column(
@@ -149,6 +154,7 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
                 ),
             content = {
                 screenTitle?.invoke()
+                subTitle?.invoke()
                 content.invoke(this)
             }
         )

@@ -264,4 +264,6 @@
     <string name="not_all_the_change_notes_are_done">Toutes les modifications ne sont pas terminées</string>
     <string name="check_change_notes_message">Vous publiez une mise à jour dans laquelle toutes les modifications n'ont pas été effectuées, souhaitez-vous quand même publier la mise à jour?</string>
     <string name="add_change_note">Ajouter un changement</string>
+    <string name="add_change_note_for_update">Ajouter une modification pour la 'mise à jour %1$s</string>
+    <string name="edit_change_note_of_update">Modifier une note de mise à jour %1$s</string>
 </resources>

@@ -55,6 +55,7 @@ import com.pushpal.jetlime.JetLimeEventDefaults
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
+import com.tecknobit.pandoro.CREATE_CHANGE_NOTE_SCREEN
 import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
 import com.tecknobit.pandoro.copyToClipboard
 import com.tecknobit.pandoro.displayFontFamily
@@ -102,6 +103,7 @@ fun NoteCard(
         modifier = modifier,
         viewModel = viewModel,
         note = note,
+        onDoubleClick = { navigator.navigate("$CREATE_NOTE_SCREEN/${note.id}") },
         onDelete = { viewModel.notesState.refresh() }
     )
 }
@@ -124,7 +126,15 @@ fun ChangeNoteCard(
         noteShared = project.isSharedWithGroups(),
         update = update,
         allowDeletion = update.status != PUBLISHED,
-        note = note
+        note = note,
+        onDoubleClick = if(!note.markedAsDone) {
+            {
+                navigator.navigate(
+                    route = "$CREATE_CHANGE_NOTE_SCREEN/${update.id}/${update.targetVersion}/${note.id}"
+                )
+            }
+        } else
+            null
     )
 }
 
@@ -138,6 +148,7 @@ private fun NoteCardContent(
     allowDeletion: Boolean = true,
     update: ProjectUpdate? = null,
     note: Note,
+    onDoubleClick: (() -> Unit)?,
     onDelete: () -> Unit = {}
 ) {
     val modalBottomSheetState = rememberModalBottomSheetState()
@@ -151,7 +162,7 @@ private fun NoteCardContent(
                         modalBottomSheetState.show()
                     }
                 },
-                onDoubleClick = { navigator.navigate("$CREATE_NOTE_SCREEN/${note.id}") }
+                onDoubleClick = onDoubleClick
             )
             .then(
                 if (note.markedAsDone) {

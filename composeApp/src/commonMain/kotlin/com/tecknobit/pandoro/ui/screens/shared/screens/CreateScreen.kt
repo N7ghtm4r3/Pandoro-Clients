@@ -82,6 +82,7 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
     protected fun LoadAwareContent(
         creationTitle: StringResource,
         editingTitle: StringResource,
+        subTitle: @Composable (() -> Unit)? = null,
         initializationProcedure: @Composable () -> Unit
     ) {
         PandoroTheme {
@@ -93,7 +94,8 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
                     initializationProcedure.invoke()
                     ItemLoadedContent(
                         creationTitle = creationTitle,
-                        editingTitle = editingTitle
+                        editingTitle = editingTitle,
+                        subTitle = subTitle
                     )
                 }
             )
@@ -132,6 +134,7 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
     private fun ItemLoadedContent(
         creationTitle: StringResource,
         editingTitle: StringResource,
+        subTitle: @Composable (() -> Unit)? = null
     ) {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -151,7 +154,8 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
                 screenTitle = if(isEditing)
                     editingTitle
                 else
-                    creationTitle
+                    creationTitle,
+                subTitle = subTitle
             ) {
                 Form()
             }

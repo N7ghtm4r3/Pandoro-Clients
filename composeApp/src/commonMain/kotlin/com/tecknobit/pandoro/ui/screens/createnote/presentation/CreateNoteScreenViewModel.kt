@@ -4,13 +4,14 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.MutableState
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.navigator
-import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
+import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.random.Random
 
 class CreateNoteScreenViewModel(
+    updateId: String?,
     noteId: String?
 ) : EquinoxViewModel(
     snackbarHostState = SnackbarHostState()

@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,21 +29,29 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.ui.screens.createnote.presentation.CreateNoteScreenViewModel
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
+import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
 import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
+import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
+import pandoro.composeapp.generated.resources.add_change_note_for_update
 import pandoro.composeapp.generated.resources.content_of_the_note
 import pandoro.composeapp.generated.resources.create_note
+import pandoro.composeapp.generated.resources.edit_change_note_of_update
 import pandoro.composeapp.generated.resources.edit_note
 
 class CreateNoteScreen(
+    private val updateId: String? = null,
+    private val targetVersion: String? = null,
     noteId: String?
 ) : CreateScreen<Note, CreateNoteScreenViewModel>(
     itemId = noteId,
     viewModel = CreateNoteScreenViewModel(
+        updateId = updateId,
         noteId = noteId
     )
 ) {
@@ -54,7 +63,27 @@ class CreateNoteScreen(
     override fun ArrangeScreenContent() {
         LoadAwareContent(
             creationTitle = Res.string.create_note,
-            editingTitle = Res.string.edit_note
+            editingTitle = Res.string.edit_note,
+            subTitle = if(updateId != null) {
+                {
+                    Text(
+                        modifier = Modifier
+                            .padding(
+                                start = 16.dp,
+                                bottom = 16.dp
+                            ),
+                        text = stringResource(
+                            resource = if(isEditing)
+                                Res.string.edit_change_note_of_update
+                            else
+                                Res.string.add_change_note_for_update,
+                            targetVersion!!.asVersionText()
+                        ),
+                        fontSize = 14.sp
+                    )
+                }
+            } else
+                null
         ) {
             viewModel!!.content = remember {
                 mutableStateOf(
