@@ -39,6 +39,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.SheetState
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
@@ -63,6 +64,7 @@ import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.ui.components.DeleteUpdate
 import com.tecknobit.pandoro.ui.components.NotAllChangeNotesCompleted
+import com.tecknobit.pandoro.ui.icons.AddNotes
 import com.tecknobit.pandoro.ui.icons.ClipboardList
 import com.tecknobit.pandoro.ui.icons.ClipboardMinus
 import com.tecknobit.pandoro.ui.icons.ExportNotes
@@ -204,7 +206,13 @@ private fun UpdateActions(
     update: ProjectUpdate
 ) {
     IconButton(
-        onClick = { viewChangeNotes.value = !viewChangeNotes.value }
+        onClick = {
+            viewChangeNotes.value = !viewChangeNotes.value
+            if(viewChangeNotes.value)
+                preventScreenSleep()
+            else
+                allowsScreenSleep()
+        }
     ) {
         Icon(
             imageVector = if(viewChangeNotes.value)
@@ -490,68 +498,89 @@ private fun ViewChangeNotes(
     AnimatedVisibility(
         visible = viewChangeNotes.value
     ) {
-        val widthSizeClass = getCurrentWidthSizeClass()
-        when(widthSizeClass) {
-            Compact -> {
-                LazyColumn(
-                    modifier = Modifier
-                        .heightIn(
-                            max = FORM_CARD_HEIGHT
-                        )
-                        .animateContentSize(),
-                    contentPadding = PaddingValues(
-                        vertical = 10.dp
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    items(
-                        items = update.notes,
-                        key = { note -> note.id }
-                    ) { note ->
-                        ChangeNoteCard(
-                            modifier = Modifier
-                                .height(
-                                    height = 175.dp
-                                ),
-                            viewModel = viewModel,
-                            project = project,
-                            update = update,
-                            note = note
-                        )
+        Column {
+            val widthSizeClass = getCurrentWidthSizeClass()
+            when(widthSizeClass) {
+                Compact -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .heightIn(
+                                max = FORM_CARD_HEIGHT
+                            )
+                            .animateContentSize(),
+                        contentPadding = PaddingValues(
+                            vertical = 10.dp
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        items(
+                            items = update.notes,
+                            key = { note -> note.id }
+                        ) { note ->
+                            ChangeNoteCard(
+                                modifier = Modifier
+                                    .height(
+                                        height = 175.dp
+                                    ),
+                                viewModel = viewModel,
+                                project = project,
+                                update = update,
+                                note = note
+                            )
+                        }
+                    }
+                }
+                else -> {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        modifier = Modifier
+                            .heightIn(
+                                max = FORM_CARD_HEIGHT
+                            )
+                            .animateContentSize(),
+                        contentPadding = PaddingValues(
+                            vertical = 10.dp
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        items(
+                            items = update.notes,
+                            key = { note -> note.id }
+                        ) { note ->
+                            ChangeNoteCard(
+                                modifier = Modifier
+                                    .height(
+                                        height = 175.dp
+                                    ),
+                                viewModel = viewModel,
+                                update = update,
+                                project = project,
+                                note = note
+                            )
+                        }
                     }
                 }
             }
-            else -> {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
+            if(update.status != PUBLISHED) {
+                SmallFloatingActionButton(
                     modifier = Modifier
-                        .heightIn(
-                            max = FORM_CARD_HEIGHT
-                        )
-                        .animateContentSize(),
-                    contentPadding = PaddingValues(
-                        vertical = 10.dp
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    items(
-                        items = update.notes,
-                        key = { note -> note.id }
-                    ) { note ->
-                        ChangeNoteCard(
-                            modifier = Modifier
-                                .height(
-                                    height = 175.dp
-                                ),
-                            viewModel = viewModel,
-                            update = update,
-                            project = project,
-                            note = note
-                        )
+                        .align(Alignment.End),
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    onClick = {
+                        // TODO:
                     }
+                ) {
+                    Icon(
+                        imageVector = AddNotes,
+                        contentDescription = null
+                    )
                 }
             }
         }
     }
 }
+
+expect fun preventScreenSleep()
+
+expect fun allowsScreenSleep()

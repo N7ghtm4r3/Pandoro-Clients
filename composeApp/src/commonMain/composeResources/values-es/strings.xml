@@ -262,4 +262,6 @@
     <string name="start_development">Iniciar desarrollo</string>
     <string name="publish_update">Publicar</string>
     <string name="not_all_the_change_notes_are_done">No se completaron todos los cambios</string>
-    <string name="check_change_notes_message">Estás publicando una actualización en la que no se han completado todos los cambios, ¿aún deseas publicar la actualización?</string></resources>
+    <string name="check_change_notes_message">Estás publicando una actualización en la que no se han completado todos los cambios, ¿aún deseas publicar la actualización?</string>
+    <string name="add_change_note">Añadir cambio</string>
+</resources>

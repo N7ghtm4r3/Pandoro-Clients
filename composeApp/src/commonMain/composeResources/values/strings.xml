@@ -263,4 +263,5 @@
     <string name="publish_update">Publish</string>
     <string name="not_all_the_change_notes_are_done">Not all the change notes are completed</string>
     <string name="check_change_notes_message">You are publishing an update where not all the change notes are completed, do you want anyway publish the update?</string>
+    <string name="add_change_note">Add change</string>
 </resources>

@@ -262,4 +262,6 @@
     <string name="start_development">Démarrer développement</string>
     <string name="publish_update">Publier</string>
     <string name="not_all_the_change_notes_are_done">Toutes les modifications ne sont pas terminées</string>
-    <string name="check_change_notes_message">Vous publiez une mise à jour dans laquelle toutes les modifications n'ont pas été effectuées, souhaitez-vous quand même publier la mise à jour?</string></resources>
+    <string name="check_change_notes_message">Vous publiez une mise à jour dans laquelle toutes les modifications n'ont pas été effectuées, souhaitez-vous quand même publier la mise à jour?</string>
+    <string name="add_change_note">Ajouter un changement</string>
+</resources>
