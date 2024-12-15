@@ -5,6 +5,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.text.font.FontFamily
+import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY
 import com.tecknobit.pandoro.helpers.PandoroLocalUser
 import com.tecknobit.pandoro.ui.screens.PandoroScreen.Companion.PROJECT_SCREEN
 import com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen
@@ -15,6 +16,7 @@ import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.GROU
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.NOTES_SCREEN
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.PROJECTS_SCREEN
 import com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen
+import com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter.ScheduleUpdateScreen
 import com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen
 import com.tecknobit.pandorocore.GROUP_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.NOTE_IDENTIFIER_KEY
@@ -63,6 +65,8 @@ const val CREATE_PROJECT_SCREEN = "CreateProject"
 const val CREATE_NOTE_SCREEN = "CreateNote"
 
 const val CREATE_CHANGE_NOTE_SCREEN = "CreateChangeNote"
+
+const val SCHEDULE_UPDATE_SCREEN = "ScheduleUpdate"
 
 const val CREATE_GROUP_SCREEN = "CreateGroup"
 
@@ -161,6 +165,16 @@ fun App() {
                     updateId = updateId,
                     targetVersion = targetVersion,
                     noteId = noteId
+                ).ShowContent()
+            }
+            scene(
+                route = "$SCHEDULE_UPDATE_SCREEN/{$PROJECT_IDENTIFIER_KEY}/{$NAME_KEY}"
+            ) { backstackEntry ->
+                val projectId: String = backstackEntry.path<String>(PROJECT_IDENTIFIER_KEY)!!
+                val projectName: String = backstackEntry.path<String>(NAME_KEY)!!
+                ScheduleUpdateScreen(
+                    projectId = projectId,
+                    projectName = projectName
                 ).ShowContent()
             }
             scene(

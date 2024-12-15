@@ -72,7 +72,6 @@ import com.tecknobit.pandoro.ui.icons.ClipboardMinus
 import com.tecknobit.pandoro.ui.icons.ExportNotes
 import com.tecknobit.pandoro.ui.screens.PandoroScreen.Companion.FORM_CARD_HEIGHT
 import com.tecknobit.pandoro.ui.screens.notes.components.ChangeNoteCard
-import com.tecknobit.pandoro.ui.screens.notes.components.NoteForm
 import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
@@ -566,10 +565,6 @@ private fun ViewChangeNotes(
                 }
             }
             if(update.status != PUBLISHED) {
-                val state = rememberModalBottomSheetState(
-                    skipPartiallyExpanded = true
-                )
-                val scope = rememberCoroutineScope()
                 SmallFloatingActionButton(
                     modifier = Modifier
                         .align(Alignment.End),
@@ -585,11 +580,6 @@ private fun ViewChangeNotes(
                         contentDescription = null
                     )
                 }
-                NoteForm(
-                    viewModel = viewModel,
-                    state = state,
-                    scope = scope
-                )
             }
         }
     }

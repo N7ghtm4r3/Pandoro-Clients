@@ -50,7 +50,6 @@
     <string name="delete_update">Delete update</string>
     <string name="delete_update_text">If you confirm this event the update and its all information will be deleted and no more recoverable, confirm?</string>
     <string name="marked_as_done_by">Marked as done by:</string>
-    <string name="schedule_update">Schedule update</string>
     <string name="schedule">Schedule</string>
     <string name="update_version">Update version:</string>
     <string name="content_copied">Content copied successfully</string>
@@ -82,7 +81,6 @@
     <string name="you_must_insert_a_correct_surname">You must insert a correct surname</string>
     <string name="you_must_insert_a_correct_email">You must insert a correct email</string>
     <string name="you_must_insert_a_correct_password">You must insert a correct password</string>
-    <string name="insert_a_correct_target_version">Insert a correct target version</string>
     <string name="you_must_insert_one_note_at_least">You must insert one note at least</string>
     <string name="you_must_insert_correct_notes">You must insert correct notes</string>
     <string name="insert_a_correct_content">Insert a correct content</string>
@@ -266,4 +264,7 @@
     <string name="add_change_note">Add change</string>
     <string name="add_change_note_for_update">Add a change note for the %1$s update</string>
     <string name="edit_change_note_of_update">Edit a change note of the %1$s update</string>
+    <string name="schedule_update">Schedule update</string>
+    <string name="schedule_update_subtext">Schedule an update for the %1$d project</string>
+    <string name="wrong_target_version">Wrong target version</string>
 </resources>

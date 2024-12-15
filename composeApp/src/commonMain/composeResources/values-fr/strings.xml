@@ -50,7 +50,6 @@
     <string name="delete_update">Supprimer la mise à jour</string>
     <string name="delete_update_text">Si vous confirmez cet événement, la mise à jour et toutes ses informations seront supprimées et ne pourront plus être récupérées.</string>
     <string name="marked_as_done_by">Marqué comme fait par :</string>
-    <string name="schedule_update">Mise à jour du calendrier</string>
     <string name="schedule">Calendrier</string>
     <string name="update_version">Version de mise à jour :</string>
     <string name="content_copied">Contenu copié avec succès</string>
@@ -82,7 +81,6 @@
     <string name="you_must_insert_a_correct_surname">Vous devez insérer un nom de famille correct</string>
     <string name="you_must_insert_a_correct_email">Vous devez insérer un email correct</string>
     <string name="you_must_insert_a_correct_password">Vous devez insérer un mot de passe correct</string>
-    <string name="insert_a_correct_target_version">Insérer une version cible correcte</string>
     <string name="you_must_insert_one_note_at_least">Vous devez insérer une note au moins</string>
     <string name="you_must_insert_correct_notes">Vous devez insérer les notes correctes</string>
     <string name="insert_a_correct_content">Insérer un contenu correct</string>
@@ -266,4 +264,7 @@
     <string name="add_change_note">Ajouter un changement</string>
     <string name="add_change_note_for_update">Ajouter une modification pour la 'mise à jour %1$s</string>
     <string name="edit_change_note_of_update">Modifier une note de mise à jour %1$s</string>
+    <string name="schedule_update">Mise à jour du calendrier</string>
+    <string name="schedule_update_subtext">Planifier une mise à jour pour le projet %1$d</string>
+    <string name="wrong_target_version">Version cible erronée</string>
 </resources>

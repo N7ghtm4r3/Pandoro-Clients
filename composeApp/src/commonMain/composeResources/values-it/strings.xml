@@ -50,7 +50,6 @@
     <string name="delete_update">Cancella l'aggiornamento</string>
     <string name="delete_update_text">Se confermi questo evento l'aggiornamento e tutte le sue informazioni saranno cancellate e non più recuperabili, confermi?</string>
     <string name="marked_as_done_by">Contrassegnato come fatto da:</string>
-    <string name="schedule_update">Nuovo aggiornamento</string>
     <string name="schedule">Conferma</string>
     <string name="update_version">Versione aggiornamento:</string>
     <string name="content_copied">Contenuto copiato con successo</string>
@@ -82,7 +81,6 @@
     <string name="you_must_insert_a_correct_surname">È necessario inserire un cognome corretto</string>
     <string name="you_must_insert_a_correct_email">È necessario inserire un'e-mail corretta</string>
     <string name="you_must_insert_a_correct_password">È necessario inserire una password corretta</string>
-    <string name="insert_a_correct_target_version">Inserire una versione di destinazione corretta</string>
     <string name="you_must_insert_one_note_at_least">È necessario inserire una nota almeno</string>
     <string name="you_must_insert_correct_notes">È necessario inserire le note corrette</string>
     <string name="insert_a_correct_content">Inserire un contenuto corretto</string>
@@ -266,4 +264,7 @@
     <string name="add_change_note">Aggiungi modifica</string>
     <string name="add_change_note_for_update">Aggiungi modifica per l'aggiornamento %1$s</string>
     <string name="edit_change_note_of_update">Modifica appunto dell'aggiornamento %1$s</string>
+    <string name="schedule_update">Programma aggiornamento</string>
+    <string name="schedule_update_subtext">Programma un aggiornamento per il progetto %1$d</string>
+    <string name="wrong_target_version">Target version errata</string>
 </resources>

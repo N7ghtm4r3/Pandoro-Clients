@@ -61,6 +61,7 @@ import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
 import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
+import com.tecknobit.pandoro.SCHEDULE_UPDATE_SCREEN
 import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.navigator
@@ -470,7 +471,9 @@ class ProjectScreen(
     override fun FabAction() {
         FloatingActionButton(
             onClick = {
-                // TODO: SCHEDULE UPDATE
+                navigator.navigate(
+                    route = "$SCHEDULE_UPDATE_SCREEN/${item.value!!.id}/${item.value!!.name}"
+                )
             }
         ) {
             Icon(
