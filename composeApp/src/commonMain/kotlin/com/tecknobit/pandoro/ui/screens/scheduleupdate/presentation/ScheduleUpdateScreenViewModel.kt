@@ -4,8 +4,15 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
+import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isContentNoteValid
+import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidVersion
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
+import pandoro.composeapp.generated.resources.Res
+import pandoro.composeapp.generated.resources.wrong_change_notes_list
 
 class ScheduleUpdateScreenViewModel(
     projectId: String
@@ -36,6 +43,25 @@ class ScheduleUpdateScreenViewModel(
         changeNote: String
     ) {
         changeNotes.remove(changeNote)
+    }
+
+    fun scheduleUpdate() {
+        if(!isValidVersion(targetVersion.value)) {
+            targetVersionError.value = true
+            return
+        }
+        if(changeNotes.isEmpty()) {
+            viewModelScope.launch {
+                showSnackbarMessage(
+                    message = getString(
+                        resource = Res.string.wrong_change_notes_list
+                    )
+                )
+            }
+            return
+        }
+        // TODO: MAKE THE REQUEST THEN
+        navigator.goBack()
     }
 
 }

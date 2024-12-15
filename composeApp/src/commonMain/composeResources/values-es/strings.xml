@@ -50,7 +50,6 @@
     <string name="delete_update">Borrar actualización</string>
     <string name="delete_update_text">Si confirmas este evento la actualización y toda su información será borrada y ya no se podrá recuperar, ¿confirmas?</string>
     <string name="marked_as_done_by">Marcado como hecho por:</string>
-    <string name="schedule">Horario</string>
     <string name="update_version">Actualizar versión:</string>
     <string name="content_copied">Contenido copiado correctamente</string>
     <string name="wrong_group_list">Lista de grupos errónea</string>
@@ -268,4 +267,7 @@
     <string name="schedule_update_subtext">Programar una actualización para el proyecto %1$d</string>
     <string name="wrong_target_version">Versión de destino incorrecta</string>
     <string name="wrong_content">Contenido incorrecto</string>
+    <string name="change_note_count">Cambiar #%1$d</string>
+    <string name="schedule">Horario</string>
+    <string name="wrong_change_notes_list">Tiene que insertar una lista válida de notas de cambio</string>
 </resources>

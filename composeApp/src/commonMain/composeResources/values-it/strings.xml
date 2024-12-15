@@ -50,7 +50,6 @@
     <string name="delete_update">Cancella l'aggiornamento</string>
     <string name="delete_update_text">Se confermi questo evento l'aggiornamento e tutte le sue informazioni saranno cancellate e non più recuperabili, confermi?</string>
     <string name="marked_as_done_by">Contrassegnato come fatto da:</string>
-    <string name="schedule">Conferma</string>
     <string name="update_version">Versione aggiornamento:</string>
     <string name="content_copied">Contenuto copiato con successo</string>
     <string name="wrong_group_list">Elenco membri errato</string>
@@ -268,4 +267,7 @@
     <string name="schedule_update_subtext">Programma un aggiornamento per il progetto %1$d</string>
     <string name="wrong_target_version">Target version errata</string>
     <string name="wrong_content">Contenuto errato</string>
+    <string name="change_note_count">Modifica #%1$d</string>
+    <string name="schedule">Programma</string>
+    <string name="wrong_change_notes_list">Dovresti inserire un elenco valido di modifiche</string>
 </resources>

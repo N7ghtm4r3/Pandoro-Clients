@@ -50,7 +50,6 @@
     <string name="delete_update">Delete update</string>
     <string name="delete_update_text">If you confirm this event the update and its all information will be deleted and no more recoverable, confirm?</string>
     <string name="marked_as_done_by">Marked as done by:</string>
-    <string name="schedule">Schedule</string>
     <string name="update_version">Update version:</string>
     <string name="content_copied">Content copied successfully</string>
     <string name="wrong_group_list">Wrong groups list</string>
@@ -268,4 +267,7 @@
     <string name="schedule_update_subtext">Schedule an update for the %1$d project</string>
     <string name="wrong_target_version">Wrong target version</string>
     <string name="wrong_content">Wrong content</string>
+    <string name="change_note_count">Change note #%1$d</string>
+    <string name="schedule">Schedule</string>
+    <string name="wrong_change_notes_list">You have to insert a valid list of change notes</string>
 </resources>

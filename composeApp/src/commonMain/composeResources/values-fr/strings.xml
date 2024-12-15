@@ -50,7 +50,6 @@
     <string name="delete_update">Supprimer la mise à jour</string>
     <string name="delete_update_text">Si vous confirmez cet événement, la mise à jour et toutes ses informations seront supprimées et ne pourront plus être récupérées.</string>
     <string name="marked_as_done_by">Marqué comme fait par :</string>
-    <string name="schedule">Calendrier</string>
     <string name="update_version">Version de mise à jour :</string>
     <string name="content_copied">Contenu copié avec succès</string>
     <string name="wrong_group_list">Mauvaise liste de groupes</string>
@@ -268,4 +267,7 @@
     <string name="schedule_update_subtext">Planifier une mise à jour pour le projet %1$d</string>
     <string name="wrong_target_version">Version cible erronée</string>
     <string name="wrong_content">Contenu erroné</string>
+    <string name="change_note_count">Modifier #%1$d</string>
+    <string name="schedule">Calendrier</string>
+    <string name="wrong_change_notes_list">Vous devez insérer une liste valide de notes de modification.</string>
 </resources>
