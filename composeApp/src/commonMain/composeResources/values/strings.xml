@@ -267,4 +267,5 @@
     <string name="schedule_update">Schedule update</string>
     <string name="schedule_update_subtext">Schedule an update for the %1$d project</string>
     <string name="wrong_target_version">Wrong target version</string>
+    <string name="wrong_content">Wrong content</string>
 </resources>

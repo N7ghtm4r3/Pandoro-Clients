@@ -128,17 +128,9 @@ class CreateNoteScreen(
                     .size(
                         width = FORM_CARD_WIDTH,
                         height = FORM_CARD_HEIGHT
-                    ),
-                shape = RoundedCornerShape(
-                    size = 30.dp
-                )
-            ) {
-                ContentInput(
-                    shape = RoundedCornerShape(
-                        topStart = 30.dp,
-                        topEnd = 30.dp
                     )
-                )
+            ) {
+                ContentInput()
             }
         }
     }
@@ -153,27 +145,25 @@ class CreateNoteScreen(
                 .fillMaxSize()
                 .imePadding()
         ) {
-            ContentInput(
-                shape = RoundedCornerShape(
-                    topStart = 15.dp,
-                    topEnd = 15.dp
-                )
-            )
+            ContentInput()
         }
     }
 
     @Composable
     @NonRestartableComposable
-    private fun ContentInput(
-        shape: RoundedCornerShape
-    ) {
+    private fun ContentInput() {
         val focusRequester = remember { FocusRequester() }
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
         }
         EquinoxTextField(
             modifier = Modifier
-                .clip(shape)
+                .clip(
+                    RoundedCornerShape(
+                        topStart = 12.dp,
+                        topEnd = 12.dp
+                    )
+                )
                 .focusRequester(
                     focusRequester = focusRequester
                 )
