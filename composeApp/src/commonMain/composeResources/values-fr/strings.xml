@@ -274,4 +274,8 @@
         <item formatted="false" quantity="one">Moyenne %1$d jour par mise à jour</item>
         <item formatted="false" quantity="other">Moyenne %1$d jours par mise à jour</item>
     </plurals>
+    <plurals name="days">
+        <item formatted="false" quantity="one">%1$d jour</item>
+        <item formatted="false" quantity="other">%1$d jours</item>
+    </plurals>
 </resources>

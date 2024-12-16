@@ -274,4 +274,8 @@
         <item formatted="false" quantity="one">Media de %1$d días por actualización</item>
         <item formatted="false" quantity="other">Media %1$d días por actualización</item>
     </plurals>
+    <plurals name="days">
+        <item formatted="false" quantity="one">%1$d día</item>
+        <item formatted="false" quantity="other">%1$d días</item>
+    </plurals>
 </resources>

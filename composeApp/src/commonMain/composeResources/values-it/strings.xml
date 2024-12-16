@@ -274,4 +274,8 @@
         <item formatted="false" quantity="one">%1$d giorno per aggiornamento</item>
         <item formatted="false" quantity="other">%1$d giorni per aggiornamento</item>
     </plurals>
+    <plurals name="days">
+        <item formatted="false" quantity="one">%1$d giorno</item>
+        <item formatted="false" quantity="other">%1$d giorni</item>
+    </plurals>
 </resources>

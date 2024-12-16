@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.FilterListOff
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -73,7 +74,8 @@ import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.PROJECTS_SCREEN
-import com.tecknobit.pandoro.ui.screens.project.components.ProjectStatsChart
+import com.tecknobit.pandoro.ui.screens.project.components.ProjectStatsModal
+import com.tecknobit.pandoro.ui.screens.project.components.ProjectsStats
 import com.tecknobit.pandoro.ui.screens.project.components.UpdateCard
 import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
@@ -344,6 +346,42 @@ class ProjectScreen(
     @Composable
     @NonRestartableComposable
     override fun ScreenContent() {
+        val widthSizeClass = getCurrentWidthSizeClass()
+        when(widthSizeClass) {
+            Expanded -> {
+                Row (
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(50.dp)
+                ) {
+                    Column (
+                        modifier = Modifier
+                            .weight(1f)
+                    ) {
+                        ProjectUpdatesSection()
+                    }
+                    Column (
+                        modifier = Modifier
+                            .weight(1f)
+                    ) {
+                        Card(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            ProjectsStats(
+                                project = item.value!!,
+                                publishedUpdates = item.value!!.updates.filter { update -> update.status == UpdateStatus.PUBLISHED }
+                            )
+                        }
+                    }
+                }
+            }
+            else -> { ProjectUpdatesSection() }
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun ProjectUpdatesSection() {
         Section(
             modifier = Modifier
                 .padding(
@@ -355,9 +393,6 @@ class ProjectScreen(
         ) {
             PaginatedLazyColumn(
                 modifier = Modifier
-                    .widthIn(
-                        max = FORM_CARD_WIDTH
-                    )
                     .animateContentSize(),
                 paginationState = viewModel!!.updatesState,
                 verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -511,7 +546,7 @@ class ProjectScreen(
                     contentDescription = null
                 )
             }
-            ProjectStatsChart(
+            ProjectStatsModal(
                 state = state,
                 scope = scope,
                 project = item.value!!,

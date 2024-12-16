@@ -5,7 +5,9 @@ package com.tecknobit.pandoro.ui.screens.project.components
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -43,6 +45,7 @@ import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.theme.Green
 import ir.ehsannarmani.compose_charts.LineChart
 import ir.ehsannarmani.compose_charts.PieChart
+import ir.ehsannarmani.compose_charts.extensions.format
 import ir.ehsannarmani.compose_charts.models.DrawStyle
 import ir.ehsannarmani.compose_charts.models.GridProperties
 import ir.ehsannarmani.compose_charts.models.HorizontalIndicatorProperties
@@ -59,12 +62,13 @@ import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.average_days
 import pandoro.composeapp.generated.resources.average_development_days
+import pandoro.composeapp.generated.resources.days
 import pandoro.composeapp.generated.resources.development_days
 import pandoro.composeapp.generated.resources.stats
 import pandoro.composeapp.generated.resources.total_development_days
 
 /**
- * **axisProperties** custom axis properties for the [ProjectStatsChart]
+ * **axisProperties** custom axis properties for the [ProjectStatsModal]
  */
 private val axisProperties = GridProperties.AxisProperties(
     enabled = false
@@ -76,7 +80,7 @@ private val contentBuilder: (Double) -> String = {
 
 @Composable
 @NonRestartableComposable
-fun ProjectStatsChart(
+fun ProjectStatsModal(
     state: SheetState,
     scope: CoroutineScope,
     project: Project,
@@ -90,142 +94,142 @@ fun ProjectStatsChart(
                 }
             }
         ) {
-            Text(
-                modifier = Modifier
-                    .padding(
-                        start = 16.dp
-                    ),
-                text = stringResource(Res.string.stats),
-                fontFamily = displayFontFamily,
-                fontSize = 25.sp
-            )
-            HorizontalDivider()
-            StatsSection(
-                modifier = Modifier
-                    .padding(
-                        top = 10.dp
-                    ),
-                header = Res.string.development_days,
-                subText = stringResource(
-                    Res.string.total_development_days,
-                    project.calculateTotalDevelopmentDays()
-                ),
-                chart = {
-                    var data by remember {
-                        mutableStateOf(
-                            getTotalDevelopmentDaysData(
-                                publishedUpdates = publishedUpdates
-                            )
-                        )
-                    }
-                    val tooltipState = rememberTooltipState()
-                    val tooltipScope = rememberCoroutineScope()
-                    TooltipBox(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        positionProvider = rememberPlainTooltipPositionProvider(),
-                        tooltip = {
-                            PlainTooltip {
-                                Text(
-                                    text = "ga"
-                                )
-                            }
-                        },
-                        state = tooltipState
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .padding(
-                                    all = 16.dp
-                                )
-                                .fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            PieChart(
-                                modifier = Modifier
-                                    .size(150.dp),
-                                data = data,
-                                onPieClick = {
-                                    val pieIndex = data.indexOf(it)
-                                    data = data.mapIndexed { mapIndex, pie ->
-                                        pie.copy(
-                                            selected = pieIndex == mapIndex
-                                        )
-                                    }
-                                    tooltipScope.launch {
-                                        tooltipState.show()
-                                    }
-                                },
-                                scaleAnimEnterSpec = spring(
-                                    dampingRatio = Spring.DampingRatioMediumBouncy,
-                                    stiffness = Spring.StiffnessLow
-                                ),
-                                colorAnimEnterSpec = tween(300),
-                                colorAnimExitSpec = tween(300),
-                                scaleAnimExitSpec = tween(300),
-                                spaceDegreeAnimExitSpec = tween(300)
-                            )
-                        }
-                    }
-                }
-            )
-            val averageDaysPerUpdate = project.calculateAverageDaysPerUpdate()
-            StatsSection(
-                header = Res.string.average_development_days,
-                subText = pluralStringResource(
-                    resource = Res.plurals.average_days,
-                    quantity = averageDaysPerUpdate.toInt(),
-                    averageDaysPerUpdate
-                ),
-                chart = {
-                    val lineColor = Green()
-                    LineChart(
-                        modifier = Modifier
-                            .padding(
-                                all = 16.dp
-                            )
-                            .fillMaxWidth()
-                            .height(250.dp),
-                        gridProperties = GridProperties(
-                            enabled = false,
-                            xAxisProperties = axisProperties,
-                            yAxisProperties = axisProperties
-                        ),
-                        indicatorProperties = HorizontalIndicatorProperties(
-                            enabled = true,
-                            textStyle = TextStyle(
-                                color = contentColorFor(
-                                    backgroundColor = MaterialTheme.colorScheme.surfaceContainer
-                                )
-                            ),
-                            contentBuilder = contentBuilder
-                        ),
-                        popupProperties = PopupProperties(
-                            textStyle = TextStyle(
-                                color = contentColorFor(
-                                    backgroundColor = MaterialTheme.colorScheme.surfaceContainer
-                                )
-                            ),
-                            containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                            contentBuilder = contentBuilder
-                        ),
-                        labelHelperProperties = LabelHelperProperties(
-                            enabled = false
-                        ),
-                        labelProperties = LabelProperties(
-                            enabled = true
-                        ),
-                        data = remember {
-                            getAverageDaysPerUpdateData(
-                                lineColor = lineColor,
-                                publishedUpdates = publishedUpdates
-                            )
-                        }
-                    )
-                }
+            ProjectsStats(
+                project = project,
+                publishedUpdates = publishedUpdates
             )
         }
     }
+}
+
+@Composable
+@NonRestartableComposable
+fun ProjectsStats(
+    project: Project,
+    publishedUpdates: List<ProjectUpdate>
+) {
+    Text(
+        modifier = Modifier
+            .padding(
+                start = 16.dp
+            ),
+        text = stringResource(Res.string.stats),
+        fontFamily = displayFontFamily,
+        fontSize = 25.sp
+    )
+    HorizontalDivider()
+    DevelopmentDays(
+        project = project,
+        publishedUpdates = publishedUpdates
+    )
+    AverageDaysPerUpdate(
+        project = project,
+        publishedUpdates = publishedUpdates
+    )
+}
+
+@Composable
+@NonRestartableComposable
+private fun DevelopmentDays(
+    project: Project,
+    publishedUpdates: List<ProjectUpdate>
+) {
+    val totalDevelopmentDays = project.calculateTotalDevelopmentDays()
+    StatsSection(
+        modifier = Modifier
+            .padding(
+                top = 10.dp
+            ),
+        header = Res.string.development_days,
+        subText = stringResource(
+            Res.string.total_development_days,
+            totalDevelopmentDays
+        ),
+        chart = {
+            var data by remember {
+                mutableStateOf(
+                    getTotalDevelopmentDaysData(
+                        publishedUpdates = publishedUpdates
+                    )
+                )
+            }
+            val currentSelectedPie = remember {
+                mutableStateOf(
+                    data[0]
+                )
+            }
+            val tooltipState = rememberTooltipState()
+            val tooltipScope = rememberCoroutineScope()
+            TooltipBox(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                positionProvider = rememberPlainTooltipPositionProvider(),
+                tooltip = {
+                    PlainTooltip {
+                        Column {
+                            Text(
+                                text = currentSelectedPie.value.label!!
+                            )
+                            val days = currentSelectedPie.value.data.toInt()
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(5.dp)
+                            ) {
+                                Text(
+                                    text = pluralStringResource(
+                                        resource = Res.plurals.days,
+                                        quantity = days,
+                                        days
+                                    ),
+                                    fontSize = 12.sp
+                                )
+                                Text(
+                                    text = "(${(days * 100.0 / totalDevelopmentDays)
+                                        .format(2)})%",
+                                    fontSize = 12.sp
+                                )
+                            }
+                        }
+                    }
+                },
+                state = tooltipState
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(
+                            all = 16.dp
+                        )
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    PieChart(
+                        modifier = Modifier
+                            .size(150.dp),
+                        data = data,
+                        onPieClick = {
+                            val pieIndex = data.indexOf(it)
+                            data = data.mapIndexed { mapIndex, pie ->
+                                pie.copy(
+                                    selected = pieIndex == mapIndex
+                                )
+                            }
+                            currentSelectedPie.value = data[pieIndex]
+                            tooltipScope.launch {
+                                tooltipState.show()
+                            }
+                        },
+                        scaleAnimEnterSpec = spring(
+                            dampingRatio = Spring.DampingRatioMediumBouncy,
+                            stiffness = Spring.StiffnessLow
+                        ),
+                        colorAnimEnterSpec = tween(300),
+                        colorAnimExitSpec = tween(300),
+                        scaleAnimExitSpec = tween(300),
+                        spaceDegreeAnimExitSpec = tween(300)
+                    )
+                }
+            }
+        }
+    )
 }
 
 private fun getTotalDevelopmentDaysData(
@@ -237,12 +241,75 @@ private fun getTotalDevelopmentDaysData(
             Pie(
                 label = update.targetVersion.asVersionText(),
                 data = update.developmentDays().toDouble(),
-                color = generateRandomColor(),
-                selectedColor = generateRandomColor()
+                color = generateRandomColor(), // TODO: USE THE REAL COLOR
+                selectedColor = generateRandomColor() // TODO: USE THE REAL COLOR
             )
         )
     }
     return pies
+}
+
+@Composable
+@NonRestartableComposable
+private fun AverageDaysPerUpdate(
+    project: Project,
+    publishedUpdates: List<ProjectUpdate>
+) {
+    val averageDaysPerUpdate = project.calculateAverageDaysPerUpdate()
+    StatsSection(
+        header = Res.string.average_development_days,
+        subText = pluralStringResource(
+            resource = Res.plurals.average_days,
+            quantity = averageDaysPerUpdate.toInt(),
+            averageDaysPerUpdate
+        ),
+        chart = {
+            val lineColor = Green()
+            LineChart(
+                modifier = Modifier
+                    .padding(
+                        all = 16.dp
+                    )
+                    .fillMaxWidth()
+                    .height(250.dp),
+                gridProperties = GridProperties(
+                    enabled = false,
+                    xAxisProperties = axisProperties,
+                    yAxisProperties = axisProperties
+                ),
+                indicatorProperties = HorizontalIndicatorProperties(
+                    enabled = true,
+                    textStyle = TextStyle(
+                        color = contentColorFor(
+                            backgroundColor = MaterialTheme.colorScheme.surfaceContainer
+                        )
+                    ),
+                    contentBuilder = contentBuilder
+                ),
+                popupProperties = PopupProperties(
+                    textStyle = TextStyle(
+                        color = contentColorFor(
+                            backgroundColor = MaterialTheme.colorScheme.surfaceContainer
+                        )
+                    ),
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                    contentBuilder = contentBuilder
+                ),
+                labelHelperProperties = LabelHelperProperties(
+                    enabled = false
+                ),
+                labelProperties = LabelProperties(
+                    enabled = true
+                ),
+                data = remember {
+                    getAverageDaysPerUpdateData(
+                        lineColor = lineColor,
+                        publishedUpdates = publishedUpdates
+                    )
+                }
+            )
+        }
+    )
 }
 
 private fun getAverageDaysPerUpdateData(
