@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -122,7 +123,8 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
             modifier = Modifier
                 .padding(
                     paddingValues = paddingValues
-                ),
+                )
+                .navigationBarsPadding(),
             content = {
                 screenTitle?.let { title ->
                     ScreenTitle(

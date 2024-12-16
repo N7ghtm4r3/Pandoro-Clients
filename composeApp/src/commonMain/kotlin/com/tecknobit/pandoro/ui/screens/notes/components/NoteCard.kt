@@ -327,6 +327,28 @@ private fun NoteDetails(
 
 @Composable
 @NonRestartableComposable
+fun NoteDetails(
+    note: String,
+    state: SheetState,
+    scope: CoroutineScope
+) {
+    if(state.isVisible) {
+        ModalBottomSheet(
+            onDismissRequest = {
+                scope.launch {
+                    state.hide()
+                }
+            }
+        ) {
+            NoteContent(
+                note = note
+            )
+        }
+    }
+}
+
+@Composable
+@NonRestartableComposable
 private fun NoteTimeline(
     noteShared: Boolean = false,
     note: Note
@@ -523,6 +545,16 @@ private fun NoteTimelineEventContainer(
 private fun NoteContent(
     note: Note
 ) {
+    NoteContent(
+        note = note.content
+    )
+}
+
+@Composable
+@NonRestartableComposable
+private fun NoteContent(
+    note: String
+) {
     Text(
         modifier = Modifier
             .padding(
@@ -542,7 +574,7 @@ private fun NoteContent(
                 bottom = 16.dp
             )
             .verticalScroll(rememberScrollState()),
-        text = note.content,
+        text = note,
         textAlign = TextAlign.Justify
     )
 }

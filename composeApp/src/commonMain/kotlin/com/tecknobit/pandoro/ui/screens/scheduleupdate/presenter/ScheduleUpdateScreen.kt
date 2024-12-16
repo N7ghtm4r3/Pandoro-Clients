@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -21,6 +24,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,10 +33,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,11 +51,13 @@ import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.ui.icons.AddNotes
+import com.tecknobit.pandoro.ui.screens.notes.components.NoteDetails
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.scheduleupdate.presentation.ScheduleUpdateScreenViewModel
 import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isContentNoteValid
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidVersion
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.change_note_count
@@ -151,8 +159,9 @@ class ScheduleUpdateScreen(
                 FormHeader()
                 Box(
                     modifier = Modifier
-                        .imePadding()
                         .fillMaxSize()
+                        .imePadding()
+                        .navigationBarsPadding()
                 ) {
                     ChangeNotes()
                     ChangeNoteForm()
@@ -166,6 +175,9 @@ class ScheduleUpdateScreen(
     private fun FormHeader() {
         Row(
             modifier = Modifier
+                .padding(
+                    top = 10.dp
+                )
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -222,41 +234,66 @@ class ScheduleUpdateScreen(
             itemsIndexed(
                 items = viewModel!!.changeNotes
             ) { index, changeNote ->
-                ListItem(
-                    overlineContent = {
-                        Text(
-                            text = stringResource(
-                                resource = Res.string.change_note_count,
-                                index + 1
-                            )
-                        )
-                    },
-                    headlineContent = {
-                        Text(
-                            text = changeNote,
-                            maxLines = 3,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    },
-                    trailingContent = {
-                        IconButton(
-                            onClick = {
-                                viewModel!!.removeChangeNote(
-                                    changeNote = changeNote
-                                )
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.error
-                            )
-                        }
-                    }
+                ChangeNoteItem(
+                    index = index,
+                    changeNote = changeNote
                 )
-                HorizontalDivider()
             }
         }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun ChangeNoteItem(
+        index: Int,
+        changeNote: String
+    ) {
+        val state = rememberModalBottomSheetState()
+        val scope = rememberCoroutineScope()
+        ListItem(
+            modifier = Modifier
+                .clickable {
+                    scope.launch {
+                        state.show()
+                    }
+                },
+            overlineContent = {
+                Text(
+                    text = stringResource(
+                        resource = Res.string.change_note_count,
+                        index + 1
+                    )
+                )
+            },
+            headlineContent = {
+                Text(
+                    text = changeNote,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis
+                )
+            },
+            trailingContent = {
+                IconButton(
+                    onClick = {
+                        viewModel!!.removeChangeNote(
+                            changeNote = changeNote
+                        )
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
+        )
+        HorizontalDivider()
+        NoteDetails(
+            note = changeNote,
+            state = state,
+            scope = scope
+        )
     }
 
     @Composable
@@ -265,7 +302,6 @@ class ScheduleUpdateScreen(
         EquinoxOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .navigationBarsPadding()
                 .align(Alignment.BottomCenter),
             value = viewModel!!.changeNoteContent,
             placeholder = Res.string.content_of_the_note,
@@ -276,6 +312,7 @@ class ScheduleUpdateScreen(
             outlinedTextFieldColors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
                 unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+                errorContainerColor = MaterialTheme.colorScheme.surfaceContainer,
                 unfocusedBorderColor = Color.Transparent,
                 focusedBorderColor = Color.Transparent,
                 errorBorderColor = Color.Transparent
