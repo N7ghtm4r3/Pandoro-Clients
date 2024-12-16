@@ -54,7 +54,6 @@
     <string name="content_copied">Content copied successfully</string>
     <string name="wrong_group_list">Wrong groups list</string>
     <string name="groups_number">Groups number:</string>
-    <string name="stats">Stats</string>
     <string name="total_development_days">Total development days:</string>
     <string name="members">Members</string>
     <string name="total_members">Total members:</string>
@@ -270,4 +269,5 @@
     <string name="change_note_count">Change note #%1$d</string>
     <string name="schedule">Schedule</string>
     <string name="wrong_change_notes_list">You have to insert a valid list of change notes</string>
+    <string name="stats">Stats</string>
 </resources>

@@ -7,7 +7,6 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +20,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AreaChart
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.FilterListOff
 import androidx.compose.material.icons.filled.Schedule
@@ -37,6 +37,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -66,6 +67,7 @@ import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
+import com.tecknobit.pandoro.ui.components.ProjectStatsChart
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
@@ -339,7 +341,7 @@ class ProjectScreen(
 
     @Composable
     @NonRestartableComposable
-    override fun ColumnScope.ScreenContent() {
+    override fun ScreenContent() {
         Section(
             modifier = Modifier
                 .padding(
@@ -469,17 +471,48 @@ class ProjectScreen(
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
-        FloatingActionButton(
-            onClick = {
-                navigator.navigate(
-                    route = "$SCHEDULE_UPDATE_SCREEN/${item.value!!.id}/${item.value!!.name}"
+        Column(
+            horizontalAlignment = Alignment.End
+        ) {
+            val publishedUpdates = item.value!!.updates
+                .filter { update -> update.status == UpdateStatus.PUBLISHED }
+                .sortedBy { update -> update.publishDate }
+            if(publishedUpdates.isNotEmpty()) {
+                val state = rememberModalBottomSheetState(
+                    skipPartiallyExpanded = true
+                )
+                val scope = rememberCoroutineScope()
+                SmallFloatingActionButton(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    onClick = {
+                        scope.launch {
+                            state.show()
+                        }
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.AreaChart,
+                        contentDescription = null
+                    )
+                }
+                ProjectStatsChart(
+                    publishedUpdates = publishedUpdates,
+                    state = state,
+                    scope = scope
                 )
             }
-        ) {
-            Icon(
-                imageVector = Icons.Default.Schedule,
-                contentDescription = null
-            )
+            FloatingActionButton(
+                onClick = {
+                    navigator.navigate(
+                        route = "$SCHEDULE_UPDATE_SCREEN/${item.value!!.id}/${item.value!!.name}"
+                    )
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Schedule,
+                    contentDescription = null
+                )
+            }
         }
     }
 

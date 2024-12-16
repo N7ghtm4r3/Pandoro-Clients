@@ -5,7 +5,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -121,7 +120,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
 
     @Composable
     @NonRestartableComposable
-    protected abstract fun ColumnScope.ScreenContent()
+    protected abstract fun ScreenContent()
 
     @Composable
     @NonRestartableComposable

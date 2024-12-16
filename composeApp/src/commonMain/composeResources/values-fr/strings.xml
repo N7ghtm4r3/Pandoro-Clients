@@ -54,7 +54,6 @@
     <string name="content_copied">Contenu copié avec succès</string>
     <string name="wrong_group_list">Mauvaise liste de groupes</string>
     <string name="groups_number">Numéro de groupe :</string>
-    <string name="stats">Statistiques</string>
     <string name="total_development_days">Nombre total de jours de développement :</string>
     <string name="members">Les membres</string>
     <string name="total_members">Nombre total de membres :</string>
@@ -270,4 +269,5 @@
     <string name="change_note_count">Modifier #%1$d</string>
     <string name="schedule">Calendrier</string>
     <string name="wrong_change_notes_list">Vous devez insérer une liste valide de notes de modification.</string>
+    <string name="stats">Statistiques</string>
 </resources>
