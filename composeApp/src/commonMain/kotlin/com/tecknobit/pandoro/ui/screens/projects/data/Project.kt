@@ -13,6 +13,7 @@ import com.tecknobit.pandorocore.PROJECT_REPOSITORY_KEY
 import com.tecknobit.pandorocore.PROJECT_VERSION_KEY
 import com.tecknobit.pandorocore.UPDATES_KEY
 import com.tecknobit.pandorocore.enums.RepositoryPlatform
+import com.tecknobit.pandorocore.enums.UpdateStatus
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -67,6 +68,24 @@ data class Project(
 
     fun isSharedWithGroups() : Boolean {
         return groups.isNotEmpty()
+    }
+
+    fun calculateTotalDevelopmentDays() : Int {
+        val publishedUpdate = getPublishedUpdates()
+        var totalDevelopmentDays = 0
+        publishedUpdate.forEach { update ->
+            totalDevelopmentDays += update.developmentDays()
+        }
+        return totalDevelopmentDays
+    }
+
+    fun calculateAverageDaysPerUpdate() : Double {
+        val publishedUpdateNumber = getPublishedUpdates().size
+        return (calculateTotalDevelopmentDays() / publishedUpdateNumber).toDouble()
+    }
+
+    private fun getPublishedUpdates(): List<ProjectUpdate> {
+        return updates.filter { update -> update.status == UpdateStatus.PUBLISHED }
     }
 
 }

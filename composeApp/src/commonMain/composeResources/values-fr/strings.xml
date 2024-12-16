@@ -31,7 +31,6 @@
     <string name="worst_performance">Pire performance</string>
     <string name="updates_number">Nombre de mises à jour</string>
     <string name="average_development_time">Durée moyenne de développement</string>
-    <string name="average_development_days">Nombre moyen de jours de développement</string>
     <string name="profile_details">Détails du profil</string>
 
     <string name="create_a_new_group">Créer un nouveau groupe</string>
@@ -54,7 +53,6 @@
     <string name="content_copied">Contenu copié avec succès</string>
     <string name="wrong_group_list">Mauvaise liste de groupes</string>
     <string name="groups_number">Numéro de groupe :</string>
-    <string name="total_development_days">Nombre total de jours de développement :</string>
     <string name="members">Les membres</string>
     <string name="total_members">Nombre total de membres :</string>
     <string name="projects_number">Numéro de projet :</string>
@@ -270,4 +268,10 @@
     <string name="schedule">Calendrier</string>
     <string name="wrong_change_notes_list">Vous devez insérer une liste valide de notes de modification.</string>
     <string name="stats">Statistiques</string>
+    <string name="total_development_days">Nombre total de jours de développement %1$d</string>
+    <string name="average_development_days">Nombre moyen de jours de développement</string>
+    <plurals name="average_days">
+        <item formatted="false" quantity="one">Moyenne %1$d jour par mise à jour</item>
+        <item formatted="false" quantity="other">Moyenne %1$d jours par mise à jour</item>
+    </plurals>
 </resources>

@@ -40,6 +40,7 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.collectAsState
@@ -65,13 +66,14 @@ import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.SCHEDULE_UPDATE_SCREEN
 import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.displayFontFamily
+import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
-import com.tecknobit.pandoro.ui.components.ProjectStatsChart
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.PROJECTS_SCREEN
+import com.tecknobit.pandoro.ui.screens.project.components.ProjectStatsChart
 import com.tecknobit.pandoro.ui.screens.project.components.UpdateCard
 import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
@@ -471,48 +473,67 @@ class ProjectScreen(
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
-        Column(
-            horizontalAlignment = Alignment.End
-        ) {
-            val publishedUpdates = item.value!!.updates
-                .filter { update -> update.status == UpdateStatus.PUBLISHED }
-                .sortedBy { update -> update.publishDate }
-            if(publishedUpdates.isNotEmpty()) {
-                val state = rememberModalBottomSheetState(
-                    skipPartiallyExpanded = true
-                )
-                val scope = rememberCoroutineScope()
-                SmallFloatingActionButton(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    onClick = {
-                        scope.launch {
-                            state.show()
-                        }
-                    }
+        val widthSizeClass = getCurrentWidthSizeClass()
+        when(widthSizeClass) {
+            Expanded -> { ScheduleButton() }
+            else -> {
+                Column(
+                    horizontalAlignment = Alignment.End
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.AreaChart,
-                        contentDescription = null
-                    )
+                    ViewStatsButton()
+                    ScheduleButton()
                 }
-                ProjectStatsChart(
-                    publishedUpdates = publishedUpdates,
-                    state = state,
-                    scope = scope
-                )
             }
-            FloatingActionButton(
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun ViewStatsButton() {
+        val publishedUpdates = item.value!!.updates
+            .filter { update -> update.status == UpdateStatus.PUBLISHED }
+            .sortedBy { update -> update.publishDate }
+        if(publishedUpdates.isNotEmpty()) {
+            val state = rememberModalBottomSheetState(
+                skipPartiallyExpanded = true
+            )
+            val scope = rememberCoroutineScope()
+            SmallFloatingActionButton(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
                 onClick = {
-                    navigator.navigate(
-                        route = "$SCHEDULE_UPDATE_SCREEN/${item.value!!.id}/${item.value!!.name}"
-                    )
+                    scope.launch {
+                        state.show()
+                    }
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Default.Schedule,
+                    imageVector = Icons.Default.AreaChart,
                     contentDescription = null
                 )
             }
+            ProjectStatsChart(
+                state = state,
+                scope = scope,
+                project = item.value!!,
+                publishedUpdates = publishedUpdates
+            )
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun ScheduleButton() {
+        FloatingActionButton(
+            onClick = {
+                navigator.navigate(
+                    route = "$SCHEDULE_UPDATE_SCREEN/${item.value!!.id}/${item.value!!.name}"
+                )
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Default.Schedule,
+                contentDescription = null
+            )
         }
     }
 

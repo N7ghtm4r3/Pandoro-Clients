@@ -31,7 +31,6 @@
     <string name="worst_performance">Peggiori prestazioni</string>
     <string name="updates_number">Numero di aggiornamenti</string>
     <string name="average_development_time">Tempo medio di sviluppo</string>
-    <string name="average_development_days">Giorni medi di sviluppo</string>
     <string name="profile_details">Dettagli profilo</string>
 
     <string name="create_a_new_group">Crea un nuovo gruppo</string>
@@ -54,7 +53,6 @@
     <string name="content_copied">Contenuto copiato con successo</string>
     <string name="wrong_group_list">Elenco membri errato</string>
     <string name="groups_number">Numero di gruppi:</string>
-    <string name="total_development_days">Totale giorni di sviluppo:</string>
     <string name="members">Membri</string>
     <string name="total_members">Membri totali:</string>
     <string name="projects_number">Numero di progetti:</string>
@@ -270,4 +268,10 @@
     <string name="schedule">Programma</string>
     <string name="wrong_change_notes_list">Dovresti inserire un elenco valido di modifiche</string>
     <string name="stats">Statistiche</string>
+    <string name="total_development_days">Totale giorni di sviluppo %1$d</string>
+    <string name="average_development_days">Media giorni di sviluppo</string>
+    <plurals name="average_days">
+        <item formatted="false" quantity="one">%1$d giorno per aggiornamento</item>
+        <item formatted="false" quantity="other">%1$d giorni per aggiornamento</item>
+    </plurals>
 </resources>
