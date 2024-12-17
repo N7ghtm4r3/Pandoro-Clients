@@ -19,4 +19,16 @@ abstract class BaseGroupViewModel : EquinoxViewModel(
 
     abstract fun retrieveGroup()
 
+    interface GroupDeleter {
+
+        fun deleteGroup(
+            group: Group,
+            onDelete: () -> Unit
+        ) {
+            // TODO: MAKE THE REQUEST THEN
+            onDelete.invoke()
+        }
+
+    }
+
 }

@@ -1,14 +1,12 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.tecknobit.pandoro.ui.screens.group.presenter
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.collectAsState
 import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
 import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.ui.components.DeleteGroup
 import com.tecknobit.pandoro.ui.screens.group.presentation.GroupScreenViewModel
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectIcons
@@ -57,6 +55,15 @@ class GroupScreen(
     override fun DeleteItemAction(
         delete: MutableState<Boolean>
     ) {
+        DeleteGroup(
+            viewModel = viewModel!!,
+            group = item.value!!,
+            show = delete,
+            onDelete = {
+                delete.value = false
+                navigator.goBack()
+            }
+        )
     }
 
     override fun getItemAuthor(): PandoroUser {

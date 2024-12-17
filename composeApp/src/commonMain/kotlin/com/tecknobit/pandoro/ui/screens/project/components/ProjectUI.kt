@@ -4,6 +4,7 @@ package com.tecknobit.pandoro.ui.screens.project.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -47,6 +48,9 @@ fun ProjectIcons(
     val scope = rememberCoroutineScope()
     Box (
         modifier = Modifier
+            .heightIn(
+                min = 50.dp
+            )
             .clip(
                 RoundedCornerShape(
                     size = 50.dp

@@ -18,13 +18,13 @@ import com.tecknobit.pandoro.SPLASHSCREEN
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
-import com.tecknobit.pandoro.ui.screens.groups.presentation.GroupsScreenViewModel
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.profile.presentation.ProfileScreenViewModel
 import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
+import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseGroupViewModel.GroupDeleter
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -140,7 +140,7 @@ fun DeleteNote(
 @Composable
 @NonRestartableComposable
 fun DeleteGroup(
-    viewModel: GroupsScreenViewModel,
+    viewModel: EquinoxViewModel,
     group: Group,
     show: MutableState<Boolean>,
     onDelete: () -> Unit
@@ -157,7 +157,7 @@ fun DeleteGroup(
         titleStyle = titleStyle,
         text = stringResource(Res.string.delete_group_text_dialog),
         confirmAction = {
-            viewModel.deleteGroup(
+            (viewModel as GroupDeleter).deleteGroup(
                 group = group,
                 onDelete = onDelete
             )

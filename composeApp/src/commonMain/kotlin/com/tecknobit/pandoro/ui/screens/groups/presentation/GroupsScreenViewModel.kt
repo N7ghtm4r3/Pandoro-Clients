@@ -11,6 +11,7 @@ import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
+import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseGroupViewModel.GroupDeleter
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.MultipleListViewModel
 import com.tecknobit.pandorocore.enums.Role
 import com.tecknobit.pandorocore.enums.UpdateStatus
@@ -18,7 +19,7 @@ import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-class GroupsScreenViewModel : MultipleListViewModel() {
+class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
 
     lateinit var myGroupsStateFilters: MutableState<String>
 
@@ -283,14 +284,6 @@ class GroupsScreenViewModel : MultipleListViewModel() {
             myGroupsState.refresh()
         }
         onFiltersSet.invoke()
-    }
-
-    fun deleteGroup(
-        group: Group,
-        onDelete: () -> Unit
-    ) {
-        // TODO: MAKE THE REQUEST THEN
-        onDelete.invoke()
     }
 
 }

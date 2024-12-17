@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
+import com.tecknobit.pandoro.GROUP_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteGroup
@@ -38,6 +39,8 @@ import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.asText
 import com.tecknobit.pandoro.ui.screens.groups.presentation.GroupsScreenViewModel
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.GROUPS_SCREEN
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectIcons
 import com.tecknobit.pandorocore.enums.Role
 import org.jetbrains.compose.resources.pluralStringResource
@@ -58,7 +61,9 @@ fun MyGroupCard(
             )
             .combinedClickable(
                 onClick = {
-                    // TODO: NAV TO GROUP
+                    navToGroup(
+                        group = group
+                    )
                 },
                 onLongClick = {
                     navToEditGroup(
@@ -95,7 +100,9 @@ fun GroupCard(
             .height(200.dp)
             .combinedClickable(
                 onClick = {
-                    // TODO: NAV TO GROUP
+                    navToGroup(
+                        group = group
+                    )
                 },
                 onLongClick = if(group.iAmAnAdmin()) {
                     {
@@ -258,4 +265,13 @@ private fun navToEditGroup(
     group: Group
 ) {
     navigator.navigate("$CREATE_GROUP_SCREEN/${group.id}")
+}
+
+private fun navToGroup(
+    group: Group
+) {
+    HomeScreen.setCurrentScreenDisplayed(
+        screen = GROUPS_SCREEN
+    )
+    navigator.navigate("$GROUP_SCREEN/${group.id}")
 }
