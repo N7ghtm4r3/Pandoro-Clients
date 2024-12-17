@@ -84,7 +84,7 @@ data class Project(
         return (calculateTotalDevelopmentDays() / publishedUpdateNumber).toDouble()
     }
 
-    private fun getPublishedUpdates(): List<ProjectUpdate> {
+    fun getPublishedUpdates(): List<ProjectUpdate> {
         return updates.filter { update -> update.status == UpdateStatus.PUBLISHED }
     }
 

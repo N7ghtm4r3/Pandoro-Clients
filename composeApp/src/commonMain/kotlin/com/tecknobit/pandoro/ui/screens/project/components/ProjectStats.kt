@@ -8,10 +8,14 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -37,12 +41,12 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tecknobit.equinoxcompose.utilities.generateRandomColor
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.theme.Green
+import com.tecknobit.pandoro.ui.theme.PieChartColors
 import ir.ehsannarmani.compose_charts.LineChart
 import ir.ehsannarmani.compose_charts.PieChart
 import ir.ehsannarmani.compose_charts.extensions.format
@@ -68,7 +72,7 @@ import pandoro.composeapp.generated.resources.stats
 import pandoro.composeapp.generated.resources.total_development_days
 
 /**
- * **axisProperties** custom axis properties for the [ProjectStatsModal]
+ * **axisProperties** custom axis properties for the [ModalProjectStats]
  */
 private val axisProperties = GridProperties.AxisProperties(
     enabled = false
@@ -80,7 +84,7 @@ private val contentBuilder: (Double) -> String = {
 
 @Composable
 @NonRestartableComposable
-fun ProjectStatsModal(
+fun ModalProjectStats(
     state: SheetState,
     scope: CoroutineScope,
     project: Project,
@@ -94,10 +98,30 @@ fun ProjectStatsModal(
                 }
             }
         ) {
-            ProjectsStats(
-                project = project,
-                publishedUpdates = publishedUpdates
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(
+                            start = 16.dp
+                        ),
+                    text = stringResource(Res.string.stats),
+                    fontFamily = displayFontFamily,
+                    fontSize = 25.sp
+                )
+                HorizontalDivider()
+                DevelopmentDays(
+                    project = project,
+                    publishedUpdates = publishedUpdates
+                )
+                AverageDaysPerUpdate(
+                    project = project,
+                    publishedUpdates = publishedUpdates
+                )
+            }
         }
     }
 }
@@ -108,24 +132,26 @@ fun ProjectsStats(
     project: Project,
     publishedUpdates: List<ProjectUpdate>
 ) {
-    Text(
-        modifier = Modifier
-            .padding(
-                start = 16.dp
-            ),
-        text = stringResource(Res.string.stats),
-        fontFamily = displayFontFamily,
-        fontSize = 25.sp
-    )
-    HorizontalDivider()
-    DevelopmentDays(
-        project = project,
-        publishedUpdates = publishedUpdates
-    )
-    AverageDaysPerUpdate(
-        project = project,
-        publishedUpdates = publishedUpdates
-    )
+    Column (
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Card {
+            DevelopmentDays(
+                project = project,
+                publishedUpdates = publishedUpdates
+            )
+        }
+        Card {
+            AverageDaysPerUpdate(
+                modifier = Modifier
+                    .padding(
+                        top = 10.dp
+                    ),
+                project = project,
+                publishedUpdates = publishedUpdates
+            )
+        }
+    }
 }
 
 @Composable
@@ -146,9 +172,11 @@ private fun DevelopmentDays(
             totalDevelopmentDays
         ),
         chart = {
+            val colors = PieChartColors()
             var data by remember {
                 mutableStateOf(
                     getTotalDevelopmentDaysData(
+                        pieChartColors = colors,
                         publishedUpdates = publishedUpdates
                     )
                 )
@@ -233,16 +261,24 @@ private fun DevelopmentDays(
 }
 
 private fun getTotalDevelopmentDaysData(
+    pieChartColors: Array<Color>,
     publishedUpdates: List<ProjectUpdate>
 ) : List<Pie> {
     val pies = arrayListOf<Pie>()
-    publishedUpdates.forEach { update ->
+    val colors = pieChartColors.size
+    publishedUpdates.forEachIndexed { index, update ->
+        val colorSelectorIndex = if(index > colors)
+            index % colors
+        else
+            index
+        val color = pieChartColors[colorSelectorIndex]
+        println(colorSelectorIndex)
         pies.add(
             Pie(
                 label = update.targetVersion.asVersionText(),
                 data = update.developmentDays().toDouble(),
-                color = generateRandomColor(), // TODO: USE THE REAL COLOR
-                selectedColor = generateRandomColor() // TODO: USE THE REAL COLOR
+                color = color,
+                selectedColor = color
             )
         )
     }
@@ -252,11 +288,13 @@ private fun getTotalDevelopmentDaysData(
 @Composable
 @NonRestartableComposable
 private fun AverageDaysPerUpdate(
+    modifier: Modifier = Modifier,
     project: Project,
     publishedUpdates: List<ProjectUpdate>
 ) {
     val averageDaysPerUpdate = project.calculateAverageDaysPerUpdate()
     StatsSection(
+        modifier = modifier,
         header = Res.string.average_development_days,
         subText = pluralStringResource(
             resource = Res.plurals.average_days,

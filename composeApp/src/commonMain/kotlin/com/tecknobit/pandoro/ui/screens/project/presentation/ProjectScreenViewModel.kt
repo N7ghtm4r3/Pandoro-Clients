@@ -48,7 +48,7 @@ class ProjectScreenViewModel(
             routine = {
                 // TODO: MAKE THE REQUEST THEN
                 viewModelScope.launch {
-                    if (true) {
+                    if (Random.nextBoolean()) {
                         _project.value = Project(
                             id = Random.nextLong().toString(),
                             name = "Prova",
@@ -414,7 +414,7 @@ class ProjectScreenViewModel(
                                         "surname",
                                         email = "name.surname@gmail.com"
                                     ),
-                                    status = UpdateStatus.PUBLISHED,
+                                    status = UpdateStatus.SCHEDULED,
                                     notes = listOf(
                                         Note(
                                             id = Random.nextLong().toString(),

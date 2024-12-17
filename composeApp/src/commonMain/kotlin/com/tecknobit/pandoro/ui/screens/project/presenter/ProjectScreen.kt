@@ -3,6 +3,7 @@
 package com.tecknobit.pandoro.ui.screens.project.presenter
 
 import CalendarPlus
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +27,6 @@ import androidx.compose.material.icons.filled.FilterListOff
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -74,7 +74,7 @@ import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.PROJECTS_SCREEN
-import com.tecknobit.pandoro.ui.screens.project.components.ProjectStatsModal
+import com.tecknobit.pandoro.ui.screens.project.components.ModalProjectStats
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectsStats
 import com.tecknobit.pandoro.ui.screens.project.components.UpdateCard
 import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
@@ -97,6 +97,7 @@ import pandoro.composeapp.generated.resources.edit
 import pandoro.composeapp.generated.resources.github
 import pandoro.composeapp.generated.resources.gitlab
 import pandoro.composeapp.generated.resources.no_updates_scheduled
+import pandoro.composeapp.generated.resources.stats
 import pandoro.composeapp.generated.resources.updates
 
 class ProjectScreen(
@@ -363,14 +364,20 @@ class ProjectScreen(
                         modifier = Modifier
                             .weight(1f)
                     ) {
-                        Card(
-                            modifier = Modifier
-                                .fillMaxSize()
+                        val publishedUpdates = item.value!!.getPublishedUpdates()
+                        AnimatedVisibility(
+                            visible = publishedUpdates.isNotEmpty()
                         ) {
-                            ProjectsStats(
-                                project = item.value!!,
-                                publishedUpdates = item.value!!.updates.filter { update -> update.status == UpdateStatus.PUBLISHED }
-                            )
+                            Section(
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                header = Res.string.stats
+                            ) {
+                                ProjectsStats(
+                                    project = item.value!!,
+                                    publishedUpdates = publishedUpdates
+                                )
+                            }
                         }
                     }
                 }
@@ -525,10 +532,10 @@ class ProjectScreen(
     @Composable
     @NonRestartableComposable
     private fun ViewStatsButton() {
-        val publishedUpdates = item.value!!.updates
-            .filter { update -> update.status == UpdateStatus.PUBLISHED }
-            .sortedBy { update -> update.publishDate }
-        if(publishedUpdates.isNotEmpty()) {
+        val publishedUpdates = item.value!!.getPublishedUpdates()
+        AnimatedVisibility(
+            visible = publishedUpdates.isNotEmpty()
+        ) {
             val state = rememberModalBottomSheetState(
                 skipPartiallyExpanded = true
             )
@@ -546,7 +553,7 @@ class ProjectScreen(
                     contentDescription = null
                 )
             }
-            ProjectStatsModal(
+            ModalProjectStats(
                 state = state,
                 scope = scope,
                 project = item.value!!,

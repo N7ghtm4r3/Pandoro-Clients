@@ -261,6 +261,14 @@ fun ChangeNoteBackground() : Color {
         lightChangeNoteCardBackground
 }
 
+@Composable
+fun PieChartColors() : Array<Color> {
+    return if(isDarkThemeSelected())
+        pieChartDarkColors
+    else
+        pieCharLightColors
+}
+
 /**
  * Method to apply the Ametista theme to the content
  *

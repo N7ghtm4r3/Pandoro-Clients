@@ -228,3 +228,35 @@ val darkYellow = Color(4292130864)
 
 val darkChangeNoteCardBackground = Color(4292071131)
 val lightChangeNoteCardBackground = Color(4284636780)
+
+val pieCharLightColors = arrayOf(
+    Color(0xFFE6E0F0), Color(0xFF252130), Color(0xFF3D3448), Color(0xFFCCC2DC),
+    Color(0xFF332D41), Color(0xFF4B445A), Color(0xFFD0BCFF), Color(0xFF3B2949),
+    Color(0xFFF4DAFF), Color(0xFFF2B8B5), Color(0xFF601410), Color(0xFF8C1D18),
+    Color(0xFF141218), Color(0xFF1B181F), Color(0xFF1C1B1F), Color(0xFF25212D),
+    Color(0xFF2C2834), Color(0xFF3C3846), Color(0xFF443F52), Color(0xFF3A3742),
+    Color(0xFF4A454F), Color(0xFF49454F), Color(0xFF07020D), Color(0xFF000000),
+    Color(0xFFCAC4CF), Color(0xFFEAE0F4), Color(0xFFF9DEDC), Color(0xFFE6E1E5),
+    Color(0xFFF4DAFF), Color(0xFFD4CBE2), Color(0xFFB6A7C9), Color(0xFFC2B4D6),
+    Color(0xFFE3D6EF), Color(0xFFF0E8FA), Color(0xFFDECFE6), Color(0xFFF2EDF7),
+    Color(0xFF3A4A6E), Color(0xFF5A6A8C), Color(0xFF6E85A0), Color(0xFF8DA6C3),
+    Color(0xFFAEC3D9), Color(0xFFD2E3F4), Color(0xFF8C3B52), Color(0xFFB85C6F),
+    Color(0xFFD18A9C), Color(0xFFE8AEB8), Color(0xFFF3D0D5), Color(0xFF701F2E),
+    Color(0xFF4D5A51), Color(0xFF61766A), Color(0xFF789284), Color(0xFF92A89C)
+)
+
+val pieChartDarkColors = arrayOf(
+    Color(0xFF07020D), Color(0xFF252130), Color(0xFF4B445A), Color(0xFF655D76),
+    Color(0xFF6E546D), Color(0xFF8B6E8B), Color(0xFF1A1626), Color(0xFF332E3F),
+    Color(0xFF352C48), Color(0xFF3A4B6E), Color(0xFF412A4E), Color(0xFF503A56),
+    Color(0xFFE7E0EC), Color(0xFFD4CBE2), Color(0xFFB6A7C9), Color(0xFFC2A3D1),
+    Color(0xFFF4EFFA), Color(0xFFF0E4F8), Color(0xFF6A85A0), Color(0xFFAEC3D9),
+    Color(0xFF8E75A3), Color(0xFF5E3C6C), Color(0xFF744C82), Color(0xFF947299),
+    Color(0xFF9A3B52), Color(0xFFC7798F), Color(0xFFE3A9B8), Color(0xFFAA8AAE),
+    Color(0xFFB39EB8), Color(0xFFC0A5C8), Color(0xFFD9C2E2), Color(0xFFEDE1F3),
+    Color(0xFF7A5F82), Color(0xFF8E699A), Color(0xFFB39EB8), Color(0xFFC2B4D6),
+    Color(0xFF4D6351), Color(0xFF789276), Color(0xFFA1B59B), Color(0xFF92A38E),
+    Color(0xFF6B8E6A), Color(0xFF879F7C), Color(0xFF1F1825), Color(0xFF2B2134),
+    Color(0xFF3D3545), Color(0xFF5A4E66), Color(0xFF847A8D), Color(0xFFABA1B4),
+    Color(0xFFDECFE6), Color(0xFFE3D6EF), Color(0xFFF0E8FA), Color(0xFFFFFFFF)
+)
