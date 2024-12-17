@@ -40,12 +40,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
+import com.tecknobit.pandoro.PROJECT_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.components.Thumbnail
-import com.tecknobit.pandoro.ui.screens.PandoroScreen.Companion.PROJECT_SCREEN
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.PROJECTS_SCREEN
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
@@ -73,7 +75,10 @@ fun InDevelopmentProjectCard(
                 height = 150.dp
             ),
         onClick = {
-            // TODO: NAV TO UPDATE
+            HomeScreen.setCurrentScreenDisplayed(
+                screen = PROJECTS_SCREEN
+            )
+            navigator.navigate("$PROJECT_SCREEN/${project.id}/${update.id}")
         }
     ) {
         Column (
@@ -175,7 +180,12 @@ fun ProjectCard(
     Card(
         modifier = modifier
             .combinedClickable(
-                onClick = { navigator.navigate("$PROJECT_SCREEN/${project.id}") },
+                onClick = {
+                    HomeScreen.setCurrentScreenDisplayed(
+                        screen = PROJECTS_SCREEN
+                    )
+                    navigator.navigate("$PROJECT_SCREEN/${project.id}")
+                },
                 onLongClick = if(amITheProjectAuthor) {
                     {
                         editProject = true

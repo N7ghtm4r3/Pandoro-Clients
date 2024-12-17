@@ -7,7 +7,6 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.text.font.FontFamily
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY
 import com.tecknobit.pandoro.helpers.PandoroLocalUser
-import com.tecknobit.pandoro.ui.screens.PandoroScreen.Companion.PROJECT_SCREEN
 import com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen
 import com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen
@@ -69,6 +68,8 @@ const val CREATE_CHANGE_NOTE_SCREEN = "CreateChangeNote"
 const val SCHEDULE_UPDATE_SCREEN = "ScheduleUpdate"
 
 const val CREATE_GROUP_SCREEN = "CreateGroup"
+
+const val PROJECT_SCREEN = "ProjectScreen"
 
 /*
 /**
@@ -189,11 +190,13 @@ fun App() {
                 ).ShowContent()
             }
             scene(
-                route = "$PROJECT_SCREEN/{$PROJECT_IDENTIFIER_KEY}"
+                route = "$PROJECT_SCREEN/{$PROJECT_IDENTIFIER_KEY}/{$UPDATE_IDENTIFIER_KEY}?"
             ) { backstackEntry ->
                 val projectId: String = backstackEntry.path<String>(PROJECT_IDENTIFIER_KEY)!!
+                val updateId: String? = backstackEntry.path<String>(UPDATE_IDENTIFIER_KEY)
                 ProjectScreen(
-                    projectId = projectId
+                    projectId = projectId,
+                    updateToExpandId = updateId
                 ).ShowContent()
             }
         }

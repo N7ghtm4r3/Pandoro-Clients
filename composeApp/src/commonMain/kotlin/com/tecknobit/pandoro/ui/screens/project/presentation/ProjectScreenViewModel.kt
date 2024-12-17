@@ -414,7 +414,7 @@ class ProjectScreenViewModel(
                                         "surname",
                                         email = "name.surname@gmail.com"
                                     ),
-                                    status = UpdateStatus.SCHEDULED,
+                                    status = UpdateStatus.PUBLISHED,
                                     notes = listOf(
                                         Note(
                                             id = Random.nextLong().toString(),
@@ -439,7 +439,7 @@ class ProjectScreenViewModel(
                                     )
                                 ),
                                 ProjectUpdate(
-                                    id = Random.nextLong().toString(),
+                                    id = "1",
                                     author = GroupMember(
                                         id = Random.nextLong().toString(),
                                         profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",

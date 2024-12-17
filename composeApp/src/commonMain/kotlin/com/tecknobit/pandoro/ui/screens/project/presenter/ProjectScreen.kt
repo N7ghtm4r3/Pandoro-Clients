@@ -41,6 +41,8 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
@@ -67,13 +69,11 @@ import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.SCHEDULE_UPDATE_SCREEN
 import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.getCurrentWidthSizeClass
+import com.tecknobit.pandoro.getCurrentSizeClass
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
-import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
-import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.PROJECTS_SCREEN
 import com.tecknobit.pandoro.ui.screens.project.components.ModalProjectStats
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectsStats
 import com.tecknobit.pandoro.ui.screens.project.components.UpdateCard
@@ -101,7 +101,8 @@ import pandoro.composeapp.generated.resources.stats
 import pandoro.composeapp.generated.resources.updates
 
 class ProjectScreen(
-    projectId: String
+    projectId: String,
+    private val updateToExpandId: String?
 ) : ItemScreen<Project, ProjectScreenViewModel>(
     viewModel = ProjectScreenViewModel(
         projectId = projectId
@@ -133,12 +134,7 @@ class ProjectScreen(
             horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             ScreenTitle(
-                navBackAction = {
-                    HomeScreen.setCurrentScreenDisplayed(
-                        screen = PROJECTS_SCREEN
-                    )
-                    navigator.goBack()
-                },
+                navBackAction = { navigator.goBack() },
                 title = item.value!!.name
             )
             item.value!!.getRepositoryPlatform()?.let { platform ->
@@ -347,42 +343,59 @@ class ProjectScreen(
     @Composable
     @NonRestartableComposable
     override fun ScreenContent() {
-        val widthSizeClass = getCurrentWidthSizeClass()
-        when(widthSizeClass) {
-            Expanded -> {
-                Row (
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(50.dp)
+        val windowSizeClass = getCurrentSizeClass()
+        val widthClass = windowSizeClass.widthSizeClass
+        val heightClass = windowSizeClass.heightSizeClass
+        when {
+            widthClass == Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
+                UpdatesStatsSection()
+            }
+            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
+                ProjectUpdatesSection()
+            }
+            widthClass == Expanded && heightClass == WindowHeightSizeClass.Medium -> {
+                UpdatesStatsSection()
+            }
+            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
+                ProjectUpdatesSection()
+            }
+            else -> ProjectUpdatesSection()
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun UpdatesStatsSection() {
+        Row (
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(50.dp)
+        ) {
+            Column (
+                modifier = Modifier
+                    .weight(1f)
+            ) {
+                ProjectUpdatesSection()
+            }
+            Column (
+                modifier = Modifier
+                    .weight(1f)
+            ) {
+                val publishedUpdates = item.value!!.getPublishedUpdates()
+                AnimatedVisibility(
+                    visible = publishedUpdates.isNotEmpty()
                 ) {
-                    Column (
+                    Section(
                         modifier = Modifier
-                            .weight(1f)
+                            .fillMaxSize(),
+                        header = Res.string.stats
                     ) {
-                        ProjectUpdatesSection()
-                    }
-                    Column (
-                        modifier = Modifier
-                            .weight(1f)
-                    ) {
-                        val publishedUpdates = item.value!!.getPublishedUpdates()
-                        AnimatedVisibility(
-                            visible = publishedUpdates.isNotEmpty()
-                        ) {
-                            Section(
-                                modifier = Modifier
-                                    .fillMaxSize(),
-                                header = Res.string.stats
-                            ) {
-                                ProjectsStats(
-                                    project = item.value!!,
-                                    publishedUpdates = publishedUpdates
-                                )
-                            }
-                        }
+                        ProjectsStats(
+                            project = item.value!!,
+                            publishedUpdates = publishedUpdates
+                        )
                     }
                 }
             }
-            else -> { ProjectUpdatesSection() }
         }
     }
 
@@ -430,7 +443,8 @@ class ProjectScreen(
                     UpdateCard(
                         viewModel = viewModel!!,
                         project = item.value!!,
-                        update = update
+                        update = update,
+                        viewChangeNotesFlag = updateToExpandId != null && update.id == updateToExpandId
                     )
                 }
             }
@@ -515,17 +529,34 @@ class ProjectScreen(
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
-        val widthSizeClass = getCurrentWidthSizeClass()
-        when(widthSizeClass) {
-            Expanded -> { ScheduleButton() }
-            else -> {
-                Column(
-                    horizontalAlignment = Alignment.End
-                ) {
-                    ViewStatsButton()
-                    ScheduleButton()
-                }
+        val windowSizeClass = getCurrentSizeClass()
+        val widthClass = windowSizeClass.widthSizeClass
+        val heightClass = windowSizeClass.heightSizeClass
+        when {
+            widthClass == Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
+                ScheduleButton()
             }
+            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
+                FabButtons()
+            }
+            widthClass == Expanded && heightClass == WindowHeightSizeClass.Medium -> {
+                ScheduleButton()
+            }
+            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
+                FabButtons()
+            }
+            else -> FabButtons()
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun FabButtons() {
+        Column(
+            horizontalAlignment = Alignment.End
+        ) {
+            ViewStatsButton()
+            ScheduleButton()
         }
     }
 

@@ -27,8 +27,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.tecknobit.pandoro.PROJECT_SCREEN
+import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.GROUPS_SCREEN
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
 import kotlinx.coroutines.CoroutineScope
@@ -84,10 +88,13 @@ private fun ProjectsListExpanded(
         modalBottomSheetState = modalBottomSheetState,
         scope = scope,
         projects = group.projects,
-        trailingContent = {
+        trailingContent = { project ->
             IconButton(
                 onClick = {
-                    // TODO: NAV TO PROJECT
+                    HomeScreen.setCurrentScreenDisplayed(
+                        screen = GROUPS_SCREEN
+                    )
+                    navigator.navigate("$PROJECT_SCREEN/${project.id}")
                 }
             ) {
                 Icon(

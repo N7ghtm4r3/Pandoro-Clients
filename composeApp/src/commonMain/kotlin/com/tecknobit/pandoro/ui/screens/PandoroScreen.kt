@@ -51,8 +51,6 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
 
         private val bottomPaddingSideNavigationMode = 16.dp
 
-        const val PROJECT_SCREEN = "ProjectScreen"
-
     }
 
     @Composable

@@ -104,13 +104,14 @@ fun UpdateCard(
     modifier: Modifier = Modifier,
     viewModel: ProjectScreenViewModel,
     project: Project,
-    update: ProjectUpdate
+    update: ProjectUpdate,
+    viewChangeNotesFlag: Boolean
 ) {
     Card(
         modifier = modifier
             .fillMaxSize()
     ) {
-        val viewChangeNotes = remember { mutableStateOf(false) }
+        val viewChangeNotes = remember { mutableStateOf(viewChangeNotesFlag) }
         CardHeader(
             viewModel = viewModel,
             viewChangeNotes = viewChangeNotes,
