@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AreaChart
@@ -254,6 +255,9 @@ class ProjectScreen(
             modifier = Modifier
                 .padding(
                     start = 10.dp
+                )
+                .widthIn(
+                    max = 1000.dp
                 )
                 .fillMaxSize(),
             header = Res.string.updates,

@@ -1,9 +1,12 @@
 package com.tecknobit.pandoro.ui.screens.group.presenter
 
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteGroup
@@ -38,6 +41,10 @@ class GroupScreen(
     @NonRestartableComposable
     override fun ItemRelationshipItems() {
         ProjectIcons(
+            modifier = Modifier
+                .heightIn(
+                    min = 50.dp
+                ),
             group = item.value!!
         )
     }
@@ -72,6 +79,7 @@ class GroupScreen(
 
     @Composable
     override fun ScreenContent() {
+
     }
 
     @Composable

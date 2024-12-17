@@ -558,6 +558,7 @@ private fun NoteContent(
     Text(
         modifier = Modifier
             .padding(
+                top = 10.dp,
                 start = 16.dp
             ),
         text = stringResource(Res.string.content),

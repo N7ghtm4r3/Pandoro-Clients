@@ -132,6 +132,8 @@ fun ProjectsStats(
     publishedUpdates: List<ProjectUpdate>
 ) {
     Column (
+        modifier = Modifier
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Card {
@@ -230,7 +232,7 @@ private fun DevelopmentDays(
                 ) {
                     PieChart(
                         modifier = Modifier
-                            .size(150.dp),
+                            .size(200.dp),
                         data = data,
                         onPieClick = {
                             val pieIndex = data.indexOf(it)
