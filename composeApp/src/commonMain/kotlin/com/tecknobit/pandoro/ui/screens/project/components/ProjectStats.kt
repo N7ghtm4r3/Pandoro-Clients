@@ -211,7 +211,7 @@ private fun DevelopmentDays(
                                 )
                                 Text(
                                     text = "(${(days * 100.0 / totalDevelopmentDays)
-                                        .format(2)})%",
+                                        .format(2)}%)",
                                     fontSize = 12.sp
                                 )
                             }

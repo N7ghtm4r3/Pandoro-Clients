@@ -30,9 +30,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.pandoro.GROUP_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
+import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.GROUPS_SCREEN
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -106,7 +110,10 @@ fun GroupExpandedList(
                 trailingContent = { group ->
                     IconButton(
                         onClick = {
-                            // TODO: NAV TO GROUP
+                            HomeScreen.setCurrentScreenDisplayed(
+                                screen = GROUPS_SCREEN
+                            )
+                            navigator.navigate("$GROUP_SCREEN/${group.id}")
                         }
                     ) {
                         Icon(

@@ -10,6 +10,7 @@ import com.tecknobit.pandoro.helpers.PandoroLocalUser
 import com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen
 import com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen
+import com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.GROUPS_SCREEN
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.NOTES_SCREEN
@@ -70,6 +71,8 @@ const val SCHEDULE_UPDATE_SCREEN = "ScheduleUpdate"
 const val CREATE_GROUP_SCREEN = "CreateGroup"
 
 const val PROJECT_SCREEN = "ProjectScreen"
+
+const val GROUP_SCREEN = "GroupScreen"
 
 /*
 /**
@@ -197,6 +200,14 @@ fun App() {
                 ProjectScreen(
                     projectId = projectId,
                     updateToExpandId = updateId
+                ).ShowContent()
+            }
+            scene(
+                route = "$GROUP_SCREEN/{$GROUP_IDENTIFIER_KEY}"
+            ) { backstackEntry ->
+                val groupId: String = backstackEntry.path<String>(GROUP_IDENTIFIER_KEY)!!
+                GroupScreen(
+                    groupId = groupId
                 ).ShowContent()
             }
         }
