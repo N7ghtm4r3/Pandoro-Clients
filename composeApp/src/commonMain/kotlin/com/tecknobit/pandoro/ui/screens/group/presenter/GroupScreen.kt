@@ -33,6 +33,7 @@ import com.tecknobit.pandoro.ui.components.ChangeMemberRole
 import com.tecknobit.pandoro.ui.components.DeleteGroup
 import com.tecknobit.pandoro.ui.components.LeaveGroup
 import com.tecknobit.pandoro.ui.components.Thumbnail
+import com.tecknobit.pandoro.ui.screens.group.components.GroupActions
 import com.tecknobit.pandoro.ui.screens.group.presentation.GroupScreenViewModel
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.asText
@@ -240,7 +241,9 @@ class GroupScreen(
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
-
+        GroupActions(
+            viewModel = viewModel!!
+        )
     }
 
     private fun amIAMaintainer(): Boolean {
@@ -254,6 +257,7 @@ class GroupScreen(
     override fun onStart() {
         super.onStart()
         viewModel!!.retrieveGroup()
+        viewModel!!.retrieveUserProjects()
     }
 
     /**
@@ -262,6 +266,9 @@ class GroupScreen(
     @Composable
     override fun CollectStates() {
         item = viewModel!!.group.collectAsState()
+        viewModel!!.candidateMembersAvailable = remember {
+            mutableStateOf(viewModel!!.retrieveCandidateMembers().isNotEmpty())
+        }
     }
 
 }

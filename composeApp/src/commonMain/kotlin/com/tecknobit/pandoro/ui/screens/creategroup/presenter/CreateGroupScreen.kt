@@ -3,38 +3,25 @@
 package com.tecknobit.pandoro.ui.screens.creategroup.presenter
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -48,31 +35,24 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.getImagePath
-import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.creategroup.presentation.CreateGroupScreenViewModel
-import com.tecknobit.pandoro.ui.screens.group.components.AttachProjectsButton
+import com.tecknobit.pandoro.ui.screens.group.components.GroupActions
+import com.tecknobit.pandoro.ui.screens.group.components.GroupMembers
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
-import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.asText
 import com.tecknobit.pandoro.ui.screens.project.components.GroupProjectsCandidate
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectIcons
-import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
-import com.tecknobit.pandoro.ui.theme.Green
-import com.tecknobit.pandorocore.enums.Role
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isGroupDescriptionValid
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isGroupNameValid
-import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -81,9 +61,7 @@ import pandoro.composeapp.generated.resources.add_projects
 import pandoro.composeapp.generated.resources.create_group
 import pandoro.composeapp.generated.resources.description
 import pandoro.composeapp.generated.resources.edit_group
-import pandoro.composeapp.generated.resources.invite
 import pandoro.composeapp.generated.resources.name
-import pandoro.composeapp.generated.resources.remove
 import pandoro.composeapp.generated.resources.wrong_description
 import pandoro.composeapp.generated.resources.wrong_name
 
@@ -136,54 +114,9 @@ class CreateGroupScreen(
     @NonRestartableComposable
     override fun FabAction() {
         if(fullScreenFormType.value) {
-            Column(
-                horizontalAlignment = Alignment.End
-            ) {
-                if(viewModel!!.userProjects.isNotEmpty()) {
-
-                    AttachProjectsButton(
-                        viewModel = viewModel!!
-                    )
-                   /* val projectsSheetState = rememberModalBottomSheetState()
-                    val projectsScope = rememberCoroutineScope()
-                    SmallFloatingActionButton(
-                        onClick = {
-                            projectsScope.launch {
-                                projectsSheetState.show()
-                            }
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.CreateNewFolder,
-                            contentDescription = null
-                        )
-                    }
-                    GroupProjects(
-                        modalBottomSheetState = projectsSheetState,
-                        scope = projectsScope
-                    )*/
-                }
-                if(viewModel!!.candidateMembersAvailable.value) {
-                    val membersSheetState = rememberModalBottomSheetState()
-                    val membersScope = rememberCoroutineScope()
-                    FloatingActionButton(
-                        onClick = {
-                            membersScope.launch {
-                                membersSheetState.show()
-                            }
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.PersonAdd,
-                            contentDescription = null
-                        )
-                    }
-                    ManageGroupMembers(
-                        modalBottomSheetState = membersSheetState,
-                        scope = membersScope
-                    )
-                }
-            }
+            GroupActions(
+                viewModel = viewModel!!
+            )
         }
     }
 
@@ -235,7 +168,8 @@ class CreateGroupScreen(
                         if(viewModel!!.candidateMembersAvailable.value) {
                             GroupMembers(
                                 modifier = Modifier
-                                    .weight(1.3f)
+                                    .weight(1.3f),
+                                viewModel = viewModel!!
                             )
                         }
                     }
@@ -425,147 +359,6 @@ class CreateGroupScreen(
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done
             )
-        )
-    }
-
-    @Composable
-    @NonRestartableComposable
-    private fun ManageGroupMembers(
-        modalBottomSheetState: SheetState,
-        scope: CoroutineScope
-    ) {
-        if(modalBottomSheetState.isVisible) {
-            ModalBottomSheet(
-                onDismissRequest = {
-                    scope.launch {
-                        modalBottomSheetState.hide()
-                    }
-                }
-            ) {
-                GroupMembers()
-            }
-        }
-    }
-
-    @Composable
-    @NonRestartableComposable
-    private fun GroupMembers(
-        modifier: Modifier = Modifier
-    ) {
-        PaginatedLazyColumn(
-            modifier = modifier
-                .animateContentSize(),
-            paginationState = viewModel!!.candidateMembersState,
-            contentPadding = PaddingValues(
-                vertical = 10.dp
-            ),
-            firstPageEmptyIndicator = { viewModel!!.candidateMembersAvailable.value = false }
-            // TODO: TO SET
-            /*firstPageProgressIndicator = { ... },
-            newPageProgressIndicator = { ... },*/
-            /*firstPageErrorIndicator = { e -> // from setError
-                ... e.message ...
-                ... onRetry = { paginationState.retryLastFailedRequest() } ...
-            },
-            newPageErrorIndicator = { e -> ... },
-            // The rest of LazyColumn params*/
-        ) {
-            viewModel!!.candidateMembersAvailable.value = true
-            items(
-                items = viewModel!!.candidateMembersState.allItems!!,
-                key = { member -> member.id }
-            ) { member ->
-                GroupMember(
-                    member = member
-                )
-            }
-        }
-    }
-
-    @Composable
-    @NonRestartableComposable
-    private fun GroupMember(
-        member: GroupMember
-    ) {
-        ListItem(
-            colors = ListItemDefaults.colors(
-                containerColor = Color.Transparent
-            ),
-            leadingContent = {
-                Thumbnail(
-                    size = 50.dp,
-                    thumbnailData = member.profilePic,
-                    contentDescription = "Member profile pic"
-                )
-            },
-            overlineContent = {
-                val role = if(item.value != null)
-                    item.value!!.findMyRole()
-                else
-                    Role.DEVELOPER
-                Text(
-                    text = member.role.asText(),
-                    color = if(role == Role.ADMIN)
-                        MaterialTheme.colorScheme.error
-                    else
-                        Color.Unspecified
-                )
-            },
-            headlineContent = {
-                Text(
-                    text = member.completeName()
-                )
-            },
-            supportingContent = {
-                Text(
-                    text = member.email,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            },
-            trailingContent = {
-                if(viewModel!!.groupMembers.contains(member)) {
-                    Button(
-                        modifier = Modifier
-                            .height(35.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.error
-                        ),
-                        shape = RoundedCornerShape(
-                            size = 5.dp
-                        ),
-                        onClick = { viewModel!!.groupMembers.remove(member) }
-                    ) {
-                        Text(
-                            text = stringResource(Res.string.remove),
-                            fontSize = 12.sp
-                        )
-                    }
-                } else {
-                    Button(
-                        modifier = Modifier
-                            .height(35.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Green()
-                        ),
-                        shape = RoundedCornerShape(
-                            size = 5.dp
-                        ),
-                        onClick = { viewModel!!.groupMembers.add(member) }
-                    ) {
-                        Text(
-                            text = stringResource(Res.string.invite),
-                            fontSize = 12.sp
-                        )
-                    }
-                }
-            }
-        )
-        HorizontalDivider(
-            modifier = Modifier
-                .padding(
-                    start = 65.dp
-                )
         )
     }
 
