@@ -31,8 +31,6 @@ import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.group.presentation.GroupScreenViewModel
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
-import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.asText
-import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.color
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.profile.presentation.ProfileScreenViewModel
 import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
@@ -40,8 +38,10 @@ import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
-import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.BaseGroupViewModel.GroupDeleter
+import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
+import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.color
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
+import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.BaseGroupViewModel.GroupDeleter
 import com.tecknobit.pandorocore.enums.Role
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res

@@ -37,8 +37,8 @@ import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.groups.components.FilterGroups
 import com.tecknobit.pandoro.ui.screens.groups.components.GroupCard
 import com.tecknobit.pandoro.ui.screens.groups.components.MyGroupCard
-import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.asText
 import com.tecknobit.pandoro.ui.screens.groups.presentation.GroupsScreenViewModel
+import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
 import com.tecknobit.pandoro.ui.screens.shared.screens.ListsScreen
 import com.tecknobit.pandorocore.enums.Role
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn

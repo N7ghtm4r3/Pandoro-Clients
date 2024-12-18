@@ -279,4 +279,6 @@
     <string name="change_role">Changer rôle</string>
     <string name="leave_group">Quitter %1$s</string>
     <string name="leave_group_text">Si vous confirmez, vous serez supprimé du groupe et n'aurez plus accès au contenu du groupe</string>
+    <string name="member">Membre</string>
+    <string name="actions">Actions</string>
 </resources>

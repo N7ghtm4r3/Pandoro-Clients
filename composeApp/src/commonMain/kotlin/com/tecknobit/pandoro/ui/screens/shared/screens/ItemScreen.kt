@@ -44,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.ChameleonText
@@ -67,7 +68,8 @@ import pandoro.composeapp.generated.resources.edit
 
 @Structure
 abstract class ItemScreen<I, V: EquinoxViewModel>(
-    viewModel: V
+    viewModel: V,
+    private val bottomPadding: Dp = 16.dp
 ) : PandoroScreen<V>(
     viewModel = viewModel
 ) {
@@ -139,7 +141,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
                             top = 16.dp,
                             start = 0.dp,
                             end = 0.dp,
-                            bottom = 16.dp
+                            bottom = bottomPadding
                         ),
                         screenTitle = { ItemScreenTitle() },
                     ) {

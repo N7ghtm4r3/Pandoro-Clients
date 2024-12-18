@@ -41,10 +41,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.ui.components.Thumbnail
-import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.asText
-import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.color
 import com.tecknobit.pandoro.ui.screens.project.components.GroupProjectsCandidate
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
+import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
+import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.color
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.GroupManagerViewModel
 import com.tecknobit.pandoro.ui.theme.Green
 import com.tecknobit.pandorocore.enums.Role

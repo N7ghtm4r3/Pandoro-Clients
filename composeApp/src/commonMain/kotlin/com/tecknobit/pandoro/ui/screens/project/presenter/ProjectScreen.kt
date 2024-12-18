@@ -221,7 +221,7 @@ class ProjectScreen(
     private fun UpdatesStatsSection() {
         Row (
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(50.dp)
+            horizontalArrangement = Arrangement.spacedBy(25.dp)
         ) {
             Column (
                 modifier = Modifier

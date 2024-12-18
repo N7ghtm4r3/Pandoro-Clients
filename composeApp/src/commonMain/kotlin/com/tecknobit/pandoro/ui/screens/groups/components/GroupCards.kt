@@ -36,12 +36,12 @@ import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteGroup
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
-import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.asText
-import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.color
 import com.tecknobit.pandoro.ui.screens.groups.presentation.GroupsScreenViewModel
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.GROUPS_SCREEN
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectIcons
+import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
+import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.color
 import org.jetbrains.compose.resources.pluralStringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.members_number

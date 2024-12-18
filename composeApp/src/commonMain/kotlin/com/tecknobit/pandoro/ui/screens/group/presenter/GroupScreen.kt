@@ -34,12 +34,13 @@ import com.tecknobit.pandoro.ui.components.DeleteGroup
 import com.tecknobit.pandoro.ui.components.LeaveGroup
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.group.components.GroupActions
+import com.tecknobit.pandoro.ui.screens.group.components.MembersTable
 import com.tecknobit.pandoro.ui.screens.group.presentation.GroupScreenViewModel
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
-import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.asText
-import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.color
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectIcons
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
+import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
+import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.color
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.shared.screens.ItemScreen
 import com.tecknobit.pandorocore.enums.Role
@@ -49,7 +50,8 @@ class GroupScreen(
 ) : ItemScreen<Group, GroupScreenViewModel>(
     viewModel = GroupScreenViewModel(
         groupId = groupId
-    )
+    ),
+    bottomPadding = 0.dp
 ) {
 
     private lateinit var role: MutableState<Role>
@@ -136,8 +138,11 @@ class GroupScreen(
         val widthSizeClass = getCurrentWidthSizeClass()
         when(widthSizeClass) {
             Expanded -> {
-
-            } else -> { MembersColumn() }
+                MembersTable(
+                    viewModel = viewModel!!
+                )
+            }
+            else -> { MembersColumn() }
         }
     }
 
