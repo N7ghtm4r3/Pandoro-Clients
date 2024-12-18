@@ -26,7 +26,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,11 +37,11 @@ import com.tecknobit.pandoro.ui.components.DeleteGroup
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.asText
+import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.color
 import com.tecknobit.pandoro.ui.screens.groups.presentation.GroupsScreenViewModel
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.GROUPS_SCREEN
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectIcons
-import com.tecknobit.pandorocore.enums.Role
 import org.jetbrains.compose.resources.pluralStringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.members_number
@@ -120,10 +119,7 @@ fun GroupCard(
             val role = group.findMyRole()
             Text(
                 text = role.asText(),
-                color = if(role == Role.ADMIN)
-                    MaterialTheme.colorScheme.error
-                else
-                    Color.Unspecified,
+                color = role.color(),
                 fontSize = 12.sp
             )
         }

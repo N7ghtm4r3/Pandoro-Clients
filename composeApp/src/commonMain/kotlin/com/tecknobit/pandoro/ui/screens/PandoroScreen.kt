@@ -151,7 +151,8 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
             modifier = Modifier
                 .padding(
                     paddingValues = paddingValues
-                ),
+                )
+                .navigationBarsPadding(),
             content = {
                 screenTitle?.invoke()
                 subTitle?.invoke()

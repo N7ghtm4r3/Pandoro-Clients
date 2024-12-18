@@ -5,7 +5,6 @@ package com.tecknobit.pandoro.ui.screens.shared.screens
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -24,6 +22,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -41,6 +41,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -136,8 +137,8 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
                     PlaceContent(
                         paddingValues = PaddingValues(
                             top = 16.dp,
-                            start = 6.dp,
-                            end = 16.dp,
+                            start = 0.dp,
+                            end = 0.dp,
                             bottom = 16.dp
                         ),
                         screenTitle = { ItemScreenTitle() },
@@ -171,50 +172,53 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
     @Composable
     @NonRestartableComposable
     protected fun ItemInformation() {
-        Row(
+        ListItem(
             modifier = Modifier
                 .padding(
-                    vertical = 10.dp
+                    top = 10.dp,
+                    bottom = 10.dp,
+                    end = 16.dp
                 )
-                .padding(
-                    start = 10.dp
+                .clip(
+                    RoundedCornerShape(
+                        topEnd = 12.dp,
+                        bottomEnd = 12.dp
+                    )
                 ),
-            horizontalArrangement = Arrangement.spacedBy(15.dp)
-        ) {
-            val modalBottomSheetState = rememberModalBottomSheetState()
-            val scope = rememberCoroutineScope()
-            Thumbnail(
-                modifier = Modifier
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        shape = CircleShape
-                    ),
-                size = 100.dp,
-                thumbnailData = getThumbnailData(),
-                contentDescription = "Thumbnail of the Item",
-                onClick = {
-                    scope.launch {
-                        modalBottomSheetState.show()
+            colors = ListItemDefaults.colors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
+            ),
+            leadingContent = {
+                val modalBottomSheetState = rememberModalBottomSheetState()
+                val scope = rememberCoroutineScope()
+                Thumbnail(
+                    size = 100.dp,
+                    thumbnailData = getThumbnailData(),
+                    contentDescription = "Thumbnail of the Item",
+                    onClick = {
+                        scope.launch {
+                            modalBottomSheetState.show()
+                        }
                     }
-                }
-            )
-            ItemDescription(
-                modalBottomSheetState = modalBottomSheetState,
-                scope = scope
-            )
-            Column {
-                Column (
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    ItemRelationshipItems()
-                }
-                if(getItemAuthor().id == localUser.userId)
+                )
+                ItemDescription(
+                    modalBottomSheetState = modalBottomSheetState,
+                    scope = scope
+                )
+            },
+            overlineContent = {
+                ItemRelationshipItems()
+            },
+            headlineContent = {
+                if(iAmTheAuthor())
                     ActionButtons()
                 else
                     ItemAuthor()
+            },
+            trailingContent = {
+                ExtraAction()
             }
-        }
+        )
     }
 
     protected abstract fun getThumbnailData() : String?
@@ -272,7 +276,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
         ) {
             Button(
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.inversePrimary
+                    containerColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(
                     size = 10.dp
@@ -284,7 +288,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
                 ChameleonText(
                     text = stringResource(Res.string.edit),
                     fontSize = 12.sp,
-                    backgroundColor = MaterialTheme.colorScheme.inversePrimary
+                    backgroundColor = MaterialTheme.colorScheme.primary
                 )
             }
             val deleteProject = remember { mutableStateOf(false) }
@@ -319,21 +323,34 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
     @Composable
     @NonRestartableComposable
     private fun ItemAuthor() {
-        val author = getItemAuthor()
-        Text(
-            text = author.completeName(),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
-        Text(
-            text = author.email,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            fontSize = 12.sp
-        )
+        Column {
+            val author = getItemAuthor()
+            Text(
+                text = author.completeName(),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontFamily = displayFontFamily
+            )
+            Text(
+                text = author.email,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontSize = 12.sp
+            )
+        }
+    }
+
+    protected fun iAmTheAuthor() : Boolean {
+        return getItemAuthor().id == localUser.userId
     }
 
     protected abstract fun getItemAuthor(): PandoroUser
+
+    @Composable
+    @NonRestartableComposable
+    protected open fun ExtraAction() {
+
+    }
 
     @Composable
     @NonRestartableComposable

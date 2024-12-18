@@ -1,5 +1,9 @@
 package com.tecknobit.pandoro.ui.screens.groups.data
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Unspecified
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.IDENTIFIER_KEY
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
@@ -44,6 +48,14 @@ data class Group(
             return this.name.lowercase().capitalize()
         }
 
+        @Composable
+        fun Role.color() : Color {
+            return if(this == ADMIN)
+                MaterialTheme.colorScheme.error
+            else
+                Unspecified
+        }
+
     }
 
     fun iAmTheAuthor() : Boolean {
@@ -68,7 +80,7 @@ data class Group(
             if(member.id == localUser.id)
                 return member.role
         }*/
-        return Role.entries[Random.nextInt(3)]
+        return Role.MAINTAINER//Role.entries[Random.nextInt(3)]
     }
 
 }

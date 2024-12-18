@@ -278,4 +278,5 @@
         <item formatted="false" quantity="one">%1$d giorno</item>
         <item formatted="false" quantity="other">%1$d giorni</item>
     </plurals>
+    <string name="change_role">Cambia ruolo</string>
 </resources>

@@ -49,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
@@ -144,16 +145,19 @@ class ProjectScreen(
     @Composable
     @NonRestartableComposable
     override fun ItemRelationshipItems() {
-        GroupIcons(
-            modifier = Modifier
-                .heightIn(
-                    min = 30.dp
-                ),
-            project = item.value!!
-        )
-        Text(
-            text = item.value!!.version.asVersionText()
-        )
+        Column {
+            GroupIcons(
+                modifier = Modifier
+                    .heightIn(
+                        min = 30.dp
+                    ),
+                project = item.value!!
+            )
+            Text(
+                text = item.value!!.version.asVersionText(),
+                fontSize = 16.sp
+            )
+        }
     }
 
     override fun getItemDescription(): String {
@@ -235,6 +239,9 @@ class ProjectScreen(
                 ) {
                     Section(
                         modifier = Modifier
+                            .padding(
+                                end = 16.dp
+                            )
                             .fillMaxSize(),
                         header = Res.string.stats
                     ) {
@@ -254,7 +261,7 @@ class ProjectScreen(
         Section(
             modifier = Modifier
                 .padding(
-                    start = 10.dp
+                    horizontal = 16.dp
                 )
                 .widthIn(
                     max = 1000.dp

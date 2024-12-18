@@ -1,20 +1,46 @@
+
+
 package com.tecknobit.pandoro.ui.screens.group.presenter
 
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.PersonRemove
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
+import com.tecknobit.pandoro.getCurrentWidthSizeClass
+import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.ui.components.ChangeMemberRole
 import com.tecknobit.pandoro.ui.components.DeleteGroup
+import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.group.presentation.GroupScreenViewModel
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
+import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.asText
+import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.color
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectIcons
+import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.shared.screens.ItemScreen
+import com.tecknobit.pandorocore.enums.Role
 
 class GroupScreen(
     groupId: String
@@ -23,6 +49,8 @@ class GroupScreen(
         groupId = groupId
     )
 ) {
+
+    private lateinit var role: MutableState<Role>
 
     @Composable
     @NonRestartableComposable
@@ -42,8 +70,8 @@ class GroupScreen(
     override fun ItemRelationshipItems() {
         ProjectIcons(
             modifier = Modifier
-                .heightIn(
-                    min = 50.dp
+                .padding(
+                    vertical = 10.dp
                 ),
             group = item.value!!
         )
@@ -78,13 +106,144 @@ class GroupScreen(
     }
 
     @Composable
-    override fun ScreenContent() {
+    @NonRestartableComposable
+    override fun ExtraAction() {
+        if(!iAmTheAuthor()) {
+            IconButton(
+                onClick = {
+                    viewModel!!.leaveGroup()
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error
+                )
+            }
+        }
+    }
 
+    @Composable
+    @NonRestartableComposable
+    override fun ScreenContent() {
+        role = remember { mutableStateOf(item.value!!.findMyRole()) }
+        val widthSizeClass = getCurrentWidthSizeClass()
+        when(widthSizeClass) {
+            Expanded -> {
+
+            } else -> { MembersColumn() }
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun MembersColumn() {
+        LazyColumn(
+            modifier = Modifier
+                .padding(
+                    top = 6.dp
+                )
+        ) {
+            items(
+                items = item.value!!.members,
+                key = { member -> member.id }
+            ) { member ->
+                Member(
+                    member = member,
+                )
+            }
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun Member(
+        member: GroupMember
+    ) {
+        val authorizedToOpe = checkRoleAuthority(
+            member = member
+        )
+        val changeMemberRole = remember { mutableStateOf(false) }
+        ListItem(
+            modifier = Modifier
+                .clickable (
+                    enabled = authorizedToOpe
+                ) {
+                    changeMemberRole.value = true
+                },
+            colors = ListItemDefaults.colors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
+            ),
+            leadingContent = {
+                Thumbnail(
+                    size = 50.dp,
+                    thumbnailData = member.profilePic,
+                    contentDescription = "Member profile pic"
+                )
+            },
+            overlineContent = {
+                val role = member.role
+                Text(
+                    text = role.asText(),
+                    color = role.color()
+                )
+            },
+            headlineContent = {
+                Text(
+                    text = member.completeName()
+                )
+            },
+            supportingContent = {
+                Text(
+                    text = member.email
+                )
+            },
+            trailingContent = if(authorizedToOpe) {
+                {
+                    IconButton(
+                        onClick = {
+                            viewModel!!.removeMember(
+                                member = member
+                            )
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.PersonRemove,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                    }
+                }
+            } else
+                null
+        )
+        HorizontalDivider()
+        ChangeMemberRole(
+            viewModel = viewModel!!,
+            show = changeMemberRole,
+            member = member
+        )
+    }
+
+    private fun checkRoleAuthority(
+        member: GroupMember
+    ) : Boolean {
+        return (member.id != localUser.userId &&
+                ((amIAMaintainer() && !member.isAnAdmin()) || amIAnAdmin()))
     }
 
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
+
+    }
+
+    private fun amIAMaintainer(): Boolean {
+        return amIAnAdmin() || role.value == Role.MAINTAINER
+    }
+
+    private fun amIAnAdmin(): Boolean {
+        return role.value == Role.ADMIN
     }
 
     override fun onStart() {
