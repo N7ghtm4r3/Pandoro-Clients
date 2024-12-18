@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.ui.screens.shared.viewmodels
+package com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups
 
 import androidx.compose.material3.SnackbarHostState
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel

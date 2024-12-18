@@ -22,7 +22,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CreateNewFolder
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -62,6 +61,7 @@ import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.creategroup.presentation.CreateGroupScreenViewModel
+import com.tecknobit.pandoro.ui.screens.group.components.AttachProjectsButton
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.groups.data.Group.Companion.asText
 import com.tecknobit.pandoro.ui.screens.project.components.GroupProjectsCandidate
@@ -137,8 +137,32 @@ class CreateGroupScreen(
     override fun FabAction() {
         if(fullScreenFormType.value) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                horizontalAlignment = Alignment.End
             ) {
+                if(viewModel!!.userProjects.isNotEmpty()) {
+
+                    AttachProjectsButton(
+                        viewModel = viewModel!!
+                    )
+                   /* val projectsSheetState = rememberModalBottomSheetState()
+                    val projectsScope = rememberCoroutineScope()
+                    SmallFloatingActionButton(
+                        onClick = {
+                            projectsScope.launch {
+                                projectsSheetState.show()
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.CreateNewFolder,
+                            contentDescription = null
+                        )
+                    }
+                    GroupProjects(
+                        modalBottomSheetState = projectsSheetState,
+                        scope = projectsScope
+                    )*/
+                }
                 if(viewModel!!.candidateMembersAvailable.value) {
                     val membersSheetState = rememberModalBottomSheetState()
                     val membersScope = rememberCoroutineScope()
@@ -157,26 +181,6 @@ class CreateGroupScreen(
                     ManageGroupMembers(
                         modalBottomSheetState = membersSheetState,
                         scope = membersScope
-                    )
-                }
-                if(viewModel!!.userProjects.isNotEmpty()) {
-                    val projectsSheetState = rememberModalBottomSheetState()
-                    val projectsScope = rememberCoroutineScope()
-                    FloatingActionButton(
-                        onClick = {
-                            projectsScope.launch {
-                                projectsSheetState.show()
-                            }
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.CreateNewFolder,
-                            contentDescription = null
-                        )
-                    }
-                    GroupProjects(
-                        modalBottomSheetState = projectsSheetState,
-                        scope = projectsScope
                     )
                 }
             }

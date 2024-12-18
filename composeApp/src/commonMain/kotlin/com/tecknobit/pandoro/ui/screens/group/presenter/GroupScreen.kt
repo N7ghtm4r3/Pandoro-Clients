@@ -31,6 +31,7 @@ import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.ChangeMemberRole
 import com.tecknobit.pandoro.ui.components.DeleteGroup
+import com.tecknobit.pandoro.ui.components.LeaveGroup
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.group.presentation.GroupScreenViewModel
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
@@ -109,10 +110,9 @@ class GroupScreen(
     @NonRestartableComposable
     override fun ExtraAction() {
         if(!iAmTheAuthor()) {
+            val leaveGroup = remember { mutableStateOf(false) }
             IconButton(
-                onClick = {
-                    viewModel!!.leaveGroup()
-                }
+                onClick = { leaveGroup.value = true }
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ExitToApp,
@@ -120,6 +120,11 @@ class GroupScreen(
                     tint = MaterialTheme.colorScheme.error
                 )
             }
+            LeaveGroup(
+                viewModel = viewModel!!,
+                show = leaveGroup,
+                group = item.value!!
+            )
         }
     }
 

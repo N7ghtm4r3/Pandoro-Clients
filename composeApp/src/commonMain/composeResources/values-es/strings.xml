@@ -58,8 +58,6 @@
     <string name="projects_number">Número de proyectos:</string>
     <string name="remove_the_user_from">Eliminar al usuario de</string>
     <string name="remove_user_text">Si confirma este evento, el usuario será eliminado del grupo y ya no tendrá acceso a los contenidos de ese grupo</string>
-    <string name="leave_group">Dejar grupo</string>
-    <string name="leave_group_text">Si confirmas este evento, serás eliminado del grupo y ya no tendrás acceso a los contenidos de ese grupo</string>
     <string name="delete_group_text">Si confirma este evento, el grupo y toda su información se eliminarán y ya no se podrán recuperar.</string>
     <string name="delete_group">Borrar grupo</string>
     <string name="add_new_members">Añadir nuevos miembros</string>
@@ -279,4 +277,6 @@
         <item formatted="false" quantity="other">%1$d días</item>
     </plurals>
     <string name="change_role">Cambiar papel</string>
+    <string name="leave_group">Dejar %1$s</string>
+    <string name="leave_group_text">Si confirmas, serás eliminad del grupo y ya no tendrás acceso a sus contenidos</string>
 </resources>

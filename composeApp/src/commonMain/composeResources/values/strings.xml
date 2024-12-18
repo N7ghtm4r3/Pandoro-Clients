@@ -58,8 +58,6 @@
     <string name="projects_number">Projects number:</string>
     <string name="remove_the_user_from">Remove the user from</string>
     <string name="remove_user_text">If you confirm this event, the user will be removed from the group and will no longer have access to the contents of that group</string>
-    <string name="leave_group">Leave group</string>
-    <string name="leave_group_text">If you confirm this event, you will be removed from the group and will no longer have access to the contents of that group</string>
     <string name="delete_group_text">If you confirm this event, the group and all its information will be deleted and no more recoverable</string>
     <string name="delete_group">Delete group</string>
     <string name="add_new_members">Add new members</string>
@@ -279,4 +277,6 @@
         <item formatted="false" quantity="other">%1$d days</item>
     </plurals>
     <string name="change_role">Change role</string>
+    <string name="leave_group">Leave %1$s</string>
+    <string name="leave_group_text">If you confirm, you will be removed from the group and will no longer have access to the contents of the group</string>
 </resources>

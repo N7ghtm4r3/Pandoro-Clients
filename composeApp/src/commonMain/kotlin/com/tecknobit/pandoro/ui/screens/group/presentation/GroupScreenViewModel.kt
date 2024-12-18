@@ -7,15 +7,15 @@ import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
-import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseGroupViewModel
-import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseGroupViewModel.GroupDeleter
+import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.BaseGroupViewModel.GroupDeleter
+import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.GroupManagerViewModel
 import com.tecknobit.pandorocore.enums.Role
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import kotlin.random.Random
 
 class GroupScreenViewModel(
     groupId: String
-) : BaseGroupViewModel(), GroupDeleter {
+) : GroupManagerViewModel(), GroupDeleter {
 
     override fun retrieveGroup() {
         // TODO: MAKE THE REQUEST THEN

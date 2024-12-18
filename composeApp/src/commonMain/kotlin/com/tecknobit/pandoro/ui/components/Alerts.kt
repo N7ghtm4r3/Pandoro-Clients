@@ -40,7 +40,7 @@ import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
-import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseGroupViewModel.GroupDeleter
+import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.BaseGroupViewModel.GroupDeleter
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
 import com.tecknobit.pandorocore.enums.Role
 import org.jetbrains.compose.resources.stringResource
@@ -57,6 +57,8 @@ import pandoro.composeapp.generated.resources.delete_project_text_dialog
 import pandoro.composeapp.generated.resources.delete_update_text_dialog
 import pandoro.composeapp.generated.resources.delete_warn_text
 import pandoro.composeapp.generated.resources.dismiss
+import pandoro.composeapp.generated.resources.leave_group
+import pandoro.composeapp.generated.resources.leave_group_text
 import pandoro.composeapp.generated.resources.logout
 import pandoro.composeapp.generated.resources.logout_warn_text
 import pandoro.composeapp.generated.resources.not_all_the_change_notes_are_done
@@ -259,6 +261,32 @@ fun NotAllChangeNotesCompleted(
             )
             show.value = false
         }
+    )
+}
+
+@Composable
+@NonRestartableComposable
+fun LeaveGroup(
+    viewModel: GroupScreenViewModel,
+    group: Group,
+    show: MutableState<Boolean>
+) {
+    EquinoxAlertDialog(
+        icon = Icons.Default.Delete,
+        modifier = Modifier
+            .widthIn(
+                max = 400.dp
+            ),
+        viewModel = viewModel,
+        show = show,
+        title = stringResource(Res.string.leave_group, group.name),
+        titleStyle = titleStyle,
+        text = stringResource(Res.string.leave_group_text),
+        confirmAction = {
+            viewModel.leaveGroup()
+        },
+        confirmText = stringResource(Res.string.confirm),
+        dismissText = stringResource(Res.string.dismiss)
     )
 }
 
