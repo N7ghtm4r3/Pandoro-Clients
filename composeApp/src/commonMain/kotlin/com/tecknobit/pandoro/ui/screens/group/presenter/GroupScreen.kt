@@ -16,6 +16,8 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -28,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
-import com.tecknobit.pandoro.getCurrentWidthSizeClass
+import com.tecknobit.pandoro.getCurrentSizeClass
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.ChangeMemberRole
 import com.tecknobit.pandoro.ui.components.DeleteGroup
@@ -133,14 +135,27 @@ class GroupScreen(
     @Composable
     @NonRestartableComposable
     override fun ScreenContent() {
-        val widthSizeClass = getCurrentWidthSizeClass()
-        when(widthSizeClass) {
-            Expanded -> {
+        val windowSizeClass = getCurrentSizeClass()
+        val widthClass = windowSizeClass.widthSizeClass
+        val heightClass = windowSizeClass.heightSizeClass
+        when {
+            widthClass == Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
                 MembersTable(
                     viewModel = viewModel!!
                 )
             }
-            else -> { MembersColumn() }
+            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
+                MembersColumn()
+            }
+            widthClass == Expanded && heightClass == WindowHeightSizeClass.Medium -> {
+                MembersTable(
+                    viewModel = viewModel!!
+                )
+            }
+            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
+                MembersColumn()
+            }
+            else -> MembersColumn()
         }
     }
 
