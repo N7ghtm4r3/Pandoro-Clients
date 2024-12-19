@@ -9,6 +9,7 @@ import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.BaseGroupViewModel.GroupDeleter
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.GroupManagerViewModel
+import com.tecknobit.pandorocore.enums.InvitationStatus
 import com.tecknobit.pandorocore.enums.Role
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import kotlin.random.Random
@@ -42,14 +43,16 @@ class GroupScreenViewModel(
                         "name",
                         "surname",
                         email = "name.surname@gmail.com",
-                        role = Role.ADMIN
+                        role = Role.ADMIN,
+                        status = InvitationStatus.JOINED
                     ),
                     GroupMember(
                         id = Random.nextLong().toString(),
                         profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
                         "name",
                         "surname",
-                        email = "name.surname@gmail.com"
+                        email = "name.surname@gmail.com",
+                        status = InvitationStatus.JOINED
                     ),
                     GroupMember(
                         id = Random.nextLong().toString(),

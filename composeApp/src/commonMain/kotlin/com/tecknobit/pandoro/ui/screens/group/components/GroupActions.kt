@@ -59,17 +59,19 @@ import pandoro.composeapp.generated.resources.remove
 @Composable
 @NonRestartableComposable
 fun GroupActions(
-    viewModel: GroupManagerViewModel
+    viewModel: GroupManagerViewModel,
+    userCanAddProjects: Boolean = true,
+    userCanAddMembers: Boolean = true
 ) {
     Column(
         horizontalAlignment = Alignment.End
     ) {
-        if(viewModel.userProjects.isNotEmpty()) {
+        if(viewModel.userProjects.isNotEmpty() && userCanAddProjects) {
             AttachProjectsButton(
                 viewModel = viewModel
             )
         }
-        if(viewModel.candidateMembersAvailable.value) {
+        if(viewModel.candidateMembersAvailable.value && userCanAddMembers) {
             val membersSheetState = rememberModalBottomSheetState()
             val membersScope = rememberCoroutineScope()
             FloatingActionButton(

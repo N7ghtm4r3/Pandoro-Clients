@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.ui.screens.groups.data
 
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.IDENTIFIER_KEY
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY
+import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
@@ -44,6 +45,13 @@ data class Group(
         return Random.nextBoolean()
     }
 
+    fun checkRolePermissions(
+        member: GroupMember
+    ) : Boolean {
+        return (member.id != localUser.userId && ((iAmAMaintainer() && !member.isAnAdmin())
+                || iAmAnAdmin()))
+    }
+
     fun iAmAMaintainer() : Boolean {
         val role = findMyRole()
         return iAmAnAdmin() || role == MAINTAINER
@@ -60,7 +68,7 @@ data class Group(
             if(member.id == localUser.id)
                 return member.role
         }*/
-        return Role.MAINTAINER//Role.entries[Random.nextInt(3)]
+        return Role.ADMIN//Role.entries[Random.nextInt(3)]
     }
 
 }

@@ -14,6 +14,7 @@ import com.tecknobit.pandoro.ui.theme.Yellow
 import com.tecknobit.pandorocore.INVITATION_STATUS_KEY
 import com.tecknobit.pandorocore.MEMBER_ROLE_KEY
 import com.tecknobit.pandorocore.enums.InvitationStatus
+import com.tecknobit.pandorocore.enums.InvitationStatus.JOINED
 import com.tecknobit.pandorocore.enums.InvitationStatus.PENDING
 import com.tecknobit.pandorocore.enums.Role
 import com.tecknobit.pandorocore.enums.Role.ADMIN
@@ -70,6 +71,10 @@ data class GroupMember(
 
     fun completeName() : String {
         return "$name $surname"
+    }
+
+    fun joined() : Boolean {
+        return status == JOINED
     }
 
     fun isAMaintainer() : Boolean {

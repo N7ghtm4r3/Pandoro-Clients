@@ -1,8 +1,8 @@
-
-
 package com.tecknobit.pandoro.ui.screens.group.presenter
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,10 +24,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
-import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.ChangeMemberRole
 import com.tecknobit.pandoro.ui.components.DeleteGroup
@@ -43,7 +44,7 @@ import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.color
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.shared.screens.ItemScreen
-import com.tecknobit.pandorocore.enums.Role
+import com.tecknobit.pandorocore.enums.InvitationStatus.PENDING
 
 class GroupScreen(
     groupId: String
@@ -53,8 +54,6 @@ class GroupScreen(
     ),
     bottomPadding = 0.dp
 ) {
-
-    private lateinit var role: MutableState<Role>
 
     @Composable
     @NonRestartableComposable
@@ -134,7 +133,6 @@ class GroupScreen(
     @Composable
     @NonRestartableComposable
     override fun ScreenContent() {
-        role = remember { mutableStateOf(item.value!!.findMyRole()) }
         val widthSizeClass = getCurrentWidthSizeClass()
         when(widthSizeClass) {
             Expanded -> {
@@ -171,14 +169,14 @@ class GroupScreen(
     private fun Member(
         member: GroupMember
     ) {
-        val authorizedToOpe = checkRoleAuthority(
+        val authorizedToOpe = item.value!!.checkRolePermissions(
             member = member
         )
         val changeMemberRole = remember { mutableStateOf(false) }
         ListItem(
             modifier = Modifier
                 .clickable (
-                    enabled = authorizedToOpe
+                    enabled = authorizedToOpe && member.joined()
                 ) {
                     changeMemberRole.value = true
                 },
@@ -193,20 +191,35 @@ class GroupScreen(
                 )
             },
             overlineContent = {
-                val role = member.role
-                Text(
-                    text = role.asText(),
-                    color = role.color()
-                )
+                Row (
+                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                ) {
+                    val role = member.role
+                    Text(
+                        text = role.asText(),
+                        color = role.color()
+                    )
+                    if(!member.joined()) {
+                        Text(
+                            text = PENDING.asText(),
+                            color = PENDING.color(),
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
             },
             headlineContent = {
                 Text(
-                    text = member.completeName()
+                    text = member.completeName(),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             },
             supportingContent = {
                 Text(
-                    text = member.email
+                    text = member.email,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             },
             trailingContent = if(authorizedToOpe) {
@@ -236,27 +249,14 @@ class GroupScreen(
         )
     }
 
-    private fun checkRoleAuthority(
-        member: GroupMember
-    ) : Boolean {
-        return (member.id != localUser.userId &&
-                ((amIAMaintainer() && !member.isAnAdmin()) || amIAnAdmin()))
-    }
-
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
         GroupActions(
-            viewModel = viewModel!!
+            viewModel = viewModel!!,
+            userCanAddProjects = item.value!!.iAmAnAdmin(),
+            userCanAddMembers = item.value!!.iAmAMaintainer()
         )
-    }
-
-    private fun amIAMaintainer(): Boolean {
-        return amIAnAdmin() || role.value == Role.MAINTAINER
-    }
-
-    private fun amIAnAdmin(): Boolean {
-        return role.value == Role.ADMIN
     }
 
     override fun onStart() {

@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
-import androidx.compose.material.icons.filled.ChangeCircle
+import androidx.compose.material.icons.filled.Badge
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.RadioButton
@@ -299,7 +299,7 @@ fun ChangeMemberRole(
 ) {
     var role by remember { mutableStateOf(member.role) }
     EquinoxAlertDialog(
-        icon = Icons.Default.ChangeCircle,
+        icon = Icons.Default.Badge,
         modifier = Modifier
             .widthIn(
                 max = 400.dp
