@@ -273,7 +273,6 @@ private fun getTotalDevelopmentDaysData(
         else
             index
         val color = pieChartColors[colorSelectorIndex]
-        println(colorSelectorIndex)
         pies.add(
             Pie(
                 label = update.targetVersion.asVersionText(),

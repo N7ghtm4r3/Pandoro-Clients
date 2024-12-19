@@ -46,7 +46,7 @@ import com.tecknobit.pandoro.ui.icons.Activity
 import com.tecknobit.pandoro.ui.screens.groups.presenter.GroupsScreen
 import com.tecknobit.pandoro.ui.screens.home.presentation.HomeScreenViewModel
 import com.tecknobit.pandoro.ui.screens.notes.presenter.NotesScreen
-import com.tecknobit.pandoro.ui.screens.overview.OverviewScreen
+import com.tecknobit.pandoro.ui.screens.overview.presenter.OverviewScreen
 import com.tecknobit.pandoro.ui.screens.profile.presenter.ProfileScreen
 import com.tecknobit.pandoro.ui.screens.projects.presenter.ProjectsScreen
 import com.tecknobit.pandoro.ui.theme.PandoroTheme

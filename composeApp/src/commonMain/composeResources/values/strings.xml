@@ -281,4 +281,7 @@
     <string name="leave_group_text">If you confirm, you will be removed from the group and will no longer have access to the contents of the group</string>
     <string name="member">Member</string>
     <string name="actions">Actions</string>
+    <string name="no_data_available">No data available</string>
+    <string name="total_projects">Total projects</string>
+    <string name="total_updates">Total updates</string>
 </resources>
