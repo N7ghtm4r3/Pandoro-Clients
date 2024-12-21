@@ -288,4 +288,5 @@
     <string name="scheduled_by_me_info_text">Has programado %1$d actualizaciones, aproximadamente %2$d% del total</string>
     <string name="started_by_me_info_text">Has iniciado %1$d actualizaciones, aproximadamente %2$d% del total</string>
     <string name="published_by_me_info_text">Has publicado %1$d actualizaciones, aproximadamente %2$d% del total</string>
+    <string name="general">General</string>
 </resources>

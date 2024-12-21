@@ -5,7 +5,9 @@ package com.tecknobit.pandoro.ui.screens.overview.presenter
 import ChartLine
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -21,8 +23,10 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
@@ -40,6 +44,7 @@ import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.average_development_days
 import pandoro.composeapp.generated.resources.development_days
+import pandoro.composeapp.generated.resources.general
 import pandoro.composeapp.generated.resources.no_data_available
 import pandoro.composeapp.generated.resources.overview
 import pandoro.composeapp.generated.resources.projects
@@ -98,8 +103,71 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
     private fun OverviewData() {
         val widthSizeClass = getCurrentWidthSizeClass()
         when(widthSizeClass) {
-            Expanded -> {  }
+            Expanded -> { DashboardOverview() }
             else -> { OverviewColumned() }
+        }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun DashboardOverview() {
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Column(
+                modifier = Modifier
+                    .sizeIn(
+                        maxWidth = 1250.dp,
+                        maxHeight = 750.dp
+                    ),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Row (
+                    modifier = Modifier
+                        .weight(1f),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    ProjectsStats(
+                        modifier = Modifier
+                            .weight(1f),
+                        pieSize = 200.dp,
+                        pieStroke = 42.dp,
+                    )
+                    UpdatesStats(
+                        modifier = Modifier
+                            .weight(1f),
+                        pieSize = 200.dp,
+                        pieStroke = 42.dp,
+                    )
+                }
+                Row (
+                    modifier = Modifier
+                        .weight(1f),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    OverviewCard(
+                        modifier = Modifier
+                            .weight(1f),
+                        title = Res.string.development_days,
+                        pieSize = 200.dp,
+                        pieStroke = 42.dp,
+                        overviewStats = overview.value!!.developmentDays
+                    )
+                    OverviewCard(
+                        modifier = Modifier
+                            .weight(1f),
+                        title = Res.string.average_development_days,
+                        totalHeader = Res.string.general,
+                        pieSize = 200.dp,
+                        pieStroke = 42.dp,
+                        overviewStats = overview.value!!.averageDevelopmentDays
+                    )
+                }
+            }
         }
     }
 
@@ -120,6 +188,7 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
             )
             OverviewCard(
                 title = Res.string.average_development_days,
+                totalHeader = Res.string.general,
                 overviewStats = overview.value!!.averageDevelopmentDays
             )
         }
@@ -127,13 +196,20 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
 
     @Composable
     @NonRestartableComposable
-    private fun ProjectsStats() {
+    private fun ProjectsStats(
+        modifier: Modifier = Modifier,
+        pieSize: Dp = 150.dp,
+        pieStroke: Dp = 35.dp,
+    ) {
         val state = rememberModalBottomSheetState(
             skipPartiallyExpanded = true
         )
         val scope = rememberCoroutineScope()
         OverviewCard(
+            modifier = modifier,
             title = Res.string.projects,
+            pieSize = pieSize,
+            pieStroke = pieStroke,
             overviewStats = overview.value!!.totalProjects,
             actionIcon = Icons.Default.Speed,
             action = {
@@ -151,13 +227,20 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
 
     @Composable
     @NonRestartableComposable
-    private fun UpdatesStats() {
+    private fun UpdatesStats(
+        modifier: Modifier = Modifier,
+        pieSize: Dp = 150.dp,
+        pieStroke: Dp = 35.dp,
+    ) {
         val state = rememberModalBottomSheetState(
             skipPartiallyExpanded = true
         )
         val scope = rememberCoroutineScope()
         OverviewCard(
+            modifier = modifier,
             title = Res.string.updates,
+            pieSize = pieSize,
+            pieStroke = pieStroke,
             overviewStats = overview.value!!.totalUpdates,
             action = {
                 scope.launch {
@@ -174,6 +257,10 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
 
     override fun onCreate() {
         viewModel!!.setActiveContext(HomeScreen::class.java)
+    }
+
+    override fun onStart() {
+        super.onStart()
         viewModel!!.retrieveOverview()
     }
 

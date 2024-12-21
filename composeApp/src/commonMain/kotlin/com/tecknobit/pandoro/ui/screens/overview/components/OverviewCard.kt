@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.displayFontFamily
@@ -99,7 +101,10 @@ fun UpdateOverviewCard(
 @NonRestartableComposable
 fun OverviewCard(
     modifier: Modifier = Modifier,
+    pieSize: Dp = 150.dp,
+    pieStroke: Dp = 35.dp,
     title: StringResource,
+    totalHeader: StringResource = Res.string.total,
     actionIcon: ImageVector = ReservedLine,
     action: (() -> Unit)? = null,
     overviewStats: OverviewStatsItem
@@ -146,6 +151,9 @@ fun OverviewCard(
         }
         OverviewCardContent(
             total = overviewStats.total,
+            totalHeader = totalHeader,
+            pieSize = pieSize,
+            pieStroke = pieStroke,
             values = overviewStats.toChartValues(),
             percentages = overviewStats.toPercentages()
         )
@@ -156,6 +164,9 @@ fun OverviewCard(
 @NonRestartableComposable
 private fun OverviewCardContent(
     total: Int,
+    totalHeader: StringResource = Res.string.total,
+    pieSize: Dp = 150.dp,
+    pieStroke: Dp = 35.dp,
     values: List<Int>,
     percentages: List<Double>
 ) {
@@ -165,31 +176,34 @@ private fun OverviewCardContent(
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         val pieColors = listOf(MaterialTheme.colorScheme.primary, Green())
-        Box (
+        Column (
             modifier = Modifier
-                .weight(1f),
-            contentAlignment = Alignment.Center
+                .weight(1f)
         ) {
-            PieOverview(
-                modifier = Modifier
-                    .align(Alignment.CenterStart),
-                pieChartColors = pieColors,
-                stats = values
-            )
-            Column(
-                modifier = Modifier
-                    .align(Alignment.Center),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+            Box (
+                contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = stringResource(Res.string.total),
-                    fontSize = 14.sp,
-                    fontFamily = displayFontFamily
+                PieOverview(
+                    pieChartColors = pieColors,
+                    pieSize = pieSize,
+                    pieStroke = pieStroke,
+                    stats = values
                 )
-                Text(
-                    text = total.toString()
-                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = stringResource(totalHeader),
+                        fontSize = 14.sp,
+                        fontFamily = displayFontFamily
+                    )
+                    Text(
+                        text = total.toString()
+                    )
+                }
             }
         }
         Column(
@@ -209,7 +223,9 @@ private fun OverviewCardContent(
 @Composable
 @NonRestartableComposable
 private fun PieOverview(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
+    pieSize: Dp = 150.dp,
+    pieStroke: Dp = 35.dp,
     pieChartColors: List<Color>,
     stats: List<Int>
 ) {
@@ -226,10 +242,10 @@ private fun PieOverview(
             .padding(
                 all = 16.dp
             )
-            .size(150.dp),
+            .size(pieSize),
         data = data,
         style = Pie.Style.Stroke(
-            width = 35.dp
+            width = pieStroke
         ),
         scaleAnimEnterSpec = spring(
             dampingRatio = Spring.DampingRatioMediumBouncy,
