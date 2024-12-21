@@ -17,6 +17,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
@@ -31,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
 import com.tecknobit.pandoro.bodyFontFamily
-import com.tecknobit.pandoro.getCurrentWidthSizeClass
+import com.tecknobit.pandoro.getCurrentSizeClass
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.overview.components.OverviewCard
@@ -101,10 +103,23 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
     @Composable
     @NonRestartableComposable
     private fun OverviewData() {
-        val widthSizeClass = getCurrentWidthSizeClass()
-        when(widthSizeClass) {
-            Expanded -> { DashboardOverview() }
-            else -> { OverviewColumned() }
+        val windowSizeClass = getCurrentSizeClass()
+        val widthClass = windowSizeClass.widthSizeClass
+        val heightClass = windowSizeClass.heightSizeClass
+        when {
+            widthClass == Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
+                DashboardOverview()
+            }
+            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
+                DashboardOverview()
+            }
+            widthClass == Expanded && heightClass == WindowHeightSizeClass.Medium -> {
+                DashboardOverview()
+            }
+            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
+                DashboardOverview()
+            }
+            else -> OverviewColumned()
         }
     }
 
