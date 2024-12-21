@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.ui.screens.overview.components
 
+import ReservedLine
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
@@ -8,11 +9,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,23 +50,54 @@ import pandoro.composeapp.generated.resources.total
 fun OverviewCard(
     modifier: Modifier = Modifier,
     title: StringResource,
+    actionIcon: ImageVector = ReservedLine,
+    action: (() -> Unit)? = null,
     overviewStats: OverviewStatsItem
 ) {
     Card(
         modifier = modifier
     ) {
-        Text(
+        Row (
             modifier = Modifier
-                .padding(
-                    all = 10.dp
+                .then(
+                    if(action != null) {
+                        Modifier.padding(
+                            start = 10.dp
+                        )
+                    } else {
+                        Modifier.padding(
+                            all = 10.dp
+                        )
+                    }
                 ),
-            text = stringResource(title),
-            fontFamily = displayFontFamily,
-            fontSize = 20.sp
-        )
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(title),
+                fontFamily = displayFontFamily,
+                fontSize = 20.sp
+            )
+            action?.let {
+                Column (
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.End,
+                ) {
+                    IconButton(
+                        onClick = action
+                    ) {
+                        Icon(
+                            imageVector = actionIcon,
+                            contentDescription = null
+                        )
+                    }
+                }
+            }
+        }
         HorizontalDivider()
         Row (
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             val pieColors = listOf(MaterialTheme.colorScheme.primary, Green())
             Box (
@@ -104,7 +140,6 @@ fun OverviewCard(
         }
     }
 }
-
 
 @Composable
 @NonRestartableComposable

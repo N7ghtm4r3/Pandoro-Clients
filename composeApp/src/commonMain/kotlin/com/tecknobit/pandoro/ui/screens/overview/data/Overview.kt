@@ -9,7 +9,7 @@ data class Overview(
     val developmentDays: OverviewStatsItem,
     val averageDevelopmentDays: OverviewStatsItem,
     val bestPersonalPerformanceProject: ProjectPerformanceStats,
-    val worstPersonalPerformanceProject: ProjectPerformanceStats,
+    val worstPersonalPerformanceProject: ProjectPerformanceStats? = null,
     val bestGroupPerformanceProject: ProjectPerformanceStats? = null,
     val worstGroupPerformanceProject: ProjectPerformanceStats? = null
 )

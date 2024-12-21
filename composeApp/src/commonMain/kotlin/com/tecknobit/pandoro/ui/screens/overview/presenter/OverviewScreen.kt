@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.tecknobit.pandoro.ui.screens.overview.presenter
 
 import ChartLine
@@ -6,14 +8,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Speed
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Compact
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -24,8 +31,11 @@ import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.overview.components.OverviewCard
+import com.tecknobit.pandoro.ui.screens.overview.components.ProjectsStatsSheet
+import com.tecknobit.pandoro.ui.screens.overview.components.UpdatesStatsSheet
 import com.tecknobit.pandoro.ui.screens.overview.data.Overview
 import com.tecknobit.pandoro.ui.screens.overview.presentation.OverviewScreenViewModel
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.average_development_days
@@ -88,10 +98,8 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
     private fun OverviewData() {
         val widthSizeClass = getCurrentWidthSizeClass()
         when(widthSizeClass) {
-            Compact -> { OverviewColumned() }
-            else -> {
-
-            }
+            Expanded -> {  }
+            else -> { OverviewColumned() }
         }
     }
 
@@ -104,14 +112,8 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            OverviewCard(
-                title = Res.string.projects,
-                overviewStats = overview.value!!.totalProjects
-            )
-            OverviewCard(
-                title = Res.string.updates,
-                overviewStats = overview.value!!.totalUpdates
-            )
+            ProjectsStats()
+            UpdatesStats()
             OverviewCard(
                 title = Res.string.development_days,
                 overviewStats = overview.value!!.developmentDays
@@ -121,6 +123,52 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
                 overviewStats = overview.value!!.averageDevelopmentDays
             )
         }
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun ProjectsStats() {
+        val state = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        )
+        val scope = rememberCoroutineScope()
+        OverviewCard(
+            title = Res.string.projects,
+            overviewStats = overview.value!!.totalProjects,
+            actionIcon = Icons.Default.Speed,
+            action = {
+                scope.launch {
+                    state.show()
+                }
+            }
+        )
+        ProjectsStatsSheet(
+            state = state,
+            scope = scope,
+            overview = overview.value!!
+        )
+    }
+
+    @Composable
+    @NonRestartableComposable
+    private fun UpdatesStats() {
+        val state = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        )
+        val scope = rememberCoroutineScope()
+        OverviewCard(
+            title = Res.string.updates,
+            overviewStats = overview.value!!.totalUpdates,
+            action = {
+                scope.launch {
+                    state.show()
+                }
+            }
+        )
+        UpdatesStatsSheet(
+            state = state,
+            scope = scope
+        )
     }
 
     override fun onCreate() {

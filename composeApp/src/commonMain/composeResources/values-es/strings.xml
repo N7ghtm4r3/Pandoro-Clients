@@ -23,7 +23,6 @@
     <string name="by_me">Por mí</string>
     <string name="projects_performance">Rendimiento de los proyectos</string>
     <string name="updates_performance">Actualiza el rendimiento</string>
-    <string name="development_days">Días de desarrollo</string>
     <string name="best_performance">Mejor rendimiento</string>
     <string name="worst_performance">Peor rendimiento</string>
     <string name="updates_number">Número de actualizaciones</string>
@@ -282,4 +281,9 @@
     <string name="total">Total</string>
     <string name="personal">Personal</string>
     <string name="group">Grupo</string>
+    <string name="performance">Rendimiento</string>
+    <string name="best">Mejor</string>
+    <string name="to_improve">Para mejorar</string>
+    <string name="development_days">Días de desarrollo</string>
+    <string name="days_per_update">Días por actualización</string>
 </resources>

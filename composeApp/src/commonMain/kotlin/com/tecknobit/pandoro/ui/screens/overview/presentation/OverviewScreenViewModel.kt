@@ -8,6 +8,7 @@ import com.tecknobit.pandoro.ui.screens.overview.data.OverviewStatsItem
 import com.tecknobit.pandoro.ui.screens.overview.data.ProjectPerformanceStats
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlin.random.Random
 
 class OverviewScreenViewModel: EquinoxViewModel(
     snackbarHostState = SnackbarHostState()
@@ -63,12 +64,28 @@ class OverviewScreenViewModel: EquinoxViewModel(
                 byMePercentage = 2.5
             ),
             bestPersonalPerformanceProject = ProjectPerformanceStats(
+                id = Random.nextLong().toString(),
                 name = "gew",
                 updates = 1,
                 totalDevelopmentDays = 1,
                 averageDaysPerUpdate = 1.2
             ),
             worstPersonalPerformanceProject = ProjectPerformanceStats(
+                id = Random.nextLong().toString(),
+                name = "g",
+                updates = 1,
+                totalDevelopmentDays = 1,
+                averageDaysPerUpdate = 1.2
+            ),
+            bestGroupPerformanceProject = ProjectPerformanceStats(
+                id = Random.nextLong().toString(),
+                name = "gew",
+                updates = 1,
+                totalDevelopmentDays = 1,
+                averageDaysPerUpdate = 1.2
+            ),
+            worstGroupPerformanceProject = ProjectPerformanceStats(
+                id = Random.nextLong().toString(),
                 name = "g",
                 updates = 1,
                 totalDevelopmentDays = 1,

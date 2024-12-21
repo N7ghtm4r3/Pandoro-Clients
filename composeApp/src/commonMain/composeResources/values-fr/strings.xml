@@ -23,7 +23,6 @@
     <string name="by_me">Par moi</string>
     <string name="projects_performance">Performance des projets</string>
     <string name="updates_performance">Mise à jour des performances</string>
-    <string name="development_days">Journées de développement</string>
     <string name="best_performance">Meilleure performance</string>
     <string name="worst_performance">Pire performance</string>
     <string name="updates_number">Nombre de mises à jour</string>
@@ -282,4 +281,9 @@
     <string name="total">Total</string>
     <string name="personal">Personnel</string>
     <string name="group">Groupe</string>
+    <string name="performance">Performance</string>
+    <string name="best">Meilleur</string>
+    <string name="to_improve">Améliorer</string>
+    <string name="development_days">Journées de développement</string>
+    <string name="days_per_update">Jours par mise à jour</string>
 </resources>
