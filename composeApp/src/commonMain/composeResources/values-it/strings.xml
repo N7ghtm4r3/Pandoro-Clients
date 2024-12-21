@@ -57,12 +57,6 @@
     <string name="delete_group">Cancellare il gruppo</string>
     <string name="add_new_members">Aggiungi nuovi membri</string>
     <string name="server_address">Indirizzo del server</string>
-    <string name="have_an_account">Hai un account?</string>
-    <string name="are_you_new_to_pandoro">Sei nuov su Pandoro?</string>
-    <string name="sign_up">Iscriviti</string>
-    <string name="sign_in">Login</string>
-    <string name="welcome_back">Bentornat</string>
-    <string name="hello">Ciao</string>
     <string name="edit_the_groups_projects">Modifica i progetti dei gruppi</string>
     <string name="insert_a_correct">È necessario inserire una corretta</string>
     <string name="you_must_insert_a_correct_server_address">È necessario inserire un indirizzo server corretto</string>
@@ -289,4 +283,14 @@
     <string name="started_by_me_info_text">Hai avviato %1$d aggiornamenti, circa %2$d% del totale</string>
     <string name="published_by_me_info_text">Hai pubblicato %1$d aggiornamenti, circa %2$d% del totale</string>
     <string name="general">Generale</string>
+    <string name="sign_up">Iscriviti</string>
+    <string name="sign_in">Login</string>
+    <string name="host">Host</string>
+    <string name="wrong_host_address">Indirizzo host errato</string>
+    <string name="wrong_server_secret">Segreto del server errato</string>
+    <string name="wrong_surname">Cognome sbagliato</string>
+    <string name="have_an_account">Hai un account?</string>
+    <string name="are_you_new_to_pandoro">Sei nuov su Pandoro?</string>
+    <string name="welcome_back">Bentornat</string>
+    <string name="hello">Ciao</string>
 </resources>

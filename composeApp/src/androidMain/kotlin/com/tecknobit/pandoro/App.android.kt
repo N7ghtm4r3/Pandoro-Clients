@@ -34,7 +34,7 @@ actual fun CheckForUpdatesAndLaunch() {
     // TODO: MAKE THE REAL NAVIGATION
     LaunchedEffect(Unit) {
         delay(1000)
-        navigator.navigate(HOME_SCREEN)
+        navigator.navigate(AUTH_SCREEN)
     }
 }
 

@@ -7,6 +7,7 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.text.font.FontFamily
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY
 import com.tecknobit.pandoro.helpers.PandoroLocalUser
+import com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen
 import com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen
 import com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen
@@ -57,6 +58,8 @@ lateinit var navigator: Navigator
 private val sslContext = SSLContext.getInstance("TLS")
 
 const val SPLASHSCREEN = "Splashscreen"
+
+const val AUTH_SCREEN = "AuthScreen"
 
 const val HOME_SCREEN = "HomeScreen"
 
@@ -130,6 +133,11 @@ fun App() {
                 route = SPLASHSCREEN
             ) {
                 Splashscreen().ShowContent()
+            }
+            scene(
+                route = AUTH_SCREEN
+            ) {
+                AuthScreen().ShowContent()
             }
             scene(
                 route = HOME_SCREEN
