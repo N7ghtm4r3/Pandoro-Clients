@@ -9,4 +9,15 @@ data class OverviewStatsItem(
     val personalPercentage: Double,
     val group: Int,
     val groupPercentage: Double
-)
+) {
+
+    fun relatedStats(
+        index: Int
+    ) : Int {
+        return when(index) {
+            0 -> personal
+            else -> group
+        }
+    }
+
+}

@@ -23,10 +23,10 @@ class OverviewScreenViewModel: EquinoxViewModel(
         _overview.value = Overview(
             totalProjects = OverviewStatsItem(
                 total = 10,
-                personal = 2,
+                personal = 1000000,
                 personalPercentage = 2.2,
-                group = 2,
-                groupPercentage = 2.5
+                group = 20000,
+                groupPercentage = 100.0
             ),
             totalUpdates = OverviewStatsItem(
                 total = 10,

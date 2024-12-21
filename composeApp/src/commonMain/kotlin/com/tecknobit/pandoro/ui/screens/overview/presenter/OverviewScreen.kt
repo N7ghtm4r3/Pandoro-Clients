@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.ui.screens.overview.presenter
 
 import ChartLine
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
@@ -15,6 +16,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
 import com.tecknobit.pandoro.bodyFontFamily
@@ -26,10 +28,13 @@ import com.tecknobit.pandoro.ui.screens.overview.data.Overview
 import com.tecknobit.pandoro.ui.screens.overview.presentation.OverviewScreenViewModel
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
+import pandoro.composeapp.generated.resources.average_development_days
+import pandoro.composeapp.generated.resources.development_days
 import pandoro.composeapp.generated.resources.no_data_available
 import pandoro.composeapp.generated.resources.overview
+import pandoro.composeapp.generated.resources.projects
 import pandoro.composeapp.generated.resources.retry_to_reconnect
-import pandoro.composeapp.generated.resources.total_projects
+import pandoro.composeapp.generated.resources.updates
 
 class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
     viewModel = OverviewScreenViewModel()
@@ -96,11 +101,24 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             OverviewCard(
-                title = Res.string.total_projects,
+                title = Res.string.projects,
+                overviewStats = overview.value!!.totalProjects
+            )
+            OverviewCard(
+                title = Res.string.updates,
                 overviewStats = overview.value!!.totalUpdates
+            )
+            OverviewCard(
+                title = Res.string.development_days,
+                overviewStats = overview.value!!.developmentDays
+            )
+            OverviewCard(
+                title = Res.string.average_development_days,
+                overviewStats = overview.value!!.averageDevelopmentDays
             )
         }
     }

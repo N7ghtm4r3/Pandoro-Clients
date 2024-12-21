@@ -14,9 +14,6 @@
     <string name="note_info">Note info</string>
     <string name="create_a_new_note">Create a new note</string>
     <string name="create">Create</string>
-    <string name="personal">Personal</string>
-    <string name="group">Group</string>
-    <string name="total">Total</string>
     <string name="updates">Updates</string>
     <string name="search">Search</string>
     <string name="updates_status">Updates status</string>
@@ -282,6 +279,7 @@
     <string name="member">Member</string>
     <string name="actions">Actions</string>
     <string name="no_data_available">No data available</string>
-    <string name="total_projects">Total projects</string>
-    <string name="total_updates">Total updates</string>
+    <string name="total">Total</string>
+    <string name="personal">Personal</string>
+    <string name="group">Group</string>
 </resources>
