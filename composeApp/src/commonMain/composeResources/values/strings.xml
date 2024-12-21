@@ -20,7 +20,6 @@
     <string name="scheduled">Scheduled</string>
     <string name="in_development">In development</string>
     <string name="published">Published</string>
-    <string name="by_me">By me</string>
     <string name="projects_performance">Projects performance</string>
     <string name="updates_performance">Updates performance</string>
     <string name="best_performance">Best performance</string>
@@ -286,4 +285,7 @@
     <string name="to_improve">To improve</string>
     <string name="development_days">Development days</string>
     <string name="days_per_update">Days per update</string>
+    <string name="scheduled_by_me_info_text">You have scheduled %1$d updates, approximately %2$d% of the total</string>
+    <string name="started_by_me_info_text">You have started %1$d updates, approximately %2$d% of the total</string>
+    <string name="published_by_me_info_text">You have published %1$d updates, approximately %2$d% of the total</string>
 </resources>

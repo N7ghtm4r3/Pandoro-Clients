@@ -11,13 +11,12 @@ data class OverviewStatsItem(
     val groupPercentage: Double
 ) {
 
-    fun relatedStats(
-        index: Int
-    ) : Int {
-        return when(index) {
-            0 -> personal
-            else -> group
-        }
+    fun toChartValues() : List<Int> {
+        return listOf(personal, group)
+    }
+
+    fun toPercentages() : List<Double> {
+        return listOf(personalPercentage, groupPercentage)
     }
 
 }

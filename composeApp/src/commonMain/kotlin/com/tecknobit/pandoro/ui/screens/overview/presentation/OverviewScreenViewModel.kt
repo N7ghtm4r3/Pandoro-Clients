@@ -6,6 +6,7 @@ import com.tecknobit.pandoro.ui.screens.overview.data.Overview
 import com.tecknobit.pandoro.ui.screens.overview.data.OverviewFullStatsItem
 import com.tecknobit.pandoro.ui.screens.overview.data.OverviewStatsItem
 import com.tecknobit.pandoro.ui.screens.overview.data.ProjectPerformanceStats
+import com.tecknobit.pandorocore.enums.UpdateStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.random.Random
@@ -37,6 +38,7 @@ class OverviewScreenViewModel: EquinoxViewModel(
                 groupPercentage = 2.5
             ),
             updatesScheduled = OverviewFullStatsItem(
+                status = UpdateStatus.SCHEDULED,
                 total = 10,
                 personal = 2,
                 personalPercentage = 2.2,
@@ -46,6 +48,7 @@ class OverviewScreenViewModel: EquinoxViewModel(
                 byMePercentage = 2.5
             ),
             updatesInDevelopment = OverviewFullStatsItem(
+                status = UpdateStatus.IN_DEVELOPMENT,
                 total = 10,
                 personal = 2,
                 personalPercentage = 2.2,
@@ -55,6 +58,7 @@ class OverviewScreenViewModel: EquinoxViewModel(
                 byMePercentage = 2.5
             ),
             updatesPublished = OverviewFullStatsItem(
+                status = UpdateStatus.PUBLISHED,
                 total = 10,
                 personal = 2,
                 personalPercentage = 2.2,

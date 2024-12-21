@@ -167,7 +167,8 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
         )
         UpdatesStatsSheet(
             state = state,
-            scope = scope
+            scope = scope,
+            overview = overview.value!!
         )
     }
 

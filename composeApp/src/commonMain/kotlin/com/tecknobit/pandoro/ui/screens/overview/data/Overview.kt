@@ -12,4 +12,10 @@ data class Overview(
     val worstPersonalPerformanceProject: ProjectPerformanceStats? = null,
     val bestGroupPerformanceProject: ProjectPerformanceStats? = null,
     val worstGroupPerformanceProject: ProjectPerformanceStats? = null
-)
+) {
+
+    fun updatesAsIterable() : List<OverviewFullStatsItem> {
+        return listOf(updatesScheduled, updatesInDevelopment, updatesPublished)
+    }
+
+}

@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -129,7 +131,8 @@ private fun StatsSection(
 @NonRestartableComposable
 fun UpdatesStatsSheet(
     state: SheetState,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    overview: Overview
 ) {
     if(state.isVisible) {
         ModalBottomSheet(
@@ -151,6 +154,19 @@ fun UpdatesStatsSheet(
                 fontSize = 20.sp
             )
             HorizontalDivider()
+            LazyColumn (
+                modifier = Modifier
+                    .padding(
+                        all = 16.dp
+                    ),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(overview.updatesAsIterable()) { update ->
+                    UpdateOverviewCard(
+                        overviewStats = update
+                    )
+                }
+            }
         }
     }
 }

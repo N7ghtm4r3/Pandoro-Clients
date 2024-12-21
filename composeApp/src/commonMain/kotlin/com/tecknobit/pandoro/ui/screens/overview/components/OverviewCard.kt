@@ -33,8 +33,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.displayFontFamily
+import com.tecknobit.pandoro.ui.screens.overview.data.OverviewFullStatsItem
 import com.tecknobit.pandoro.ui.screens.overview.data.OverviewStatsItem
+import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.asText
 import com.tecknobit.pandoro.ui.theme.Green
+import com.tecknobit.pandoro.ui.theme.Yellow
+import com.tecknobit.pandorocore.enums.UpdateStatus
 import ir.ehsannarmani.compose_charts.PieChart
 import ir.ehsannarmani.compose_charts.extensions.format
 import ir.ehsannarmani.compose_charts.models.Pie
@@ -43,7 +47,53 @@ import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.group
 import pandoro.composeapp.generated.resources.personal
+import pandoro.composeapp.generated.resources.published_by_me_info_text
+import pandoro.composeapp.generated.resources.scheduled_by_me_info_text
+import pandoro.composeapp.generated.resources.started_by_me_info_text
 import pandoro.composeapp.generated.resources.total
+
+@Composable
+@NonRestartableComposable
+fun UpdateOverviewCard(
+    modifier: Modifier = Modifier,
+    overviewStats: OverviewFullStatsItem
+) {
+    val status = overviewStats.status
+    Card(
+        modifier = modifier
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(
+                    all = 10.dp
+                ),
+            text = status.asText(),
+            fontFamily = displayFontFamily,
+            fontSize = 20.sp
+        )
+        OverviewCardContent(
+            total = overviewStats.total,
+            values = overviewStats.toChartValues(),
+            percentages = overviewStats.toPercentages()
+        )
+        HorizontalDivider()
+        Text(
+            modifier = Modifier
+                .padding(
+                    all = 10.dp
+                ),
+            text = stringResource(
+                resource = when(status) {
+                    UpdateStatus.SCHEDULED -> Res.string.scheduled_by_me_info_text
+                    UpdateStatus.IN_DEVELOPMENT -> Res.string.started_by_me_info_text
+                    UpdateStatus.PUBLISHED -> Res.string.published_by_me_info_text
+                },
+                overviewStats.byMe, overviewStats.byMePercentage.format(2)
+            ),
+            fontSize = 12.sp
+        )
+    }
+}
 
 @Composable
 @NonRestartableComposable
@@ -94,49 +144,64 @@ fun OverviewCard(
                 }
             }
         }
-        HorizontalDivider()
-        Row (
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        OverviewCardContent(
+            total = overviewStats.total,
+            values = overviewStats.toChartValues(),
+            percentages = overviewStats.toPercentages()
+        )
+    }
+}
+
+@Composable
+@NonRestartableComposable
+private fun OverviewCardContent(
+    total: Int,
+    values: List<Int>,
+    percentages: List<Double>
+) {
+    HorizontalDivider()
+    Row (
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        val pieColors = listOf(MaterialTheme.colorScheme.primary, Green())
+        Box (
+            modifier = Modifier
+                .weight(1f),
+            contentAlignment = Alignment.Center
         ) {
-            val pieColors = listOf(MaterialTheme.colorScheme.primary, Green())
-            Box (
+            PieOverview(
                 modifier = Modifier
-                    .weight(1f),
-                contentAlignment = Alignment.Center
-            ) {
-                PieOverview(
-                    modifier = Modifier
-                        .align(Alignment.CenterStart),
-                    pieChartColors = pieColors,
-                    stats = overviewStats
-                )
-                Column(
-                    modifier = Modifier
-                        .align(Alignment.Center),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = stringResource(Res.string.total),
-                        fontSize = 14.sp,
-                        fontFamily = displayFontFamily
-                    )
-                    Text(
-                        text = "${overviewStats.total}"
-                    )
-                }
-            }
+                    .align(Alignment.CenterStart),
+                pieChartColors = pieColors,
+                stats = values
+            )
             Column(
                 modifier = Modifier
-                    .weight(1f),
+                    .align(Alignment.Center),
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                PieLegend(
-                    pieChartColors = pieColors,
-                    overviewStats = overviewStats
+                Text(
+                    text = stringResource(Res.string.total),
+                    fontSize = 14.sp,
+                    fontFamily = displayFontFamily
+                )
+                Text(
+                    text = total.toString()
                 )
             }
+        }
+        Column(
+            modifier = Modifier
+                .weight(1f),
+            verticalArrangement = Arrangement.Center
+        ) {
+            PieLegend(
+                pieChartColors = pieColors,
+                values = values,
+                percentages = percentages
+            )
         }
     }
 }
@@ -146,7 +211,7 @@ fun OverviewCard(
 private fun PieOverview(
     modifier: Modifier,
     pieChartColors: List<Color>,
-    stats: OverviewStatsItem
+    stats: List<Int>
 ) {
     val data by rememberSaveable {
         mutableStateOf(
@@ -178,15 +243,13 @@ private fun PieOverview(
 
 private fun getStatsChartData(
     pieChartColors: List<Color>,
-    stats: OverviewStatsItem
+    stats: List<Int>
 ) : List<Pie> {
     val pies = arrayListOf<Pie>()
     pieChartColors.forEachIndexed { index, color ->
         pies.add(
             Pie(
-                data = stats.relatedStats(
-                    index = index
-                ).toDouble(),
+                data = stats[index].toDouble(),
                 color = color,
                 selectedColor = color
             )
@@ -199,9 +262,15 @@ private fun getStatsChartData(
 @NonRestartableComposable
 private fun PieLegend(
     pieChartColors: List<Color>,
-    overviewStats: OverviewStatsItem
+    values: List<Int>,
+    percentages: List<Double>
 ) {
-    pieChartColors.forEachIndexed { index, color ->
+    values.forEachIndexed { index, value ->
+        val existsOnPie = index < pieChartColors.size
+        val color = if(existsOnPie)
+            pieChartColors[index]
+        else
+            Yellow()
         Column (
             modifier = Modifier
                 .padding(
@@ -235,12 +304,12 @@ private fun PieLegend(
                 horizontalArrangement = Arrangement.spacedBy(3.dp)
             ) {
                 Text(
-                    text = "${overviewStats.relatedStats(index)}",
+                    text = value.toString(),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "(${overviewStats.groupPercentage.format(2)}%)",
+                    text = "(${percentages[index]}%)",
                     fontSize = 14.sp,
                     color = color,
                     fontFamily = displayFontFamily

@@ -20,7 +20,6 @@
     <string name="scheduled">Prévu</string>
     <string name="in_development">En cours de développement</string>
     <string name="published">Publié</string>
-    <string name="by_me">Par moi</string>
     <string name="projects_performance">Performance des projets</string>
     <string name="updates_performance">Mise à jour des performances</string>
     <string name="best_performance">Meilleure performance</string>
@@ -286,4 +285,7 @@
     <string name="to_improve">Améliorer</string>
     <string name="development_days">Journées de développement</string>
     <string name="days_per_update">Jours par mise à jour</string>
+    <string name="scheduled_by_me_info_text">Vous avez programmé %1$d mises à jour, soit environ %2$d% du total</string>
+    <string name="started_by_me_info_text">Vous avez démarré %1$d mises à jour, soit environ %2$d% du total</string>
+    <string name="published_by_me_info_text">Vous avez publié %1$d mises à jour, soit environ %2$d% du total</string>
 </resources>
