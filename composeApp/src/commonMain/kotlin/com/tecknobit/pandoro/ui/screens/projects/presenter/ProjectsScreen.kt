@@ -30,6 +30,9 @@ import androidx.compose.ui.unit.dp
 import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
+import com.tecknobit.pandoro.ui.components.NewHorizontalPageProgressIndicator
+import com.tecknobit.pandoro.ui.components.NewPageProgressIndicator
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.projects.components.FilterProjects
 import com.tecknobit.pandoro.ui.screens.projects.components.InDevelopmentProjectCard
@@ -92,16 +95,9 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
                         info = Res.string.empty_filtered_projects
                     )
                 }
-            }
-            // TODO: TO SET
-            /*firstPageProgressIndicator = { ... },
-            newPageProgressIndicator = { ... },*/
-            /*firstPageErrorIndicator = { e -> // from setError
-                ... e.message ...
-                ... onRetry = { paginationState.retryLastFailedRequest() } ...
             },
-            newPageErrorIndicator = { e -> ... },
-            // The rest of LazyColumn params*/
+            firstPageProgressIndicator = { FirstPageProgressIndicator() },
+            newPageProgressIndicator = { NewHorizontalPageProgressIndicator() }
         ) {
             items(
                 items = viewModel!!.inDevelopmentProjectState.allItems!!,
@@ -138,16 +134,9 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
                             icon = Icons.Default.FolderOff,
                             subText = Res.string.no_projects_available
                         )
-                    }
-                    // TODO: TO SET
-                    /*firstPageProgressIndicator = { ... },
-                    newPageProgressIndicator = { ... },*/
-                    /*firstPageErrorIndicator = { e -> // from setError
-                        ... e.message ...
-                        ... onRetry = { paginationState.retryLastFailedRequest() } ...
                     },
-                    newPageErrorIndicator = { e -> ... },
-                    // The rest of LazyColumn params*/
+                    firstPageProgressIndicator = { FirstPageProgressIndicator() },
+                    newPageProgressIndicator = { NewPageProgressIndicator() }
                 ) {
                     items(
                         items = viewModel!!.projectsState.allItems!!,
@@ -183,16 +172,9 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
                             icon = Icons.Default.FolderOff,
                             subText = Res.string.no_projects_available
                         )
-                    }
-                    // TODO: TO SET
-                    /*firstPageProgressIndicator = { ... },
-                    newPageProgressIndicator = { ... },*/
-                    /*firstPageErrorIndicator = { e -> // from setError
-                        ... e.message ...
-                        ... onRetry = { paginationState.retryLastFailedRequest() } ...
                     },
-                    newPageErrorIndicator = { e -> ... },
-                    // The rest of LazyColumn params*/
+                    firstPageProgressIndicator = { FirstPageProgressIndicator() },
+                    newPageProgressIndicator = { NewPageProgressIndicator() }
                 ) {
                     items(
                         items = viewModel!!.projectsState.allItems!!,

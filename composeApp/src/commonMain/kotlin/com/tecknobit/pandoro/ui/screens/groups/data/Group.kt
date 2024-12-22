@@ -28,7 +28,7 @@ data class Group(
     @SerialName(GROUP_MEMBERS_KEY)
     val members: List<GroupMember>, // TODO: TO CHANGE IN HashSet
     @SerialName(PROJECTS_KEY)
-    val projects: List<Project>,
+    val projects: List<Project> = emptyList(),
 ) {
 
     fun iAmTheAuthor() : Boolean {
@@ -40,8 +40,8 @@ data class Group(
     fun checkRolePermissions(
         member: GroupMember
     ) : Boolean {
-        return (member.id != localUser.userId && ((iAmAMaintainer() && !member.isAnAdmin())
-                || iAmAnAdmin()))
+        return (member.id != localUser.userId &&
+                ((iAmAMaintainer() && !member.isAnAdmin()) || iAmAnAdmin()))
     }
 
     fun iAmAMaintainer() : Boolean {

@@ -24,6 +24,7 @@ import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.PAGE_SIZ
 import com.tecknobit.pandorocore.CHANGELOGS_KEY
 import com.tecknobit.pandorocore.CHANGELOG_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.CONTENT_NOTE_KEY
+import com.tecknobit.pandorocore.FILTERS_KEY
 import com.tecknobit.pandorocore.GROUPS_KEY
 import com.tecknobit.pandorocore.GROUP_DESCRIPTION_KEY
 import com.tecknobit.pandorocore.GROUP_IDENTIFIER_KEY
@@ -43,6 +44,7 @@ import com.tecknobit.pandorocore.helpers.PandoroEndpoints.ADD_MEMBERS_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.CHANGE_MEMBER_ROLE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.DECLINE_GROUP_INVITATION_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.EDIT_PROJECTS_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.IN_DEVELOPMENT_PROJECTS_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.LEAVE_GROUP_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_AS_DONE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_AS_TO_DO_ENDPOINT
@@ -219,10 +221,35 @@ open class PandoroRequester(
      * @return the result of the request as [JsonObject]
      *
      */
-    @RequestPath(path = "/api/v1/users/{id}/projects", method = GET)
-    fun getProjectsList(): JsonObject {
+    @RequestPath(path = "/api/v1/users/{id}/projects/in_development", method = GET)
+    fun getInDevelopmentProjects(
+        page: Int = DEFAULT_PAGE,
+        pageSize: Int = DEFAULT_PAGE_SIZE,
+        filters: String
+    ): JsonObject {
+        val query = buildJsonObject {
+            put(PAGE_KEY, page)
+            put(PAGE_SIZE_KEY, pageSize)
+            put(FILTERS_KEY, filters)
+        }
         return execWGet(
-            endpoint = createProjectEndpoint("")
+            endpoint = createProjectEndpoint(
+                subEndpoint = IN_DEVELOPMENT_PROJECTS_ENDPOINT
+            ),
+            query = query
+        )
+    }
+
+    /**
+     * Function to execute the request to get the projects list of the user
+     *
+     * @return the result of the request as [JsonObject]
+     *
+     */
+    @RequestPath(path = "/api/v1/users/{id}/projects", method = GET)
+    fun getProjects(): JsonObject {
+        return execWGet(
+            endpoint = createProjectEndpoint()
         )
     }
 
@@ -1034,10 +1061,10 @@ open class PandoroRequester(
         page: Int = DEFAULT_PAGE,
         pageSize: Int = DEFAULT_PAGE_SIZE
     ): JsonObject {
-        val query = buildJsonObject { 
-            put(PAGE_KEY, page)
-            put(PAGE_SIZE_KEY, pageSize)
-        }
+        val query = createPaginatedQuery(
+            page = page,
+            pageSize = pageSize
+        )
         return execWGet(
             endpoint = createChangelogsEndpoint(),
             query = query
@@ -1125,11 +1152,10 @@ open class PandoroRequester(
         id: String? = null
     ): String {
         var endpoint = assembleUsersEndpointPath() + "/$baseEndpoint"
-        if (id != null) {
+        if (id != null)
             endpoint += "/$id"
-            if (subEndpoint != null)
-                endpoint += subEndpoint
-        }
+        if (subEndpoint != null)
+            endpoint += subEndpoint
         return endpoint
     }
 
@@ -1276,6 +1302,19 @@ open class PandoroRequester(
             params.addParam(entry.key, entry.value.toString().replace("\"", ""))
         }
         return params
+    }
+
+    @Deprecated(
+        message = "TO USE THE BUILT-IN ONE"
+    )
+    private fun createPaginatedQuery(
+        page: Int,
+        pageSize: Int
+    ) : JsonObject {
+        return buildJsonObject {
+            put(PAGE_KEY, page)
+            put(PAGE_SIZE_KEY, pageSize)
+        }
     }
 
 }
