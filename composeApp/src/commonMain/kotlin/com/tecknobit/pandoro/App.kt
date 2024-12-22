@@ -259,7 +259,8 @@ fun startSession() {
     requester = PandoroRequester(
         host = localUser.hostAddress,
         userId = localUser.userId,
-        userToken = localUser.userToken
+        userToken = localUser.userToken,
+        debugMode = true // TODO: TO REMOVE
     )
     val route = if (localUser.userId == null)
         AUTH_SCREEN

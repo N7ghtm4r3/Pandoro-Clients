@@ -2,10 +2,10 @@ package com.tecknobit.pandoro.ui.screens.profile.presentation
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.MutableState
-import com.tecknobit.equinoxbackend.environment.helpers.EquinoxRequester
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxProfileViewModel
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse
 import com.tecknobit.pandoro.localUser
+import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.profile.data.Changelog
@@ -21,13 +21,7 @@ import kotlin.random.Random
 
 class ProfileScreenViewModel: EquinoxProfileViewModel(
     snackbarHostState = SnackbarHostState(),
-    // TODO: USE THE REAL ONE
-    requester = object : EquinoxRequester(
-        host = "g",
-        connectionErrorMessage = "gaga"
-    ) {
-
-    },
+    requester = requester,
     localUser = localUser
 ) {
 

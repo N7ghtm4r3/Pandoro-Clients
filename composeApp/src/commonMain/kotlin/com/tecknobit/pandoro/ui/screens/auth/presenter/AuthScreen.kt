@@ -44,16 +44,15 @@ import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isEmailValid
-import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isHostValid
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isNameValid
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isPasswordValid
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isServerSecretValid
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isSurnameValid
-import com.tecknobit.pandoro.HOME_SCREEN
+import com.tecknobit.pandoro.CloseApplicationOnNavBack
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.auth.presentation.AuthScreenViewModel
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
+import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isHostAddressValid
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -87,8 +86,7 @@ class AuthScreen : EquinoxScreen<AuthScreenViewModel>(
      */
     @Composable
     override fun ArrangeScreenContent() {
-        // TODO: TO IMPLEMENT
-        // CloseApplicationOnNavBack()
+        CloseApplicationOnNavBack()
         PandoroTheme {
             Scaffold(
                 snackbarHost = { SnackbarHost(hostState = viewModel!!.snackbarHostState!!) },
@@ -207,7 +205,7 @@ class AuthScreen : EquinoxScreen<AuthScreenViewModel>(
                     keyboardOptions = keyboardOptions,
                     errorText = stringResource(Res.string.wrong_host_address),
                     isError = viewModel!!.hostError,
-                    validator = { isHostValid(it) }
+                    validator = { isHostAddressValid(it) }
                 )
                 AnimatedVisibility(
                     visible = viewModel!!.isSignUp.value
@@ -295,10 +293,7 @@ class AuthScreen : EquinoxScreen<AuthScreenViewModel>(
                     shape = RoundedCornerShape(
                         size = 10.dp
                     ),
-                    onClick = {
-                        // TODO: TO USE THIS INSTEAD viewModel!!.auth()
-                        navigator.navigate(HOME_SCREEN)
-                    }
+                    onClick = { viewModel!!.workAroundAuth() }
                 ) {
                     Text(
                         text = stringResource(
