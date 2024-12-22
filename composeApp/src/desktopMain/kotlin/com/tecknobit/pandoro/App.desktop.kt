@@ -1,16 +1,26 @@
 package com.tecknobit.pandoro
 
+import OctocatKDUConfig
+import UpdaterDialog
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.DEFAULT_LANGUAGE
 import io.github.vinceglb.filekit.core.PlatformFile
-import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
+import pandoro.composeapp.generated.resources.Res
+import pandoro.composeapp.generated.resources.app_name
+import pandoro.composeapp.generated.resources.app_version
 import java.awt.Toolkit
 import java.awt.datatransfer.StringSelection
+import java.util.Locale
 
 /**
  * Function to check whether are available any updates for each platform and then launch the application
@@ -20,11 +30,18 @@ import java.awt.datatransfer.StringSelection
 @Composable
 @NonRestartableComposable
 actual fun CheckForUpdatesAndLaunch() {
-    // TODO: MAKE THE REAL NAVIGATION
-    LaunchedEffect(Unit) {
-        delay(1000)
-        navigator.navigate(AUTH_SCREEN)
-    }
+    var launchApp by remember { mutableStateOf(true) }
+    UpdaterDialog(
+        config = OctocatKDUConfig(
+            locale = Locale.getDefault(),
+            appName = stringResource(Res.string.app_name),
+            currentVersion = stringResource(Res.string.app_version),
+            onUpdateAvailable = { launchApp = false },
+            dismissAction = { launchApp = true }
+        )
+    )
+    if (launchApp)
+        startSession()
 }
 
 /**
@@ -65,4 +82,24 @@ actual fun copyToClipboard(
     val stringSelection = StringSelection(content)
     Toolkit.getDefaultToolkit().systemClipboard.setContents(stringSelection, null)
     onCopy.invoke()
+}
+
+/**
+ * Function to manage correctly the back navigation from the current screen
+ *
+ */
+@NonRestartableComposable
+@Composable
+actual fun CloseApplicationOnNavBack() {
+}
+
+/**
+ * Function to set locale language for the application
+ *
+ */
+actual fun setUserLanguage() {
+    var tag = localUser.language
+    if (tag == null)
+        tag = DEFAULT_LANGUAGE
+    Locale.setDefault(Locale.forLanguageTag(tag))
 }

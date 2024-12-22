@@ -19,11 +19,14 @@ kotlinx-coroutines = "1.9.0"
 kotlinxDatetime = "0.6.1"
 kotlinxSerializationJson = "1.7.3"
 material3WindowSizeClass = "1.7.1"
+octocatkdu = "1.0.4"
 pandorocore = "1.0.5"
 precompose = "1.7.0-alpha03"
 ktor = "3.0.1"
 lazy-pagination-compose = "1.4.0"
 startupRuntime = "1.2.0"
+appUpdate = "2.1.0"
+review = "2.0.2"
 
 [libraries]
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
@@ -45,10 +48,15 @@ androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 material3-window-size = { module = "org.jetbrains.compose.material3:material3-window-size-class", version.ref = "material3WindowSizeClass" }
+octocatkdu = { module = "com.tecknobit.octocatkdu:OctocatKDU", version.ref = "octocatkdu" }
 pandorocore = { module = "com.tecknobit.pandorocore:pandorocore", version.ref = "pandorocore" }
 precompose = { module = "moe.tlaster:precompose", version.ref = "precompose" }
 lazyPaginationCompose = { module = "io.github.ahmad-hamwi:lazy-pagination-compose", version.ref = "lazy-pagination-compose" }
 androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "startupRuntime" }
+review = { module = "com.google.android.play:review", version.ref = "review" }
+review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "review" }
+app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdate" }
+app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdate" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

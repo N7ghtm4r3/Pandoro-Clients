@@ -7,6 +7,7 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.text.font.FontFamily
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY
 import com.tecknobit.pandoro.helpers.PandoroLocalUser
+import com.tecknobit.pandoro.helpers.PandoroRequester
 import com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen
 import com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen
 import com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen
@@ -81,12 +82,12 @@ const val GROUP_SCREEN = "GroupScreen"
 /**
  * **imageLoader** -> the image loader used by coil library to load the image and by-passing the https self-signed certificates
  */
-lateinit var imageLoader: ImageLoader
+lateinit var imageLoader: ImageLoader*/
 
 /**
  * **requester** -> the instance to manage the requests with the backend
  */
-lateinit var requester: AmetistaRequester*/
+lateinit var requester: PandoroRequester
 
 /**
  * **localUser** -> the helper to manage the local sessions stored locally in
@@ -250,23 +251,20 @@ private fun validateSelfSignedCertificate(): Array<TrustManager> {
 @NonRestartableComposable
 expect fun CheckForUpdatesAndLaunch()
 
-/*
 /**
  * Function to init the local session and the related instances then start the user session
  *
  */
 fun startSession() {
-    requester = AmetistaRequester(
+    requester = PandoroRequester(
         host = localUser.hostAddress,
         userId = localUser.userId,
         userToken = localUser.userToken
     )
     val route = if (localUser.userId == null)
         AUTH_SCREEN
-    else if (localUser.password == DEFAULT_VIEWER_PASSWORD)
-        CHANGE_VIEWER_PASSWORD_SCREEN
     else
-        APPLICATIONS_SCREEN
+        HOME_SCREEN
     setUserLanguage()
     navigator.navigate(route)
 }
@@ -283,7 +281,7 @@ expect fun setUserLanguage()
  */
 @Composable
 @NonRestartableComposable
-expect fun CloseApplicationOnNavBack()*/
+expect fun CloseApplicationOnNavBack()
 
 /**
  * Function to get the current screen dimension of the device where the application is running

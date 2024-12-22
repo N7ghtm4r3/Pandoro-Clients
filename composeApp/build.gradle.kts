@@ -69,6 +69,10 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.coil.network.okhttp)
             implementation(libs.androidx.startup.runtime)
+            implementation(libs.app.update)
+            implementation(libs.app.update.ktx)
+            implementation(libs.review)
+            implementation(libs.review.ktx)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -97,11 +101,14 @@ kotlin {
             implementation(libs.kmprefs)
             implementation(libs.jetlime)
             implementation (libs.compose.charts)
+            implementation("com.github.N7ghtm4r3:APIManager:2.2.4")
+            implementation("org.json:json:20240303")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.java)
+            implementation(libs.octocatkdu)
         }
     }
 }
@@ -180,4 +187,8 @@ compose.desktop {
 // TODO: TO REMOVE IN THE NEXT VERSION (DEPRECATED TRIGGER SEARCH)
 configurations.all {
     exclude("commons-logging", "commons-logging")
+    // TODO: TO REMOVE IN THE NEXT VERSION (DEPRECATED TRIGGER SEARCH)
+    resolutionStrategy {
+        force("com.github.N7ghtm4r3:GitHubManager:1.0.1")
+    }
 }
