@@ -52,6 +52,7 @@ import com.tecknobit.pandorocore.helpers.PandoroEndpoints.PUBLISH_UPDATE_ENDPOIN
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.REMOVE_MEMBER_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.SCHEDULE_UPDATE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.START_UPDATE_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.UNREAD_CHANGELOGS_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.UPDATES_PATH
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
@@ -92,7 +93,7 @@ open class PandoroRequester(
     companion object {
 
         // TODO: TO REMOVE OR INTEGRATE IN THE EQUINOX LIBRARY
-        fun JsonObject.toErrorMessage() : String {
+        fun JsonObject.toResponseData() : String {
             return this[RESPONSE_DATA_KEY]!!.jsonPrimitive.content
         }
 
@@ -1003,6 +1004,22 @@ open class PandoroRequester(
             baseEndpoint = NOTES_KEY,
             subEndpoint = subEndpoint,
             id = id
+        )
+    }
+
+    /**
+     * Function to execute the request to get the changelogs list of the user
+     *
+     * @return the result of the request as [JsonObject]
+     *
+     */
+    @RequestPath(path = "/api/v1/users/{id}/changelogs/unread", method = GET)
+    fun getUnreadChangelogsCount(): JsonObject {
+        return execWGet(
+            endpoint = assembleCustomEndpointPath(
+                customEndpoint = CHANGELOGS_KEY,
+                subEndpoint = UNREAD_CHANGELOGS_ENDPOINT
+            )
         )
     }
 

@@ -1,11 +1,15 @@
 package com.tecknobit.pandoro.ui.screens.home.presentation
 
 import androidx.compose.material3.SnackbarHostState
+import com.tecknobit.equinoxcompose.helpers.session.setHasBeenDisconnectedValue
+import com.tecknobit.equinoxcompose.helpers.session.setServerOfflineValue
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseData
+import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlin.random.Random
 
 class HomeScreenViewModel : EquinoxViewModel(
     snackbarHostState = SnackbarHostState()
@@ -26,8 +30,21 @@ class HomeScreenViewModel : EquinoxViewModel(
         execRefreshingRoutine(
             currentContext = HomeScreen::class.java,
             routine = {
-                // TODO: MAKE THE REQUEST THEN
-                _unreadChangelog.value = Random.nextInt(101)
+                requester.sendWRequest(
+                    request = {
+                        getUnreadChangelogsCount()
+                    },
+                    onSuccess = {
+                        setServerOfflineValue(false)
+                        _unreadChangelog.value = it.toResponseData().toInt()
+                    },
+                    onFailure = {
+                        setHasBeenDisconnectedValue(true)
+                    },
+                    onConnectionError = {
+                        setServerOfflineValue(true)
+                    }
+                )
             },
             refreshDelay = ONE_MINUTE
         )
