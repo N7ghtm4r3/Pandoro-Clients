@@ -1,6 +1,11 @@
 package com.tecknobit.pandoro.helpers
 
 import com.tecknobit.apimanager.apis.APIRequest.Params
+import com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode
+import com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.FAILED
+import com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.GENERIC_RESPONSE
+import com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.SUCCESSFUL
+import com.tecknobit.equinoxbackend.Requester
 import com.tecknobit.equinoxbackend.environment.helpers.EquinoxRequester
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.IDENTIFIER_KEY
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY
@@ -9,6 +14,13 @@ import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.equinoxcore.annotations.Wrapper
 import com.tecknobit.equinoxcore.network.RequestMethod
 import com.tecknobit.equinoxcore.network.RequestMethod.*
+import com.tecknobit.equinoxcore.pagination.PaginatedResponse
+import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DATA_KEY
+import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
+import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE_SIZE
+import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.IS_LAST_PAGE_KEY
+import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.PAGE_KEY
+import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.PAGE_SIZE_KEY
 import com.tecknobit.pandorocore.CHANGELOGS_KEY
 import com.tecknobit.pandorocore.CHANGELOG_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.CONTENT_NOTE_KEY
@@ -41,11 +53,16 @@ import com.tecknobit.pandorocore.helpers.PandoroEndpoints.REMOVE_MEMBER_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.SCHEDULE_UPDATE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.START_UPDATE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.UPDATES_PATH
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.encodeToJsonElement
+import kotlinx.serialization.json.int
+import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
 
 /**
@@ -72,10 +89,126 @@ open class PandoroRequester(
     debugMode = debugMode
 ) {
 
+    companion object {
+
+        /**
+         * Method to execute and manage the response of a request
+         *
+         * @param request The request to execute
+         * @param onResponse The action to execute when a response is returned from the backend
+         * @param onConnectionError The action to execute if the request has been failed for a connection error
+         */
+        @Deprecated(
+            message = "TO REMOVE"
+        )
+        fun <R : Requester> R.sendWRequest(
+            request: R.() -> JsonObject,
+            onResponse: (JsonObject) -> Unit,
+            onConnectionError: ((JsonObject) -> Unit)? = null,
+        ) {
+            return sendWRequest(
+                request = request,
+                onSuccess = onResponse,
+                onFailure = onResponse,
+                onConnectionError = onConnectionError
+            )
+        }
+
+        /**
+         * Method to execute and manage the response of a request
+         *
+         * @param request The request to execute
+         * @param onSuccess The action to execute if the request has been successful
+         * @param onFailure The action to execute if the request has been failed
+         * @param onConnectionError The action to execute if the request has been failed for a connection error
+         */
+        @Deprecated(
+            message = "TO REMOVE"
+        )
+        fun <R : Requester> R.sendWRequest(
+            request: R.() -> JsonObject,
+            onSuccess: (JsonObject) -> Unit,
+            onFailure: (JsonObject) -> Unit,
+            onConnectionError: ((JsonObject) -> Unit)? = null,
+        ) {
+            val response = request.invoke(this)
+            when (isSuccessfulResponse(response)) {
+                SUCCESSFUL -> onSuccess.invoke(response)
+                GENERIC_RESPONSE -> {
+                    if (onConnectionError != null)
+                        onConnectionError.invoke(response)
+                    else
+                        onFailure.invoke(response)
+                }
+
+                else -> onFailure.invoke(response)
+            }
+        }
+
+        /**
+         * Method to execute and manage the paginated response of a request
+         *
+         * @param request The request to execute
+         * @param onSuccess The action to execute if the request has been successful
+         * @param onFailure The action to execute if the request has been failed
+         * @param onConnectionError The action to execute if the request has been failed for a connection error
+         */
+        @Deprecated(
+            message = "TO REMOVE"
+        )
+        fun <R : Requester, T> R.sendPaginatedWRequest(
+            request: R.() -> JsonObject,
+            serializer: KSerializer<T>,
+            onSuccess: (PaginatedResponse<T>) -> Unit,
+            onFailure: (JsonObject) -> Unit,
+            onConnectionError: ((JsonObject) -> Unit)? = null,
+        ) {
+            sendWRequest(
+                request = { request.invoke(this)  },
+                onSuccess = { jPage ->
+                    // TODO: USING DIRECTLY THE SERIALIZATION
+                    val data = jPage[RESPONSE_DATA_KEY]!!.jsonObject
+                    val page = PaginatedResponse(
+                        data = data[DATA_KEY]!!.jsonArray.map {
+                            Json.decodeFromJsonElement(serializer, it)
+                        },
+                        page = data[PAGE_KEY]!!.jsonPrimitive.int,
+                        pageSize = data[PAGE_SIZE_KEY]!!.jsonPrimitive.int,
+                        isLastPage = data[IS_LAST_PAGE_KEY]!!.jsonPrimitive.boolean
+                    )
+                    onSuccess.invoke(page)
+                },
+                onFailure = onFailure,
+                onConnectionError = onConnectionError
+            )
+        }
+
+        /**
+         * Method to get whether the request has been successful or not
+         *
+         * @param response The response of the request
+         *
+         * @return whether the request has been successful or not as [StandardResponseCode]
+         */
+        @Deprecated(
+            message = "TO REMOVE"
+        )
+        private fun isSuccessfulResponse(
+            response: JsonObject?,
+        ): StandardResponseCode {
+            if (response == null || !response.containsKey(RESPONSE_STATUS_KEY))
+                return FAILED
+            return when (response.jsonObject[RESPONSE_STATUS_KEY]!!.jsonPrimitive.content) {
+                SUCCESSFUL.name -> SUCCESSFUL
+                GENERIC_RESPONSE.name -> GENERIC_RESPONSE
+                else -> FAILED
+            }
+        }
+
+    }
+
     /**
      * Function to execute the request to get the projects list of the user
-     *
-     * No-any params required
      *
      * @return the result of the request as [JsonObject]
      *
@@ -489,8 +622,6 @@ open class PandoroRequester(
     /**
      * Function to execute the request to get the groups list of the user
      *
-     * No-any params required
-     *
      * @return the result of the request as [JsonObject]
      *
      */
@@ -764,8 +895,6 @@ open class PandoroRequester(
     /**
      * Function to execute the request to get the notes list of the user
      *
-     * No-any params required
-     *
      * @return the result of the request as [JsonObject]
      *
      */
@@ -875,15 +1004,21 @@ open class PandoroRequester(
     /**
      * Function to execute the request to get the changelogs list of the user
      *
-     * No-any params required
-     *
      * @return the result of the request as [JsonObject]
      *
      */
     @RequestPath(path = "/api/v1/users/{id}/changelogs", method = GET)
-    fun getChangelogsList(): JsonObject {
+    fun getChangelogs(
+        page: Int = DEFAULT_PAGE,
+        pageSize: Int = DEFAULT_PAGE_SIZE
+    ): JsonObject {
+        val query = buildJsonObject { 
+            put(PAGE_KEY, page)
+            put(PAGE_SIZE_KEY, pageSize)
+        }
         return execWGet(
-            endpoint = createChangelogsEndpoint()
+            endpoint = createChangelogsEndpoint(),
+            query = query
         )
     }
 
@@ -992,7 +1127,7 @@ open class PandoroRequester(
         endpoint: String,
         query: JsonObject? = null
     ) : JsonObject {
-        return Json.encodeToJsonElement(
+        return Json.parseToJsonElement(
             execGet(
                 endpoint = endpoint,
                 query = query.toParams()
@@ -1018,7 +1153,7 @@ open class PandoroRequester(
         query: JsonObject? = null,
         payload: JsonObject = JsonObject(emptyMap())
     ) : JsonObject {
-        return Json.encodeToJsonElement(
+        return Json.parseToJsonElement(
             execPost(
                 endpoint = endpoint,
                 query = query.toParams(),
@@ -1045,7 +1180,7 @@ open class PandoroRequester(
         query: JsonObject? = null,
         payload: JsonObject = JsonObject(emptyMap())
     ) : JsonObject {
-        return Json.encodeToJsonElement(
+        return Json.parseToJsonElement(
             execPut(
                 endpoint = endpoint,
                 query = query.toParams(),
@@ -1072,7 +1207,7 @@ open class PandoroRequester(
         query: JsonObject? = null,
         payload: JsonObject = JsonObject(emptyMap())
     ) : JsonObject {
-        return Json.encodeToJsonElement(
+        return Json.parseToJsonElement(
             execPatch(
                 endpoint = endpoint,
                 query = query.toParams(),
@@ -1099,7 +1234,7 @@ open class PandoroRequester(
         query: JsonObject? = null,
         payload: JsonObject = JsonObject(emptyMap())
     ) : JsonObject {
-        return Json.encodeToJsonElement(
+        return Json.parseToJsonElement(
             execDelete(
                 endpoint = endpoint,
                 query = query.toParams(),
@@ -1116,7 +1251,7 @@ open class PandoroRequester(
             return null
         val params = Params()
         this.entries.forEach { entry ->
-            params.addParam(entry.key, entry.value)
+            params.addParam(entry.key, entry.value.toString())
         }
         return params
     }

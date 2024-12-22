@@ -5,9 +5,7 @@ import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandorocore.CHANGELOG_EVENT_KEY
 import com.tecknobit.pandorocore.CHANGELOG_EXTRA_CONTENT_KEY
-import com.tecknobit.pandorocore.CHANGELOG_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.CHANGELOG_READ_KEY
-import com.tecknobit.pandorocore.CHANGELOG_TIMESTAMP_KEY
 import com.tecknobit.pandorocore.enums.ChangelogEvent
 import com.tecknobit.pandorocore.enums.ChangelogEvent.GROUP_DELETED
 import com.tecknobit.pandorocore.enums.ChangelogEvent.INVITED_GROUP
@@ -49,11 +47,9 @@ import pandoro.composeapp.generated.resources.update_started_title
 
 @Serializable
 data class Changelog(
-    @SerialName(CHANGELOG_IDENTIFIER_KEY)
     val id: String,
     @SerialName(CHANGELOG_EVENT_KEY)
     val event: ChangelogEvent,
-    @SerialName(CHANGELOG_TIMESTAMP_KEY)
     val timestamp: Long,
     val project: Project? = null,
     val group: Group? = null,

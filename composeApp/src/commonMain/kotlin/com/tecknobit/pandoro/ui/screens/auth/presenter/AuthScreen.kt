@@ -335,8 +335,6 @@ class AuthScreen : EquinoxScreen<AuthScreenViewModel>(
 
     /**
      * Method to collect or instantiate the states of the screen
-     *
-     * No-any params required
      */
     @Composable
     override fun CollectStates() {

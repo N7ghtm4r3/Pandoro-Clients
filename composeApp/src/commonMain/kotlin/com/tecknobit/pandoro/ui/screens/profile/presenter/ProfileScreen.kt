@@ -86,7 +86,9 @@ import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteAccount
+import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.Logout
+import com.tecknobit.pandoro.ui.components.NewPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
@@ -118,6 +120,8 @@ import pandoro.composeapp.generated.resources.wrong_password
 class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     viewModel = ProfileScreenViewModel()
 ) {
+
+    private lateinit var userEmail: MutableState<String>
 
     /**
      * Method to arrange the content of the screen to display
@@ -198,7 +202,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    text = localUser.email,
+                    text = userEmail.value,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     fontSize = 12.sp
@@ -303,6 +307,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     actionContent = { ChangeEmail() },
                     confirmAction = { visible ->
                         changeEmail {
+                            userEmail.value = localUser.email
                             visible.value = false
                         }
                     }
@@ -545,16 +550,16 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                                         fontFamily = bodyFontFamily
                                     )
                                 )
-                            }
-                            // TODO: TO SET
-                            /*firstPageProgressIndicator = { ... },
-                            newPageProgressIndicator = { ... },*/
-                            /*firstPageErrorIndicator = { e -> // from setError
-                                ... e.message ...
-                                ... onRetry = { paginationState.retryLastFailedRequest() } ...
                             },
-                            newPageErrorIndicator = { e -> ... },
-                            // The rest of LazyColumn params*/
+                            firstPageProgressIndicator = {
+                                FirstPageProgressIndicator(
+                                    modifier = Modifier
+                                        .padding(
+                                            all = 16.dp
+                                        )
+                                )
+                            },
+                            newPageProgressIndicator = { NewPageProgressIndicator() }
                         ) {
                             items(
                                 items = viewModel!!.changelogsState.allItems!!,
@@ -744,6 +749,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     @Composable
     override fun CollectStates() {
         viewModel!!.profilePic = remember { mutableStateOf(localUser.profilePic) }
+        userEmail = remember { mutableStateOf(localUser.email) }
     }
 
 }
