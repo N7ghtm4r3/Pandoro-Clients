@@ -91,6 +91,11 @@ open class PandoroRequester(
 
     companion object {
 
+        // TODO: TO REMOVE OR INTEGRATE IN THE EQUINOX LIBRARY
+        fun JsonObject.toErrorMessage() : String {
+            return this[RESPONSE_DATA_KEY]!!.jsonPrimitive.content
+        }
+
         /**
          * Method to execute and manage the response of a request
          *
@@ -1251,7 +1256,7 @@ open class PandoroRequester(
             return null
         val params = Params()
         this.entries.forEach { entry ->
-            params.addParam(entry.key, entry.value.toString())
+            params.addParam(entry.key, entry.value.toString().replace("\"", ""))
         }
         return params
     }

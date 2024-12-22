@@ -177,8 +177,9 @@
     <string name="change_password">Cambia la password</string>
     <string name="change_theme">Cambia tema</string>
     <string name="new_password">Nuova password</string>
-    <string name="no_changelogs_available">Tutto tranquillo al momento</string><string name="invited_group_title">Invitat ad un gruppo</string>
-    <string name="joined_group_title">Unisciti ad un gruppo</string>
+    <string name="no_changelogs_available">Tutto tranquillo al momento</string>
+    <string name="invited_group_title">Invitat ad un gruppo</string>
+    <string name="joined_group_title">Unit ad un gruppo</string>
     <string name="role_changed_title">Ruolo aggiornato</string>
     <string name="left_group_title">Lascia il gruppo</string>
     <string name="group_deleted_title">Gruppo eliminato</string>
@@ -189,7 +190,7 @@
     <string name="update_published_title">Aggiornamento pubblicato</string>
     <string name="update_deleted_title">Aggiornamento cancellato</string>
     <string name="invited_group">Invitat a partecipare al gruppo %1$s</string>
-    <string name="joined_group">Si è unit al gruppo %1$s</string>
+    <string name="joined_group">Ti sei unit al gruppo %1$s</string>
     <string name="role_changed">Diventat %1$s nel gruppo %2$s</string>
     <string name="left_group">Ha lasciato il gruppo %1$s</string>
     <string name="group_deleted">Il gruppo %1$s è stato eliminato</string>
