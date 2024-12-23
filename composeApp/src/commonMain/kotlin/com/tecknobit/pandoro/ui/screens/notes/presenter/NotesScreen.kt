@@ -46,6 +46,8 @@ import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
 import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
+import com.tecknobit.pandoro.ui.components.NewHorizontalPageProgressIndicator
 import com.tecknobit.pandoro.ui.icons.AddNotes
 import com.tecknobit.pandoro.ui.icons.ClipboardList
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
@@ -203,16 +205,9 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                         vertical = 10.dp
                     ),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
-                    firstPageEmptyIndicator = { NoNotesAvailable() }
-                    // TODO: TO SET
-                    /*firstPageProgressIndicator = { ... },
-                    newPageProgressIndicator = { ... },*/
-                    /*firstPageErrorIndicator = { e -> // from setError
-                        ... e.message ...
-                        ... onRetry = { paginationState.retryLastFailedRequest() } ...
-                    },
-                    newPageErrorIndicator = { e -> ... },
-                    // The rest of LazyColumn params*/
+                    firstPageEmptyIndicator = { NoNotesAvailable() },
+                    firstPageProgressIndicator = { FirstPageProgressIndicator() },
+                    newPageProgressIndicator = { NewHorizontalPageProgressIndicator() }
                 ) {
                     items(
                         items = viewModel!!.notesState.allItems!!,
@@ -242,16 +237,9 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                     ),
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
-                    firstPageEmptyIndicator = { NoNotesAvailable() }
-                    // TODO: TO SET
-                    /*firstPageProgressIndicator = { ... },
-                    newPageProgressIndicator = { ... },*/
-                    /*firstPageErrorIndicator = { e -> // from setError
-                        ... e.message ...
-                        ... onRetry = { paginationState.retryLastFailedRequest() } ...
-                    },
-                    newPageErrorIndicator = { e -> ... },
-                    // The rest of LazyColumn params*/
+                    firstPageEmptyIndicator = { NoNotesAvailable() },
+                    firstPageProgressIndicator = { FirstPageProgressIndicator() },
+                    newPageProgressIndicator = { NewHorizontalPageProgressIndicator() }
                 ) {
                     items(
                         items = viewModel!!.notesState.allItems!!,

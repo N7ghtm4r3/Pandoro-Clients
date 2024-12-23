@@ -30,6 +30,7 @@ import com.tecknobit.pandorocore.GROUP_DESCRIPTION_KEY
 import com.tecknobit.pandorocore.GROUP_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.GROUP_LOGO_KEY
 import com.tecknobit.pandorocore.GROUP_MEMBERS_KEY
+import com.tecknobit.pandorocore.MARKED_AS_DONE_KEY
 import com.tecknobit.pandorocore.MEMBER_ROLE_KEY
 import com.tecknobit.pandorocore.NOTES_KEY
 import com.tecknobit.pandorocore.ONLY_AUTHORED_GROUPS
@@ -45,12 +46,11 @@ import com.tecknobit.pandorocore.helpers.PandoroEndpoints.ACCEPT_GROUP_INVITATIO
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.ADD_CHANGE_NOTE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.ADD_MEMBERS_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.CHANGE_MEMBER_ROLE_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.CHANGE_NOTE_STATUS_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.DECLINE_GROUP_INVITATION_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.EDIT_PROJECTS_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.IN_DEVELOPMENT_PROJECTS_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.LEAVE_GROUP_ENDPOINT
-import com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_AS_DONE_ENDPOINT
-import com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_AS_TO_DO_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_CHANGE_NOTE_AS_DONE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_CHANGE_NOTE_AS_TODO_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.PUBLISH_UPDATE_ENDPOINT
@@ -311,54 +311,23 @@ open class PandoroRequester(
         groups: List<String>,
         projectRepository: String = ""
     ) : JsonObject {
-        val payload = createProjectPayload(
-            icon = icon,
-            name = name,
-            projectDescription = projectDescription,
-            projectVersion = projectVersion,
-            groups = groups,
-            projectRepository = projectRepository
-        )
-        return if(projectId != null) {
-            editProject(
-                projectId = projectId,
-                payload = payload
-            )
-        } else {
-            addProject(
-                payload = payload
-            )
-        }
-    }
-
-    /**
-     * Function to create the payload to execute the [addProject] or the [editProject] requests
-     *
-     * @param icon The icon of the project
-     * @param name The name of the project
-     * @param projectDescription The description of the project
-     * @param projectVersion The current version of the project
-     * @param groups The list of groups where the project can be visible
-     * @param projectRepository The url of the repository of the project
-     *
-     * @return the payload as [Params]
-     *
-     */
-    private fun createProjectPayload(
-        icon: String?,
-        name: String,
-        projectDescription: String,
-        projectVersion: String,
-        groups: List<String>,
-        projectRepository: String = ""
-    ): JsonObject {
-        return buildJsonObject {
+        val payload = buildJsonObject {
             put(PROJECT_ICON_KEY, icon)
             put(NAME_KEY, name)
             put(PROJECT_DESCRIPTION_KEY, projectDescription)
             put(PROJECT_VERSION_KEY, projectVersion)
             put(GROUPS_KEY, Json.encodeToJsonElement(groups))
             put(PROJECT_REPOSITORY_KEY, projectRepository)
+        }
+        return if(projectId == null) {
+            addProject(
+                payload = payload
+            )
+        } else {
+            editProject(
+                projectId = projectId,
+                payload = payload
+            )
         }
     }
 
@@ -1013,10 +982,61 @@ open class PandoroRequester(
      *
      */
     @RequestPath(path = "/api/v1/users/{id}/notes", method = GET)
-    fun getNotesList(): JsonObject {
+    fun getNotes(
+        page: Int = DEFAULT_PAGE,
+        pageSize: Int = DEFAULT_PAGE_SIZE,
+        selectToDoNotes: Boolean,
+        selectCompletedNotes: Boolean
+    ): JsonObject {
+        val selectNotes = if(selectToDoNotes && selectCompletedNotes)
+            ""
+        else
+            selectCompletedNotes.toString()
+        val query = buildJsonObject {
+            put(PAGE_KEY, page)
+            put(PAGE_SIZE_KEY, pageSize)
+            put(MARKED_AS_DONE_KEY, selectNotes)
+        }
         return execWGet(
-            endpoint = createNotesEndpoint()
+            endpoint = createNotesEndpoint(),
+            query = query
         )
+    }
+
+    /**
+     * Function to execute the request to get the notes list of the user
+     *
+     * @return the result of the request as [JsonObject]
+     *
+     */
+    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}", method = GET)
+    fun getNote(
+        noteId: String
+    ): JsonObject {
+        return execWGet(
+            endpoint = createNotesEndpoint(
+                id = noteId
+            )
+        )
+    }
+
+    fun workOnNote(
+        noteId: String?,
+        contentNote: String
+    ) : JsonObject {
+        val payload = buildJsonObject {
+            put(CONTENT_NOTE_KEY, contentNote)
+        }
+        return if(noteId == null) {
+            addNote(
+                payload = payload
+            )
+        } else {
+            editNote(
+                noteId = noteId,
+                payload = payload
+            )
+        }
     }
 
     /**
@@ -1027,14 +1047,31 @@ open class PandoroRequester(
      *
      */
     @RequestPath(path = "/api/v1/users/{id}/notes", method = POST)
-    fun addNote(
-        contentNote: String
+    private fun addNote(
+        payload: JsonObject
     ): JsonObject {
-        val payload = buildJsonObject {
-            put(CONTENT_NOTE_KEY, contentNote)
-        }
         return execWPost(
             endpoint = createNotesEndpoint(),
+            payload = payload
+        )
+    }
+
+    /**
+     * Function to execute the request to add a new note of the user
+     * @param contentNote The content of the new note to add
+     *
+     * @return the result of the request as [JsonObject]
+     *
+     */
+    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}", method = PATCH)
+    private fun editNote(
+        noteId: String,
+        payload: JsonObject
+    ): JsonObject {
+        return execWPatch(
+            endpoint = createNotesEndpoint(
+                id = noteId
+            ),
             payload = payload
         )
     }
@@ -1046,34 +1083,20 @@ open class PandoroRequester(
      * @return the result of the request as [JsonObject]
      *
      */
-    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}/markAsDone", method = PATCH)
-    fun markNoteAsDone(
-        noteId: String
+    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}/changeNoteStatus", method = PATCH)
+    fun changeNoteStatus(
+        noteId: String,
+        completed: Boolean
     ): JsonObject {
+        val payload = buildJsonObject {
+            put(MARKED_AS_DONE_KEY, completed)
+        }
         return execWPatch(
             endpoint = createNotesEndpoint(
-                subEndpoint = MARK_AS_DONE_ENDPOINT,
+                subEndpoint = CHANGE_NOTE_STATUS_ENDPOINT,
                 id = noteId
-            )
-        )
-    }
-
-    /**
-     * Function to execute the request to mark a user's note as todo
-     * @param noteId The note identifier to mark as todo
-     *
-     * @return the result of the request as [JsonObject]
-     *
-     */
-    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}/markAsToDo", method = PATCH)
-    fun markNoteAsToDo(
-        noteId: String
-    ): JsonObject {
-        return execWPatch(
-            endpoint = createNotesEndpoint(
-                subEndpoint = MARK_AS_TO_DO_ENDPOINT,
-                id = noteId
-            )
+            ),
+            payload = payload
         )
     }
 
