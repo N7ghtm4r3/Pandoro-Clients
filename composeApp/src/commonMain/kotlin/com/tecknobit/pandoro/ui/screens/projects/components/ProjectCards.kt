@@ -214,6 +214,7 @@ fun ProjectCard(
                     .fillMaxWidth(),
                 text = project.description,
                 overflow = TextOverflow.Ellipsis,
+                minLines = 3,
                 maxLines = if(showCardFooter)
                     3
                 else

@@ -101,6 +101,7 @@ kotlin {
             implementation(libs.kmprefs)
             implementation(libs.jetlime)
             implementation (libs.compose.charts)
+            implementation("com.squareup.okhttp3:okhttp:4.12.0")
             implementation("com.github.N7ghtm4r3:APIManager:2.2.4")
             implementation("org.json:json:20240303")
         }

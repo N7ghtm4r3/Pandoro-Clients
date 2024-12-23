@@ -28,12 +28,14 @@ import com.tecknobit.pandorocore.FILTERS_KEY
 import com.tecknobit.pandorocore.GROUPS_KEY
 import com.tecknobit.pandorocore.GROUP_DESCRIPTION_KEY
 import com.tecknobit.pandorocore.GROUP_IDENTIFIER_KEY
+import com.tecknobit.pandorocore.GROUP_LOGO_KEY
 import com.tecknobit.pandorocore.GROUP_MEMBERS_KEY
 import com.tecknobit.pandorocore.MEMBER_ROLE_KEY
 import com.tecknobit.pandorocore.NOTES_KEY
 import com.tecknobit.pandorocore.ONLY_AUTHORED_GROUPS
 import com.tecknobit.pandorocore.PROJECTS_KEY
 import com.tecknobit.pandorocore.PROJECT_DESCRIPTION_KEY
+import com.tecknobit.pandorocore.PROJECT_ICON_KEY
 import com.tecknobit.pandorocore.PROJECT_REPOSITORY_KEY
 import com.tecknobit.pandorocore.PROJECT_VERSION_KEY
 import com.tecknobit.pandorocore.UPDATE_CHANGE_NOTES_KEY
@@ -59,6 +61,7 @@ import com.tecknobit.pandorocore.helpers.PandoroEndpoints.UNREAD_CHANGELOGS_ENDP
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.UPDATES_PATH
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.buildJsonObject
@@ -68,6 +71,10 @@ import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 /**
  * The **PandoroRequester** class is useful to communicate with the Pandoro's backend
@@ -283,8 +290,9 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to add a new project of the user
+     * Function to execute the request to add a new project or edit an exiting project
      *
+     * @param icon The icon of the project
      * @param name The name of the project
      * @param projectDescription The description of the project
      * @param projectVersion The current version of the project
@@ -294,65 +302,39 @@ open class PandoroRequester(
      * @return the result of the request as [JsonObject]
      *
      */
-    @RequestPath(path = "/api/v1/users/{id}/projects", method = POST)
-    fun addProject(
+    fun workOnProject(
+        icon: String?,
+        projectId: String? = null,
         name: String,
         projectDescription: String,
         projectVersion: String,
         groups: List<String>,
         projectRepository: String = ""
-    ): JsonObject {
-        return execWPost(
-            endpoint = createProjectEndpoint(),
-            payload = createProjectPayload(
-                name = name,
-                projectDescription = projectDescription,
-                projectVersion = projectVersion,
-                groups = groups,
-                projectRepository = projectRepository
-            )
+    ) : JsonObject {
+        val payload = createProjectPayload(
+            icon = icon,
+            name = name,
+            projectDescription = projectDescription,
+            projectVersion = projectVersion,
+            groups = groups,
+            projectRepository = projectRepository
         )
-    }
-
-    /**
-     * Function to execute the request to edit an existing project of the user
-     *
-     * @param projectId The project identifier
-     * @param name The name of the project
-     * @param projectDescription The description of the project
-     * @param projectVersion The current version of the project
-     * @param groups The list of groups where the project can be visible
-     * @param projectRepository The url of the repository of the project
-     *
-     * @return the result of the request as [JsonObject]
-     *
-     */
-    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}", method = PATCH)
-    fun editProject(
-        projectId: String,
-        name: String,
-        projectDescription: String,
-        projectVersion: String,
-        groups: List<String>,
-        projectRepository: String = ""
-    ): JsonObject {
-        return execWPatch(
-            endpoint = createProjectEndpoint(
-                id = projectId
-            ),
-            payload = createProjectPayload(
-                name = name,
-                projectDescription = projectDescription,
-                projectVersion = projectVersion,
-                groups = groups,
-                projectRepository = projectRepository
+        return if(projectId != null) {
+            editProject(
+                projectId = projectId,
+                payload = payload
             )
-        )
+        } else {
+            addProject(
+                payload = payload
+            )
+        }
     }
 
     /**
      * Function to create the payload to execute the [addProject] or the [editProject] requests
      *
+     * @param icon The icon of the project
      * @param name The name of the project
      * @param projectDescription The description of the project
      * @param projectVersion The current version of the project
@@ -363,6 +345,7 @@ open class PandoroRequester(
      *
      */
     private fun createProjectPayload(
+        icon: String?,
         name: String,
         projectDescription: String,
         projectVersion: String,
@@ -370,12 +353,54 @@ open class PandoroRequester(
         projectRepository: String = ""
     ): JsonObject {
         return buildJsonObject {
+            put(PROJECT_ICON_KEY, icon)
             put(NAME_KEY, name)
             put(PROJECT_DESCRIPTION_KEY, projectDescription)
             put(PROJECT_VERSION_KEY, projectVersion)
             put(GROUPS_KEY, Json.encodeToJsonElement(groups))
-            put(PROJECT_REPOSITORY_KEY, projectRepository)   
+            put(PROJECT_REPOSITORY_KEY, projectRepository)
         }
+    }
+
+
+    /**
+     * Function to execute the request to add a new project of the user
+     *
+     * @param payload The payload with the project details
+     *
+     * @return the result of the request as [JsonObject]
+     *
+     */
+    @RequestPath(path = "/api/v1/users/{id}/projects", method = POST)
+    private fun addProject(
+        payload: JsonObject
+    ): JsonObject {
+        return execWMultipartRequest(
+            endpoint = createProjectEndpoint(),
+            payload = payload
+        )
+    }
+
+    /**
+     * Function to execute the request to edit an existing project of the user
+     *
+     * @param projectId The project identifier
+     * @param payload The payload with the project details
+     *
+     * @return the result of the request as [JsonObject]
+     *
+     */
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}", method = PATCH)
+    private fun editProject(
+        projectId: String,
+        payload: JsonObject
+    ): JsonObject {
+        return execWMultipartRequest(
+            endpoint = createProjectEndpoint(
+                id = projectId
+            ),
+            payload = payload
+        )
     }
 
     /**
@@ -1346,7 +1371,22 @@ open class PandoroRequester(
             ).toString()
         ).jsonObject
     }
-    
+
+    @Deprecated(
+        message = "WILL BE REMOVED AFTER THE PROJECT INTEGRATES iOs and WEB targets"
+    )
+    protected fun execWMultipartRequest(
+        endpoint: String,
+        payload: JsonObject = JsonObject(emptyMap())
+    ) : JsonObject {
+        return Json.parseToJsonElement(
+            execMultipartRequest(
+                endpoint = endpoint,
+                body = payload.toMultipartBody()
+            ).toString()
+        ).jsonObject
+    }
+
     @Deprecated(
         message = "TO REMOVE"
     )
@@ -1358,6 +1398,38 @@ open class PandoroRequester(
             params.addParam(entry.key, entry.value.toString().replace("\"", ""))
         }
         return params
+    }
+
+    @Deprecated(
+        message = "TO REMOVE"
+    )
+    private fun JsonObject.toMultipartBody() : MultipartBody {
+        val payload = MultipartBody.Builder()
+        this.forEach { entry ->
+            val key = entry.key
+            val value = entry.value
+            if(key == PROJECT_ICON_KEY || key == GROUP_LOGO_KEY) {
+                val iconPath = value.jsonPrimitive.content
+                if(iconPath.isNotEmpty()) {
+                    val iconFile = File(iconPath)
+                    payload.addFormDataPart(
+                        name = key,
+                        filename = iconFile.name,
+                        body = iconFile.readBytes().toRequestBody("*/*".toMediaType())
+                    )
+                }
+            } else {
+                payload.addFormDataPart(
+                    name = key,
+                    value = when(value) {
+                        is JsonArray -> value.jsonArray.toString()
+                        is JsonObject -> value.jsonObject.toString()
+                        else -> value.jsonPrimitive.content
+                    }
+                )
+            }
+        }
+        return payload.build()
     }
 
     @Deprecated(

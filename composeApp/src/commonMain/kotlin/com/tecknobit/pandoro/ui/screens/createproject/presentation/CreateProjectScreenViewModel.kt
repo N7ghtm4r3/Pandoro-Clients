@@ -91,10 +91,26 @@ class CreateProjectScreenViewModel(
     }
 
     fun workOnProject() {
-        // TODO: MAKE THE REQUEST TO EDIT OR ADD THEN
         if(!isFormValid())
             return
-        navigator.goBack()
+        requester.sendWRequest(
+            request = {
+                workOnProject(
+                    icon = if(projectIcon.value == _project.value?.icon)
+                        ""
+                    else
+                        projectIcon.value,
+                    projectId = projectId,
+                    name = projectName.value,
+                    projectDescription = projectDescription.value,
+                    projectVersion = projectVersion.value,
+                    groups = candidateGroups,
+                    projectRepository = projectRepository.value
+                )
+            },
+            onSuccess = { navigator.goBack() },
+            onFailure = { showSnackbarMessage(it.toResponseContent()) }
+        )
     }
 
     private fun isFormValid() : Boolean {
