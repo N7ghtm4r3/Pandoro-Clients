@@ -39,6 +39,7 @@ import com.tecknobit.pandorocore.PROJECT_DESCRIPTION_KEY
 import com.tecknobit.pandorocore.PROJECT_ICON_KEY
 import com.tecknobit.pandorocore.PROJECT_REPOSITORY_KEY
 import com.tecknobit.pandorocore.PROJECT_VERSION_KEY
+import com.tecknobit.pandorocore.ROLES_FILTER_KEY
 import com.tecknobit.pandorocore.UPDATE_CHANGE_NOTES_KEY
 import com.tecknobit.pandorocore.UPDATE_TARGET_VERSION_KEY
 import com.tecknobit.pandorocore.enums.Role
@@ -683,10 +684,16 @@ open class PandoroRequester(
      */
     @Wrapper
     @RequestPath(path = "/api/v1/users/{id}/groups", method = GET)
-    fun getAuthoredGroups(): JsonObject {
+    fun getAuthoredGroups(
+        page: Int = DEFAULT_PAGE,
+        pageSize: Int = DEFAULT_PAGE_SIZE,
+        nameFilter: String = ""
+    ): JsonObject {
         return getGroups(
+            page = page,
+            pageSize = pageSize,
             onlyAuthoredGroups = true,
-            pageSize = Int.MAX_VALUE
+            nameFilter = nameFilter
         )
     }
 
@@ -701,13 +708,15 @@ open class PandoroRequester(
         page: Int = DEFAULT_PAGE,
         pageSize: Int = DEFAULT_PAGE_SIZE,
         onlyAuthoredGroups: Boolean = false,
-        nameFilter: String = ""
+        nameFilter: String = "",
+        roles: List<Role> = emptyList()
     ): JsonObject {
         val query = buildJsonObject {
             put(PAGE_KEY, page)
             put(PAGE_SIZE_KEY, pageSize)
             put(ONLY_AUTHORED_GROUPS, onlyAuthoredGroups)
             put(NAME_KEY, nameFilter)
+            put(ROLES_FILTER_KEY, roles.joinToString())
         }
         return execWGet(
             endpoint = createGroupsEndpoint(),
@@ -947,7 +956,9 @@ open class PandoroRequester(
      *
      */
     @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}", method = DELETE)
-    fun deleteGroup(groupId: String): JsonObject {
+    fun deleteGroup(
+        groupId: String
+    ): JsonObject {
         return execWDelete(
             endpoint = createGroupsEndpoint(
                 id = groupId

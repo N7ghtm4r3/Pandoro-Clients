@@ -65,7 +65,11 @@ class CreateProjectScreenViewModel(
 
     fun retrieveAuthoredGroups() {
         requester.sendPaginatedWRequest(
-            request = { getAuthoredGroups() },
+            request = {
+                getAuthoredGroups(
+                    pageSize = Int.MAX_VALUE
+                )
+            },
             serializer = Group.serializer(),
             onSuccess = { paginatedResponse ->
                 authoredGroups.addAll(paginatedResponse.data)

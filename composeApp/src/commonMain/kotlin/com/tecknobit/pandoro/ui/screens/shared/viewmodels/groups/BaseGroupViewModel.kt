@@ -3,9 +3,12 @@ package com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups
 import androidx.compose.material3.SnackbarHostState
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
+import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.serialization.json.JsonObject
 
 @Structure
 abstract class BaseGroupViewModel : EquinoxViewModel(
@@ -23,10 +26,18 @@ abstract class BaseGroupViewModel : EquinoxViewModel(
 
         fun deleteGroup(
             group: Group,
-            onDelete: () -> Unit
+            onDelete: () -> Unit,
+            onFailure: (JsonObject) -> Unit
         ) {
-            // TODO: MAKE THE REQUEST THEN
-            onDelete.invoke()
+            requester.sendWRequest(
+                request = {
+                    deleteGroup(
+                        groupId = group.id
+                    )
+                },
+                onSuccess = { onDelete.invoke() },
+                onFailure = onFailure
+            )
         }
 
     }

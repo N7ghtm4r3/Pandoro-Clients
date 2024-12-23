@@ -10,10 +10,10 @@ import com.tecknobit.pandorocore.GROUP_MEMBERS_KEY
 import com.tecknobit.pandorocore.PROJECTS_KEY
 import com.tecknobit.pandorocore.enums.Role
 import com.tecknobit.pandorocore.enums.Role.ADMIN
+import com.tecknobit.pandorocore.enums.Role.DEVELOPER
 import com.tecknobit.pandorocore.enums.Role.MAINTAINER
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlin.random.Random
 
 @Serializable
 data class Group(
@@ -26,15 +26,13 @@ data class Group(
     @SerialName(GROUP_DESCRIPTION_KEY)
     val description: String,
     @SerialName(GROUP_MEMBERS_KEY)
-    val members: List<GroupMember>, // TODO: TO CHANGE IN HashSet
+    val members: List<GroupMember>,
     @SerialName(PROJECTS_KEY)
     val projects: List<Project> = emptyList(),
 ) {
 
     fun iAmTheAuthor() : Boolean {
-        // TODO: USE THE LOCAL USER ID
-        // author.id == localUser.id
-        return Random.nextBoolean()
+        return author.id == localUser.userId
     }
 
     fun checkRolePermissions(
@@ -55,12 +53,11 @@ data class Group(
     }
 
     fun findMyRole() : Role {
-        // TODO: USE THE LOCAL USER ID
-        /*members.forEach { member ->
-            if(member.id == localUser.id)
+        members.forEach { member ->
+            if(member.id == localUser.userId)
                 return member.role
-        }*/
-        return Role.ADMIN//Role.entries[Random.nextInt(3)]
+        }
+        return DEVELOPER
     }
 
 }

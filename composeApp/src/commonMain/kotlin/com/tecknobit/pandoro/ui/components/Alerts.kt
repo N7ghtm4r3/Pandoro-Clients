@@ -28,6 +28,7 @@ import com.tecknobit.equinoxcompose.components.EquinoxAlertDialog
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.SPLASHSCREEN
 import com.tecknobit.pandoro.displayFontFamily
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.group.presentation.GroupScreenViewModel
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
@@ -179,7 +180,8 @@ fun DeleteGroup(
         confirmAction = {
             (viewModel as GroupDeleter).deleteGroup(
                 group = group,
-                onDelete = onDelete
+                onDelete = onDelete,
+                onFailure = { viewModel.showSnackbarMessage(it.toResponseContent()) }
             )
         },
         confirmText = stringResource(Res.string.confirm),

@@ -97,7 +97,7 @@ data class Changelog(
             JOINED_GROUP -> stringResource(Res.string.joined_group, entityName!!)
             ROLE_CHANGED -> stringResource(Res.string.role_changed, extraContent!!, entityName!!)
             LEFT_GROUP -> stringResource(Res.string.left_group, entityName!!)
-            GROUP_DELETED -> stringResource(Res.string.group_deleted, entityName!!)
+            GROUP_DELETED -> stringResource(Res.string.group_deleted, entityName ?: "")
             PROJECT_ADDED -> stringResource(Res.string.project_added, entityName!!)
             PROJECT_REMOVED -> stringResource(Res.string.project_removed, entityName!!)
             UPDATE_SCHEDULED -> stringResource(Res.string.update_scheduled, entityName!!, extraContent!!)

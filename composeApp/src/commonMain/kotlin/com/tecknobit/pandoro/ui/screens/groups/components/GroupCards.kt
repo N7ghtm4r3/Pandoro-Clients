@@ -153,11 +153,11 @@ private fun GroupCardContent(
                     .fillMaxWidth(),
                 text = group.description,
                 overflow = TextOverflow.Ellipsis,
+                minLines = 3,
                 maxLines = 3,
                 fontSize = 14.sp
             )
         }
-        HorizontalDivider()
         CardFooter(
             viewModel = viewModel,
             group = group,
@@ -204,25 +204,28 @@ private fun CardFooter(
     group: Group,
     memberAllowedToDelete: Boolean
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(
-                min = 50.dp
-            )
-            .padding(
-                start = 10.dp
-            ),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        ProjectIcons(
-            group = group
-        )
-        if(memberAllowedToDelete) {
-            DeleteGroupButton(
-                viewModel = viewModel,
+    if(group.projects.isNotEmpty() || memberAllowedToDelete) {
+        HorizontalDivider()
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(
+                    min = 50.dp
+                )
+                .padding(
+                    start = 10.dp
+                ),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ProjectIcons(
                 group = group
             )
+            if(memberAllowedToDelete) {
+                DeleteGroupButton(
+                    viewModel = viewModel,
+                    group = group
+                )
+            }
         }
     }
 }
@@ -252,7 +255,10 @@ private fun DeleteGroupButton(
             viewModel = viewModel,
             group = group,
             show = deleteGroup,
-            onDelete = { deleteGroup.value = false }
+            onDelete = {
+                deleteGroup.value = false
+                viewModel.refreshListsAfterDeletion()
+            }
         )
     }
 }

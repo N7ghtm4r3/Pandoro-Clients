@@ -261,8 +261,7 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
                                 onCheckedChange = {
                                     selected = it
                                     viewModel!!.manageRoleFilter(
-                                        role = role,
-                                        selected = it
+                                        role = role
                                     )
                                 }
                             )
