@@ -7,7 +7,7 @@ import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxProfileViewModel
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedWRequest
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseData
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.profile.data.Changelog
@@ -49,7 +49,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
                         isLastPage = paginatedResponse.isLastPage
                     )
                 },
-                onFailure = { showSnackbarMessage(it.toResponseData()) }
+                onFailure = { showSnackbarMessage(it.toResponseContent()) }
             )
         }
     }
@@ -67,7 +67,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
                 onSuccess = {
                     changelogsState.refresh()
                 },
-                onFailure = { showSnackbarMessage(it.toResponseData()) }
+                onFailure = { showSnackbarMessage(it.toResponseContent()) }
             )
         }
     }
@@ -86,7 +86,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
                 onSuccess = {
                     changelogsState.refresh()
                 },
-                onFailure = { showSnackbarMessage(it.toResponseData()) }
+                onFailure = { showSnackbarMessage(it.toResponseContent()) }
             )
         }
     }
@@ -105,7 +105,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
                 onSuccess = {
                     changelogsState.refresh()
                 },
-                onFailure = { showSnackbarMessage(it.toResponseData()) }
+                onFailure = { showSnackbarMessage(it.toResponseContent()) }
             )
         }
     }
@@ -124,7 +124,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
                 onSuccess = {
                     changelogsState.refresh()
                 },
-                onFailure = { showSnackbarMessage(it.toResponseData()) }
+                onFailure = { showSnackbarMessage(it.toResponseContent()) }
             )
         }
     }

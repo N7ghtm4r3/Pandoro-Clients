@@ -271,7 +271,7 @@ class CreateProjectScreen(
     @Composable
     @NonRestartableComposable
     private fun ManageProjectGroups() {
-        if(viewModel!!.groupAdministratedByUser.isNotEmpty()) {
+        if(viewModel!!.authoredGroups.isNotEmpty()) {
             val modalBottomSheetState = rememberModalBottomSheetState()
             val scope = rememberCoroutineScope()
             AnimatedVisibility(
@@ -418,9 +418,9 @@ class CreateProjectScreen(
         GroupsProjectCandidate(
             state = modalBottomSheetState,
             scope = scope,
-            groups = remember { viewModel!!.projectGroups + viewModel!!.groupAdministratedByUser }
+            groups = remember { viewModel!!.projectGroups + viewModel!!.authoredGroups }
         ) { group ->
-            if (viewModel!!.groupAdministratedByUser.contains(group)) {
+            if (viewModel!!.authoredGroups.contains(group)) {
                 var added by remember {
                     mutableStateOf(viewModel!!.candidateGroups.contains(group.id))
                 }
@@ -463,7 +463,7 @@ class CreateProjectScreen(
     override fun onStart() {
         super.onStart()
         viewModel!!.retrieveProject()
-        viewModel!!.retrieveGroupsWhereUserIsAnAdmin()
+        viewModel!!.retrieveAuthoredGroups()
     }
 
     /**

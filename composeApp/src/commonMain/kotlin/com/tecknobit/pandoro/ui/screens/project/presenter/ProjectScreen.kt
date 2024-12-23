@@ -57,7 +57,7 @@ import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.SCHEDULE_UPDATE_SCREEN
 import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.getCurrentSizeClass
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseData
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
@@ -186,7 +186,7 @@ class ProjectScreen(
                         navigator.goBack()
                     },
                     onFailure = {
-                        viewModel!!.showSnackbarMessage(it.toResponseData())
+                        viewModel!!.showSnackbarMessage(it.toResponseContent())
                     }
                 )
             }

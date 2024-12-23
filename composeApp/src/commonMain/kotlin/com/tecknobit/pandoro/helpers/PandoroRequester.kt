@@ -31,6 +31,7 @@ import com.tecknobit.pandorocore.GROUP_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.GROUP_MEMBERS_KEY
 import com.tecknobit.pandorocore.MEMBER_ROLE_KEY
 import com.tecknobit.pandorocore.NOTES_KEY
+import com.tecknobit.pandorocore.ONLY_AUTHORED_GROUPS
 import com.tecknobit.pandorocore.PROJECTS_KEY
 import com.tecknobit.pandorocore.PROJECT_DESCRIPTION_KEY
 import com.tecknobit.pandorocore.PROJECT_REPOSITORY_KEY
@@ -95,7 +96,12 @@ open class PandoroRequester(
     companion object {
 
         // TODO: TO REMOVE OR INTEGRATE IN THE EQUINOX LIBRARY
-        fun JsonObject.toResponseData() : String {
+        fun JsonObject.toResponseData() : JsonObject {
+            return this[RESPONSE_DATA_KEY]!!.jsonObject
+        }
+
+        // TODO: TO REMOVE OR INTEGRATE IN THE EQUINOX LIBRARY
+        fun JsonObject.toResponseContent() : String {
             return this[RESPONSE_DATA_KEY]!!.jsonPrimitive.content
         }
 
@@ -676,15 +682,42 @@ open class PandoroRequester(
     }
 
     /**
+     * Function to execute the request to get the groups list of the user where him/her is the author
+     *
+     * @return the result of the request as [JsonObject]
+     *
+     */
+    @Wrapper
+    @RequestPath(path = "/api/v1/users/{id}/groups", method = GET)
+    fun getAuthoredGroups(): JsonObject {
+        return getGroups(
+            onlyAuthoredGroups = true,
+            pageSize = Int.MAX_VALUE
+        )
+    }
+
+    /**
      * Function to execute the request to get the groups list of the user
      *
      * @return the result of the request as [JsonObject]
      *
      */
     @RequestPath(path = "/api/v1/users/{id}/groups", method = GET)
-    fun getGroupsList(): JsonObject {
+    fun getGroups(
+        page: Int = DEFAULT_PAGE,
+        pageSize: Int = DEFAULT_PAGE_SIZE,
+        onlyAuthoredGroups: Boolean = false,
+        nameFilter: String = ""
+    ): JsonObject {
+        val query = buildJsonObject {
+            put(PAGE_KEY, page)
+            put(PAGE_SIZE_KEY, pageSize)
+            put(ONLY_AUTHORED_GROUPS, onlyAuthoredGroups)
+            put(NAME_KEY, nameFilter)
+        }
         return execWGet(
-            endpoint = createGroupsEndpoint()
+            endpoint = createGroupsEndpoint(),
+            query = query
         )
     }
 

@@ -5,7 +5,7 @@ import com.tecknobit.equinoxcompose.helpers.session.setHasBeenDisconnectedValue
 import com.tecknobit.equinoxcompose.helpers.session.setServerOfflineValue
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseData
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,7 +36,7 @@ class HomeScreenViewModel : EquinoxViewModel(
                     },
                     onSuccess = {
                         setServerOfflineValue(false)
-                        _unreadChangelog.value = it.toResponseData().toInt()
+                        _unreadChangelog.value = it.toResponseContent().toInt()
                     },
                     onFailure = {
                         setHasBeenDisconnectedValue(true)
