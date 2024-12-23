@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.PROJECT_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseData
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.components.Thumbnail
@@ -262,7 +263,11 @@ fun ProjectCard(
                                 project = project,
                                 onDelete = {
                                     deleteProject.value = false
+                                    viewModel.inDevelopmentProjectsState.refresh()
                                     viewModel.projectsState.refresh()
+                                },
+                                onFailure = {
+                                    viewModel.showSnackbarMessage(it.toResponseData())
                                 }
                             )
                         }

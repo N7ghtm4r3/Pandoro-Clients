@@ -80,7 +80,7 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
         PaginatedLazyRow(
             modifier = Modifier
                 .animateContentSize(),
-            paginationState = viewModel!!.inDevelopmentProjectState,
+            paginationState = viewModel!!.inDevelopmentProjectsState,
             contentPadding = PaddingValues(
                 vertical = if(projectsAvailable)
                     10.dp
@@ -100,7 +100,7 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
             newPageProgressIndicator = { NewHorizontalPageProgressIndicator() }
         ) {
             items(
-                items = viewModel!!.inDevelopmentProjectState.allItems!!,
+                items = viewModel!!.inDevelopmentProjectsState.allItems!!,
                 key = { inDevelopmentProject -> inDevelopmentProject.update.id }
             ) { inDevelopmentProject ->
                 projectsAvailable = true

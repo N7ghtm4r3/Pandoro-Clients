@@ -15,6 +15,7 @@ import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.tecknobit.pandoro.localUser
 import org.jetbrains.compose.resources.painterResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.logo
@@ -42,7 +43,7 @@ fun Thumbnail(
                     Modifier
             ),
         model = ImageRequest.Builder(LocalPlatformContext.current)
-            .data(thumbnailData)
+            .data(thumbnailData.prepare())
             .crossfade(true)
             .crossfade(500)
             .build(),
@@ -52,4 +53,11 @@ fun Thumbnail(
         contentScale = ContentScale.Crop,
         error = painterResource(Res.drawable.logo)
     )
+}
+
+private fun String?.prepare() : String? {
+    return if (this != null && !this.startsWith(localUser.hostAddress))
+        localUser.hostAddress + "/" + this
+    else
+        this
 }

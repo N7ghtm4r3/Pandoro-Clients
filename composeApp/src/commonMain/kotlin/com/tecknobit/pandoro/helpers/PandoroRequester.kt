@@ -221,17 +221,18 @@ open class PandoroRequester(
      * @return the result of the request as [JsonObject]
      *
      */
-    @RequestPath(path = "/api/v1/users/{id}/projects/in_development", method = GET)
+    @RequestPath(
+        path = "/api/v1/users/{id}/projects/in_development", method = GET)
     fun getInDevelopmentProjects(
         page: Int = DEFAULT_PAGE,
         pageSize: Int = DEFAULT_PAGE_SIZE,
         filters: String
     ): JsonObject {
-        val query = buildJsonObject {
-            put(PAGE_KEY, page)
-            put(PAGE_SIZE_KEY, pageSize)
-            put(FILTERS_KEY, filters)
-        }
+        val query = createProjectsQuery(
+            page = page,
+            pageSize = pageSize,
+            filters = filters
+        )
         return execWGet(
             endpoint = createProjectEndpoint(
                 subEndpoint = IN_DEVELOPMENT_PROJECTS_ENDPOINT
@@ -247,10 +248,32 @@ open class PandoroRequester(
      *
      */
     @RequestPath(path = "/api/v1/users/{id}/projects", method = GET)
-    fun getProjects(): JsonObject {
-        return execWGet(
-            endpoint = createProjectEndpoint()
+    fun getProjects(
+        page: Int = DEFAULT_PAGE,
+        pageSize: Int = DEFAULT_PAGE_SIZE,
+        filters: String
+    ): JsonObject {
+        val query = createProjectsQuery(
+            page = page,
+            pageSize = pageSize,
+            filters = filters
         )
+        return execWGet(
+            endpoint = createProjectEndpoint(),
+            query = query
+        )
+    }
+
+    private fun createProjectsQuery(
+        page: Int = DEFAULT_PAGE,
+        pageSize: Int = DEFAULT_PAGE_SIZE,
+        filters: String
+    ) : JsonObject {
+        return buildJsonObject {
+            put(PAGE_KEY, page)
+            put(PAGE_SIZE_KEY, pageSize)
+            put(FILTERS_KEY, filters)
+        }
     }
 
     /**
