@@ -453,7 +453,7 @@ open class PandoroRequester(
     ): JsonObject {
         val payload = buildJsonObject {
             put(UPDATE_TARGET_VERSION_KEY, targetVersion)
-            put(UPDATE_CHANGE_NOTES_KEY, Json.encodeToJsonElement(updateChangeNotes))
+            put(UPDATE_CHANGE_NOTES_KEY, updateChangeNotes.joinToString())
         }
         return execWPost(
             endpoint = createUpdatesEndpoint(

@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+import com.tecknobit.pandoro.CloseApplicationOnNavBack
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.localUser
@@ -133,6 +134,7 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
     @Composable
     @ExperimentalMaterial3WindowSizeClassApi
     override fun ArrangeScreenContent() {
+        CloseApplicationOnNavBack()
         val widthSizeClass = getCurrentWidthSizeClass()
         Box (
             modifier = Modifier

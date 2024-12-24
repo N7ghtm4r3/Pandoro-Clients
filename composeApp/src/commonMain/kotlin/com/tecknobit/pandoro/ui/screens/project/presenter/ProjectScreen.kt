@@ -60,6 +60,8 @@ import com.tecknobit.pandoro.getCurrentSizeClass
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
+import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
+import com.tecknobit.pandoro.ui.components.NewPageProgressIndicator
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.project.components.ModalProjectStats
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectsStats
@@ -288,16 +290,9 @@ class ProjectScreen(
                         ),
                         themeColor = MaterialTheme.colorScheme.inversePrimary
                     )
-                }
-                // TODO: TO SET
-                /*firstPageProgressIndicator = { ... },
-                newPageProgressIndicator = { ... },*/
-                /*firstPageErrorIndicator = { e -> // from setError
-                    ... e.message ...
-                    ... onRetry = { paginationState.retryLastFailedRequest() } ...
                 },
-                newPageErrorIndicator = { e -> ... },
-                // The rest of LazyColumn params*/
+                firstPageProgressIndicator = { FirstPageProgressIndicator() },
+                newPageProgressIndicator = { NewPageProgressIndicator() }
             ) {
                 items(
                     items = viewModel!!.updatesState.allItems!!,

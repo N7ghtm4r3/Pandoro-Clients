@@ -6,7 +6,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.requester
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isContentNoteValid
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidVersion
 import kotlinx.coroutines.launch
@@ -15,7 +18,7 @@ import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.wrong_change_notes_list
 
 class ScheduleUpdateScreenViewModel(
-    projectId: String
+    private val projectId: String
 ) : EquinoxViewModel(
     snackbarHostState = SnackbarHostState()
 ) {
@@ -60,8 +63,17 @@ class ScheduleUpdateScreenViewModel(
             }
             return
         }
-        // TODO: MAKE THE REQUEST THEN
-        navigator.goBack()
+        requester.sendWRequest(
+            request = {
+                scheduleUpdate(
+                    projectId = projectId,
+                    targetVersion = targetVersion.value,
+                    updateChangeNotes = changeNotes
+                )
+            },
+            onSuccess = { navigator.goBack() },
+            onFailure = { showSnackbarMessage(it.toResponseContent()) }
+        )
     }
 
 }
