@@ -21,7 +21,6 @@ import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.IS_LAST_PAGE_KEY
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.PAGE_KEY
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.PAGE_SIZE_KEY
-import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandorocore.CHANGELOGS_KEY
 import com.tecknobit.pandorocore.CHANGELOG_IDENTIFIER_KEY
@@ -49,8 +48,10 @@ import com.tecknobit.pandorocore.helpers.PandoroEndpoints.ACCEPT_GROUP_INVITATIO
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.ADD_CHANGE_NOTE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.ADD_MEMBERS_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.AUTHORED_PROJECTS_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.CANDIDATE_GROUP_MEMBERS_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.CHANGE_MEMBER_ROLE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.CHANGE_NOTE_STATUS_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.COUNT_CANDIDATE_GROUP_MEMBERS_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.DECLINE_GROUP_INVITATION_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.EDIT_PROJECTS_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.IN_DEVELOPMENT_PROJECTS_ENDPOINT
@@ -129,7 +130,7 @@ open class PandoroRequester(
          * @param onConnectionError The action to execute if the request has been failed for a connection error
          */
         @Deprecated(
-            message = "TO REMOVE"
+            message = "TO MIGRATE"
         )
         fun <R : Requester> R.sendWRequest(
             request: R.() -> JsonObject,
@@ -153,7 +154,7 @@ open class PandoroRequester(
          * @param onConnectionError The action to execute if the request has been failed for a connection error
          */
         @Deprecated(
-            message = "TO REMOVE"
+            message = "TO MIGRATE"
         )
         fun <R : Requester> R.sendWRequest(
             request: R.() -> JsonObject,
@@ -184,7 +185,7 @@ open class PandoroRequester(
          * @param onConnectionError The action to execute if the request has been failed for a connection error
          */
         @Deprecated(
-            message = "TO REMOVE"
+            message = "TO MIGRATE"
         )
         fun <R : Requester, T> R.sendPaginatedWRequest(
             request: R.() -> JsonObject,
@@ -221,7 +222,7 @@ open class PandoroRequester(
          * @return whether the request has been successful or not as [StandardResponseCode]
          */
         @Deprecated(
-            message = "TO REMOVE"
+            message = "TO MIGRATE"
         )
         private fun isSuccessfulResponse(
             response: JsonObject?,
@@ -238,7 +239,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to get the projects list of the user where him/her is the author
+     * Method to execute the request to get the projects list of the user where him/her is the author
      *
      * @return the result of the request as [JsonObject]
      *
@@ -253,7 +254,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to get the projects list of the user
+     * Method to execute the request to get the projects list of the user
      *
      * @return the result of the request as [JsonObject]
      *
@@ -279,7 +280,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to get the projects list of the user
+     * Method to execute the request to get the projects list of the user
      *
      * @return the result of the request as [JsonObject]
      *
@@ -314,7 +315,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to add a new project or edit an exiting project
+     * Method to execute the request to add a new project or edit an exiting project
      *
      * @param icon The icon of the project
      * @param name The name of the project
@@ -340,7 +341,7 @@ open class PandoroRequester(
             put(NAME_KEY, name)
             put(PROJECT_DESCRIPTION_KEY, projectDescription)
             put(PROJECT_VERSION_KEY, projectVersion)
-            put(GROUPS_KEY, Json.encodeToJsonElement(groups))
+            put(GROUPS_KEY, groups.joinToString())
             put(PROJECT_REPOSITORY_KEY, projectRepository)
         }
         return if(projectId == null) {
@@ -357,7 +358,7 @@ open class PandoroRequester(
 
 
     /**
-     * Function to execute the request to add a new project of the user
+     * Method to execute the request to add a new project of the user
      *
      * @param payload The payload with the project details
      *
@@ -375,7 +376,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to edit an existing project of the user
+     * Method to execute the request to edit an existing project of the user
      *
      * @param projectId The project identifier
      * @param payload The payload with the project details
@@ -397,7 +398,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to get a project of the user
+     * Method to execute the request to get a project of the user
      *
      * @param projectId The project identifier of the project to fetch
      *
@@ -416,7 +417,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to delete a project of the user
+     * Method to execute the request to delete a project of the user
      *
      * @param projectId The project identifier of the project to delete
      *
@@ -435,7 +436,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to schedule a new update for a project
+     * Method to execute the request to schedule a new update for a project
      *
      * @param projectId The project identifier where schedule the new update
      * @param targetVersion The target version of the update
@@ -464,7 +465,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to start an existing update of a project
+     * Method to execute the request to start an existing update of a project
      *
      * @param projectId The project identifier where start an update
      * @param updateId The update identifier of the update to start
@@ -490,7 +491,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to publish an existing update of a project
+     * Method to execute the request to publish an existing update of a project
      *
      * @param projectId The project identifier where publish an update
      * @param updateId The update identifier of the update to publish
@@ -516,7 +517,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to add a new change note to an update
+     * Method to execute the request to add a new change note to an update
      *
      * @param projectId The project identifier
      * @param updateId The update identifier where add the change note
@@ -548,7 +549,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to mark a change note as done
+     * Method to execute the request to mark a change note as done
      *
      * @param projectId The project identifier
      * @param updateId The update identifier
@@ -576,7 +577,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to mark a change note as todo
+     * Method to execute the request to mark a change note as todo
      *
      * @param projectId The project identifier
      * @param updateId The update identifier
@@ -604,7 +605,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to delete change note of an update
+     * Method to execute the request to delete change note of an update
      *
      * @param projectId The project identifier
      * @param updateId The update identifier
@@ -632,7 +633,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to delete an update
+     * Method to execute the request to delete an update
      *
      * @param projectId The project identifier
      * @param updateId The update identifier to delete
@@ -700,7 +701,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to get the groups list of the user where him/her is the author
+     * Method to execute the request to get the groups list of the user where him/her is the author
      *
      * @return the result of the request as [JsonObject]
      *
@@ -721,7 +722,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to get the groups list of the user
+     * Method to execute the request to get the groups list of the user
      *
      * @return the result of the request as [JsonObject]
      *
@@ -748,7 +749,42 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to create a new group or edit an exiting group
+     *
+     * Method to execute the request to count the candidates member available
+     *
+     * @return the result of the request as [JsonObject]
+     */
+    fun countCandidatesMember() : JsonObject {
+        return execWGet(
+            endpoint = assembleUsersEndpointPath(
+                endpoint = COUNT_CANDIDATE_GROUP_MEMBERS_ENDPOINT
+            )
+        )
+    }
+
+    /**
+     *
+     * Method to execute the request to get the candidates member for a group
+     * @return the result of the request as [JsonObject]
+     */
+    fun getCandidateMembers(
+        page: Int = DEFAULT_PAGE,
+        pageSize: Int = DEFAULT_PAGE_SIZE,
+    ) : JsonObject {
+        val query = buildJsonObject {
+            put(PAGE_KEY, page)
+            put(PAGE_SIZE_KEY, pageSize)
+        }
+        return execWGet(
+            endpoint = assembleUsersEndpointPath(
+                endpoint = CANDIDATE_GROUP_MEMBERS_ENDPOINT
+            ),
+            query = query
+        )
+    }
+
+    /**
+     * Method to execute the request to create a new group or edit an exiting group
      *
      * @param groupId The identifier of the group
      * @param name The name of the group
@@ -765,14 +801,14 @@ open class PandoroRequester(
         name: String,
         description: String,
         members: List<GroupMember>,
-        projects: List<Project>
+        projects: List<String>
     ) : JsonObject {
         val payload = buildJsonObject {
             put(GROUP_LOGO_KEY, logo)
             put(NAME_KEY, name)
             put(GROUP_DESCRIPTION_KEY, description)
             put(GROUP_MEMBERS_KEY, members.joinToString { member -> member.id })
-            put(PROJECTS_KEY, projects.joinToString { project -> project.id })
+            put(PROJECTS_KEY, projects.joinToString())
         }
         return if(groupId == null) {
             createGroup(
@@ -787,7 +823,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to create a new group
+     * Method to execute the request to create a new group
      *
      * @param payload The payload with the group details
      *
@@ -805,7 +841,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to create a new group
+     * Method to execute the request to create a new group
      *
      * @param payload The payload with the group details
      *
@@ -826,7 +862,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to get a group of the user
+     * Method to execute the request to get a group of the user
      *
      * @param groupId The group identifier of the group to fetch
      *
@@ -845,7 +881,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to add members to a group
+     * Method to execute the request to add members to a group
      *
      * @param groupId The group identifier where add the members
      * @param members The list of the members to add
@@ -871,7 +907,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to accept a group invitation
+     * Method to execute the request to accept a group invitation
      *
      * @param groupId The group identifier of the group to accept the invitation
      * @param changelogId The changelog identifier to delete
@@ -897,7 +933,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to decline a group invitation
+     * Method to execute the request to decline a group invitation
      *
      * @param groupId The group identifier of the group to decline the invitation
      * @param changelogId The changelog identifier to delete
@@ -923,7 +959,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to change a role of a member of a group
+     * Method to execute the request to change a role of a member of a group
      *
      * @param groupId The group identifier of the group where change the role
      * @param memberId The identifier of the member to change the role
@@ -952,7 +988,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to remove a member from a group
+     * Method to execute the request to remove a member from a group
      *
      * @param groupId The group identifier of the group where change the role
      * @param memberId The identifier of the member to remove
@@ -978,7 +1014,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to edit a projects list of a group
+     * Method to execute the request to edit a projects list of a group
      *
      * @param groupId The group identifier of the group where edit the projects
      * @param projects The list of the projects for the group
@@ -1004,7 +1040,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to leave from a group
+     * Method to execute the request to leave from a group
      *
      * @param groupId The group identifier of the group from leave
      *
@@ -1024,7 +1060,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to delete a group
+     * Method to execute the request to delete a group
      *
      * @param groupId The group identifier of the group to delete
      *
@@ -1063,7 +1099,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to get the notes list of the user
+     * Method to execute the request to get the notes list of the user
      *
      * @return the result of the request as [JsonObject]
      *
@@ -1091,7 +1127,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to get the notes list of the user
+     * Method to execute the request to get the notes list of the user
      *
      * @return the result of the request as [JsonObject]
      *
@@ -1127,7 +1163,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to add a new note of the user
+     * Method to execute the request to add a new note of the user
      * @param contentNote The content of the new note to add
      *
      * @return the result of the request as [JsonObject]
@@ -1144,7 +1180,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to add a new note of the user
+     * Method to execute the request to add a new note of the user
      * @param contentNote The content of the new note to add
      *
      * @return the result of the request as [JsonObject]
@@ -1164,7 +1200,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to mark a user's note as done
+     * Method to execute the request to mark a user's note as done
      * @param noteId The note identifier to mark as done
      *
      * @return the result of the request as [JsonObject]
@@ -1188,7 +1224,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to delete a user's note
+     * Method to execute the request to delete a user's note
      * @param noteId The note identifier to delete
      *
      * @return the result of the request as [JsonObject]
@@ -1226,7 +1262,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to get the changelogs list of the user
+     * Method to execute the request to get the changelogs list of the user
      *
      * @return the result of the request as [JsonObject]
      *
@@ -1242,7 +1278,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to get the changelogs list of the user
+     * Method to execute the request to get the changelogs list of the user
      *
      * @return the result of the request as [JsonObject]
      *
@@ -1263,7 +1299,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to read a changelog
+     * Method to execute the request to read a changelog
      *
      * @param changelogId The changelog identifier to read
      *
@@ -1282,7 +1318,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to delete a changelog
+     * Method to execute the request to delete a changelog
      *
      * @param changelogId The changelog identifier to delete
      * @param groupId The group identifier where leave if is a [ChangelogEvent.INVITED_GROUP]

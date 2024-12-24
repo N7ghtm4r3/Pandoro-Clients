@@ -243,7 +243,7 @@ private fun validateSelfSignedCertificate(): Array<TrustManager> {
 }*/
 
 /**
- * Function to check whether are available any updates for each platform and then launch the application
+ * Method to check whether are available any updates for each platform and then launch the application
  * which the correct first screen to display
  *
  */
@@ -252,7 +252,7 @@ private fun validateSelfSignedCertificate(): Array<TrustManager> {
 expect fun CheckForUpdatesAndLaunch()
 
 /**
- * Function to init the local session and the related instances then start the user session
+ * Method to init the local session and the related instances then start the user session
  *
  */
 fun startSession() {
@@ -271,13 +271,13 @@ fun startSession() {
 }
 
 /**
- * Function to set locale language for the application
+ * Method to set locale language for the application
  *
  */
 expect fun setUserLanguage()
 
 /**
- * Function to manage correctly the back navigation from the current screen
+ * Method to manage correctly the back navigation from the current screen
  *
  */
 @Composable
@@ -285,7 +285,7 @@ expect fun setUserLanguage()
 expect fun CloseApplicationOnNavBack()
 
 /**
- * Function to get the current screen dimension of the device where the application is running
+ * Method to get the current screen dimension of the device where the application is running
  *
  *
  * @return the width size class based on the current dimension of the screen as [WindowWidthSizeClass]
@@ -296,7 +296,7 @@ fun getCurrentWidthSizeClass(): WindowWidthSizeClass {
 }
 
 /**
- * Function to get the current screen dimension of the device where the application is running
+ * Method to get the current screen dimension of the device where the application is running
  *
  *
  * @return the size class based on the current dimension of the screen as [WindowWidthSizeClass]
@@ -305,7 +305,7 @@ fun getCurrentWidthSizeClass(): WindowWidthSizeClass {
 expect fun getCurrentSizeClass(): WindowSizeClass
 
 /**
- * Function to get the image picture's path
+ * Method to get the image picture's path
  *
  * @param imagePic: the asset from fetch its path
  *

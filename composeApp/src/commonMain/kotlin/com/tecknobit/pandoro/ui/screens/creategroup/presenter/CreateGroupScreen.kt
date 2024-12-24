@@ -26,6 +26,7 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -50,6 +51,7 @@ import com.tecknobit.pandoro.ui.screens.group.components.GroupMembers
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.project.components.GroupProjectsCandidate
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectIcons
+import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isGroupDescriptionValid
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isGroupNameValid
@@ -165,7 +167,7 @@ class CreateGroupScreen(
                                     .weight(1f)
                             )
                         }
-                        if(viewModel!!.candidateMembersAvailable.value) {
+                        if(viewModel!!.candidatesMemberAvailable.value) {
                             GroupMembers(
                                 modifier = Modifier
                                     .weight(1.3f),
@@ -251,21 +253,27 @@ class CreateGroupScreen(
         modalBottomSheetState: SheetState,
         scope: CoroutineScope
     ) {
+        val projects: MutableList<Project> = remember { mutableListOf() }
+        LaunchedEffect(Unit) {
+            projects.addAll(viewModel!!.userProjects + viewModel!!.groupProjects)
+        }
         GroupProjectsCandidate(
             modalBottomSheetState = modalBottomSheetState,
             scope = scope,
-            projects = remember { viewModel!!.userProjects + viewModel!!.groupProjects },
+            projects = projects.distinctBy { project -> project.id },
             trailingContent = { project ->
-                if (viewModel!!.userProjects.contains(project)) {
+                if (viewModel!!.userProjects.any { checkProject -> checkProject.id == project.id }) {
                     var added by remember {
-                        mutableStateOf(viewModel!!.candidateProjects.contains(project.id))
+                        mutableStateOf(
+                            viewModel!!.candidateProjects.contains(project.id) ||
+                            viewModel!!.groupProjects.contains(project)
+                        )
                     }
                     Checkbox(
                         checked = added,
                         onCheckedChange = { selected ->
                             viewModel!!.manageProjectCandidate(
-                                project = project,
-                                added = selected
+                                project = project
                             )
                             added = selected
                         }
@@ -385,6 +393,7 @@ class CreateGroupScreen(
         super.onStart()
         viewModel!!.retrieveGroup()
         viewModel!!.retrieveUserProjects()
+        viewModel!!.countCandidatesMember()
     }
 
     @Composable
@@ -394,9 +403,6 @@ class CreateGroupScreen(
         item = viewModel!!.group.collectAsState()
         viewModel!!.groupNameError = remember { mutableStateOf(false) }
         viewModel!!.groupDescriptionError = remember { mutableStateOf(false) }
-        viewModel!!.candidateMembersAvailable = remember {
-            mutableStateOf(viewModel!!.retrieveCandidateMembers().isNotEmpty())
-        }
     }
 
 }

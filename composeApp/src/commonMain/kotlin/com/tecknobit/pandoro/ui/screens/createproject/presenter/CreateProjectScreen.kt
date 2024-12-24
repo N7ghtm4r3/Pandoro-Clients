@@ -29,6 +29,7 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -49,6 +50,7 @@ import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.ui.screens.createproject.presentation.CreateProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.group.components.GroupsProjectCandidate
+import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectDescription
@@ -415,21 +417,27 @@ class CreateProjectScreen(
         modalBottomSheetState: SheetState,
         scope: CoroutineScope
     ) {
+        val groups = remember { mutableListOf<Group>() }
+        LaunchedEffect(Unit) {
+            groups.addAll(viewModel!!.projectGroups + viewModel!!.authoredGroups)
+        }
         GroupsProjectCandidate(
             state = modalBottomSheetState,
             scope = scope,
-            groups = remember { viewModel!!.projectGroups + viewModel!!.authoredGroups }
+            groups = groups.distinctBy { group -> group.id }
         ) { group ->
-            if (viewModel!!.authoredGroups.contains(group)) {
+            if (viewModel!!.authoredGroups.any { groupToCheck -> groupToCheck.id == group.id }) {
                 var added by remember {
-                    mutableStateOf(viewModel!!.candidateGroups.contains(group.id))
+                    mutableStateOf(
+                        viewModel!!.candidateGroups.contains(group.id) ||
+                        viewModel!!.projectGroups.contains(group)
+                    )
                 }
                 Checkbox(
                     checked = added,
                     onCheckedChange = { selected ->
                         viewModel!!.manageCandidateGroup(
-                            group = group,
-                            added = selected
+                            group = group
                         )
                         added = selected
                     }

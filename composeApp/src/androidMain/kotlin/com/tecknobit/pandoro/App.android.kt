@@ -31,7 +31,7 @@ import java.util.Locale
 import kotlin.math.min
 
 /**
- * Function to check whether are available any updates for each platform and then launch the application
+ * Method to check whether are available any updates for each platform and then launch the application
  * which the correct first screen to display
  *
  */
@@ -55,7 +55,7 @@ actual fun CheckForUpdatesAndLaunch() {
 }
 
 /**
- * Function to get the current screen dimension of the device where the application is running
+ * Method to get the current screen dimension of the device where the application is running
  *
  *
  * @return the size class based on the current dimension of the screen as [WindowWidthSizeClass]
@@ -70,7 +70,7 @@ actual fun getCurrentSizeClass(): WindowSizeClass {
 }
 
 /**
- * Function to get the image picture's path
+ * Method to get the image picture's path
  *
  * @param imagePic: the asset from fetch its path
  *
@@ -89,7 +89,7 @@ actual fun getImagePath(
 }
 
 /**
- * Function to get the complete file path of an file
+ * Method to get the complete file path of an file
  *
  * @param context: the context where the file is needed
  * @param uri: the uri of the file
@@ -148,7 +148,7 @@ actual fun copyToClipboard(
 }
 
 /**
- * Function to manage correctly the back navigation from the current screen
+ * Method to manage correctly the back navigation from the current screen
  *
  */
 @NonRestartableComposable
@@ -161,7 +161,7 @@ actual fun CloseApplicationOnNavBack() {
 }
 
 /**
- * Function to set locale language for the application
+ * Method to set locale language for the application
  *
  */
 actual fun setUserLanguage() {

@@ -28,6 +28,7 @@ import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,14 +41,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
+import com.tecknobit.pandoro.ui.components.NewPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.project.components.GroupProjectsCandidate
+import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.color
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.GroupManagerViewModel
 import com.tecknobit.pandoro.ui.theme.Green
-import com.tecknobit.pandorocore.enums.Role
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -71,7 +74,7 @@ fun GroupActions(
                 viewModel = viewModel
             )
         }
-        if(viewModel.candidateMembersAvailable.value && userCanAddMembers) {
+        if(viewModel.candidatesMemberAvailable.value && userCanAddMembers) {
             val membersSheetState = rememberModalBottomSheetState()
             val membersScope = rememberCoroutineScope()
             FloatingActionButton(
@@ -128,21 +131,27 @@ private fun GroupProjects(
     scope: CoroutineScope,
     viewModel: GroupManagerViewModel
 ) {
+    val projects: MutableList<Project> = remember { mutableListOf() }
+    LaunchedEffect(Unit) {
+        projects.addAll(viewModel.userProjects + viewModel.groupProjects)
+    }
     GroupProjectsCandidate(
         modalBottomSheetState = modalBottomSheetState,
         scope = scope,
-        projects = remember { viewModel.userProjects + viewModel.groupProjects },
+        projects = projects.distinctBy { project -> project.id },
         trailingContent = { project ->
-            if (viewModel.userProjects.contains(project)) {
+            if (viewModel.userProjects.any { checkProject -> checkProject.id == project.id }) {
                 var added by remember {
-                    mutableStateOf(viewModel.candidateProjects.contains(project.id))
+                    mutableStateOf(
+                        viewModel.candidateProjects.contains(project.id) ||
+                                viewModel.groupProjects.contains(project)
+                    )
                 }
                 Checkbox(
                     checked = added,
                     onCheckedChange = { selected ->
                         viewModel.manageProjectCandidate(
-                            project = project,
-                            added = selected
+                            project = project
                         )
                         added = selected
                     }
@@ -187,18 +196,11 @@ fun GroupMembers(
         contentPadding = PaddingValues(
             vertical = 10.dp
         ),
-        firstPageEmptyIndicator = { viewModel.candidateMembersAvailable.value = false }
-        // TODO: TO SET
-        /*firstPageProgressIndicator = { ... },
-        newPageProgressIndicator = { ... },*/
-        /*firstPageErrorIndicator = { e -> // from setError
-            ... e.message ...
-            ... onRetry = { paginationState.retryLastFailedRequest() } ...
-        },
-        newPageErrorIndicator = { e -> ... },
-        // The rest of LazyColumn params*/
+        firstPageEmptyIndicator = { viewModel.candidatesMemberAvailable.value = false },
+        firstPageProgressIndicator = { FirstPageProgressIndicator() },
+        newPageProgressIndicator = { NewPageProgressIndicator() }
     ) {
-        viewModel.candidateMembersAvailable.value = true
+        viewModel.candidatesMemberAvailable.value = true
         items(
             items = viewModel.candidateMembersState.allItems!!,
             key = { member -> member.id }
@@ -229,12 +231,9 @@ private fun GroupMember(
             )
         },
         overlineContent = {
-            val role = if(viewModel.group.value != null)
-                viewModel.group.value!!.findMyRole()
-            else
-                Role.DEVELOPER
+            val role = member.role
             Text(
-                text = member.role.asText(),
+                text = role.asText(),
                 color = role.color()
             )
         },

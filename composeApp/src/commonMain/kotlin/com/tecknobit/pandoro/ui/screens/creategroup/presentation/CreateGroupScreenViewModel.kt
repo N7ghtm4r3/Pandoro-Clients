@@ -43,6 +43,7 @@ class CreateGroupScreenViewModel(
             onSuccess = {
                 _group.value = Json.decodeFromJsonElement(it.toResponseData())
                 groupProjects.addAll(_group.value!!.projects)
+                candidateProjects.addAll(groupProjects.map { project -> project.id })
                 groupMembers.addAll(_group.value!!.members)
             },
             onFailure = {
@@ -65,7 +66,7 @@ class CreateGroupScreenViewModel(
                     name = groupName.value,
                     description = groupDescription.value,
                     members = groupMembers,
-                    projects = groupProjects
+                    projects = candidateProjects
                 )
             },
             onSuccess = { navigator.goBack() },

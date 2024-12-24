@@ -159,7 +159,7 @@ class AuthScreenViewModel: EquinoxAuthViewModel(
     }
 
     /**
-     * Function to launch the application after the authentication request, will be instantiated with the user details
+     * Method to launch the application after the authentication request, will be instantiated with the user details
      * both the [requester] and the [localUser]
      *
      * @param response The response of the authentication request

@@ -15,12 +15,6 @@ class HomeScreenViewModel : EquinoxViewModel(
     snackbarHostState = SnackbarHostState()
 ) {
 
-    companion object {
-
-        private const val ONE_MINUTE = 60000L
-
-    }
-
     private val _unreadChangelog = MutableStateFlow(
         value = 0
     )
@@ -46,7 +40,7 @@ class HomeScreenViewModel : EquinoxViewModel(
                     }
                 )
             },
-            refreshDelay = ONE_MINUTE
+            refreshDelay = 5000L
         )
     }
 

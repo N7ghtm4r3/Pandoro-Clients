@@ -278,6 +278,7 @@ class GroupScreen(
         super.onStart()
         viewModel!!.retrieveGroup()
         viewModel!!.retrieveUserProjects()
+        viewModel!!.countCandidatesMember()
     }
 
     /**
@@ -286,9 +287,6 @@ class GroupScreen(
     @Composable
     override fun CollectStates() {
         item = viewModel!!.group.collectAsState()
-        viewModel!!.candidateMembersAvailable = remember {
-            mutableStateOf(viewModel!!.retrieveCandidateMembers().isNotEmpty())
-        }
     }
 
 }

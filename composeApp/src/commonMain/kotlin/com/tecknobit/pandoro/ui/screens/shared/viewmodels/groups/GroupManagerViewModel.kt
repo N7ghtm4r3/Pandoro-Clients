@@ -1,24 +1,31 @@
 package com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import com.tecknobit.equinoxbackend.Requester.Companion.RESPONSE_DATA_KEY
 import com.tecknobit.equinoxcore.annotations.Structure
-import com.tecknobit.equinoxcore.pagination.PaginatedResponse
+import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedWRequest
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseArrayData
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
-import com.tecknobit.pandorocore.enums.Role
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
-import kotlin.random.Random
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.long
 
 @Structure
 abstract class GroupManagerViewModel : BaseGroupViewModel() {
+
+    private val _candidatesMemberAvailable = MutableStateFlow(
+        value = false
+    )
+    var candidatesMemberAvailable: MutableStateFlow<Boolean> = _candidatesMemberAvailable
 
     val candidateProjects: SnapshotStateList<String> = mutableStateListOf()
 
@@ -27,15 +34,13 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
     val userProjects: MutableList<Project> = mutableListOf()
 
     val candidateMembersState = PaginationState<Int, GroupMember>(
-        initialPageKey = PaginatedResponse.DEFAULT_PAGE,
+        initialPageKey = DEFAULT_PAGE,
         onRequestPage = { page ->
             loadCandidateMembersState(
                 page = page
             )
         }
     )
-
-    lateinit var candidateMembersAvailable: MutableState<Boolean>
 
     val groupMembers: SnapshotStateList<GroupMember> = mutableStateListOf()
 
@@ -53,81 +58,47 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
     private fun loadCandidateMembersState(
         page: Int
     ) {
-        val list = retrieveCandidateMembers(
-            page = page
-        )
-        candidateMembersState.appendPage(
-            items = if(Random.nextBoolean())
-                list
-            else
-                emptyList(), // TODO: USE THE REAL VALUE
-            nextPageKey = page + 1, // TODO: USE THE REAL VALUE
-            isLastPage = Random.nextBoolean()  // TODO: USE THE REAL VALUE
+        requester.sendPaginatedWRequest(
+            request = {
+                getCandidateMembers(
+                    page = page
+                )
+            },
+            serializer = GroupMember.serializer(),
+            onSuccess = { paginatedResponse ->
+                candidateMembersState.appendPage(
+                    items = paginatedResponse.data,
+                    nextPageKey = paginatedResponse.nextPage,
+                    isLastPage = paginatedResponse.isLastPage
+                )
+            },
+            onFailure = { showSnackbarMessage(it.toResponseContent()) }
         )
     }
 
-    fun retrieveCandidateMembers(
-        page: Int = PaginatedResponse.DEFAULT_PAGE
-    ) : List<GroupMember> {
-        // TODO: MAKE THE REQUEST THEN
-        val list = listOf(
-            GroupMember(
-                id = Random.nextLong().toString(),
-                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
-                "name",
-                "surname",
-                email = "name.surname@gmail.com",
-                role = Role.ADMIN
-            ),
-
-            GroupMember(
-                id = Random.nextLong().toString(),
-                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
-                "name",
-                "surname",
-                email = "name.surname@gmail.com",
-                role = Role.ADMIN
-            ),
-
-            GroupMember(
-                id = Random.nextLong().toString(),
-                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
-                "name",
-                "surname",
-                email = "name.surname@gmail.com",
-                role = Role.ADMIN
-            ),
-
-            GroupMember(
-                id = Random.nextLong().toString(),
-                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
-                "name",
-                "surname",
-                email = "name.surname@gmail.com",
-                role = Role.ADMIN
-            ),
-            GroupMember(
-                id = Random.nextLong().toString(),
-                profilePic = "https://res.cloudinary.com/momentum-media-group-pty-ltd/image/upload/c_fill,q_auto:best,f_auto,e_unsharp_mask:80,w_830,h_478/Space%20Connect%2Fspace-exploration-sc_fm1ysf",
-                "name",
-                "surname",
-                email = "name.surname@gmail.com",
-                role = Role.DEVELOPER
-            )
+    fun countCandidatesMember() {
+        requester.sendWRequest(
+            request = {
+                countCandidatesMember()
+            },
+            onSuccess = { response ->
+                val count = response[RESPONSE_DATA_KEY]!!.jsonPrimitive.long
+                _candidatesMemberAvailable.value = count > 0
+            },
+            onFailure = { _candidatesMemberAvailable.value = false}
         )
-        return list
     }
 
     fun manageProjectCandidate(
-        project: Project,
-        added: Boolean
+        project: Project
     ) {
-        if(added) {
-            groupProjects.add(project)
-            candidateProjects.add(project.id)
+        val projectId = project.id
+        if(candidateProjects.contains(projectId)) {
+            groupProjects.removeIf { it.id == projectId }
+            candidateProjects.remove(projectId)
         } else {
-            groupProjects.remove(project)
-            candidateProjects.remove(project.id)
+            groupProjects.add(project)
+            candidateProjects.add(projectId)
         }
     }
 

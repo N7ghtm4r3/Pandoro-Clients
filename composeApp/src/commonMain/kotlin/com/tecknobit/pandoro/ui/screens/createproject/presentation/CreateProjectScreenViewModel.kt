@@ -58,6 +58,7 @@ class CreateProjectScreenViewModel(
             onSuccess = {
                 _project.value = Json.decodeFromJsonElement(it.toResponseData())
                 projectGroups.addAll(_project.value!!.groups)
+                candidateGroups.addAll(projectGroups.map { group -> group.id })
             },
             onFailure = { showSnackbarMessage(it.toResponseContent()) }
         )
@@ -81,16 +82,15 @@ class CreateProjectScreenViewModel(
     }
 
     fun manageCandidateGroup(
-        group: Group,
-        added: Boolean
+        group: Group
     ) {
         val groupId = group.id
-        if(added) {
-            candidateGroups.add(groupId)
-            projectGroups.add(group)
-        } else {
+        if(candidateGroups.contains(groupId)) {
             candidateGroups.remove(groupId)
             projectGroups.remove(group)
+        } else {
+            candidateGroups.add(groupId)
+            projectGroups.add(group)
         }
     }
 
