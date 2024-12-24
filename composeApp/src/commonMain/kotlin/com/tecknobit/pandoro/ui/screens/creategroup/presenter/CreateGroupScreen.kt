@@ -187,8 +187,8 @@ class CreateGroupScreen(
                 .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // TODO: CHECK IF THE localUser IS AN ADMIN OF THE GROUP
-            ManageGroupProjects()
+            if(!isEditing || item.value!!.iAmAnAdmin())
+                ManageGroupProjects()
             Column (
                 modifier = Modifier
                     .weight(1f),

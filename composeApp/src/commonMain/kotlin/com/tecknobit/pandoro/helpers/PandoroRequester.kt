@@ -21,6 +21,8 @@ import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.IS_LAST_PAGE_KEY
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.PAGE_KEY
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.PAGE_SIZE_KEY
+import com.tecknobit.pandoro.ui.screens.projects.data.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandorocore.CHANGELOGS_KEY
 import com.tecknobit.pandorocore.CHANGELOG_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.CONTENT_NOTE_KEY
@@ -46,6 +48,7 @@ import com.tecknobit.pandorocore.enums.Role
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.ACCEPT_GROUP_INVITATION_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.ADD_CHANGE_NOTE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.ADD_MEMBERS_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.AUTHORED_PROJECTS_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.CHANGE_MEMBER_ROLE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.CHANGE_NOTE_STATUS_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.DECLINE_GROUP_INVITATION_ENDPOINT
@@ -106,6 +109,11 @@ open class PandoroRequester(
         // TODO: TO REMOVE OR INTEGRATE IN THE EQUINOX LIBRARY
         fun JsonObject.toResponseData() : JsonObject {
             return this[RESPONSE_DATA_KEY]!!.jsonObject
+        }
+
+        // TODO: TO REMOVE OR INTEGRATE IN THE EQUINOX LIBRARY
+        fun JsonObject.toResponseArrayData() : JsonArray {
+            return this[RESPONSE_DATA_KEY]!!.jsonArray
         }
 
         // TODO: TO REMOVE OR INTEGRATE IN THE EQUINOX LIBRARY
@@ -227,6 +235,21 @@ open class PandoroRequester(
             }
         }
 
+    }
+
+    /**
+     * Function to execute the request to get the projects list of the user where him/her is the author
+     *
+     * @return the result of the request as [JsonObject]
+     *
+     */
+    @RequestPath(path = "/api/v1/users/{id}/projects/authored", method = GET)
+    fun getAuthoredProjects(): JsonObject {
+        return execWGet(
+            endpoint = createProjectEndpoint(
+                subEndpoint = AUTHORED_PROJECTS_ENDPOINT
+            )
+        )
     }
 
     /**
@@ -725,28 +748,79 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to execute the request to create a new group for the user
+     * Function to execute the request to create a new group or edit an exiting group
      *
+     * @param groupId The identifier of the group
      * @param name The name of the group
-     * @param groupDescription The description of the group
-     * @param members The list of members of the group
+     * @param description The description of the group
+     * @param members The members to add in the group
+     * @param projects The projects to share with the group
+     *
+     * @return the result of the request as [JsonObject]
+     *
+     */
+    fun workOnGroup(
+        groupId: String?,
+        logo: String?,
+        name: String,
+        description: String,
+        members: List<GroupMember>,
+        projects: List<Project>
+    ) : JsonObject {
+        val payload = buildJsonObject {
+            put(GROUP_LOGO_KEY, logo)
+            put(NAME_KEY, name)
+            put(GROUP_DESCRIPTION_KEY, description)
+            put(GROUP_MEMBERS_KEY, members.joinToString { member -> member.id })
+            put(PROJECTS_KEY, projects.joinToString { project -> project.id })
+        }
+        return if(groupId == null) {
+            createGroup(
+                payload = payload
+            )
+        } else {
+            editGroup(
+                groupId = groupId,
+                payload = payload
+            )
+        }
+    }
+
+    /**
+     * Function to execute the request to create a new group
+     *
+     * @param payload The payload with the group details
      *
      * @return the result of the request as [JsonObject]
      *
      */
     @RequestPath(path = "/api/v1/users/{id}/groups", method = POST)
-    fun createGroup(
-        name: String,
-        groupDescription: String,
-        members: List<String>
+    private fun createGroup(
+        payload: JsonObject
     ): JsonObject {
-        val payload = buildJsonObject {
-            put(NAME_KEY, name)
-            put(GROUP_DESCRIPTION_KEY, groupDescription)
-            put(GROUP_MEMBERS_KEY, Json.encodeToJsonElement(members))
-        }
-        return execWPost(
+        return execWMultipartRequest(
             endpoint = createGroupsEndpoint(),
+            payload = payload
+        )
+    }
+
+    /**
+     * Function to execute the request to create a new group
+     *
+     * @param payload The payload with the group details
+     *
+     * @return the result of the request as [JsonObject]
+     *
+     */
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}", method = POST)
+    private fun editGroup(
+        groupId: String,
+        payload: JsonObject
+    ): JsonObject {
+        return execWMultipartRequest(
+            endpoint = createGroupsEndpoint(
+                id = groupId
+            ),
             payload = payload
         )
     }
@@ -760,7 +834,9 @@ open class PandoroRequester(
      *
      */
     @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}", method = GET)
-    fun getGroup(groupId: String): JsonObject {
+    fun getGroup(
+        groupId: String
+    ): JsonObject {
         return execWGet(
             endpoint = createGroupsEndpoint(
                 id = groupId
