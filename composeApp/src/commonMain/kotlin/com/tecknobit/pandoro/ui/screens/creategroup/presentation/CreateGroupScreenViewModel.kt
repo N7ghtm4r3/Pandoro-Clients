@@ -34,44 +34,48 @@ class CreateGroupScreenViewModel(
     override fun retrieveGroup() {
         if(groupId == null)
             return
-        requester.sendWRequest(
-            request = {
-                getGroup(
-                    groupId = groupId
-                )
-            },
-            onSuccess = {
-                _group.value = Json.decodeFromJsonElement(it.toResponseData())
-                groupProjects.addAll(_group.value!!.projects)
-                candidateProjects.addAll(groupProjects.map { project -> project.id })
-                groupMembers.addAll(_group.value!!.members)
-            },
-            onFailure = {
-                showSnackbarMessage(it.toResponseContent())
-            }
-        )
+        viewModelScope.launch {
+            requester.sendWRequest(
+                request = {
+                    getGroup(
+                        groupId = groupId
+                    )
+                },
+                onSuccess = {
+                    _group.value = Json.decodeFromJsonElement(it.toResponseData())
+                    groupProjects.addAll(_group.value!!.projects)
+                    candidateProjects.addAll(groupProjects.map { project -> project.id })
+                    groupMembers.addAll(_group.value!!.members)
+                },
+                onFailure = {
+                    showSnackbarMessage(it.toResponseContent())
+                }
+            )
+        }
     }
 
     fun workOnGroup() {
         if(!validForm())
             return
-        requester.sendWRequest(
-            request = {
-                workOnGroup(
-                    groupId = groupId,
-                    logo = if(groupLogo.value == _group.value?.logo)
-                        ""
-                    else
-                        groupLogo.value,
-                    name = groupName.value,
-                    description = groupDescription.value,
-                    members = groupMembers,
-                    projects = candidateProjects
-                )
-            },
-            onSuccess = { navigator.goBack() },
-            onFailure = { showSnackbarMessage(it.toResponseContent())}
-        )
+        viewModelScope.launch {
+            requester.sendWRequest(
+                request = {
+                    workOnGroup(
+                        groupId = groupId,
+                        logo = if(groupLogo.value == _group.value?.logo)
+                            ""
+                        else
+                            groupLogo.value,
+                        name = groupName.value,
+                        description = groupDescription.value,
+                        members = groupMembers,
+                        projects = candidateProjects
+                    )
+                },
+                onSuccess = { navigator.goBack() },
+                onFailure = { showSnackbarMessage(it.toResponseContent())}
+            )
+        }
     }
 
     private fun validForm() : Boolean {

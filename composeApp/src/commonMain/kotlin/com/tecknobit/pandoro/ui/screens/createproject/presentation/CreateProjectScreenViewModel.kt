@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.ui.screens.createproject.presentation
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.lifecycle.viewModelScope
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedWRequest
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
@@ -15,6 +16,7 @@ import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectDe
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectName
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidRepository
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidVersion
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 
@@ -49,36 +51,40 @@ class CreateProjectScreenViewModel(
     override fun retrieveProject() {
         if(projectId == null)
             return
-        requester.sendWRequest(
-            request = {
-                getProject(
-                    projectId = projectId
-                )
-            },
-            onSuccess = {
-                _project.value = Json.decodeFromJsonElement(it.toResponseData())
-                projectGroups.addAll(_project.value!!.groups)
-                candidateGroups.addAll(projectGroups.map { group -> group.id })
-            },
-            onFailure = { showSnackbarMessage(it.toResponseContent()) }
-        )
+        viewModelScope.launch {
+            requester.sendWRequest(
+                request = {
+                    getProject(
+                        projectId = projectId
+                    )
+                },
+                onSuccess = {
+                    _project.value = Json.decodeFromJsonElement(it.toResponseData())
+                    projectGroups.addAll(_project.value!!.groups)
+                    candidateGroups.addAll(projectGroups.map { group -> group.id })
+                },
+                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+            )
+        }
     }
 
     fun retrieveAuthoredGroups() {
-        requester.sendPaginatedWRequest(
-            request = {
-                getAuthoredGroups(
-                    pageSize = Int.MAX_VALUE
-                )
-            },
-            serializer = Group.serializer(),
-            onSuccess = { paginatedResponse ->
-                authoredGroups.addAll(paginatedResponse.data)
-            },
-            onFailure = {
-                showSnackbarMessage(it.toResponseContent())
-            }
-        )
+        viewModelScope.launch {
+            requester.sendPaginatedWRequest(
+                request = {
+                    getAuthoredGroups(
+                        pageSize = Int.MAX_VALUE
+                    )
+                },
+                serializer = Group.serializer(),
+                onSuccess = { paginatedResponse ->
+                    authoredGroups.addAll(paginatedResponse.data)
+                },
+                onFailure = {
+                    showSnackbarMessage(it.toResponseContent())
+                }
+            )
+        }
     }
 
     fun manageCandidateGroup(
@@ -97,24 +103,26 @@ class CreateProjectScreenViewModel(
     fun workOnProject() {
         if(!isFormValid())
             return
-        requester.sendWRequest(
-            request = {
-                workOnProject(
-                    icon = if(projectIcon.value == _project.value?.icon)
-                        ""
-                    else
-                        projectIcon.value,
-                    projectId = projectId,
-                    name = projectName.value,
-                    projectDescription = projectDescription.value,
-                    projectVersion = projectVersion.value,
-                    groups = candidateGroups,
-                    projectRepository = projectRepository.value
-                )
-            },
-            onSuccess = { navigator.goBack() },
-            onFailure = { showSnackbarMessage(it.toResponseContent()) }
-        )
+        viewModelScope.launch {
+            requester.sendWRequest(
+                request = {
+                    workOnProject(
+                        icon = if(projectIcon.value == _project.value?.icon)
+                            ""
+                        else
+                            projectIcon.value,
+                        projectId = projectId,
+                        name = projectName.value,
+                        projectDescription = projectDescription.value,
+                        projectVersion = projectVersion.value,
+                        groups = candidateGroups,
+                        projectRepository = projectRepository.value
+                    )
+                },
+                onSuccess = { navigator.goBack() },
+                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+            )
+        }
     }
 
     private fun isFormValid() : Boolean {

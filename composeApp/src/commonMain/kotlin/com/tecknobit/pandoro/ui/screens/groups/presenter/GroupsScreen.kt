@@ -34,6 +34,9 @@ import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
+import com.tecknobit.pandoro.ui.components.NewHorizontalPageProgressIndicator
+import com.tecknobit.pandoro.ui.components.NewPageProgressIndicator
 import com.tecknobit.pandoro.ui.screens.groups.components.FilterGroups
 import com.tecknobit.pandoro.ui.screens.groups.components.GroupCard
 import com.tecknobit.pandoro.ui.screens.groups.components.MyGroupCard
@@ -99,16 +102,9 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
                         info = Res.string.empty_filtered_groups
                     )
                 }
-            }
-            // TODO: TO SET
-            /*firstPageProgressIndicator = { ... },
-            newPageProgressIndicator = { ... },*/
-            /*firstPageErrorIndicator = { e -> // from setError
-                ... e.message ...
-                ... onRetry = { paginationState.retryLastFailedRequest() } ...
             },
-            newPageErrorIndicator = { e -> ... },
-            // The rest of LazyColumn params*/
+            firstPageProgressIndicator = { FirstPageProgressIndicator() },
+            newPageProgressIndicator = { NewHorizontalPageProgressIndicator() }
         ) {
             items(
                 items = viewModel!!.myGroupsState.allItems!!,
@@ -146,16 +142,9 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
                             icon = Icons.Default.Groups3,
                             subText = Res.string.no_groups_available,
                         )
-                    }
-                    // TODO: TO SET
-                    /*firstPageProgressIndicator = { ... },
-                    newPageProgressIndicator = { ... },*/
-                    /*firstPageErrorIndicator = { e -> // from setError
-                        ... e.message ...
-                        ... onRetry = { paginationState.retryLastFailedRequest() } ...
                     },
-                    newPageErrorIndicator = { e -> ... },
-                    // The rest of LazyColumn params*/
+                    firstPageProgressIndicator = { FirstPageProgressIndicator() },
+                    newPageProgressIndicator = { NewPageProgressIndicator() }
                 ) {
                     items(
                         items = viewModel!!.allGroupsState.allItems!!,
@@ -188,16 +177,9 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
                             icon = Icons.Default.Groups3,
                             subText = Res.string.no_groups_available,
                         )
-                    }
-                    // TODO: TO SET
-                    /*firstPageProgressIndicator = { ... },
-                    newPageProgressIndicator = { ... },*/
-                    /*firstPageErrorIndicator = { e -> // from setError
-                        ... e.message ...
-                        ... onRetry = { paginationState.retryLastFailedRequest() } ...
                     },
-                    newPageErrorIndicator = { e -> ... },
-                    // The rest of LazyColumn params*/
+                    firstPageProgressIndicator = { FirstPageProgressIndicator() },
+                    newPageProgressIndicator = { NewPageProgressIndicator() }
                 ) {
                     items(
                         items = viewModel!!.allGroupsState.allItems!!,

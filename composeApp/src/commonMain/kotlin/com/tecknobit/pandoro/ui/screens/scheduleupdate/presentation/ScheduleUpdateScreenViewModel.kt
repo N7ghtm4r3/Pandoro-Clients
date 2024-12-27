@@ -63,17 +63,19 @@ class ScheduleUpdateScreenViewModel(
             }
             return
         }
-        requester.sendWRequest(
-            request = {
-                scheduleUpdate(
-                    projectId = projectId,
-                    targetVersion = targetVersion.value,
-                    updateChangeNotes = changeNotes
-                )
-            },
-            onSuccess = { navigator.goBack() },
-            onFailure = { showSnackbarMessage(it.toResponseContent()) }
-        )
+        viewModelScope.launch {
+            requester.sendWRequest(
+                request = {
+                    scheduleUpdate(
+                        projectId = projectId,
+                        targetVersion = targetVersion.value,
+                        updateChangeNotes = changeNotes
+                    )
+                },
+                onSuccess = { navigator.goBack() },
+                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+            )
+        }
     }
 
 }

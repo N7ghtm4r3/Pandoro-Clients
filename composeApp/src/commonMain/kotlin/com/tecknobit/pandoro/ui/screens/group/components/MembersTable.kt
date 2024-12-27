@@ -33,6 +33,7 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -48,6 +49,7 @@ import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.group.presentation.GroupScreenViewModel
+import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.color
@@ -79,9 +81,10 @@ private val developerHeaders = listOf(
 @Composable
 @NonRestartableComposable
 fun MembersTable(
-    viewModel: GroupScreenViewModel
+    viewModel: GroupScreenViewModel,
+    group: State<Group?>
 ) {
-    val currentUserIsMaintainer = viewModel.group.value!!.iAmAMaintainer()
+    val currentUserIsMaintainer = group.value!!.iAmAMaintainer()
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -103,6 +106,7 @@ fun MembersTable(
             )
             TableContent(
                 viewModel = viewModel,
+                group = group,
                 currentUserIsMaintainer = currentUserIsMaintainer
             )
         }
@@ -152,11 +156,12 @@ private fun TableHeader(
 @NonRestartableComposable
 private fun TableContent(
     viewModel: GroupScreenViewModel,
+    group: State<Group?>,
     currentUserIsMaintainer: Boolean
 ) {
     LazyColumn {
         items(
-            items = viewModel.group.value!!.members,
+            items = group.value!!.members,
             key = { member -> member.id }
         ) { member ->
             Row (

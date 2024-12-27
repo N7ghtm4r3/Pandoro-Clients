@@ -141,7 +141,8 @@ class GroupScreen(
         when {
             widthClass == Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
                 MembersTable(
-                    viewModel = viewModel!!
+                    viewModel = viewModel!!,
+                    group = item
                 )
             }
             widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
@@ -149,7 +150,8 @@ class GroupScreen(
             }
             widthClass == Expanded && heightClass == WindowHeightSizeClass.Medium -> {
                 MembersTable(
-                    viewModel = viewModel!!
+                    viewModel = viewModel!!,
+                    group = item
                 )
             }
             widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {

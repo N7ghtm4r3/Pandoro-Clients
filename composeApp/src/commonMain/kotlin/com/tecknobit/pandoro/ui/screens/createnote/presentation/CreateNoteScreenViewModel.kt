@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.ui.screens.createnote.presentation
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.MutableState
+import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
@@ -11,6 +12,7 @@ import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 
@@ -31,39 +33,43 @@ class CreateNoteScreenViewModel(
 
     fun retrieveNote() {
         noteId?.let {
+            viewModelScope.launch {
+                requester.sendWRequest(
+                    request = {
+                        getNote(
+                            noteId = noteId
+                        )
+                    },
+                    onSuccess = {
+                        _note.value = Json.decodeFromJsonElement(it.toResponseData())
+                    },
+                    onFailure = {
+                        showSnackbarMessage(it.toResponseContent())
+                    }
+                )
+            }
+        }
+    }
+
+    fun saveNote() {
+        viewModelScope.launch {
             requester.sendWRequest(
                 request = {
-                    getNote(
-                        noteId = noteId
+                    workOnNote(
+                        noteId = noteId,
+                        projectId = projectId,
+                        updateId = updateId,
+                        contentNote = content.value
                     )
                 },
                 onSuccess = {
-                    _note.value = Json.decodeFromJsonElement(it.toResponseData())
+                    navigator.goBack()
                 },
                 onFailure = {
                     showSnackbarMessage(it.toResponseContent())
                 }
             )
         }
-    }
-
-    fun saveNote() {
-        requester.sendWRequest(
-            request = {
-                workOnNote(
-                    noteId = noteId,
-                    projectId = projectId,
-                    updateId = updateId,
-                    contentNote = content.value
-                )
-            },
-            onSuccess = {
-                navigator.goBack()
-            },
-            onFailure = {
-                 showSnackbarMessage(it.toResponseContent())
-            }
-        )
     }
 
 }
