@@ -212,7 +212,7 @@
     <string name="yet_to_complete">Ancora da completare</string>
     <string name="note_created">Appunto creato</string>
     <plurals name="note_completed_in">
-        <item formatted="false" quantity="one">Appunto completat in %1$d giorno</item>
+        <item formatted="false" quantity="one">Appunto completato in %1$d giorno</item>
         <item formatted="false" quantity="other">Appunto completato in %1$d giorni</item>
     </plurals>
     <string name="not_available">Non disponibile</string>

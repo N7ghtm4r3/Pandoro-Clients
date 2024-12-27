@@ -528,7 +528,8 @@ private fun ViewChangeNotes(
                                 viewModel = viewModel,
                                 project = project,
                                 update = update,
-                                note = note
+                                note = note,
+                                allowedToChangeStatus = update.status == IN_DEVELOPMENT
                             )
                         }
                     }
@@ -559,7 +560,8 @@ private fun ViewChangeNotes(
                                 viewModel = viewModel,
                                 update = update,
                                 project = project,
-                                note = note
+                                note = note,
+                                allowedToChangeStatus = update.status == IN_DEVELOPMENT
                             )
                         }
                     }
@@ -572,7 +574,8 @@ private fun ViewChangeNotes(
                     containerColor = MaterialTheme.colorScheme.primary,
                     onClick = {
                         navigator.navigate(
-                            route = "$CREATE_CHANGE_NOTE_SCREEN/${update.id}/${update.targetVersion}"
+                            route = "$CREATE_CHANGE_NOTE_SCREEN/${project.id}/${update.id}" +
+                                    "/${update.targetVersion}"
                         )
                     }
                 ) {

@@ -168,13 +168,15 @@ fun App() {
                 ).ShowContent()
             }
             scene(
-                route = "$CREATE_CHANGE_NOTE_SCREEN/{${UPDATE_IDENTIFIER_KEY}}" +
+                route = "$CREATE_CHANGE_NOTE_SCREEN/{${PROJECT_IDENTIFIER_KEY}}/{${UPDATE_IDENTIFIER_KEY}}" +
                         "/{${UPDATE_TARGET_VERSION_KEY}}/{$NOTE_IDENTIFIER_KEY}?"
             ) { backstackEntry ->
+                val projectId: String = backstackEntry.path<String>(PROJECT_IDENTIFIER_KEY)!!
                 val updateId: String = backstackEntry.path<String>(UPDATE_IDENTIFIER_KEY)!!
                 val targetVersion: String = backstackEntry.path<String>(UPDATE_TARGET_VERSION_KEY)!!
                 val noteId: String? = backstackEntry.path<String>(NOTE_IDENTIFIER_KEY)
                 CreateNoteScreen(
+                    projectId = projectId,
                     updateId = updateId,
                     targetVersion = targetVersion,
                     noteId = noteId

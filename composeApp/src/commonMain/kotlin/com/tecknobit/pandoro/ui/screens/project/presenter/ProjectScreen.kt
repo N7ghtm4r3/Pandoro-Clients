@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AreaChart
@@ -60,8 +61,6 @@ import com.tecknobit.pandoro.getCurrentSizeClass
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
-import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
-import com.tecknobit.pandoro.ui.components.NewPageProgressIndicator
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.project.components.ModalProjectStats
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectsStats
@@ -75,7 +74,6 @@ import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.shared.screens.ItemScreen
 import com.tecknobit.pandorocore.enums.RepositoryPlatform
 import com.tecknobit.pandorocore.enums.UpdateStatus
-import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import pandoro.composeapp.generated.resources.Res
@@ -276,35 +274,34 @@ class ProjectScreen(
             header = Res.string.updates,
             filtersContent = { Filters() }
         ) {
-            PaginatedLazyColumn(
-                modifier = Modifier
-                    .animateContentSize(),
-                paginationState = viewModel!!.updatesState,
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                firstPageEmptyIndicator = {
-                    EmptyListUI(
-                        icon = CalendarPlus,
-                        subText = Res.string.no_updates_scheduled,
-                        textStyle = TextStyle(
-                            fontFamily = bodyFontFamily
-                        ),
-                        themeColor = MaterialTheme.colorScheme.inversePrimary
-                    )
-                },
-                firstPageProgressIndicator = { FirstPageProgressIndicator() },
-                newPageProgressIndicator = { NewPageProgressIndicator() }
-            ) {
-                items(
-                    items = viewModel!!.updatesState.allItems!!,
-                    key = { update -> update.id }
-                ) { update ->
-                    UpdateCard(
-                        viewModel = viewModel!!,
-                        project = item.value!!,
-                        update = update,
-                        viewChangeNotesFlag = updateToExpandId != null && update.id == updateToExpandId
-                    )
+            val updates = viewModel!!.arrangeUpdatesList()
+            if(updates.isNotEmpty()) {
+                LazyColumn (
+                    modifier = Modifier
+                        .animateContentSize(),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(
+                        items = item.value!!.updates,
+                        key = { update -> update.id }
+                    ) { update ->
+                        UpdateCard(
+                            viewModel = viewModel!!,
+                            project = item.value!!,
+                            update = update,
+                            viewChangeNotesFlag = updateToExpandId != null && update.id == updateToExpandId
+                        )
+                    }
                 }
+            } else {
+                EmptyListUI(
+                    icon = CalendarPlus,
+                    subText = Res.string.no_updates_scheduled,
+                    textStyle = TextStyle(
+                        fontFamily = bodyFontFamily
+                    ),
+                    themeColor = MaterialTheme.colorScheme.inversePrimary
+                )
             }
         }
     }

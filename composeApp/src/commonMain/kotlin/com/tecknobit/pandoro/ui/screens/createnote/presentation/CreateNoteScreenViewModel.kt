@@ -15,6 +15,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 
 class CreateNoteScreenViewModel(
+    private val projectId: String?,
     private val updateId: String?,
     private val noteId: String?
 ) : EquinoxViewModel(
@@ -51,6 +52,8 @@ class CreateNoteScreenViewModel(
             request = {
                 workOnNote(
                     noteId = noteId,
+                    projectId = projectId,
+                    updateId = updateId,
                     contentNote = content.value
                 )
             },

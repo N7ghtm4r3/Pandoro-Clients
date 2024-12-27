@@ -516,36 +516,25 @@ open class PandoroRequester(
         )
     }
 
-    /**
-     * Method to execute the request to add a new change note to an update
-     *
-     * @param projectId The project identifier
-     * @param updateId The update identifier where add the change note
-     * @param changeNote The content of the change note to add
-     *
-     * @return the result of the request as [JsonObject]
-     *
-     */
-    @RequestPath(
-        path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/addChangeNote",
-        method = PUT
-    )
-    fun addChangeNote(
+    fun workOnChangeNoteStatus(
         projectId: String,
         updateId: String,
-        changeNote: String
-    ): JsonObject {
-        val payload = buildJsonObject {
-            put(CONTENT_NOTE_KEY, changeNote)
-        }
-        return execWPut(
-            endpoint = createUpdatesEndpoint(
-                subEndpoint = ADD_CHANGE_NOTE_ENDPOINT,
+        changeNoteId: String,
+        completed: Boolean
+    ) : JsonObject {
+        return if(completed) {
+            markChangeNoteAsDone(
                 projectId = projectId,
-                updateId = updateId
-            ),
-            payload = payload
-        )
+                updateId = updateId,
+                changeNoteId = changeNoteId
+            )
+        } else {
+            markChangeNoteAsToDo(
+                projectId = projectId,
+                updateId = updateId,
+                changeNoteId = changeNoteId
+            )
+        }
     }
 
     /**
@@ -562,7 +551,7 @@ open class PandoroRequester(
         path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}/markChangeNoteAsDone",
         method = PATCH
     )
-    fun markChangeNoteAsDone(
+    private fun markChangeNoteAsDone(
         projectId: String,
         updateId: String,
         changeNoteId: String
@@ -590,7 +579,7 @@ open class PandoroRequester(
         path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}/markChangeNoteAsToDo",
         method = PATCH
     )
-    fun markChangeNoteAsToDo(
+    private fun markChangeNoteAsToDo(
         projectId: String,
         updateId: String,
         changeNoteId: String
@@ -1145,26 +1134,45 @@ open class PandoroRequester(
 
     fun workOnNote(
         noteId: String?,
+        projectId: String?,
+        updateId: String?,
         contentNote: String
     ) : JsonObject {
         val payload = buildJsonObject {
             put(CONTENT_NOTE_KEY, contentNote)
         }
         return if(noteId == null) {
-            addNote(
-                payload = payload
-            )
+            if(updateId == null) {
+                addNote(
+                    payload = payload
+                )
+            } else {
+                addChangeNote(
+                    projectId = projectId!!,
+                    updateId = updateId,
+                    payload = payload
+                )
+            }
         } else {
-            editNote(
-                noteId = noteId,
-                payload = payload
-            )
+            if(updateId == null) {
+                editNote(
+                    noteId = noteId,
+                    payload = payload
+                )
+            } else {
+                editChangeNote(
+                    projectId = projectId!!,
+                    updateId = updateId,
+                    noteId = noteId,
+                    payload = payload
+                )
+            }
         }
     }
 
     /**
      * Method to execute the request to add a new note of the user
-     * @param contentNote The content of the new note to add
+     * @param payload The content of the new note to add
      *
      * @return the result of the request as [JsonObject]
      *
@@ -1181,7 +1189,8 @@ open class PandoroRequester(
 
     /**
      * Method to execute the request to add a new note of the user
-     * @param contentNote The content of the new note to add
+     * @param noteId The identifier of the note to edit
+     * @param payload The content of the existing note to edit
      *
      * @return the result of the request as [JsonObject]
      *
@@ -1194,6 +1203,66 @@ open class PandoroRequester(
         return execWPatch(
             endpoint = createNotesEndpoint(
                 id = noteId
+            ),
+            payload = payload
+        )
+    }
+
+    /**
+     * Method to execute the request to add a new change note to an update
+     *
+     * @param projectId The project identifier
+     * @param updateId The update identifier where add the change note
+     * @param payload The content of the change note to add
+     *
+     * @return the result of the request as [JsonObject]
+     *
+     */
+    @RequestPath(
+        path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/addChangeNote",
+        method = PUT
+    )
+    fun addChangeNote(
+        projectId: String,
+        updateId: String,
+        payload: JsonObject
+    ): JsonObject {
+        return execWPut(
+            endpoint = createUpdatesEndpoint(
+                subEndpoint = ADD_CHANGE_NOTE_ENDPOINT,
+                projectId = projectId,
+                updateId = updateId
+            ),
+            payload = payload
+        )
+    }
+
+    /**
+     * Method to execute the request to edit an existing change note of an update
+     *
+     * @param projectId The project identifier
+     * @param updateId The update identifier where add the change note
+     * @param noteId The note identifier of the note to edit
+     * @param payload The content of the change note to add
+     *
+     * @return the result of the request as [JsonObject]
+     *
+     */
+    @RequestPath(
+        path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}",
+        method = PATCH
+    )
+    fun editChangeNote(
+        projectId: String,
+        updateId: String,
+        noteId: String,
+        payload: JsonObject
+    ): JsonObject {
+        return execWPatch(
+            endpoint = createUpdatesEndpoint(
+                subEndpoint = "/$NOTES_KEY/$noteId",
+                projectId = projectId,
+                updateId = updateId
             ),
             payload = payload
         )

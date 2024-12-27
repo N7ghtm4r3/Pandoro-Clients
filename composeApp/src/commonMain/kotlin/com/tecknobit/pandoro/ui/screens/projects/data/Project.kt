@@ -75,6 +75,8 @@ data class Project(
 
     fun calculateAverageDaysPerUpdate() : Double {
         val publishedUpdateNumber = getPublishedUpdates().size
+        if(publishedUpdateNumber == 0)
+            return 0.0
         return (calculateTotalDevelopmentDays() / publishedUpdateNumber).toDouble()
     }
 

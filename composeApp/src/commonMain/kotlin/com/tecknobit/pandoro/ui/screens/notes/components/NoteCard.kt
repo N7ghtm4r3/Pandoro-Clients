@@ -115,7 +115,8 @@ fun ChangeNoteCard(
     viewModel: ProjectScreenViewModel,
     project: Project,
     update: ProjectUpdate,
-    note: Note
+    note: Note,
+    allowedToChangeStatus: Boolean
 ) {
     NoteCardContent(
         modifier = modifier,
@@ -125,12 +126,14 @@ fun ChangeNoteCard(
         viewModel = viewModel,
         noteShared = project.isSharedWithGroups(),
         update = update,
+        allowedToChangeStatus = allowedToChangeStatus,
         allowDeletion = update.status != PUBLISHED,
         note = note,
         onDoubleClick = if(!note.markedAsDone) {
             {
                 navigator.navigate(
-                    route = "$CREATE_CHANGE_NOTE_SCREEN/${update.id}/${update.targetVersion}/${note.id}"
+                    route = "$CREATE_CHANGE_NOTE_SCREEN/${project.id}/${update.id}" +
+                            "/${update.targetVersion}/${note.id}"
                 )
             }
         } else
@@ -148,6 +151,7 @@ private fun NoteCardContent(
     allowDeletion: Boolean = true,
     update: ProjectUpdate? = null,
     note: Note,
+    allowedToChangeStatus: Boolean = true,
     onDoubleClick: (() -> Unit)?,
     onDelete: () -> Unit = {}
 ) {
@@ -208,6 +212,7 @@ private fun NoteCardContent(
             viewModel = viewModel,
             update = update,
             note = note,
+            allowedToChangeStatus = allowedToChangeStatus,
             onDelete = onDelete,
             allowDeletion = allowDeletion
         )
@@ -226,6 +231,7 @@ private fun NoteActions(
     viewModel: EquinoxViewModel,
     update: ProjectUpdate?,
     note: Note,
+    allowedToChangeStatus: Boolean,
     onDelete: () -> Unit,
     allowDeletion: Boolean
 ) {
@@ -236,6 +242,7 @@ private fun NoteActions(
         verticalAlignment = Alignment.Bottom
     ) {
         IconButton(
+            enabled = allowedToChangeStatus,
             onClick = {
                 (viewModel as NotesManager).manageNoteStatus(
                     update = update,

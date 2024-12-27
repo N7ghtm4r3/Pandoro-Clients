@@ -45,12 +45,14 @@ import pandoro.composeapp.generated.resources.edit_change_note_of_update
 import pandoro.composeapp.generated.resources.edit_note
 
 class CreateNoteScreen(
+    private val projectId: String? = null,
     private val updateId: String? = null,
     private val targetVersion: String? = null,
     noteId: String?
 ) : CreateScreen<Note, CreateNoteScreenViewModel>(
     itemId = noteId,
     viewModel = CreateNoteScreenViewModel(
+        projectId = projectId,
         updateId = updateId,
         noteId = noteId
     )
