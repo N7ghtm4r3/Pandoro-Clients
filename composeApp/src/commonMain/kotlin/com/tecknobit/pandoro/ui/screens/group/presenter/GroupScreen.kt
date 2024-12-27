@@ -274,7 +274,7 @@ class GroupScreen(
     override fun FabAction() {
         GroupActions(
             viewModel = viewModel!!,
-            userCanAddProjects = item.value!!.iAmAnAdmin(),
+            userCanAddProjects = item.value!!.iAmAnAdmin() && viewModel!!.userProjects.isNotEmpty(),
             projectsOnDismissAction = { viewModel!!.editProjects() },
             userCanAddMembers = item.value!!.iAmAMaintainer() && candidatesAvailable.value,
             membersOnDismissAction = { viewModel!!.addMembers() }

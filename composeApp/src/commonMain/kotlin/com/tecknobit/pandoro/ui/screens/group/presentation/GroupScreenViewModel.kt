@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalPaginationApi::class)
-
 package com.tecknobit.pandoro.ui.screens.group.presentation
 
 import androidx.lifecycle.viewModelScope
@@ -15,7 +13,6 @@ import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.BaseGroupViewModel.GroupDeleter
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.GroupManagerViewModel
 import com.tecknobit.pandorocore.enums.Role
-import io.github.ahmad_hamwi.compose.pagination.ExperimentalPaginationApi
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -91,7 +88,7 @@ class GroupScreenViewModel(
                 request = {
                     editProjects(
                         groupId = groupId,
-                        projects = groupProjects.map { project -> project.id }
+                        projects = candidateProjects
                     )
                 },
                 onSuccess = {

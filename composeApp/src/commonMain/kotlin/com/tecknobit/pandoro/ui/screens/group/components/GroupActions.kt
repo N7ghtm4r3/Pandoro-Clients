@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CreateNewFolder
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -28,7 +27,6 @@ import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,8 +42,8 @@ import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.NewPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.Thumbnail
+import com.tecknobit.pandoro.ui.icons.FolderManaged
 import com.tecknobit.pandoro.ui.screens.project.components.GroupProjectsCandidate
-import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.color
@@ -118,7 +116,7 @@ private fun AttachProjectsButton(
         }
     ) {
         Icon(
-            imageVector = Icons.Default.CreateNewFolder,
+            imageVector = FolderManaged,
             contentDescription = null
         )
     }
@@ -138,22 +136,15 @@ private fun GroupProjects(
     viewModel: GroupManagerViewModel,
     projectsOnDismissAction: (() -> Unit)? = null,
 ) {
-    val projects: MutableList<Project> = remember { mutableListOf() }
-    LaunchedEffect(Unit) {
-        projects.addAll(viewModel.userProjects + viewModel.groupProjects)
-    }
     GroupProjectsCandidate(
         extraOnDismissAction = projectsOnDismissAction,
         modalBottomSheetState = modalBottomSheetState,
         scope = scope,
-        projects = projects.distinctBy { project -> project.id },
+        projects = viewModel.userProjects,
         trailingContent = { project ->
             if (viewModel.userProjects.any { checkProject -> checkProject.id == project.id }) {
                 var added by remember {
-                    mutableStateOf(
-                        viewModel.candidateProjects.contains(project.id) ||
-                                viewModel.groupProjects.contains(project)
-                    )
+                    mutableStateOf(viewModel.candidateProjects.contains(project.id))
                 }
                 Checkbox(
                     checked = added,
