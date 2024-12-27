@@ -70,7 +70,6 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
@@ -1027,7 +1026,7 @@ open class PandoroRequester(
         projects: List<String>
     ): JsonObject {
         val payload = buildJsonObject {
-            put(PROJECTS_KEY, Json.encodeToJsonElement(projects))
+            put(PROJECTS_KEY, projects.joinToString())
         }
         return execWPatch(
             endpoint = createGroupsEndpoint(

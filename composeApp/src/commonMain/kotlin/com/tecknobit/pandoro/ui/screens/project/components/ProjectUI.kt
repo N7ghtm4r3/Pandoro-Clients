@@ -141,6 +141,7 @@ fun ProjectIcons(
 @Composable
 @NonRestartableComposable
 fun GroupProjectsCandidate(
+    extraOnDismissAction: (() -> Unit)? = null,
     modalBottomSheetState: SheetState,
     scope: CoroutineScope,
     projects: List<Project>,
@@ -149,6 +150,7 @@ fun GroupProjectsCandidate(
     ProjectsListExpanded(
         modalBottomSheetState = modalBottomSheetState,
         scope = scope,
+        extraOnDismissAction = extraOnDismissAction,
         projects = projects,
         trailingContent = trailingContent
     )
@@ -160,11 +162,13 @@ private fun ProjectsListExpanded(
     modalBottomSheetState: SheetState,
     scope: CoroutineScope,
     projects: List<Project>,
+    extraOnDismissAction: (() -> Unit)? = null,
     trailingContent: @Composable (Project) -> Unit
 ) {
     if(modalBottomSheetState.isVisible) {
         ModalBottomSheet(
             onDismissRequest = {
+                extraOnDismissAction?.invoke()
                 scope.launch {
                     modalBottomSheetState.hide()
                 }

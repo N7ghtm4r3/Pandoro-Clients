@@ -85,6 +85,22 @@ class GroupScreenViewModel(
         }
     }
 
+    fun editProjects() {
+        viewModelScope.launch {
+            requester.sendWRequest(
+                request = {
+                    editProjects(
+                        groupId = groupId,
+                        projects = groupProjects.map { project -> project.id }
+                    )
+                },
+                onSuccess = {
+                },
+                onFailure = { showSnackbarMessage(it.toResponseContent())}
+            )
+        }
+    }
+
     fun removeMember(
         member: GroupMember
     ) {

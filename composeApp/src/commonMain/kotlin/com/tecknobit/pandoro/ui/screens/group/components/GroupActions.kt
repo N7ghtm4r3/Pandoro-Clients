@@ -63,8 +63,9 @@ import pandoro.composeapp.generated.resources.remove
 @NonRestartableComposable
 fun GroupActions(
     viewModel: GroupManagerViewModel,
+    projectsOnDismissAction: (() -> Unit)? = null,
     userCanAddProjects: Boolean = true,
-    groupMembersOnDismissAction: (() -> Unit)? = null,
+    membersOnDismissAction: (() -> Unit)? = null,
     userCanAddMembers: Boolean = true
 ) {
     Column(
@@ -72,7 +73,8 @@ fun GroupActions(
     ) {
         if(viewModel.userProjects.isNotEmpty() && userCanAddProjects) {
             AttachProjectsButton(
-                viewModel = viewModel
+                viewModel = viewModel,
+                projectsOnDismissAction = projectsOnDismissAction
             )
         }
         if(viewModel.candidatesMemberAvailable.value && userCanAddMembers) {
@@ -94,7 +96,7 @@ fun GroupActions(
                 modalBottomSheetState = membersSheetState,
                 scope = membersScope,
                 viewModel = viewModel,
-                extraOnDismissAction = groupMembersOnDismissAction
+                extraOnDismissAction = membersOnDismissAction
             )
         }
     }
@@ -103,7 +105,8 @@ fun GroupActions(
 @Composable
 @NonRestartableComposable
 private fun AttachProjectsButton(
-    viewModel: GroupManagerViewModel
+    viewModel: GroupManagerViewModel,
+    projectsOnDismissAction: (() -> Unit)? = null,
 ) {
     val projectsSheetState = rememberModalBottomSheetState()
     val projectsScope = rememberCoroutineScope()
@@ -122,7 +125,8 @@ private fun AttachProjectsButton(
     GroupProjects(
         modalBottomSheetState = projectsSheetState,
         scope = projectsScope,
-        viewModel = viewModel
+        viewModel = viewModel,
+        projectsOnDismissAction = projectsOnDismissAction
     )
 }
 
@@ -131,13 +135,15 @@ private fun AttachProjectsButton(
 private fun GroupProjects(
     modalBottomSheetState: SheetState,
     scope: CoroutineScope,
-    viewModel: GroupManagerViewModel
+    viewModel: GroupManagerViewModel,
+    projectsOnDismissAction: (() -> Unit)? = null,
 ) {
     val projects: MutableList<Project> = remember { mutableListOf() }
     LaunchedEffect(Unit) {
         projects.addAll(viewModel.userProjects + viewModel.groupProjects)
     }
     GroupProjectsCandidate(
+        extraOnDismissAction = projectsOnDismissAction,
         modalBottomSheetState = modalBottomSheetState,
         scope = scope,
         projects = projects.distinctBy { project -> project.id },

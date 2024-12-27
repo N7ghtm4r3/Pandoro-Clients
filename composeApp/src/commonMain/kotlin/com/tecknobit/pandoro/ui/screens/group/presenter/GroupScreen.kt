@@ -275,10 +275,9 @@ class GroupScreen(
         GroupActions(
             viewModel = viewModel!!,
             userCanAddProjects = item.value!!.iAmAnAdmin(),
-            groupMembersOnDismissAction = {
-                viewModel!!.addMembers()
-            },
-            userCanAddMembers = item.value!!.iAmAMaintainer() && candidatesAvailable.value
+            projectsOnDismissAction = { viewModel!!.editProjects() },
+            userCanAddMembers = item.value!!.iAmAMaintainer() && candidatesAvailable.value,
+            membersOnDismissAction = { viewModel!!.addMembers() }
         )
     }
 
