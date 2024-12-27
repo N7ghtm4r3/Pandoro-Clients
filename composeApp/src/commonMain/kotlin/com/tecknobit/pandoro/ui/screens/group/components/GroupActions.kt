@@ -64,6 +64,7 @@ import pandoro.composeapp.generated.resources.remove
 fun GroupActions(
     viewModel: GroupManagerViewModel,
     userCanAddProjects: Boolean = true,
+    groupMembersOnDismissAction: (() -> Unit)? = null,
     userCanAddMembers: Boolean = true
 ) {
     Column(
@@ -92,7 +93,8 @@ fun GroupActions(
             ManageGroupMembers(
                 modalBottomSheetState = membersSheetState,
                 scope = membersScope,
-                viewModel = viewModel
+                viewModel = viewModel,
+                extraOnDismissAction = groupMembersOnDismissAction
             )
         }
     }
@@ -165,12 +167,14 @@ private fun GroupProjects(
 @NonRestartableComposable
 private fun ManageGroupMembers(
     viewModel: GroupManagerViewModel,
+    extraOnDismissAction: (() -> Unit)?,
     modalBottomSheetState: SheetState,
     scope: CoroutineScope
 ) {
     if(modalBottomSheetState.isVisible) {
         ModalBottomSheet(
             onDismissRequest = {
+                extraOnDismissAction?.invoke()
                 scope.launch {
                     modalBottomSheetState.hide()
                 }
@@ -196,11 +200,11 @@ fun GroupMembers(
         contentPadding = PaddingValues(
             vertical = 10.dp
         ),
-        firstPageEmptyIndicator = { viewModel.candidatesMemberAvailable.value = false },
+        firstPageEmptyIndicator = { viewModel.noCandidatesAvailable() },
         firstPageProgressIndicator = { FirstPageProgressIndicator() },
         newPageProgressIndicator = { NewPageProgressIndicator() }
     ) {
-        viewModel.candidatesMemberAvailable.value = true
+        viewModel.candidatesAvailable()
         items(
             items = viewModel.candidateMembersState.allItems!!,
             key = { member -> member.id }

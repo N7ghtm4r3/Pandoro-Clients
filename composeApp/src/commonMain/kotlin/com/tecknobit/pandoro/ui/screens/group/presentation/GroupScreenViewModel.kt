@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalPaginationApi::class)
+
 package com.tecknobit.pandoro.ui.screens.group.presentation
 
 import androidx.lifecycle.viewModelScope
@@ -13,6 +15,7 @@ import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.BaseGroupViewModel.GroupDeleter
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.GroupManagerViewModel
 import com.tecknobit.pandorocore.enums.Role
+import io.github.ahmad_hamwi.compose.pagination.ExperimentalPaginationApi
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -62,6 +65,26 @@ class GroupScreenViewModel(
         }
     }
 
+    fun addMembers() {
+        viewModelScope.launch {
+            val membersAdded = groupMembers.map { member -> member.id }
+            requester.sendWRequest(
+                request = {
+                    addMembers(
+                        groupId = groupId,
+                        members = membersAdded
+                    )
+                },
+                onSuccess = {
+                    refreshCandidates(
+                        membersEdited = membersAdded.size
+                    )
+                },
+                onFailure = { showSnackbarMessage(it.toResponseContent())}
+            )
+        }
+    }
+
     fun removeMember(
         member: GroupMember
     ) {
@@ -73,10 +96,24 @@ class GroupScreenViewModel(
                         memberId = member.id
                     )
                 },
-                onSuccess = {},
-                onFailure = { showSnackbarMessage(it.toResponseContent())}
+                onSuccess = {
+                    refreshCandidates(
+                        membersEdited = -1
+                    )
+                },
+                onFailure = { showSnackbarMessage(it.toResponseContent()) }
             )
         }
+    }
+
+    private fun refreshCandidates(
+        membersEdited: Int
+    ) {
+        countCandidatesMember(
+            membersEdited = membersEdited
+        )
+        groupMembers.clear()
+        candidateMembersState.refresh()
     }
 
     fun leaveGroup() {

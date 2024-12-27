@@ -165,7 +165,9 @@ private fun ProjectsListExpanded(
     if(modalBottomSheetState.isVisible) {
         ModalBottomSheet(
             onDismissRequest = {
-                scope.launch { modalBottomSheetState.hide() }
+                scope.launch {
+                    modalBottomSheetState.hide()
+                }
             }
         ) {
             LazyColumn {

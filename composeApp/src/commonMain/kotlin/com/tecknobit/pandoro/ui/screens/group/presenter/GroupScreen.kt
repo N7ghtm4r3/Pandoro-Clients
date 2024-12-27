@@ -22,6 +22,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,6 +57,8 @@ class GroupScreen(
     ),
     bottomPadding = 0.dp
 ) {
+
+    private lateinit var candidatesAvailable: State<Boolean>
 
     @Composable
     @NonRestartableComposable
@@ -272,7 +275,10 @@ class GroupScreen(
         GroupActions(
             viewModel = viewModel!!,
             userCanAddProjects = item.value!!.iAmAnAdmin(),
-            userCanAddMembers = item.value!!.iAmAMaintainer()
+            groupMembersOnDismissAction = {
+                viewModel!!.addMembers()
+            },
+            userCanAddMembers = item.value!!.iAmAMaintainer() && candidatesAvailable.value
         )
     }
 
@@ -289,6 +295,7 @@ class GroupScreen(
     @Composable
     override fun CollectStates() {
         item = viewModel!!.group.collectAsState()
+        candidatesAvailable = viewModel!!.candidatesMemberAvailable.collectAsState()
     }
 
 }

@@ -741,13 +741,21 @@ open class PandoroRequester(
      *
      * Method to execute the request to count the candidates member available
      *
+     * @param membersToExclude The numbers of the members exclude
+     *
      * @return the result of the request as [JsonObject]
      */
-    fun countCandidatesMember() : JsonObject {
+    fun countCandidatesMember(
+        membersToExclude: Int
+    ) : JsonObject {
+        val query = buildJsonObject {
+            put(GROUP_MEMBERS_KEY, membersToExclude)
+        }
         return execWGet(
             endpoint = assembleUsersEndpointPath(
                 endpoint = COUNT_CANDIDATE_GROUP_MEMBERS_ENDPOINT
-            )
+            ),
+            query = query
         )
     }
 
@@ -759,10 +767,12 @@ open class PandoroRequester(
     fun getCandidateMembers(
         page: Int = DEFAULT_PAGE,
         pageSize: Int = DEFAULT_PAGE_SIZE,
+        membersToExclude: List<String>
     ) : JsonObject {
         val query = buildJsonObject {
             put(PAGE_KEY, page)
             put(PAGE_SIZE_KEY, pageSize)
+            put(GROUP_MEMBERS_KEY, membersToExclude.joinToString())
         }
         return execWGet(
             endpoint = assembleUsersEndpointPath(
@@ -884,7 +894,7 @@ open class PandoroRequester(
         members: List<String>
     ): JsonObject {
         val payload = buildJsonObject {
-            put(GROUP_MEMBERS_KEY, Json.encodeToJsonElement(members))
+            put(GROUP_MEMBERS_KEY, members.joinToString())
         }
         return execWPut(
             endpoint = createGroupsEndpoint(
