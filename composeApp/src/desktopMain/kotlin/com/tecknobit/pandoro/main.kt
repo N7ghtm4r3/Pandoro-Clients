@@ -21,7 +21,8 @@ fun main() = application {
         icon = painterResource(Res.drawable.logo)
     ) {
         setUpSession {
-            // TODO: TO SET 
+            localUser.clear()
+            navigator.navigate(AUTH_SCREEN)
         }
         App()
     }

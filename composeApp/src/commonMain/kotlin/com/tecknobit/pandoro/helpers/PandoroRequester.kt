@@ -58,6 +58,7 @@ import com.tecknobit.pandorocore.helpers.PandoroEndpoints.IN_DEVELOPMENT_PROJECT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.LEAVE_GROUP_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_CHANGE_NOTE_AS_DONE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_CHANGE_NOTE_AS_TODO_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.OVERVIEW_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.PUBLISH_UPDATE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.REMOVE_MEMBER_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.SCHEDULE_UPDATE_ENDPOINT
@@ -1439,6 +1440,14 @@ open class PandoroRequester(
             baseEndpoint = CHANGELOGS_KEY,
             subEndpoint = subEndpoint,
             id = id
+        )
+    }
+
+    fun getOverview() : JsonObject {
+        return execWGet(
+            endpoint = createEndpoint(
+                baseEndpoint = OVERVIEW_ENDPOINT
+            )
         )
     }
 

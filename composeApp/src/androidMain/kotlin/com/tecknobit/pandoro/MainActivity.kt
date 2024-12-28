@@ -57,7 +57,8 @@ class MainActivity : ComponentActivity() {
         StrictMode.setThreadPolicy(policy)
         appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
         setUpSession {
-            // TODO: TO SET
+            localUser.clear()
+            navigator.navigate(AUTH_SCREEN)
         }
     }
 
