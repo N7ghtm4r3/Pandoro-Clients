@@ -68,6 +68,7 @@ import com.tecknobit.pandorocore.helpers.PandoroEndpoints.UPDATES_PATH
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.buildJsonObject
@@ -106,6 +107,15 @@ open class PandoroRequester(
 ) {
 
     companion object {
+
+        // TODO: TO REMOVE OR INTEGRATE IN THE EQUINOX LIBRARY
+        fun JsonObject.toNullResponseData() : JsonObject? {
+            val response = this[RESPONSE_DATA_KEY]
+            return if (response is JsonNull)
+                return null
+            else
+                response?.jsonObject
+        }
 
         // TODO: TO REMOVE OR INTEGRATE IN THE EQUINOX LIBRARY
         fun JsonObject.toResponseData() : JsonObject {

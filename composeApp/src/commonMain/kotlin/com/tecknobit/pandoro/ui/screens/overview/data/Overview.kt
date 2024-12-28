@@ -1,5 +1,8 @@
 package com.tecknobit.pandoro.ui.screens.overview.data
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Overview(
     val totalProjects: OverviewStatsItem,
     val totalUpdates: OverviewStatsItem,

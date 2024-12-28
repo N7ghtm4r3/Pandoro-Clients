@@ -22,6 +22,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -111,13 +112,13 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
                 DashboardOverview()
             }
             widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
-                DashboardOverview()
+                OverviewColumned()
             }
             widthClass == Expanded && heightClass == WindowHeightSizeClass.Medium -> {
                 DashboardOverview()
             }
             widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
-                DashboardOverview()
+                OverviewColumned()
             }
             else -> OverviewColumned()
         }
@@ -274,16 +275,14 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
         viewModel!!.setActiveContext(HomeScreen::class.java)
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewModel!!.retrieveOverview()
-    }
-
     /**
      * Method to collect or instantiate the states of the screen
      */
     @Composable
     override fun CollectStates() {
+        SideEffect {
+            viewModel!!.retrieveOverview()
+        }
         overview = viewModel!!.overview.collectAsState()
     }
 

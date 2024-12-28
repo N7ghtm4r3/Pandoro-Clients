@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.ui.screens.overview.components
 
+import ChartLine
 import ReservedLine
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -30,10 +31,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.equinoxcompose.components.EmptyListUI
+import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.ui.screens.overview.data.OverviewFullStatsItem
 import com.tecknobit.pandoro.ui.screens.overview.data.OverviewStatsItem
@@ -48,6 +52,7 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.group
+import pandoro.composeapp.generated.resources.no_data_available
 import pandoro.composeapp.generated.resources.personal
 import pandoro.composeapp.generated.resources.published_by_me_info_text
 import pandoro.composeapp.generated.resources.scheduled_by_me_info_text
@@ -171,51 +176,65 @@ private fun OverviewCardContent(
     percentages: List<Double>
 ) {
     HorizontalDivider()
-    Row (
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        val pieColors = listOf(MaterialTheme.colorScheme.primary, Green())
-        Column (
-            modifier = Modifier
-                .weight(1f)
+    if(total == 0) {
+        EmptyListUI(
+            containerModifier = Modifier
+                .padding(
+                    bottom = 16.dp
+                ),
+            icon = ChartLine,
+            subText = Res.string.no_data_available,
+            textStyle = TextStyle(
+                fontFamily = bodyFontFamily
+            )
+        )
+    } else {
+        Row (
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Box (
-                contentAlignment = Alignment.Center
+            val pieColors = listOf(MaterialTheme.colorScheme.primary, Green())
+            Column (
+                modifier = Modifier
+                    .weight(1f)
             ) {
-                PieOverview(
-                    pieChartColors = pieColors,
-                    pieSize = pieSize,
-                    pieStroke = pieStroke,
-                    stats = values
-                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                Box (
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = stringResource(totalHeader),
-                        fontSize = 14.sp,
-                        fontFamily = displayFontFamily
+                    PieOverview(
+                        pieChartColors = pieColors,
+                        pieSize = pieSize,
+                        pieStroke = pieStroke,
+                        stats = values
                     )
-                    Text(
-                        text = total.toString()
-                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = stringResource(totalHeader),
+                            fontSize = 14.sp,
+                            fontFamily = displayFontFamily
+                        )
+                        Text(
+                            text = total.toString()
+                        )
+                    }
                 }
             }
-        }
-        Column(
-            modifier = Modifier
-                .weight(1f),
-            verticalArrangement = Arrangement.Center
-        ) {
-            PieLegend(
-                pieChartColors = pieColors,
-                values = values,
-                percentages = percentages
-            )
+            Column(
+                modifier = Modifier
+                    .weight(1f),
+                verticalArrangement = Arrangement.Center
+            ) {
+                PieLegend(
+                    pieChartColors = pieColors,
+                    values = values,
+                    percentages = percentages
+                )
+            }
         }
     }
 }

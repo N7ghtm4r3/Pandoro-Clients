@@ -4,8 +4,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toNullResponseData
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseData
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.overview.data.Overview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,8 +27,11 @@ class OverviewScreenViewModel: EquinoxViewModel(
         viewModelScope.launch {
             requester.sendWRequest(
                 request = { getOverview() },
-                onSuccess = {
-                    _overview.value = Json.decodeFromJsonElement(it.toResponseData())
+                onSuccess = { response ->
+                    val overview = response.toNullResponseData()
+                    overview?.let {
+                        _overview.value = Json.decodeFromJsonElement(it)
+                    }
                 },
                 onFailure = { showSnackbarMessage(it.toResponseContent()) }
             )
