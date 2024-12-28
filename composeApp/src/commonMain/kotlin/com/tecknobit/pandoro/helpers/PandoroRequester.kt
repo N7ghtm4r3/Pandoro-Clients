@@ -576,11 +576,11 @@ open class PandoroRequester(
     }
 
     /**
-     * Method to execute the request to mark a change note as todo
+     * Method to execute the request to mark a change note as to-do
      *
      * @param projectId The project identifier
      * @param updateId The update identifier
-     * @param changeNoteId The note identifier to mark as todo
+     * @param changeNoteId The note identifier to mark as to-do
      *
      * @return the result of the request as [JsonObject]
      *
