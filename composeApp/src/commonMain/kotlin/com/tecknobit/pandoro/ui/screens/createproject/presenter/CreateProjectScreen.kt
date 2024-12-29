@@ -454,7 +454,7 @@ class CreateProjectScreen(
     ) {
         ImagePicker(
             modifier = modifier,
-            iconSize = iconSize,
+            pickerSize = iconSize,
             imageData = viewModel!!.projectIcon.value,
             contentDescription = "Project icon",
             onImagePicked = { image ->

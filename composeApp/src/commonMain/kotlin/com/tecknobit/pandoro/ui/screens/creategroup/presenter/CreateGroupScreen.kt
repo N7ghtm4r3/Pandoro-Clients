@@ -378,7 +378,7 @@ class CreateGroupScreen(
     ) {
         ImagePicker(
             modifier = modifier,
-            iconSize = iconSize,
+            pickerSize = iconSize,
             imageData = viewModel!!.groupLogo.value,
             contentDescription = "Group Logo",
             onImagePicked = { logo ->

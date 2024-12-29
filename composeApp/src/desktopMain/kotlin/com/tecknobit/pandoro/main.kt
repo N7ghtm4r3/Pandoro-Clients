@@ -11,6 +11,11 @@ import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.app_name
 import pandoro.composeapp.generated.resources.logo
 
+/**
+ * The [main] function is used as entry point of Nova's application for Desktop
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ */
 fun main() {
     application {
         Window(

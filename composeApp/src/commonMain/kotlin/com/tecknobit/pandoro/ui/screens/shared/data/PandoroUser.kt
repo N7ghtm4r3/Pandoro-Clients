@@ -8,6 +8,17 @@ import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.SURNAME_KEY
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * The [PandoroUser] data class allow to represent a user data
+ *
+ * @property id The identifier of the user
+ * @property profilePic The profile picture of the user
+ * @property name The name of the user
+ * @property surname The surname of the user
+ * @property email The email of the user
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ */
 @Serializable
 data class PandoroUser(
     @SerialName(IDENTIFIER_KEY)
@@ -22,6 +33,11 @@ data class PandoroUser(
     val email: String
 ) {
 
+    /**
+     * Method to obtain the complete name of the user
+     *
+     * @return the complete name ([name] and [surname]) as [String]
+     */
     fun completeName() : String {
         return "$name $surname"
     }

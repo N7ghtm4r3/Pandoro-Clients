@@ -19,10 +19,22 @@ import com.tecknobit.pandorocore.enums.InvitationStatus.PENDING
 import com.tecknobit.pandorocore.enums.Role
 import com.tecknobit.pandorocore.enums.Role.ADMIN
 import com.tecknobit.pandorocore.enums.Role.DEVELOPER
-import com.tecknobit.pandorocore.enums.Role.MAINTAINER
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * The [GroupMember] data class allow to represent a member of a group data
+ *
+ * @property id The identifier of the member
+ * @property profilePic The profile picture of the member
+ * @property name The name of the member
+ * @property surname The surname of the member
+ * @property email The email of the member
+ * @property role The role of the member
+ * @property status The current status of the member
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ */
 @Serializable
 data class GroupMember(
     @SerialName(IDENTIFIER_KEY)
@@ -43,10 +55,20 @@ data class GroupMember(
 
     companion object {
 
+        /**
+         * Method to format as text a [Role] value
+         *
+         * @return role formated as [String]
+         */
         fun Role.asText() : String {
             return this.name.lowercase().capitalize()
         }
 
+        /**
+         * Method to get the related [Role] color value
+         *
+         * @return role related color as [Color]
+         */
         @Composable
         fun Role.color() : Color {
             return if(this == ADMIN)
@@ -55,10 +77,20 @@ data class GroupMember(
                 Unspecified
         }
 
+        /**
+         * Method to format as text a [InvitationStatus] value
+         *
+         * @return status formated as [String]
+         */
         fun InvitationStatus.asText() : String {
             return this.name.lowercase().capitalize()
         }
 
+        /**
+         * Method to get the related [InvitationStatus] color value
+         *
+         * @return status related color as [Color]
+         */
         @Composable
         fun InvitationStatus.color() : Color {
             return if(this == PENDING)
@@ -69,18 +101,29 @@ data class GroupMember(
 
     }
 
+    /**
+     * Method to obtain the complete name of the member
+     *
+     * @return the complete name ([name] and [surname]) as [String]
+     */
     fun completeName() : String {
         return "$name $surname"
     }
 
+    /**
+     * Method to check whether the current [status] of the member is [JOINED]
+     *
+     * @return whether the member [JOINED] as [Boolean]
+     */
     fun joined() : Boolean {
         return status == JOINED
     }
 
-    fun isAMaintainer() : Boolean {
-        return isAnAdmin() || role == MAINTAINER
-    }
-
+    /**
+     * Method to check whether the current [role] of the member is [ADMIN]
+     *
+     * @return whether the member [ADMIN] as [Boolean]
+     */
     fun isAnAdmin() : Boolean {
         return role == ADMIN
     }

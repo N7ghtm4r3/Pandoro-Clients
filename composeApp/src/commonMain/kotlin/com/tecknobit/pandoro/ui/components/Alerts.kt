@@ -64,11 +64,22 @@ import pandoro.composeapp.generated.resources.logout
 import pandoro.composeapp.generated.resources.logout_warn_text
 import pandoro.composeapp.generated.resources.not_all_the_change_notes_are_done
 
+/**
+ * **titleStyle** -> the style to apply to the title of the [EquinoxAlertDialog]
+ */
 val titleStyle = TextStyle(
     fontFamily = displayFontFamily,
     fontSize = 18.sp
 )
 
+/**
+ * Alert to warn about the project deletion
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param project The project to delete
+ * @param show Whether the alert is shown
+ * @param deleteRequest The request to delete the project
+ */
 @Composable
 @NonRestartableComposable
 fun DeleteProject(
@@ -96,6 +107,14 @@ fun DeleteProject(
     )
 }
 
+/**
+ * Alert to warn about the update deletion
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param update The update to delete
+ * @param show Whether the alert is shown
+ * @param onDelete The action to execute when the update has been deleted
+ */
 @Composable
 @NonRestartableComposable
 fun DeleteUpdate(
@@ -126,6 +145,15 @@ fun DeleteUpdate(
     )
 }
 
+/**
+ * Alert to warn about the note deletion
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param update The update owner of the change note
+ * @param note The note to delete
+ * @param show Whether the alert is shown
+ * @param onDelete The action to execute when the note has been deleted
+ */
 @Composable
 @NonRestartableComposable
 fun DeleteNote(
@@ -158,6 +186,14 @@ fun DeleteNote(
     )
 }
 
+/**
+ * Alert to warn about the group deletion
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param group The group to delete
+ * @param show Whether the alert is shown
+ * @param onDelete The action to execute when the group has been deleted
+ */
 @Composable
 @NonRestartableComposable
 fun DeleteGroup(
@@ -189,6 +225,12 @@ fun DeleteGroup(
     )
 }
 
+/**
+ * Alert to warn about the logout action
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param show Whether the alert is shown
+ */
 @Composable
 @NonRestartableComposable
 fun Logout(
@@ -214,6 +256,12 @@ fun Logout(
     )
 }
 
+/**
+ * Alert to warn about the account deletion
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param show Whether the alert is shown
+ */
 @Composable
 @NonRestartableComposable
 fun DeleteAccount(
@@ -239,6 +287,13 @@ fun DeleteAccount(
     )
 }
 
+/**
+ * Alert to warn about a publishing of an update where not all the change notes has been completed
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param show Whether the alert is shown
+ * @param update The update owner
+ */
 @Composable
 @NonRestartableComposable
 fun NotAllChangeNotesCompleted(
@@ -266,6 +321,13 @@ fun NotAllChangeNotesCompleted(
     )
 }
 
+/**
+ * Alert to warn about the leaving group action
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param group The group from leave
+ * @param show Whether the alert is shown
+ */
 @Composable
 @NonRestartableComposable
 fun LeaveGroup(
@@ -292,6 +354,13 @@ fun LeaveGroup(
     )
 }
 
+/**
+ * Alert to change the member role
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param show Whether the alert is shown
+ * @param member The member to change his/her role
+ */
 @Composable
 @NonRestartableComposable
 fun ChangeMemberRole(

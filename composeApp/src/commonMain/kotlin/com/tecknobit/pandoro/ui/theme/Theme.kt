@@ -9,6 +9,9 @@ import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.ApplicationTh
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.ApplicationTheme.Light
 import com.tecknobit.pandoro.localUser
 
+/**
+ * **lightScheme** default light colors scheme
+ */
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
     onPrimary = onPrimaryLight,
@@ -47,6 +50,9 @@ private val lightScheme = lightColorScheme(
     surfaceContainerHighest = surfaceContainerHighestLight,
 )
 
+/**
+ * **darkScheme** default dark colors scheme
+ */
 private val darkScheme = darkColorScheme(
     primary = primaryDark,
     onPrimary = onPrimaryDark,
@@ -85,6 +91,9 @@ private val darkScheme = darkColorScheme(
     surfaceContainerHighest = surfaceContainerHighestDark
 )
 
+/**
+ * **mediumContrastLightColorScheme** medium contrast light colors scheme
+ */
 private val mediumContrastLightColorScheme = lightColorScheme(
     primary = primaryLightMediumContrast,
     onPrimary = onPrimaryLightMediumContrast,
@@ -123,6 +132,9 @@ private val mediumContrastLightColorScheme = lightColorScheme(
     surfaceContainerHighest = surfaceContainerHighestLightMediumContrast
 )
 
+/**
+ * **highContrastLightColorScheme** high contrast light colors scheme
+ */
 private val highContrastLightColorScheme = lightColorScheme(
     primary = primaryLightHighContrast,
     onPrimary = onPrimaryLightHighContrast,
@@ -161,6 +173,9 @@ private val highContrastLightColorScheme = lightColorScheme(
     surfaceContainerHighest = surfaceContainerHighestLightHighContrast,
 )
 
+/**
+ * **mediumContrastDarkColorScheme** medium contrast dark colors scheme
+ */
 private val mediumContrastDarkColorScheme = darkColorScheme(
     primary = primaryDarkMediumContrast,
     onPrimary = onPrimaryDarkMediumContrast,
@@ -199,6 +214,9 @@ private val mediumContrastDarkColorScheme = darkColorScheme(
     surfaceContainerHighest = surfaceContainerHighestDarkMediumContrast,
 )
 
+/**
+ * **highContrastDarkColorScheme** high contrast dark colors scheme
+ */
 private val highContrastDarkColorScheme = darkColorScheme(
     primary = primaryDarkHighContrast,
     onPrimary = onPrimaryDarkHighContrast,
@@ -237,6 +255,11 @@ private val highContrastDarkColorScheme = darkColorScheme(
     surfaceContainerHighest = surfaceContainerHighestDarkHighContrast,
 )
 
+/**
+ * Method to get the custom green color to use based on the current theme selected
+ *
+ * @return custom green as [Color]
+ */
 @Composable
 fun Green(): Color {
     return if(isDarkThemeSelected())
@@ -245,6 +268,11 @@ fun Green(): Color {
         lightGreen
 }
 
+/**
+ * Method to get the custom yellow color to use based on the current theme selected
+ *
+ * @return custom yellow as [Color]
+ */
 @Composable
 fun Yellow(): Color {
     return if(isDarkThemeSelected())
@@ -253,6 +281,12 @@ fun Yellow(): Color {
         lightYellow
 }
 
+/**
+ * Method to get the custom background color to use in the [com.tecknobit.pandoro.ui.screens.notes.components.ChangeNoteCard]
+ * based on the current theme selected
+ *
+ * @return custom background as [Color]
+ */
 @Composable
 fun ChangeNoteBackground() : Color {
     return if(isDarkThemeSelected())
@@ -261,6 +295,12 @@ fun ChangeNoteBackground() : Color {
         lightChangeNoteCardBackground
 }
 
+/**
+ * Method to get the list of colors to use in the [com.tecknobit.pandoro.ui.screens.project.components.ProjectsStats]
+ * based on the current theme selected
+ *
+ * @return list of colors as [Array] of [Color]
+ */
 @Composable
 fun PieChartColors() : Array<Color> {
     return if(isDarkThemeSelected())
@@ -270,8 +310,9 @@ fun PieChartColors() : Array<Color> {
 }
 
 /**
- * Method to apply the Ametista theme to the content
+ * Method to apply the Pandoro theme to the content
  *
+ * @param darkTheme Whether the theme to use is the dark one
  * @param content The content to display
  */
 @Composable
@@ -290,6 +331,11 @@ fun PandoroTheme(
     )
 }
 
+/**
+ * Method to get whether theme the device is using
+ *
+ * @return whether the device is currently using the dark theme as [Boolean]
+ */
 @Composable
 private fun isDarkThemeSelected(): Boolean {
     return when(localUser.theme) {

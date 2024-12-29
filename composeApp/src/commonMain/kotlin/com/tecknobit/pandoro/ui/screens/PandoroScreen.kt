@@ -30,6 +30,16 @@ import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.isBo
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
+/**
+ * The [PandoroScreen] class is useful to provides the basic behavior of a Pandoro's UI screen
+ *
+ * @param viewModel The support viewmodel for the screen
+ *
+ * @property V generic type of the viewmodel of the screen
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see EquinoxScreen
+ */
 @Structure
 abstract class PandoroScreen<V : EquinoxViewModel>(
     viewModel: V
@@ -39,20 +49,45 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
 
     companion object {
 
+        /**
+         * **FORM_CARD_WIDTH** -> constant value for the width of a card used as form
+         */
         val FORM_CARD_WIDTH = 750.dp
 
+        /**
+         * **FORM_CARD_HEIGHT** -> constant value for the height of a card used as form
+         */
         val FORM_CARD_HEIGHT = 550.dp
 
+        /**
+         * **startPaddingBottomNavigationMode** -> constant value for the padding to apply from the
+         * start when the navigation is currently in bottom mode
+         */
         private val startPaddingBottomNavigationMode = 16.dp
 
+        /**
+         * **startPaddingSideNavigationMode** -> constant value for the padding to apply from the
+         * start when the navigation is currently in side mode
+         */
         private val startPaddingSideNavigationMode = 141.dp
 
+        /**
+         * **bottomPaddingBottomNavigationMode** -> constant value for the padding to apply from the
+         * bottom when the navigation is currently in bottom mode
+         */
         private val bottomPaddingBottomNavigationMode = 96.dp
 
+        /**
+         * **bottomPaddingSideNavigationMode** -> constant value for the padding to apply from the
+         * bottom when the navigation is currently in side mode
+         */
         private val bottomPaddingSideNavigationMode = 16.dp
 
     }
 
+    /**
+     * Method to dynamically adapt the bottom bar based on the current navigation mode
+     */
     @Composable
     @NonRestartableComposable
     protected fun AdaptBottomBarToNavigationMode() {
@@ -60,6 +95,13 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
             BottomAppBar {  }
     }
 
+    /**
+     * Method to dynamically adapt the content based on the current navigation mode
+     *
+     * @param navBackAction The action to execute when user navigates back
+     * @param screenTitle The title of the screen
+     * @param content The content of the screen
+     */
     @Composable
     @NonRestartableComposable
     protected fun AdaptContentToNavigationMode(
@@ -80,6 +122,16 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
         )
     }
 
+    /**
+     * Method to dynamically place the content based on the current navigation mode
+     *
+     * @param paddingValues The values of the padding to apply to the [content]
+     * @param titleModifier The modifier to apply to the title
+     * @param navBackAction The action to execute when user navigates back
+     * @param screenTitle The title of the screen
+     * @param subTitle The subtle of the screen
+     * @param content The content of the screen
+     */
     @Composable
     @NonRestartableComposable
     protected fun PlaceContent(
@@ -105,6 +157,16 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
         )
     }
 
+    /**
+     * Method to dynamically place the content based on the current navigation mode
+     *
+     * @param paddingValues The values of the padding to apply to the [content]
+     * @param titleModifier The modifier to apply to the title
+     * @param navBackAction The action to execute when user navigates back
+     * @param screenTitle The title of the screen
+     * @param subTitle The subtle of the screen
+     * @param content The content of the screen
+     */
     @Composable
     @NonRestartableComposable
     protected fun PlaceContent(
@@ -137,6 +199,14 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
         )
     }
 
+    /**
+     * Method to dynamically place the content based on the current navigation mode
+     *
+     * @param paddingValues The values of the padding to apply to the [content]
+     * @param screenTitle The title of the screen
+     * @param subTitle The subtle of the screen
+     * @param content The content of the screen
+     */
     @Composable
     @NonRestartableComposable
     protected fun PlaceContent(
@@ -161,6 +231,13 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
         )
     }
 
+    /**
+     * Title of the screen
+     *
+     * @param navBackAction The action to execute when user navigates back
+     * @param titleModifier The modifier to apply to the title
+     * @param title The title string to set
+     */
     @Composable
     @NonRestartableComposable
     protected fun ScreenTitle(
@@ -188,6 +265,11 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
         }
     }
 
+    /**
+     * Custom navigation-back button
+     *
+     * @param navBackAction The action to execute when user navigates back
+     */
     @Composable
     @NonRestartableComposable
     protected fun NabBackButton(
@@ -205,6 +287,12 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
         }
     }
 
+    /**
+     * Title component
+     *
+     * @param modifier The modifier to apply to the component
+     * @param title The title to set
+     */
     @Composable
     @NonRestartableComposable
     protected fun Title(
@@ -219,6 +307,14 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
         )
     }
 
+    /**
+     * Section organizer component
+     *
+     * @param modifier The modifier to apply to the component
+     * @param header The header resource of the section
+     * @param filtersContent The component to use to filters the data displayed by the section
+     * @param content The content of the section
+     */
     @Composable
     @NonRestartableComposable
     protected fun Section(
@@ -248,6 +344,11 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
         }
     }
 
+    /**
+     * Method to calculated the start padding based on the [isBottomNavigationMode] flag
+     *
+     * @return the start padding as [Dp]
+     */
     @Composable
     fun calculatedStartPadding(): Dp {
         return if(isBottomNavigationMode.value)
@@ -256,6 +357,11 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
             startPaddingSideNavigationMode
     }
 
+    /**
+     * Method to calculated the bottom padding based on the [isBottomNavigationMode] flag
+     *
+     * @return the bottom padding as [Dp]
+     */
     @Composable
     fun calculatedBottomPadding(): Dp {
         return if(isBottomNavigationMode.value)

@@ -37,6 +37,17 @@ import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.retry_to_reconnect
 
+/**
+ * The [ListsScreen] serves as a base screen to display multiple lists in one screen, one horizontal
+ * other one vertical or grid format
+ *
+ * @param viewModel The support viewmodel of the screen
+ * @param screenTitle The title of the screen
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see PandoroScreen
+ */
 @Structure
 abstract class ListsScreen<V: MultipleListViewModel>(
     viewModel: V,
@@ -72,14 +83,25 @@ abstract class ListsScreen<V: MultipleListViewModel>(
         )
     }
 
+    /**
+     * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
+     */
     @Composable
     @NonRestartableComposable
     abstract fun FabAction()
 
+    /**
+     * The horizontal list to display the items in row format
+     */
     @Composable
     @NonRestartableComposable
     abstract fun ItemsInRow()
 
+    /**
+     * The UI to display when, after filtering, the set of the data is empty
+     *
+     * @param info The info text to warn about the result of the filtering action
+     */
     @Composable
     @NonRestartableComposable
     fun EmptyResultWithFilters(
@@ -95,10 +117,19 @@ abstract class ListsScreen<V: MultipleListViewModel>(
         )
     }
 
+    /**
+     * The column or grid list dynamically adapted based on the screen size
+     */
     @Composable
     @NonRestartableComposable
     abstract fun ItemsAdaptedSize()
 
+    /**
+     * The UI to display when no data are available to be displayed
+     *
+     * @param icon The representative icon to use
+     * @param subText The representative text to warn about the no-availability of the data
+     */
     @Composable
     @NonRestartableComposable
     protected fun NoDataAvailable(
@@ -115,6 +146,12 @@ abstract class ListsScreen<V: MultipleListViewModel>(
         )
     }
 
+    /**
+     * The header of a section
+     *
+     * @param header The header value
+     * @param isAllItemsFiltering Whether the filter is about the [ItemsAdaptedSize] list
+     */
     @Composable
     @NonRestartableComposable
     protected fun SectionHeader(
@@ -166,18 +203,35 @@ abstract class ListsScreen<V: MultipleListViewModel>(
         }
     }
 
+    /**
+     * UI to filter the [ItemsInRow] list
+     *
+     * @param show Whether the dialog is shown
+     */
     @Composable
     @NonRestartableComposable
     abstract fun FilterRowItemsUi(
         show: MutableState<Boolean>
     )
 
+    /**
+     * UI to filter the [ItemsAdaptedSize] list
+     *
+     * @param show Whether the dialog is shown
+     */
     @Composable
     @NonRestartableComposable
     abstract fun FilterAllItemsUi(
         show: MutableState<Boolean>
     )
 
+    /**
+     * Method invoked when the [ShowContent] composable has been created.
+     *
+     * If the [viewModel] of the screen is not `null` will be set the [com.tecknobit.equinox.FetcherManager.activeContext]
+     * as the current screen displayed
+     *
+     */
     override fun onCreate() {
         viewModel!!.setActiveContext(HomeScreen::class.java)
     }

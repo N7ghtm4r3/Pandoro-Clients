@@ -66,6 +66,16 @@ import pandoro.composeapp.generated.resources.delete
 import pandoro.composeapp.generated.resources.description
 import pandoro.composeapp.generated.resources.edit
 
+/**
+ * The [ItemScreen] serves as a base screen to display the data related to an item
+ *
+ * @param viewModel The support viewmodel of the screen
+ * @param bottomPadding The value of the bottom padding to use
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see PandoroScreen
+ */
 @Structure
 abstract class ItemScreen<I, V: EquinoxViewModel>(
     viewModel: V,
@@ -74,6 +84,9 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
     viewModel = viewModel
 ) {
 
+    /**
+     * **item** -> state flow holds the item data
+     */
     protected lateinit var item: State<I?>
 
     /**
@@ -84,9 +97,9 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
         LoadAwareContent()
     }
 
+    // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE REAL COMPONENT
     @Composable
     @NonRestartableComposable
-    // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE REAL COMPONENT
     private fun LoadAwareContent() {
         PandoroTheme {
             AnimatedVisibility(
@@ -152,6 +165,9 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
         )
     }
 
+    /**
+     * The section of the title of the screen
+     */
     @Composable
     @NonRestartableComposable
     private fun ItemScreenTitle() {
@@ -167,10 +183,16 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
         }
     }
 
+    /**
+     * The title of the screen
+     */
     @Composable
     @NonRestartableComposable
     protected abstract fun ItemTitle()
 
+    /**
+     * The item base information to display
+     */
     @Composable
     @NonRestartableComposable
     protected fun ItemInformation() {
@@ -204,7 +226,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
                     }
                 )
                 ItemDescription(
-                    modalBottomSheetState = modalBottomSheetState,
+                    sheetState = modalBottomSheetState,
                     scope = scope
                 )
             },
@@ -223,23 +245,37 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
         )
     }
 
+    /**
+     * Method to get the thumbnail data from the item
+     *
+     * @return the thumbnail data of the item as nullable [String]
+     */
     protected abstract fun getThumbnailData() : String?
 
+    /**
+     * The related items of the [item] such groups or projects
+     */
     @Composable
     @NonRestartableComposable
     protected abstract fun ItemRelationshipItems()
 
+    /**
+     * The description of the item dynamically displayed on a [ModalBottomSheet]
+     *
+     * @param sheetState The state useful to manage the visibility of the [ModalBottomSheet]
+     * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+     */
     @Composable
     @NonRestartableComposable
     private fun ItemDescription(
-        modalBottomSheetState: SheetState,
+        sheetState: SheetState,
         scope: CoroutineScope
     ) {
-        if(modalBottomSheetState.isVisible) {
+        if(sheetState.isVisible) {
             ModalBottomSheet(
                 onDismissRequest = {
                     scope.launch {
-                        modalBottomSheetState.hide()
+                        sheetState.hide()
                     }
                 }
             ) {
@@ -268,8 +304,16 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
         }
     }
 
+    /**
+     * Method to get the description of the item
+     *
+     * @return the description of the item as [String]
+     */
     protected abstract fun getItemDescription(): String
 
+    /**
+     * The available action can be executed on the [item] such editing or deleting it
+     */
     @Composable
     @NonRestartableComposable
     private fun ActionButtons() {
@@ -314,14 +358,25 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
         }
     }
 
+    /**
+     * The action to execute when the [item] has been edited
+     */
     protected abstract fun onEdit()
 
+    /**
+     * The action to execute when the [item] has been requested to delete
+     *
+     * @param delete Whether the warn alert about the deletion is shown
+     */
     @Composable
     @NonRestartableComposable
     protected abstract fun DeleteItemAction(
         delete: MutableState<Boolean>
     )
 
+    /**
+     * The section to display the information of the [item] author
+     */
     @Composable
     @NonRestartableComposable
     private fun ItemAuthor() {
@@ -342,22 +397,40 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
         }
     }
 
+    /**
+     * Method to check whether the [localUser] is the author of the [item]
+     *
+     * @return whether the [localUser] is the author of the [item] as [Boolean]
+     */
     protected fun iAmTheAuthor() : Boolean {
         return getItemAuthor().id == localUser.userId
     }
 
+    /**
+     * Method to get the author of the [item]
+     *
+     * @return the author of the item as [PandoroUser]
+     */
     protected abstract fun getItemAuthor(): PandoroUser
 
+    /**
+     * Extra action component to allow the user to execute an action on the [item] such the
+     * leaving from a group
+     */
     @Composable
     @NonRestartableComposable
-    protected open fun ExtraAction() {
+    protected open fun ExtraAction() {}
 
-    }
-
+    /**
+     * The related content of the screen
+     */
     @Composable
     @NonRestartableComposable
     protected abstract fun ScreenContent()
 
+    /**
+     * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
+     */
     @Composable
     @NonRestartableComposable
     protected abstract fun FabAction()

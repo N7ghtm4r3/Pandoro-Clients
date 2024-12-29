@@ -62,6 +62,16 @@ import pandoro.composeapp.generated.resources.choose_the_icon_of_the_project
 import pandoro.composeapp.generated.resources.edit
 import pandoro.composeapp.generated.resources.save
 
+/**
+ * The [CreateScreen] serves as a base screen to create a new item or edit an existing one
+ *
+ * @param itemId The identifier of the item to edit
+ * @param viewModel The support viewmodel of the screen
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see PandoroScreen
+ */
 @Structure
 abstract class CreateScreen<I, V : EquinoxViewModel>(
     itemId: String?,
@@ -70,15 +80,24 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
     viewModel = viewModel
 ) {
 
+    /**
+     * **isEditing** -> whether the user is creating or editing an item
+     */
     protected val isEditing: Boolean = itemId != null
 
+    /**
+     * **item** -> state flow holds the item data if [isEditing] is true
+     */
     protected lateinit var item: State<I?>
 
+    /**
+     * **fullScreenFormType** -> state holds the type of the form to use to create or edit the [item]
+     */
     protected lateinit var fullScreenFormType: MutableState<Boolean>
 
+    // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE REAL COMPONENT
     @Composable
     @NonRestartableComposable
-    // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE REAL COMPONENT
     protected fun LoadAwareContent(
         creationTitle: StringResource,
         editingTitle: StringResource,
@@ -162,10 +181,16 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
         }
     }
 
+    /**
+     * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
+     */
     @Composable
     @NonRestartableComposable
     protected abstract fun FabAction()
 
+    /**
+     * Form to allow the creation or the editing of the [item]
+     */
     @Composable
     @NonRestartableComposable
     protected fun Form() {
@@ -189,6 +214,9 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
         }
     }
 
+    /**
+     * [Form] displayed as card
+     */
     @Composable
     @NonRestartableComposable
     @RequiresSuperCall
@@ -196,6 +224,9 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
         fullScreenFormType.value = false
     }
 
+    /**
+     * [Form] displayed as full screen object, this is used for example in the mobile devices
+     */
     @Composable
     @NonRestartableComposable
     @RequiresSuperCall
@@ -203,17 +234,29 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
         fullScreenFormType.value = true
     }
 
+    /**
+     * Method to collect or instantiate the states of the screen
+     */
     @Composable
     @RequiresSuperCall
     override fun CollectStates() {
         fullScreenFormType = remember { mutableStateOf(false) }
     }
 
+    /**
+     * Picker of the images such icons or logos
+     *
+     * @param modifier The modifier to apply to the component
+     * @param pickerSize The size of the picker
+     * @param imageData The data of the image currently picked
+     * @param contentDescription The description of the content displayed by the thumbnail
+     * @param onImagePicked The action to execute when the image has been picked
+     */
     @Composable
     @NonRestartableComposable
     protected fun ImagePicker(
         modifier: Modifier = Modifier,
-        iconSize: Dp,
+        pickerSize: Dp,
         imageData: String?,
         contentDescription: String,
         onImagePicked: (PlatformFile?) -> Unit
@@ -232,7 +275,7 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
                 Thumbnail(
                     modifier = Modifier
                         .align(Alignment.Center),
-                    size = iconSize,
+                    size = pickerSize,
                     thumbnailData = imageData,
                     contentDescription = contentDescription
                 )
@@ -253,6 +296,14 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
         }
     }
 
+    /**
+     * Custom button to save the data inserted in the [Form]
+     *
+     * @param modifier The modifier to apply to the component
+     * @param textStyle The style to apply to the text
+     * @param shape The shape of the button
+     * @param onClick The action to execute when the button has been clicked
+     */
     @Composable
     @NonRestartableComposable
     protected fun SaveButton(

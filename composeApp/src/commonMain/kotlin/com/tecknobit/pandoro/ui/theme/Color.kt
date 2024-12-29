@@ -2,6 +2,9 @@ package com.tecknobit.pandoro.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+/**
+ * Sets of default light theme colors
+ */
 val primaryLight = Color(0xFF07020D)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFF252130)
@@ -146,7 +149,9 @@ val onErrorLightHighContrast = Color(0xFFFFFFFF)
 val errorContainerLightHighContrast = Color(0xFFFFD0D0)
 val onErrorContainerLightHighContrast = Color(0xFF9b0000)
 
-
+/**
+ * Sets of default dark theme colors
+ */
 val primaryDarkMediumContrast = Color(0xFF07020d)
 val onPrimaryDarkMediumContrast = Color(0xFFFFFFFF)
 val primaryContainerDarkMediumContrast = Color(0xFF8a3d47)
@@ -182,7 +187,6 @@ val errorDarkMediumContrast = Color(0xFF9b0000)
 val onErrorDarkMediumContrast = Color(0xFFFFFFFF)
 val errorContainerDarkMediumContrast = Color(0xFFFFD0D0)
 val onErrorContainerDarkMediumContrast = Color(0xFF9b0000)
-
 
 val primaryDarkHighContrast = Color(0xFF07020d)
 val onPrimaryDarkHighContrast = Color(0xFFFFFFFF)
@@ -220,15 +224,27 @@ val onErrorDarkHighContrast = Color(0xFFFFFFFF)
 val errorContainerDarkHighContrast = Color(0xFFFFD0D0)
 val onErrorContainerDarkHighContrast = Color(0xFF9b0000)
 
+/**
+ * Custom greens color palette
+ */
 val lightGreen = Color(4288264330)
 val darkGreen = Color(0xFF3D5B3F)
 
+/**
+ * Custom yellows color palette
+ */
 val lightYellow = Color(0xFFFFE082)
 val darkYellow = Color(4292130864)
 
+/**
+ * Custom background colors palette
+ */
 val darkChangeNoteCardBackground = Color(4292071131)
 val lightChangeNoteCardBackground = Color(4284636780)
 
+/**
+ * **pieCharLightColors** -> light colors for the [PieChartColors]
+ */
 val pieCharLightColors = arrayOf(
     Color(0xFFE6E0F0), Color(0xFF252130), Color(0xFF3D3448), Color(0xFFCCC2DC),
     Color(0xFF332D41), Color(0xFF4B445A), Color(0xFFD0BCFF), Color(0xFF3B2949),
@@ -245,6 +261,9 @@ val pieCharLightColors = arrayOf(
     Color(0xFF4D5A51), Color(0xFF61766A), Color(0xFF789284), Color(0xFF92A89C)
 )
 
+/**
+ * **pieChartDarkColors** -> dark colors for the [PieChartColors]
+ */
 val pieChartDarkColors = arrayOf(
     Color(0xFF07020D), Color(0xFF252130), Color(0xFF4B445A), Color(0xFF655D76),
     Color(0xFF6E546D), Color(0xFF8B6E8B), Color(0xFF1A1626), Color(0xFF332E3F),

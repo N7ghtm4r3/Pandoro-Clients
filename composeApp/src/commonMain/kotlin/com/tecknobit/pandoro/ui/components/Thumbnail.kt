@@ -21,9 +21,19 @@ import org.jetbrains.compose.resources.painterResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.logo
 
+// FIXME: TO FIX SSL SELF-SIGNED VALIDATION
+/**
+ * Used to display the profiles pictures, project icons, group logos or members profile pictures
+ *
+ * @param modifier The modifier to apply to the component
+ * @param size The size of the thumbnail
+ * @param shape The shape of the thumbnail
+ * @param thumbnailData The data to display
+ * @param contentDescription The description of the content displayed by the thumbnail
+ * @param onClick The action to execute when the thumbnail has been clicked
+ */
 @Composable
 @NonRestartableComposable
-// FIXME: TO FIX SSL SELF-SIGNED VALIDATION
 fun Thumbnail(
     modifier: Modifier = Modifier,
     size: Dp = 35.dp,
@@ -59,6 +69,11 @@ fun Thumbnail(
     )
 }
 
+/**
+ * Method to format the data to display by the [Thumbnail] component
+ *
+ * @return the data formatted as nullable [String]
+ */
 private fun String?.prepare() : String? {
     return if (this != null && !this.startsWith(localUser.hostAddress))
         localUser.hostAddress + "/" + this
