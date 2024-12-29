@@ -56,10 +56,12 @@ class MainActivity : ComponentActivity() {
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
         appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
-        setUpSession {
-            localUser.clear()
-            navigator.navigate(AUTH_SCREEN)
-        }
+        setUpSession(
+            hasBeenDisconnectedAction = {
+                localUser.clear()
+                navigator.navigate(AUTH_SCREEN)
+            }
+        )
     }
 
 }

@@ -5,9 +5,16 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.text.font.FontFamily
+import coil3.ImageLoader
+import coil3.compose.LocalPlatformContext
+import coil3.network.NetworkFetcher
+import coil3.network.ktor3.KtorNetworkFetcherFactory
+import coil3.request.CachePolicy
+import coil3.request.addLastModifiedToFileCacheKey
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY
 import com.tecknobit.pandoro.helpers.PandoroLocalUser
 import com.tecknobit.pandoro.helpers.PandoroRequester
+import com.tecknobit.pandoro.helpers.customHttpClient
 import com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen
 import com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen
 import com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen
@@ -78,11 +85,10 @@ const val PROJECT_SCREEN = "ProjectScreen"
 
 const val GROUP_SCREEN = "GroupScreen"
 
-/*
 /**
  * **imageLoader** -> the image loader used by coil library to load the image and by-passing the https self-signed certificates
  */
-lateinit var imageLoader: ImageLoader*/
+lateinit var imageLoader: ImageLoader
 
 /**
  * **requester** -> the instance to manage the requests with the backend
@@ -104,26 +110,24 @@ val localUser = PandoroLocalUser()
 fun App() {
     bodyFontFamily = FontFamily(Font(Res.font.robotomono))
     displayFontFamily = FontFamily(Font(Res.font.oswald))
-    /*sslContext.init(null, validateSelfSignedCertificate(), SecureRandom())
     imageLoader = ImageLoader.Builder(LocalPlatformContext.current)
         .components {
-            add(
-                OkHttpNetworkFetcherFactory {
-                    OkHttpClient.Builder()
-                        .sslSocketFactory(sslContext.socketFactory,
-                            validateSelfSignedCertificate()[0] as X509TrustManager
-                        )
-                        .hostnameVerifier { _: String?, _: SSLSession? -> true }
-                        .connectTimeout(2, TimeUnit.SECONDS)
-                        .build()
-                }
-            )
+            addFetcherFactories {
+                listOf(
+                    Pair(
+                        first = KtorNetworkFetcherFactory(
+                            httpClient = customHttpClient()
+                        ),
+                        second = NetworkFetcher::class
+                    )
+                )
+            }
         }
         .addLastModifiedToFileCacheKey(true)
         .diskCachePolicy(CachePolicy.ENABLED)
         .networkCachePolicy(CachePolicy.ENABLED)
         .memoryCachePolicy(CachePolicy.ENABLED)
-        .build()*/
+        .build()
     PreComposeApp {
         navigator = rememberNavigator()
         NavHost(
@@ -224,25 +228,6 @@ fun App() {
         }
     }
 }
-
-/*
-/**
- * Method to validate a self-signed SLL certificate and bypass the checks of its validity<br></br>
- *
- * @return list of trust managers as [Array] of [TrustManager]
- * @apiNote this method disable all checks on the SLL certificate validity, so is recommended to
- * use for test only or in a private distribution on own infrastructure
- */
-private fun validateSelfSignedCertificate(): Array<TrustManager> {
-    return arrayOf(object : X509TrustManager {
-        override fun getAcceptedIssuers(): Array<X509Certificate> {
-            return arrayOf()
-        }
-
-        override fun checkClientTrusted(certs: Array<X509Certificate>, authType: String) {}
-        override fun checkServerTrusted(certs: Array<X509Certificate>, authType: String) {}
-    })
-}*/
 
 /**
  * Method to check whether are available any updates for each platform and then launch the application

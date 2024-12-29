@@ -11,19 +11,23 @@ import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.app_name
 import pandoro.composeapp.generated.resources.logo
 
-fun main() = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        state = WindowState(
-            placement = Maximized
-        ),
-        title = stringResource(Res.string.app_name),
-        icon = painterResource(Res.drawable.logo)
-    ) {
-        setUpSession {
-            localUser.clear()
-            navigator.navigate(AUTH_SCREEN)
+fun main() {
+    application {
+        Window(
+            onCloseRequest = ::exitApplication,
+            state = WindowState(
+                placement = Maximized
+            ),
+            title = stringResource(Res.string.app_name),
+            icon = painterResource(Res.drawable.logo)
+        ) {
+            setUpSession(
+                hasBeenDisconnectedAction = {
+                    localUser.clear()
+                    navigator.navigate(AUTH_SCREEN)
+                }
+            )
+            App()
         }
-        App()
     }
 }

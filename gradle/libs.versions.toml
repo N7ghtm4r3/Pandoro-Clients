@@ -22,7 +22,7 @@ material3WindowSizeClass = "1.7.1"
 octocatkdu = "1.0.4"
 pandorocore = "1.0.5"
 precompose = "1.7.0-alpha03"
-ktor = "3.0.1"
+ktor = "3.0.2"
 lazy-pagination-compose = "1.4.0"
 startupRuntime = "1.2.0"
 appUpdate = "2.1.0"
@@ -31,7 +31,6 @@ review = "2.0.2"
 [libraries]
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "ktor" }
-coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
 compose-charts = { module = "io.github.ehsannarmani:compose-charts", version.ref = "composeCharts" }
 filekit-compose = { module = "io.github.vinceglb:filekit-compose", version.ref = "filekitCompose" }
 filekit-core = { module = "io.github.vinceglb:filekit-core", version.ref = "filekitCore" }
@@ -39,6 +38,7 @@ jetlime = { module = "io.github.pushpalroy:jetlime", version.ref = "jetlime" }
 kmprefs = { module = "io.github.n7ghtm4r3:KMPrefs", version.ref = "kmprefs" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 equinox-backend = { module = "io.github.n7ghtm4r3:equinox-backend", version.ref = "equinoxCore" }
 equinox-compose = { module = "io.github.n7ghtm4r3:Equinox-Compose", version.ref = "equinoxCompose" }
 equinox-core = { module = "io.github.n7ghtm4r3:equinox-core", version.ref = "equinoxCore" }

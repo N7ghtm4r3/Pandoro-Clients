@@ -15,6 +15,7 @@ import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.tecknobit.pandoro.imageLoader
 import com.tecknobit.pandoro.localUser
 import org.jetbrains.compose.resources.painterResource
 import pandoro.composeapp.generated.resources.Res
@@ -22,6 +23,7 @@ import pandoro.composeapp.generated.resources.logo
 
 @Composable
 @NonRestartableComposable
+// FIXME: TO FIX SSL SELF-SIGNED VALIDATION 
 fun Thumbnail(
     modifier: Modifier = Modifier,
     size: Dp = 35.dp,
@@ -47,10 +49,12 @@ fun Thumbnail(
             .crossfade(true)
             .crossfade(500)
             .build(),
-        // TODO: TO SET
-        //imageLoader = imageLoader,
+        imageLoader = imageLoader,
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
+        onError = {
+            println(it.result)
+        },
         error = painterResource(Res.drawable.logo)
     )
 }

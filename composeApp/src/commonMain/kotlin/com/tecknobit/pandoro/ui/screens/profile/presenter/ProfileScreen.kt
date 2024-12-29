@@ -262,6 +262,8 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                 ChameleonText(
                     text = stringResource(Res.string.logout),
                     fontSize = 12.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     backgroundColor = MaterialTheme.colorScheme.inversePrimary
                 )
             }
@@ -281,7 +283,9 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
             ) {
                 Text(
                     text = stringResource(Res.string.delete),
-                    fontSize = 12.sp
+                    fontSize = 12.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
             DeleteAccount(

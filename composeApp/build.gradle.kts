@@ -67,7 +67,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.coil.network.okhttp)
+            implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.startup.runtime)
             implementation(libs.app.update)
             implementation(libs.app.update.ktx)
@@ -185,11 +185,12 @@ compose.desktop {
     }
 }
 
-// TODO: TO REMOVE IN THE NEXT VERSION (DEPRECATED TRIGGER SEARCH)
 configurations.all {
-    exclude("commons-logging", "commons-logging")
-    // TODO: TO REMOVE IN THE NEXT VERSION (DEPRECATED TRIGGER SEARCH)
     resolutionStrategy {
+        force("org.slf4j:slf4j-api:1.7.36")
+        // FIXME: TO REMOVE IN THE NEXT VERSION (DEPRECATED TRIGGER SEARCH)
         force("com.github.N7ghtm4r3:GitHubManager:1.0.1")
     }
+    // FIXME: TO REMOVE IN THE NEXT VERSION (DEPRECATED TRIGGER SEARCH)
+    exclude("commons-logging", "commons-logging")
 }
