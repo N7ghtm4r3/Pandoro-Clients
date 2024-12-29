@@ -7,7 +7,6 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.text.font.FontFamily
 import coil3.ImageLoader
 import coil3.compose.LocalPlatformContext
-import coil3.network.NetworkFetcher
 import coil3.network.ktor3.KtorNetworkFetcherFactory
 import coil3.request.CachePolicy
 import coil3.request.addLastModifiedToFileCacheKey
@@ -135,16 +134,11 @@ fun App() {
     displayFontFamily = FontFamily(Font(Res.font.oswald))
     imageLoader = ImageLoader.Builder(LocalPlatformContext.current)
         .components {
-            addFetcherFactories {
-                listOf(
-                    Pair(
-                        first = KtorNetworkFetcherFactory(
-                            httpClient = customHttpClient()
-                        ),
-                        second = NetworkFetcher::class
-                    )
+            add(
+                KtorNetworkFetcherFactory(
+                    httpClient = customHttpClient()
                 )
-            }
+            )
         }
         .addLastModifiedToFileCacheKey(true)
         .diskCachePolicy(CachePolicy.ENABLED)

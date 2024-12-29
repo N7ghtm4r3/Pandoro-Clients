@@ -57,6 +57,15 @@ import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.invite
 import pandoro.composeapp.generated.resources.remove
 
+/**
+ * The actions can be executed on a group such add members or share projects
+ *
+ * @param viewModel The support viewmodel of the screen
+ * @param projectsOnDismissAction The action to execute when the sharing of the projects ends
+ * @param userCanAddProjects Whether the current user can add projects to the group
+ * @param membersOnDismissAction The action when the addition of the members ends
+ * @param userCanAddMembers Whether the user can add new members to the group
+ */
 @Composable
 @NonRestartableComposable
 fun GroupActions(
@@ -91,7 +100,7 @@ fun GroupActions(
                 )
             }
             ManageGroupMembers(
-                modalBottomSheetState = membersSheetState,
+                state = membersSheetState,
                 scope = membersScope,
                 viewModel = viewModel,
                 extraOnDismissAction = membersOnDismissAction
@@ -100,6 +109,12 @@ fun GroupActions(
     }
 }
 
+/**
+ * The custom button to attach projects to the group
+ *
+ * @param viewModel The support viewmodel of the screen
+ * @param projectsOnDismissAction The action to execute when the sharing of the projects ends
+ */
 @Composable
 @NonRestartableComposable
 private fun AttachProjectsButton(
@@ -121,24 +136,33 @@ private fun AttachProjectsButton(
         )
     }
     GroupProjects(
-        modalBottomSheetState = projectsSheetState,
+        state = projectsSheetState,
         scope = projectsScope,
         viewModel = viewModel,
         projectsOnDismissAction = projectsOnDismissAction
     )
 }
 
+/**
+ * The layout useful to display the projects shared with the group and allowing addition or to remove
+ * projects
+ *
+ * @param state The state useful to manage the visibility of the [ModalBottomSheet]
+ * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+ * @param viewModel The support viewmodel of the screen
+ * @param projectsOnDismissAction The action to execute when the sharing of the projects ends
+ */
 @Composable
 @NonRestartableComposable
 private fun GroupProjects(
-    modalBottomSheetState: SheetState,
+    state: SheetState,
     scope: CoroutineScope,
     viewModel: GroupManagerViewModel,
     projectsOnDismissAction: (() -> Unit)? = null,
 ) {
     GroupProjectsCandidate(
         extraOnDismissAction = projectsOnDismissAction,
-        modalBottomSheetState = modalBottomSheetState,
+        modalBottomSheetState = state,
         scope = scope,
         projects = viewModel.userProjects,
         trailingContent = { project ->
@@ -160,20 +184,28 @@ private fun GroupProjects(
     )
 }
 
+/**
+ * The layout useful to manage the members of the group
+ *
+ * @param viewModel The support viewmodel of the screen
+ * @param extraOnDismissAction The action to execute when [ModalBottomSheet] dismissed
+ * @param state The state useful to manage the visibility of the [ModalBottomSheet]
+ * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+ */
 @Composable
 @NonRestartableComposable
 private fun ManageGroupMembers(
     viewModel: GroupManagerViewModel,
     extraOnDismissAction: (() -> Unit)?,
-    modalBottomSheetState: SheetState,
+    state: SheetState,
     scope: CoroutineScope
 ) {
-    if(modalBottomSheetState.isVisible) {
+    if(state.isVisible) {
         ModalBottomSheet(
             onDismissRequest = {
                 extraOnDismissAction?.invoke()
                 scope.launch {
-                    modalBottomSheetState.hide()
+                    state.hide()
                 }
             }
         ) {
@@ -184,6 +216,12 @@ private fun ManageGroupMembers(
     }
 }
 
+/**
+ * The members list of the group
+ *
+ * @param modifier The modifier to apply to the component
+ * @param viewModel The support viewmodel of the screen
+ */
 @Composable
 @NonRestartableComposable
 fun GroupMembers(
@@ -214,6 +252,12 @@ fun GroupMembers(
     }
 }
 
+/**
+ * The member details
+ *
+ * @param viewModel The support viewmodel of the screen
+ * @param member The member to display his/her details
+ */
 @Composable
 @NonRestartableComposable
 private fun GroupMember(

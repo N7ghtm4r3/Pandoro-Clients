@@ -50,7 +50,7 @@ import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presentation.CreateProjectScreenViewModel
-import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
+import com.tecknobit.pandoro.ui.screens.group.components.GroupLogos
 import com.tecknobit.pandoro.ui.screens.group.components.GroupsProjectCandidate
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
@@ -328,7 +328,7 @@ class CreateProjectScreen(
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
-                GroupIcons(
+                GroupLogos(
                     groups = viewModel!!.projectGroups,
                     onClick = {
                         scope.launch {

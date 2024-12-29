@@ -37,7 +37,6 @@ filekit-core = { module = "io.github.vinceglb:filekit-core", version.ref = "file
 jetlime = { module = "io.github.pushpalroy:jetlime", version.ref = "jetlime" }
 kmprefs = { module = "io.github.n7ghtm4r3:KMPrefs", version.ref = "kmprefs" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
-ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 equinox-backend = { module = "io.github.n7ghtm4r3:equinox-backend", version.ref = "equinoxCore" }
 equinox-compose = { module = "io.github.n7ghtm4r3:Equinox-Compose", version.ref = "equinoxCompose" }

@@ -46,7 +46,7 @@ import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseConten
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.components.Thumbnail
-import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
+import com.tecknobit.pandoro.ui.screens.group.components.GroupLogos
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.PROJECTS_SCREEN
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
@@ -235,7 +235,7 @@ fun ProjectCard(
                     ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                GroupIcons(
+                GroupLogos(
                     project = project
                 )
                 if(amITheProjectAuthor) {

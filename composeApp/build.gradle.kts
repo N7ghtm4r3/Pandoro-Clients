@@ -108,7 +108,7 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
-            implementation(libs.ktor.client.java)
+            implementation(libs.ktor.client.okhttp)
             implementation(libs.octocatkdu)
         }
     }

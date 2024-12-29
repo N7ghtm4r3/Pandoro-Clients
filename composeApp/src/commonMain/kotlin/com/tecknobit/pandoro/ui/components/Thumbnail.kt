@@ -21,7 +21,6 @@ import org.jetbrains.compose.resources.painterResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.logo
 
-// FIXME: TO FIX SSL SELF-SIGNED VALIDATION
 /**
  * Used to display the profiles pictures, project icons, group logos or members profile pictures
  *
@@ -62,9 +61,6 @@ fun Thumbnail(
         imageLoader = imageLoader,
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
-        onError = {
-            println(it.result)
-        },
         error = painterResource(Res.drawable.logo)
     )
 }

@@ -61,7 +61,7 @@ import com.tecknobit.pandoro.getCurrentSizeClass
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
-import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
+import com.tecknobit.pandoro.ui.screens.group.components.GroupLogos
 import com.tecknobit.pandoro.ui.screens.project.components.ModalProjectStats
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectsStats
 import com.tecknobit.pandoro.ui.screens.project.components.UpdateCard
@@ -147,7 +147,7 @@ class ProjectScreen(
     @NonRestartableComposable
     override fun ItemRelationshipItems() {
         Column {
-            GroupIcons(
+            GroupLogos(
                 modifier = Modifier
                     .heightIn(
                         min = 30.dp

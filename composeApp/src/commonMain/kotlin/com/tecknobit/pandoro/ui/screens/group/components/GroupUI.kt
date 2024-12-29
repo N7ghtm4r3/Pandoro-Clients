@@ -49,16 +49,22 @@ import pandoro.composeapp.generated.resources.share_the_project
 
 private const val LIMIT_GROUPS_DISPLAYED = 5
 
+/**
+ * The logos of the groups where the [project] is shared
+ *
+ * @param modifier The modifier to apply to the component
+ * @param project The project from fetch its groups
+ */
 @Composable
 @NonRestartableComposable
-fun GroupIcons(
+fun GroupLogos(
     modifier: Modifier = Modifier,
     project: Project,
 ) {
     val modalBottomSheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
     val groups = project.groups
-    GroupIcons(
+    GroupLogos(
         modifier = modifier,
         groups = groups,
         onClick = {
@@ -75,6 +81,14 @@ fun GroupIcons(
     )
 }
 
+/**
+ * Allow to display a groups list
+ *
+ * @param state The state useful to manage the visibility of the [ModalBottomSheet]
+ * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+ * @param project The project to display its title
+ * @param groups The list of the groups to display
+ */
 @Composable
 @NonRestartableComposable
 fun GroupExpandedList(
@@ -127,9 +141,16 @@ fun GroupExpandedList(
     }
 }
 
+/**
+ * The logos list of the groups
+ *
+ * @param modifier The modifier to apply to the component
+ * @param groups The list of the groups to display
+ * @param onClick The action to execute when the component is clicked
+ */
 @Composable
 @NonRestartableComposable
-fun GroupIcons(
+fun GroupLogos(
     modifier: Modifier = Modifier,
     groups: List<Group>,
     onClick: () -> Unit
@@ -161,6 +182,14 @@ fun GroupIcons(
     }
 }
 
+/**
+ * Candidates groups where a project can be shared
+ *
+ * @param state The state useful to manage the visibility of the [ModalBottomSheet]
+ * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+ * @param groups The list of the candidates groups
+ * @param trailingContent The trailing content
+ */
 @Composable
 @NonRestartableComposable
 fun GroupsProjectCandidate(
@@ -197,6 +226,12 @@ fun GroupsProjectCandidate(
     }
 }
 
+/**
+ * Custom [LazyColumn] to display the [groups]
+ *
+ * @param groups The list of the candidates groups
+ * @param trailingContent The trailing content
+ */
 @Composable
 @NonRestartableComposable
 private fun GroupsList(
@@ -216,6 +251,12 @@ private fun GroupsList(
     }
 }
 
+/**
+ * Display the details of a group
+ *
+ * @param group The group to display
+ * @param trailingContent The trailing content
+ */
 @Composable
 @NonRestartableComposable
 private fun GroupListItem(

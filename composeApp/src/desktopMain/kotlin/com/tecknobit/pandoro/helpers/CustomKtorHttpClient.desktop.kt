@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.helpers
 
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.java.Java
+import io.ktor.client.engine.okhttp.OkHttp
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
 import javax.net.ssl.SSLContext
@@ -13,11 +13,13 @@ import javax.net.ssl.X509TrustManager
  */
 actual fun customHttpClient(): HttpClient {
     val sslContext = SSLContext.getInstance("TLS")
-    sslContext.init(null, validateSelfSignedCertificate(), SecureRandom())
-    return HttpClient(Java) {
+    val certificates = validateSelfSignedCertificate()
+    sslContext.init(null, certificates, SecureRandom())
+    return HttpClient(OkHttp) {
         engine {
             config {
-                sslContext(sslContext)
+                sslSocketFactory(sslContext.socketFactory, certificates[0] as X509TrustManager)
+                hostnameVerifier { _, _ -> true }
             }
         }
     }
@@ -38,7 +40,6 @@ private fun validateSelfSignedCertificate(): Array<TrustManager> {
         override fun getAcceptedIssuers(): Array<X509Certificate> {
             return arrayOf()
         }
-
         @Suppress("TrustAllX509TrustManager")
         override fun checkClientTrusted(certs: Array<X509Certificate>, authType: String) {}
         @Suppress("TrustAllX509TrustManager")
