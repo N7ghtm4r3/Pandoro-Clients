@@ -3,8 +3,16 @@ package com.tecknobit.pandoro.helpers
 import com.tecknobit.equinoxbackend.environment.models.EquinoxLocalUser
 import com.tecknobit.kmprefs.KMPrefs
 
+/**
+ * The {@code PandoroLocalUser} class is useful to represent a user in the client application
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ */
 class PandoroLocalUser : EquinoxLocalUser() {
 
+    /**
+     * **kmpPrefs** -> the local preferences manager
+     */
     private val kmPrefs = KMPrefs(
         path = "Pandoro"
     )

@@ -43,7 +43,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.oswald
 import pandoro.composeapp.generated.resources.robotomono
-import javax.net.ssl.SSLContext
 
 /**
  * **bodyFontFamily** -> the Pandoro's body font family
@@ -61,28 +60,53 @@ lateinit var displayFontFamily: FontFamily
 lateinit var navigator: Navigator
 
 /**
- * **sslContext** -> the context helper to TLS protocols
+ * **SPLASHSCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen]
  */
-private val sslContext = SSLContext.getInstance("TLS")
-
 const val SPLASHSCREEN = "Splashscreen"
 
+/**
+ * **AUTH_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen]
+ */
 const val AUTH_SCREEN = "AuthScreen"
 
+/**
+ * **HOME_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen]
+ */
 const val HOME_SCREEN = "HomeScreen"
 
+/**
+ * **CREATE_PROJECT_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen]
+ */
 const val CREATE_PROJECT_SCREEN = "CreateProject"
 
+/**
+ * **CREATE_NOTE_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen]
+ */
 const val CREATE_NOTE_SCREEN = "CreateNote"
 
+/**
+ * **CREATE_CHANGE_NOTE_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen]
+ */
 const val CREATE_CHANGE_NOTE_SCREEN = "CreateChangeNote"
 
+/**
+ * **SCHEDULE_UPDATE_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter.ScheduleUpdateScreen]
+ */
 const val SCHEDULE_UPDATE_SCREEN = "ScheduleUpdate"
 
+/**
+ * **CREATE_GROUP_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen]
+ */
 const val CREATE_GROUP_SCREEN = "CreateGroup"
 
+/**
+ * **PROJECT_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen]
+ */
 const val PROJECT_SCREEN = "ProjectScreen"
 
+/**
+ * **GROUP_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen]
+ */
 const val GROUP_SCREEN = "GroupScreen"
 
 /**
@@ -102,8 +126,7 @@ lateinit var requester: PandoroRequester
 val localUser = PandoroLocalUser()
 
 /**
- * Common entry point of the **Ametista** application
- *
+ * Common entry point of the **Pandoro** application
  */
 @Composable
 @Preview

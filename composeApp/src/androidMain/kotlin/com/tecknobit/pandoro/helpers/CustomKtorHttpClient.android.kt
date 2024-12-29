@@ -9,6 +9,9 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
+/**
+ * Method to create a custom [HttpClient] for the [com.tecknobit.pandoro.imageLoader] instance
+ */
 actual fun customHttpClient(): HttpClient {
     val sslContext = SSLContext.getInstance("TLS")
     val certificates = validateSelfSignedCertificate()
@@ -27,8 +30,10 @@ actual fun customHttpClient(): HttpClient {
  * Method to validate a self-signed SLL certificate and bypass the checks of its validity<br></br>
  *
  * @return list of trust managers as [Array] of [TrustManager]
- * @apiNote this method disable all checks on the SLL certificate validity, so is recommended to
- * use for test only or in a private distribution on own infrastructure
+ *
+ * > [!WARNING]
+ * > this method disable all checks on the SLL certificate validity, so is recommended to
+ * > use for test only or in a private distribution on own infrastructure
  */
 private fun validateSelfSignedCertificate(): Array<TrustManager> {
     return arrayOf(@SuppressLint("CustomX509TrustManager")

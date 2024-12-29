@@ -13,7 +13,11 @@ import com.tecknobit.equinoxcore.annotations.RequestPath
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.equinoxcore.annotations.Wrapper
 import com.tecknobit.equinoxcore.network.RequestMethod
-import com.tecknobit.equinoxcore.network.RequestMethod.*
+import com.tecknobit.equinoxcore.network.RequestMethod.DELETE
+import com.tecknobit.equinoxcore.network.RequestMethod.GET
+import com.tecknobit.equinoxcore.network.RequestMethod.PATCH
+import com.tecknobit.equinoxcore.network.RequestMethod.POST
+import com.tecknobit.equinoxcore.network.RequestMethod.PUT
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DATA_KEY
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
@@ -312,6 +316,14 @@ open class PandoroRequester(
         )
     }
 
+    /**
+     * Method to create the query with the pagination parameters for the [getAuthoredProjects] and
+     * [getProjects] requests
+     *
+     * @param page The number of the page to request to the backend
+     * @param pageSize The size of the result for the page
+     * @param filters The filters to apply to retrieve the projects
+     */
     private fun createProjectsQuery(
         page: Int = DEFAULT_PAGE,
         pageSize: Int = DEFAULT_PAGE_SIZE,
@@ -328,6 +340,7 @@ open class PandoroRequester(
      * Method to execute the request to add a new project or edit an exiting project
      *
      * @param icon The icon of the project
+     * @param projectId The identifier of the project to edit
      * @param name The name of the project
      * @param projectDescription The description of the project
      * @param projectVersion The current version of the project
@@ -526,6 +539,17 @@ open class PandoroRequester(
         )
     }
 
+    /**
+     * Wrapper method to execute the request to mark a change note as done
+     *
+     * @param projectId The project identifier
+     * @param updateId The update identifier
+     * @param changeNoteId The note identifier to mark as done
+     * @param completed The status to set to the current change note
+     *
+     * @return the result of the request as [JsonObject]
+     *
+     */
     fun workOnChangeNoteStatus(
         projectId: String,
         updateId: String,
@@ -702,6 +726,10 @@ open class PandoroRequester(
     /**
      * Method to execute the request to get the groups list of the user where him/her is the author
      *
+     * @param page The number of the page to request to the backend
+     * @param pageSize The size of the result for the page
+     * @param nameFilter The name to use as filter to retrieve authored groups
+     *
      * @return the result of the request as [JsonObject]
      *
      */
@@ -722,6 +750,12 @@ open class PandoroRequester(
 
     /**
      * Method to execute the request to get the groups list of the user
+     *
+     * @param page The number of the page to request to the backend
+     * @param pageSize The size of the result for the page
+     * @param onlyAuthoredGroups Whether retrieve only the groups list of the user where him/her is the author
+     * @param nameFilter The name to use as filter to retrieve authored groups
+     * @param roles The roles list to use as filter to retrieve the groups list
      *
      * @return the result of the request as [JsonObject]
      *
@@ -748,7 +782,6 @@ open class PandoroRequester(
     }
 
     /**
-     *
      * Method to execute the request to count the candidates member available
      *
      * @param membersToExclude The numbers of the members exclude
@@ -770,8 +803,12 @@ open class PandoroRequester(
     }
 
     /**
-     *
      * Method to execute the request to get the candidates member for a group
+     *
+     * @param page The number of the page to request to the backend
+     * @param pageSize The size of the result for the page
+     * @param membersToExclude The members exclude
+     *
      * @return the result of the request as [JsonObject]
      */
     fun getCandidateMembers(
@@ -796,6 +833,7 @@ open class PandoroRequester(
      * Method to execute the request to create a new group or edit an exiting group
      *
      * @param groupId The identifier of the group
+     * @param logo The logo of the group
      * @param name The name of the group
      * @param description The description of the group
      * @param members The members to add in the group
@@ -1110,8 +1148,12 @@ open class PandoroRequester(
     /**
      * Method to execute the request to get the notes list of the user
      *
-     * @return the result of the request as [JsonObject]
+     * @param page The number of the page to request to the backend
+     * @param pageSize The size of the result for the page
+     * @param selectToDoNotes Whether select the yet to-do notes
+     * @param selectCompletedNotes Whether select the completed notes
      *
+     * @return the result of the request as [JsonObject]
      */
     @RequestPath(path = "/api/v1/users/{id}/notes", method = GET)
     fun getNotes(
@@ -1138,6 +1180,8 @@ open class PandoroRequester(
     /**
      * Method to execute the request to get the notes list of the user
      *
+     * @param noteId The identifier of the note to get
+     *
      * @return the result of the request as [JsonObject]
      *
      */
@@ -1152,6 +1196,17 @@ open class PandoroRequester(
         )
     }
 
+    /**
+     * Wrapper method to execute the request to add or edit a note
+     *
+     * @param noteId The identifier of the note to edit
+     * @param projectId The project identifier
+     * @param updateId The update identifier
+     * @param contentNote The content of the note
+     *
+     * @return the result of the request as [JsonObject]
+     *
+     */
     fun workOnNote(
         noteId: String?,
         projectId: String?,
@@ -1290,7 +1345,9 @@ open class PandoroRequester(
 
     /**
      * Method to execute the request to mark a user's note as done
+     *
      * @param noteId The note identifier to mark as done
+     * @param completed Whether the note is completed
      *
      * @return the result of the request as [JsonObject]
      *
@@ -1369,6 +1426,9 @@ open class PandoroRequester(
     /**
      * Method to execute the request to get the changelogs list of the user
      *
+     * @param page The number of the page to request to the backend
+     * @param pageSize The size of the result for the page
+     *
      * @return the result of the request as [JsonObject]
      *
      */
@@ -1410,7 +1470,7 @@ open class PandoroRequester(
      * Method to execute the request to delete a changelog
      *
      * @param changelogId The changelog identifier to delete
-     * @param groupId The group identifier where leave if is a [ChangelogEvent.INVITED_GROUP]
+     * @param groupId The group identifier of the group to decline if is a [com.tecknobit.pandorocore.enums.ChangelogEvent.INVITED_GROUP] event
      *
      * @return the result of the request as [JsonObject]
      *
@@ -1453,6 +1513,11 @@ open class PandoroRequester(
         )
     }
 
+    /**
+     * Method to execute the request to get the current overview of the user
+     *
+     * @return the result of the request as [JsonObject]
+     */
     fun getOverview() : JsonObject {
         return execWGet(
             endpoint = createEndpoint(

@@ -23,7 +23,7 @@ import pandoro.composeapp.generated.resources.logo
 
 @Composable
 @NonRestartableComposable
-// FIXME: TO FIX SSL SELF-SIGNED VALIDATION 
+// FIXME: TO FIX SSL SELF-SIGNED VALIDATION
 fun Thumbnail(
     modifier: Modifier = Modifier,
     size: Dp = 35.dp,
