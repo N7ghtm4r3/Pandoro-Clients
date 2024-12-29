@@ -16,6 +16,17 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 
+/**
+ * The [CreateNoteScreenViewModel] provides the methods for the creation or the editing of a
+ * [com.tecknobit.pandoro.ui.screens.notes.data.Note] item
+ *
+ * @param projectId The identifier of the project owns the update
+ * @param updateId The identifier of the update owns the note
+ * @param noteId The identifier of the note to edit
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see EquinoxViewModel
+ */
 class CreateNoteScreenViewModel(
     private val projectId: String?,
     private val updateId: String?,
@@ -24,13 +35,22 @@ class CreateNoteScreenViewModel(
     snackbarHostState = SnackbarHostState()
 ) {
 
+    /**
+     * **_note** -> state flow holds the note data
+     */
     private val _note = MutableStateFlow<Note?>(
         value = null
     )
     val note: StateFlow<Note?> = _note
 
+    /**
+     * **content** -> state holds the content of the note
+     */
     lateinit var content: MutableState<String>
 
+    /**
+     * Method to retrieve the data of a [Note]
+     */
     fun retrieveNote() {
         noteId?.let {
             viewModelScope.launch {
@@ -43,14 +63,15 @@ class CreateNoteScreenViewModel(
                     onSuccess = {
                         _note.value = Json.decodeFromJsonElement(it.toResponseData())
                     },
-                    onFailure = {
-                        showSnackbarMessage(it.toResponseContent())
-                    }
+                    onFailure = { showSnackbarMessage(it.toResponseContent()) }
                 )
             }
         }
     }
 
+    /**
+     * Method to save the [content] inserted
+     */
     fun saveNote() {
         viewModelScope.launch {
             requester.sendWRequest(
@@ -62,12 +83,8 @@ class CreateNoteScreenViewModel(
                         contentNote = content.value
                     )
                 },
-                onSuccess = {
-                    navigator.goBack()
-                },
-                onFailure = {
-                    showSnackbarMessage(it.toResponseContent())
-                }
+                onSuccess = { navigator.goBack() },
+                onFailure = { showSnackbarMessage(it.toResponseContent()) }
             )
         }
     }

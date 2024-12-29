@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
+import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.createnote.presentation.CreateNoteScreenViewModel
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
@@ -44,8 +45,21 @@ import pandoro.composeapp.generated.resources.create_note
 import pandoro.composeapp.generated.resources.edit_change_note_of_update
 import pandoro.composeapp.generated.resources.edit_note
 
+/**
+ * The [CreateNoteScreen] display the form to create a new note or edit an existing one
+ *
+ * @param projectId The identifier of the project owns the update
+ * @param updateId The identifier of the update owns the note
+ * @param targetVersion The target version of the [updateId]
+ * @param noteId The identifier of the note to edit
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see PandoroScreen
+ * @see CreateScreen
+ */
 class CreateNoteScreen(
-    private val projectId: String? = null,
+    projectId: String? = null,
     private val updateId: String? = null,
     private val targetVersion: String? = null,
     noteId: String?
@@ -98,6 +112,9 @@ class CreateNoteScreen(
         }
     }
 
+    /**
+     * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
+     */
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
@@ -111,6 +128,9 @@ class CreateNoteScreen(
         }
     }
 
+    /**
+     * [Form] displayed as card
+     */
     @Composable
     @NonRestartableComposable
     @RequiresSuperCall
@@ -137,6 +157,9 @@ class CreateNoteScreen(
         }
     }
 
+    /**
+     * [Form] displayed as full screen object, this is used for example in the mobile devices
+     */
     @Composable
     @NonRestartableComposable
     @RequiresSuperCall
@@ -151,6 +174,9 @@ class CreateNoteScreen(
         }
     }
 
+    /**
+     * [EquinoxTextField] used to insert the content of the note to save
+     */
     @Composable
     @NonRestartableComposable
     private fun ContentInput() {

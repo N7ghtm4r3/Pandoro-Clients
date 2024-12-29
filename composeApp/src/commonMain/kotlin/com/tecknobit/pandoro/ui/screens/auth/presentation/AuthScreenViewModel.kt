@@ -7,6 +7,7 @@ import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.LANGUAGE_KEY
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.SURNAME_KEY
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxAuthViewModel
+import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isEmailValid
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isNameValid
@@ -19,6 +20,16 @@ import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isHostAddressValid
 
+/**
+ * The **AuthScreenViewModel** class is the support class used to execute the authentication requests
+ * to the backend
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see androidx.lifecycle.ViewModel
+ * @see com.tecknobit.equinoxbackend.FetcherManager
+ * @see EquinoxViewModel
+ * @see EquinoxAuthViewModel
+ */
 class AuthScreenViewModel: EquinoxAuthViewModel(
     snackbarHostState = SnackbarHostState(),
     requester = requester,

@@ -226,7 +226,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
                     }
                 )
                 ItemDescription(
-                    sheetState = modalBottomSheetState,
+                    state = modalBottomSheetState,
                     scope = scope
                 )
             },
@@ -262,20 +262,20 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
     /**
      * The description of the item dynamically displayed on a [ModalBottomSheet]
      *
-     * @param sheetState The state useful to manage the visibility of the [ModalBottomSheet]
+     * @param state The state useful to manage the visibility of the [ModalBottomSheet]
      * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
      */
     @Composable
     @NonRestartableComposable
     private fun ItemDescription(
-        sheetState: SheetState,
+        state: SheetState,
         scope: CoroutineScope
     ) {
-        if(sheetState.isVisible) {
+        if(state.isVisible) {
             ModalBottomSheet(
                 onDismissRequest = {
                     scope.launch {
-                        sheetState.hide()
+                        state.hide()
                     }
                 }
             ) {

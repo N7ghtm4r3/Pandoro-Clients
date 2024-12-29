@@ -22,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -45,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.getImagePath
+import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.creategroup.presentation.CreateGroupScreenViewModel
 import com.tecknobit.pandoro.ui.screens.group.components.GroupActions
 import com.tecknobit.pandoro.ui.screens.group.components.GroupMembers
@@ -67,6 +69,16 @@ import pandoro.composeapp.generated.resources.name
 import pandoro.composeapp.generated.resources.wrong_description
 import pandoro.composeapp.generated.resources.wrong_name
 
+/**
+ * The [CreateGroupScreen] displays the form to create a new group or edit an existing one
+ *
+ * @param groupId The identifier of the group to edit
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see PandoroScreen
+ * @see CreateScreen
+ */
 class CreateGroupScreen(
     groupId: String?
 ): CreateScreen<Group, CreateGroupScreenViewModel>(
@@ -112,6 +124,9 @@ class CreateGroupScreen(
         }
     }
 
+    /**
+     * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
+     */
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
@@ -122,6 +137,9 @@ class CreateGroupScreen(
         }
     }
 
+    /**
+     * [Form] displayed as card
+     */
     @Composable
     @NonRestartableComposable
     @RequiresSuperCall
@@ -150,7 +168,7 @@ class CreateGroupScreen(
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     LogoPicker(
-                        iconSize = 120.dp
+                        pickerSize = 120.dp
                     )
                     Row (
                         modifier = Modifier
@@ -181,6 +199,9 @@ class CreateGroupScreen(
         }
     }
 
+    /**
+     * The actions available in the [CardForm] to manage the create or edit operation
+     */
     @Composable
     @NonRestartableComposable
     private fun GroupCardFormActions() {
@@ -203,11 +224,14 @@ class CreateGroupScreen(
         }
     }
 
+    /**
+     * Dedicated layout to manage the projects shared in the group
+     */
     @Composable
     @NonRestartableComposable
     private fun ManageGroupProjects() {
         if(viewModel!!.userProjects.isNotEmpty()) {
-            val modalBottomSheetState = rememberModalBottomSheetState()
+            val sheetState = rememberModalBottomSheetState()
             val scope = rememberCoroutineScope()
             AnimatedVisibility(
                 visible = viewModel!!.groupProjects.isEmpty(),
@@ -217,7 +241,7 @@ class CreateGroupScreen(
                 Button(
                     onClick = {
                         scope.launch {
-                            modalBottomSheetState.show()
+                            sheetState.show()
                         }
                     }
                 ) {
@@ -235,22 +259,28 @@ class CreateGroupScreen(
                     projects = viewModel!!.groupProjects,
                     onClick = {
                         scope.launch {
-                            modalBottomSheetState.show()
+                            sheetState.show()
                         }
                     }
                 )
             }
             GroupProjects(
-                modalBottomSheetState = modalBottomSheetState,
+                state = sheetState,
                 scope = scope
             )
         }
     }
 
+    /**
+     * The icons of the projects shared in the group, the component allows their management
+     *
+     * @param state The state useful to manage the visibility of the [ModalBottomSheet]
+     * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+     */
     @Composable
     @NonRestartableComposable
     private fun GroupProjects(
-        modalBottomSheetState: SheetState,
+        state: SheetState,
         scope: CoroutineScope
     ) {
         val projects: MutableList<Project> = remember { mutableListOf() }
@@ -258,7 +288,7 @@ class CreateGroupScreen(
             projects.addAll(viewModel!!.userProjects + viewModel!!.groupProjects)
         }
         GroupProjectsCandidate(
-            modalBottomSheetState = modalBottomSheetState,
+            modalBottomSheetState = state,
             scope = scope,
             projects = projects.distinctBy { project -> project.id },
             trailingContent = { project ->
@@ -283,6 +313,9 @@ class CreateGroupScreen(
         )
     }
 
+    /**
+     * [Form] displayed as full screen object, this is used for example in the mobile devices
+     */
     @Composable
     @NonRestartableComposable
     @RequiresSuperCall
@@ -333,11 +366,17 @@ class CreateGroupScreen(
                     .padding(
                         top = 10.dp
                     ),
-                iconSize = 120.dp
+                pickerSize = 120.dp
             )
         }
     }
 
+    /**
+     * The section where the user can fill the form with the group details
+     *
+     * @param descriptionModifier The modifier to apply to the [EquinoxOutlinedTextField] where the
+     * description can be typed
+     */
     @Composable
     @NonRestartableComposable
     private fun GroupDetails(
@@ -370,15 +409,21 @@ class CreateGroupScreen(
         )
     }
 
+    /**
+     * Picker to chose the logo of the group
+     *
+     * @param modifier The modifier to apply to the component
+     * @param pickerSize The size of the picker
+     */
     @Composable
     @NonRestartableComposable
     private fun LogoPicker(
         modifier: Modifier = Modifier,
-        iconSize: Dp
+        pickerSize: Dp
     ) {
         ImagePicker(
             modifier = modifier,
-            pickerSize = iconSize,
+            pickerSize = pickerSize,
             imageData = viewModel!!.groupLogo.value,
             contentDescription = "Group Logo",
             onImagePicked = { logo ->
@@ -389,6 +434,9 @@ class CreateGroupScreen(
         )
     }
 
+    /**
+     * Method invoked when the [ShowContent] composable has been started
+     */
     override fun onStart() {
         super.onStart()
         viewModel!!.retrieveGroup()
@@ -396,6 +444,9 @@ class CreateGroupScreen(
         viewModel!!.countCandidatesMember()
     }
 
+    /**
+     * Method to collect or instantiate the states of the screen
+     */
     @Composable
     @RequiresSuperCall
     override fun CollectStates() {

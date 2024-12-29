@@ -25,6 +25,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -47,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.getImagePath
+import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presentation.CreateProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.group.components.GroupIcons
 import com.tecknobit.pandoro.ui.screens.group.components.GroupsProjectCandidate
@@ -73,6 +75,16 @@ import pandoro.composeapp.generated.resources.wrong_name
 import pandoro.composeapp.generated.resources.wrong_project_version
 import pandoro.composeapp.generated.resources.wrong_repository_url
 
+/**
+ * The [CreateProjectScreen] displays the form to create a new project or edit an existing one
+ *
+ * @param projectId The identifier of the project to edit
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see PandoroScreen
+ * @see CreateScreen
+ */
 class CreateProjectScreen(
     projectId: String?
 ) : CreateScreen<Project, CreateProjectScreenViewModel>(
@@ -134,6 +146,9 @@ class CreateProjectScreen(
         }
     }
 
+    /**
+     * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
+     */
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
@@ -153,12 +168,15 @@ class CreateProjectScreen(
                 )
             }
             ProjectGroups(
-                modalBottomSheetState = modalBottomSheetState,
+                state = modalBottomSheetState,
                 scope = scope,
             )
         }
     }
 
+    /**
+     * [Form] displayed as card
+     */
     @Composable
     @NonRestartableComposable
     @RequiresSuperCall
@@ -187,7 +205,7 @@ class CreateProjectScreen(
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     IconPicker(
-                        iconSize = 130.dp
+                        pickerSize = 130.dp
                     )
                     ProjectCardFormDetails(
                         descriptionModifier = Modifier
@@ -198,6 +216,12 @@ class CreateProjectScreen(
         }
     }
 
+    /**
+     * The section where are displayed the details of the project
+     *
+     * @param descriptionModifier The modifier to apply to the [EquinoxOutlinedTextField] where the
+     * description can be typed
+     */
     @Composable
     @NonRestartableComposable
     private fun ProjectCardFormDetails(
@@ -249,6 +273,9 @@ class CreateProjectScreen(
         ProjectCardFormActions()
     }
 
+    /**
+     * The actions available in the [CardForm] to manage the create or edit operation
+     */
     @Composable
     @NonRestartableComposable
     private fun ProjectCardFormActions() {
@@ -270,6 +297,9 @@ class CreateProjectScreen(
         }
     }
 
+    /**
+     * Dedicated layout to manage the groups where the project is shared
+     */
     @Composable
     @NonRestartableComposable
     private fun ManageProjectGroups() {
@@ -308,12 +338,15 @@ class CreateProjectScreen(
                 )
             }
             ProjectGroups(
-                modalBottomSheetState = modalBottomSheetState,
+                state = modalBottomSheetState,
                 scope = scope
             )
         }
     }
 
+    /**
+     * [Form] displayed as full screen object, this is used for example in the mobile devices
+     */
     @Composable
     @NonRestartableComposable
     @RequiresSuperCall
@@ -326,11 +359,16 @@ class CreateProjectScreen(
                     .padding(
                         top = 10.dp
                     ),
-                iconSize = 120.dp
+                pickerSize = 120.dp
             )
         }
     }
 
+    /**
+     * The section where the user can fill the form with the project details
+     *
+     * description can be typed
+     */
     @Composable
     @NonRestartableComposable
     private fun FullScreenProjectDetails() {
@@ -411,10 +449,16 @@ class CreateProjectScreen(
         }
     }
 
+    /**
+     * The logos of the groups where the project is shared, the component allows their management
+     *
+     * @param state The state useful to manage the visibility of the [ModalBottomSheet]
+     * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+     */
     @Composable
     @NonRestartableComposable
     private fun ProjectGroups(
-        modalBottomSheetState: SheetState,
+        state: SheetState,
         scope: CoroutineScope
     ) {
         val groups = remember { mutableListOf<Group>() }
@@ -422,7 +466,7 @@ class CreateProjectScreen(
             groups.addAll(viewModel!!.projectGroups + viewModel!!.authoredGroups)
         }
         GroupsProjectCandidate(
-            state = modalBottomSheetState,
+            state = state,
             scope = scope,
             groups = groups.distinctBy { group -> group.id }
         ) { group ->
@@ -446,15 +490,21 @@ class CreateProjectScreen(
         }
     }
 
+    /**
+     * Picker to chose the icon of the project
+     *
+     * @param modifier The modifier to apply to the component
+     * @param pickerSize The size of the picker
+     */
     @Composable
     @NonRestartableComposable
     private fun IconPicker(
         modifier: Modifier = Modifier,
-        iconSize: Dp
+        pickerSize: Dp
     ) {
         ImagePicker(
             modifier = modifier,
-            pickerSize = iconSize,
+            pickerSize = pickerSize,
             imageData = viewModel!!.projectIcon.value,
             contentDescription = "Project icon",
             onImagePicked = { image ->

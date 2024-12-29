@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
+import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedWRequest
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
@@ -11,7 +12,9 @@ import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseData
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
+import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseProjectViewModel
+import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.BaseGroupViewModel
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectDescription
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectName
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidRepository
@@ -20,34 +23,83 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 
+/**
+ * The [CreateProjectScreenViewModel] provides the methods for the creation or the editing of a
+ * [com.tecknobit.pandoro.ui.screens.projects.data.Project] item
+ *
+ * @param projectId The identifier of the project to edit
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see EquinoxViewModel
+ * @see BaseGroupViewModel
+ */
 class CreateProjectScreenViewModel(
     val projectId: String?
 ) : BaseProjectViewModel() {
 
+    /**
+     * **candidateGroups** -> the list of the candidates groups where share the project
+     */
     val candidateGroups: SnapshotStateList<String> = mutableStateListOf()
 
+    /**
+     * **projectGroups** -> the list of the current groups where the project is shared
+     */
     val projectGroups: SnapshotStateList<Group> = mutableStateListOf()
 
+    /**
+     * **authoredGroups** -> the list of the groups owned by the [com.tecknobit.pandoro.localUser]
+     */
     val authoredGroups: MutableList<Group> = mutableListOf()
 
+    /**
+     * **projectIcon** -> the value of the icon of the project
+     */
     lateinit var projectIcon: MutableState<String?>
 
+    /**
+     * **projectName** -> the value of the name of the project
+     */
     lateinit var projectName: MutableState<String>
 
+    /**
+     * **projectNameError** -> whether the [projectName] field is not valid
+     */
     lateinit var projectNameError: MutableState<Boolean>
 
+    /**
+     * **projectVersion** -> the value of the version of the project
+     */
     lateinit var projectVersion: MutableState<String>
 
+    /**
+     * **projectVersionError** -> whether the [projectVersion] field is not valid
+     */
     lateinit var projectVersionError: MutableState<Boolean>
 
+    /**
+     * **projectRepository** -> the value of the repository of the project
+     */
     lateinit var projectRepository: MutableState<String>
 
+    /**
+     * **projectRepositoryError** -> whether the [projectRepository] field is not valid
+     */
     lateinit var projectRepositoryError: MutableState<Boolean>
 
+    /**
+     * **projectDescription** -> the value of the description of the project
+     */
     lateinit var projectDescription: MutableState<String>
 
+    /**
+     * **projectDescriptionError** -> whether the [projectDescription] field is not valid
+     */
     lateinit var projectDescriptionError: MutableState<Boolean>
 
+    /**
+     * Method to retrieve the data of a [Project] if needed
+     */
     override fun retrieveProject() {
         if(projectId == null)
             return
@@ -68,6 +120,9 @@ class CreateProjectScreenViewModel(
         }
     }
 
+    /**
+     * Method to retrieve the current authored groups owned by the user
+     */
     fun retrieveAuthoredGroups() {
         viewModelScope.launch {
             requester.sendPaginatedWRequest(
@@ -87,6 +142,11 @@ class CreateProjectScreenViewModel(
         }
     }
 
+    /**
+     * Method to manage a candidate project in the [projectGroups] and [candidateGroups] lists
+     *
+     * @param group The group to manage
+     */
     fun manageCandidateGroup(
         group: Group
     ) {
@@ -100,6 +160,10 @@ class CreateProjectScreenViewModel(
         }
     }
 
+    /**
+     * Method to create or editing the [project] invoking the correct method to execute the request
+     * to handle that operation
+     */
     fun workOnProject() {
         if(!isFormValid())
             return
@@ -125,6 +189,11 @@ class CreateProjectScreenViewModel(
         }
     }
 
+    /**
+     * Method to validate the form data
+     *
+     * @return whether the form data are valid as [Boolean]
+     */
     private fun isFormValid() : Boolean {
         if(!isValidProjectName(projectName.value)) {
             projectNameError.value = true
