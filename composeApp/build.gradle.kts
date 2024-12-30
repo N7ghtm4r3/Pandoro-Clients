@@ -1,6 +1,10 @@
+
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Deb
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Exe
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Pkg
+import org.jetbrains.dokka.base.DokkaBase
+import org.jetbrains.dokka.base.DokkaBaseConfiguration
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -11,6 +15,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.dokka)
     kotlin("plugin.serialization") version "2.0.20"
 }
 
@@ -193,4 +198,16 @@ configurations.all {
     }
     // FIXME: TO REMOVE IN THE NEXT VERSION (DEPRECATED TRIGGER SEARCH)
     exclude("commons-logging", "commons-logging")
+}
+
+tasks.withType<DokkaTask>().configureEach {
+    dokkaSourceSets {
+        moduleName.set("Pandoro")
+        outputDirectory.set(layout.projectDirectory.dir("../docs"))
+    }
+
+    pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
+        customAssets = listOf(file("../docs/logo-icon.svg"))
+        footerMessage = "(c) 2024 Tecknobit"
+    }
 }
