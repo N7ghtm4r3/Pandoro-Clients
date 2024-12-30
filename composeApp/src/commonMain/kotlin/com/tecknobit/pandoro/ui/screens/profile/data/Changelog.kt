@@ -45,6 +45,19 @@ import pandoro.composeapp.generated.resources.update_scheduled_title
 import pandoro.composeapp.generated.resources.update_started
 import pandoro.composeapp.generated.resources.update_started_title
 
+/**
+ * The [Changelog] data class allow to represent a changelog data
+ *
+ * @property id The identifier of the changelog
+ * @property event The event of the changelog
+ * @property timestamp The timestamp of the changelog
+ * @property project The project attached to the changelog
+ * @property group The group attached to the changelog
+ * @property extraContent The extra content of the changelog
+ * @property read Whether the changelog is already read
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ */
 @Serializable
 data class Changelog(
     val id: String,
@@ -59,6 +72,11 @@ data class Changelog(
     val read: Boolean,
 ) {
 
+    /**
+     * Method to get the title based on the locale
+     *
+     * @return the title of the changelog based on the locale as [String]
+     */
     @Composable
     fun getTitle() : String {
         return stringResource(
@@ -79,8 +97,7 @@ data class Changelog(
     }
 
     /**
-     * Method to get the content message<br></br>
-     * No-any params required
+     * Method to get the content message
      *
      * @return the content message in base of the [.changelogEvent] type as [String]
      */
@@ -107,10 +124,20 @@ data class Changelog(
         }
     }
 
+    /**
+     * Method to check whether the changelog as attached items such [group] or [project]
+     *
+     * @return whether the changelog as attached items such [group] or [project] as [Boolean]
+     */
     fun hasItemsData() : Boolean {
         return group != null || project != null
     }
 
+    /**
+     * Method to get the thumbnail of the items attached to the changelog
+     *
+     * @return the thumbnail of the items attached to the changelog as nullable [String]
+     */
     fun thumbnail() : String? {
         return if(group != null)
             group.logo
@@ -118,6 +145,11 @@ data class Changelog(
             project?.icon
     }
 
+    /**
+     * Method to check whether the [event] is [INVITED_GROUP] event
+     *
+     * @return whether the [event] is [INVITED_GROUP] event as [Boolean]
+     */
     fun isInviteToGroupType() : Boolean {
         return event == INVITED_GROUP
     }

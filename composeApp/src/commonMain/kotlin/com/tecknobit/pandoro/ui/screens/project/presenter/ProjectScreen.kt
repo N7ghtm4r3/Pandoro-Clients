@@ -61,6 +61,7 @@ import com.tecknobit.pandoro.getCurrentSizeClass
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
+import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.group.components.GroupLogos
 import com.tecknobit.pandoro.ui.screens.project.components.ModalProjectStats
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectsStats
@@ -83,6 +84,17 @@ import pandoro.composeapp.generated.resources.no_updates_scheduled
 import pandoro.composeapp.generated.resources.stats
 import pandoro.composeapp.generated.resources.updates
 
+/**
+ * The [ProjectScreen] displays the details of a project and allow to manage that project
+ *
+ * @param projectId The identifier of the project to display
+ * @param updateToExpandId If not null will expand the related change notes of the update requested
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see PandoroScreen
+ * @see ItemScreen
+ */
 class ProjectScreen(
     projectId: String,
     private val updateToExpandId: String?
@@ -92,6 +104,9 @@ class ProjectScreen(
     )
 ) {
 
+    /**
+     * The title of the screen
+     */
     @Composable
     @NonRestartableComposable
     override fun ItemTitle() {
@@ -139,10 +154,18 @@ class ProjectScreen(
         }
     }
 
+    /**
+     * Method to get the thumbnail data from the item
+     *
+     * @return the thumbnail data of the item as nullable [String]
+     */
     override fun getThumbnailData(): String? {
         return item.value!!.icon
     }
 
+    /**
+     * The related items of the [item] such groups or projects
+     */
     @Composable
     @NonRestartableComposable
     override fun ItemRelationshipItems() {
@@ -161,14 +184,27 @@ class ProjectScreen(
         }
     }
 
+    /**
+     * Method to get the description of the item
+     *
+     * @return the description of the item as [String]
+     */
     override fun getItemDescription(): String {
         return item.value!!.description
     }
 
+    /**
+     * The action to execute when the [item] has been edited
+     */
     override fun onEdit() {
         navigator.navigate("$CREATE_PROJECT_SCREEN/${item.value!!.id}")
     }
 
+    /**
+     * The action to execute when the [item] has been requested to delete
+     *
+     * @param delete Whether the warn alert about the deletion is shown
+     */
     @Composable
     @NonRestartableComposable
     override fun DeleteItemAction(
@@ -193,10 +229,18 @@ class ProjectScreen(
         )
     }
 
+    /**
+     * Method to get the author of the [item]
+     *
+     * @return the author of the item as [PandoroUser]
+     */
     override fun getItemAuthor(): PandoroUser {
         return item.value!!.author
     }
 
+    /**
+     * The related content of the screen
+     */
     @Composable
     @NonRestartableComposable
     override fun ScreenContent() {
@@ -220,6 +264,9 @@ class ProjectScreen(
         }
     }
 
+    /**
+     * The statistics about the updates of the project
+     */
     @Composable
     @NonRestartableComposable
     private fun UpdatesStatsSection() {
@@ -259,6 +306,9 @@ class ProjectScreen(
         }
     }
 
+    /**
+     * The updates of the project displayed in the related section where can be displayed and managed
+     */
     @Composable
     @NonRestartableComposable
     private fun ProjectUpdatesSection() {
@@ -306,6 +356,9 @@ class ProjectScreen(
         }
     }
 
+    /**
+     * Section to allowing the user to filters the [ProjectUpdatesSection]
+     */
     @Composable
     @NonRestartableComposable
     private fun Filters() {
@@ -381,6 +434,9 @@ class ProjectScreen(
         }
     }
 
+    /**
+     * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
+     */
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
@@ -404,6 +460,9 @@ class ProjectScreen(
         }
     }
 
+    /**
+     * Custom [Column] container of the [ViewStatsButton] and [ScheduleButton]
+     */
     @Composable
     @NonRestartableComposable
     private fun FabButtons() {
@@ -415,6 +474,9 @@ class ProjectScreen(
         }
     }
 
+    /**
+     * Custom [SmallFloatingActionButton] to view the statistic about the project
+     */
     @Composable
     @NonRestartableComposable
     private fun ViewStatsButton() {
@@ -448,6 +510,10 @@ class ProjectScreen(
         }
     }
 
+    /**
+     * Button to navigate to the [SCHEDULE_UPDATE_SCREEN] to schedule a new update for the
+     * project
+     */
     @Composable
     @NonRestartableComposable
     private fun ScheduleButton() {
@@ -465,6 +531,9 @@ class ProjectScreen(
         }
     }
 
+    /**
+     * Method invoked when the [ShowContent] composable has been started
+     */
     override fun onStart() {
         super.onStart()
         viewModel!!.retrieveProject()

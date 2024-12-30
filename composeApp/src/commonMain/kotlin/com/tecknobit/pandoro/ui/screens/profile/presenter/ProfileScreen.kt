@@ -75,6 +75,7 @@ import com.tecknobit.equinoxcompose.components.ChameleonText
 import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
+import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
 import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.LANGUAGES_SUPPORTED
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isEmailValid
@@ -117,10 +118,21 @@ import pandoro.composeapp.generated.resources.settings
 import pandoro.composeapp.generated.resources.wrong_email
 import pandoro.composeapp.generated.resources.wrong_password
 
+/**
+ * The [ProfileScreen] display the account setting and the changelogs of the current [localUser],
+ * allow to customize the preferences and settings
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see EquinoxScreen
+ * @see PandoroScreen
+ */
 class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     viewModel = ProfileScreenViewModel()
 ) {
 
+    /**
+     * **userEmail** -> the current [localUser]'s email
+     */
     private lateinit var userEmail: MutableState<String>
 
     /**
@@ -146,6 +158,9 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         )
     }
 
+    /**
+     * Method to dynamically display the content of the screen
+     */
     @Composable
     @NonRestartableComposable
     private fun ProfileContentManager() {
@@ -163,6 +178,11 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         }
     }
 
+    /**
+     * The profile details of the user
+     *
+     * @param modifier The modifier to apply to the component
+     */
     @Composable
     @NonRestartableComposable
     private fun ProfileContent(
@@ -180,6 +200,9 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         }
     }
 
+    /**
+     * The details of the [localUser]
+     */
     @Composable
     @NonRestartableComposable
     private fun UserDetails() {
@@ -212,6 +235,9 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         }
     }
 
+    /**
+     * The profile picker to allow the [localUser] to change his/her profile picture
+     */
     @Composable
     @NonRestartableComposable
     private fun ProfilePicker() {
@@ -243,6 +269,9 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         )
     }
 
+    /**
+     * The actions can be execute on the [localUser] account such logout and delete account
+     */
     @Composable
     @NonRestartableComposable
     private fun ActionButtons() {
@@ -295,6 +324,9 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         }
     }
 
+    /**
+     * The settings section to customize the [localUser] experience
+     */
     @Composable
     @NonRestartableComposable
     private fun Settings() {
@@ -375,6 +407,9 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         )
     }
 
+    /**
+     * Section to change the [localUser]'s email
+     */
     @Composable
     @NonRestartableComposable
     private fun ChangeEmail() {
@@ -415,6 +450,9 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         )
     }
 
+    /**
+     * Section to change the [localUser]'s password
+     */
     @Composable
     @NonRestartableComposable
     private fun ChangePassword() {
@@ -472,6 +510,11 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         )
     }
 
+    /**
+     * Section to change the [localUser]'s language
+     *
+     * @param currentLanguage The current [localUser]'s language
+     */
     @Composable
     @NonRestartableComposable
     private fun ChangeLanguage(
@@ -497,6 +540,11 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         }
     }
 
+    /**
+     * Section to change the [localUser]'s theme
+     *
+     * @param currentTheme The current [localUser]'s theme
+     */
     @Composable
     @NonRestartableComposable
     private fun ChangeTheme(
@@ -522,6 +570,9 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         }
     }
 
+    /**
+     * The list of the changelogs owned by the [localUser]
+     */
     @Composable
     @NonRestartableComposable
     private fun Changelogs() {
@@ -602,6 +653,17 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         )
     }
 
+    /**
+     * Section to execute a profile action
+     *
+     * @param shape The shape for the container
+     * @param leadingIcon The representative leading icon
+     * @param actionText The representative action text
+     * @param actionContent The content to display to execute the action
+     * @param dismissAction The action to execute when the action dismissed
+     * @param confirmAction The action to execute when the action confirmed
+     * @param bottomDivider Whether create the bottom divider
+     */
     @Composable
     @NonRestartableComposable
     private fun ProfileAction(
@@ -631,6 +693,13 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         )
     }
 
+    /**
+     * The controls action section to manage the [ProfileAction]
+     *
+     * @param expanded Whether the section is visible
+     * @param dismissAction The action to execute when the action dismissed
+     * @param confirmAction The action to execute when the action confirmed
+     */
     @Composable
     @NonRestartableComposable
     private fun ActionControls(
@@ -690,6 +759,15 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         }
     }
 
+    /**
+     * Section to execute a profile action
+     *
+     * @param shape The shape for the container
+     * @param leadingIcon The representative leading icon
+     * @param actionText The representative action text
+     * @param actionContent The content to display to execute the action
+     * @param bottomDivider Whether create the bottom divider
+     */
     @Composable
     @NonRestartableComposable
     private fun ProfileAction(
@@ -743,6 +821,9 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
             HorizontalDivider()
     }
 
+    /**
+     * Method invoked when the [ShowContent] composable has been created
+     */
     override fun onCreate() {
         viewModel!!.setActiveContext(HomeScreen::class.java)
     }

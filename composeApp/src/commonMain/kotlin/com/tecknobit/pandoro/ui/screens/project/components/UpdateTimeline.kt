@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalComposeApi::class)
-
 package com.tecknobit.pandoro.ui.screens.project.components
 
 import androidx.compose.foundation.layout.Arrangement
@@ -9,7 +7,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -45,6 +42,11 @@ import pandoro.composeapp.generated.resources.update_scheduled_myself
 import pandoro.composeapp.generated.resources.update_started_by
 import pandoro.composeapp.generated.resources.update_started_myself
 
+/**
+ * The timeline of the events occurred for the [update]
+ *
+ * @param update The update from fetch the related events
+ */
 @Composable
 @NonRestartableComposable
 fun UpdateTimeline(
@@ -84,6 +86,13 @@ fun UpdateTimeline(
     )
 }
 
+/**
+ * The timeline event to display its details
+ *
+ * @param position The position in the timeline
+ * @param eventMessage The message of the event
+ * @param eventDate The date of the event
+ */
 @Composable
 @NonRestartableComposable
 private fun TimelineEvent(
@@ -107,6 +116,11 @@ private fun TimelineEvent(
     }
 }
 
+/**
+ * The timeline of the events occurred for the [update] shared with groups
+ *
+ * @param update The update from fetch the related events
+ */
 @Composable
 @NonRestartableComposable
 fun SharedUpdateTimeline(
@@ -152,6 +166,15 @@ fun SharedUpdateTimeline(
     )
 }
 
+/**
+ * The timeline of a shared event to display its details
+ *
+ * @param position The position in the timeline
+ * @param eventAuthor The author of the event such creation, starting or publishing
+ * @param contentDescription The description of the content displayed by the event
+ * @param eventMessage The message of the event
+ * @param eventDate The date of the event
+ */
 @Composable
 @NonRestartableComposable
 private fun SharedTimelineEvent(
@@ -193,6 +216,13 @@ private fun SharedTimelineEvent(
     }
 }
 
+/**
+ * The info about the date of the event
+ *
+ * @param modifier The modifier to apply to the component
+ * @param eventMessage The message of the event
+ * @param eventDate The date of the event
+ */
 @Composable
 @NonRestartableComposable
 private fun EventDateInfo(
@@ -217,6 +247,12 @@ private fun EventDateInfo(
     )
 }
 
+/**
+ * The container of the timelines of the [update]
+ *
+ * @param update The update from fetch the timeline
+ * @param content The content to display the timeline
+ */
 @Composable
 @NonRestartableComposable
 private fun UpdateTimelineContainer(

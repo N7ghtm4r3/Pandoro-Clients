@@ -162,7 +162,7 @@ private fun GroupProjects(
 ) {
     GroupProjectsCandidate(
         extraOnDismissAction = projectsOnDismissAction,
-        modalBottomSheetState = state,
+        state = state,
         scope = scope,
         projects = viewModel.userProjects,
         trailingContent = { project ->

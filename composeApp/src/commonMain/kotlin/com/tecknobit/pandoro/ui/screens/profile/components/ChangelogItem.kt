@@ -32,6 +32,12 @@ import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.decline
 import pandoro.composeapp.generated.resources.join
 
+/**
+ * The card to display the changelog details
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param changelog The changelog to display
+ */
 @Composable
 @NonRestartableComposable
 fun ChangelogItem(

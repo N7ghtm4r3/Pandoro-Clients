@@ -16,8 +16,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 
+/**
+ * **CHANGE_NOTES_COMPLETED_VALUE** -> constant dimension value used as total completion of an update
+ */
 private val CHANGE_NOTES_COMPLETED_VALUE = 230.dp
 
+/**
+ * Indicator used to monitoring the status of the update in terms of tasks completed on the total amount
+ * to complete
+ *
+ * @param modifier The modifier to apply to the indicator
+ * @param update The update from fetch the information
+ * @param onUpdateCompleted The action to execute when the update has been completed
+ */
 @Composable
 @NonRestartableComposable
 fun UpdateProgressesIndicator(

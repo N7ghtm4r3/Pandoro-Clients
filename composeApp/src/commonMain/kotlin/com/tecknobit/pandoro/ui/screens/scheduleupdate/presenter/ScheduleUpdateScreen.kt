@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
+import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.ui.icons.AddNotes
 import com.tecknobit.pandoro.ui.screens.notes.components.NoteDetails
@@ -69,6 +70,15 @@ import pandoro.composeapp.generated.resources.schedule_update_subtext
 import pandoro.composeapp.generated.resources.target_version
 import pandoro.composeapp.generated.resources.wrong_target_version
 
+/**
+ * The [ScheduleUpdateScreen] class allows to schedule a new update
+ *
+ * @param projectId The identifier of the project where the update must be attached
+ * @param projectName The name of the project
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see EquinoxScreen
+ */
 class ScheduleUpdateScreen(
     projectId: String,
     private val projectName: String
@@ -106,11 +116,17 @@ class ScheduleUpdateScreen(
         }
     }
 
+    /**
+     * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
+     */
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
     }
 
+    /**
+     * [Form] displayed as card
+     */
     @Composable
     @NonRestartableComposable
     @RequiresSuperCall
@@ -135,7 +151,9 @@ class ScheduleUpdateScreen(
         }
     }
 
-
+    /**
+     * [Form] displayed as full screen object, this is used for example in the mobile devices
+     */
     @Composable
     @NonRestartableComposable
     @RequiresSuperCall
@@ -147,6 +165,11 @@ class ScheduleUpdateScreen(
         )
     }
 
+    /**
+     * The form used to insert the details of the new update
+     *
+     * @param modifier The modifier to apply to the form
+     */
     @Composable
     @NonRestartableComposable
     private fun ScheduleForm(
@@ -170,6 +193,9 @@ class ScheduleUpdateScreen(
         }
     }
 
+    /**
+     * The custom header of the [ScheduleForm]
+     */
     @Composable
     @NonRestartableComposable
     private fun FormHeader() {
@@ -221,6 +247,9 @@ class ScheduleUpdateScreen(
         }
     }
 
+    /**
+     * The list of the current change notes added to the related list
+     */
     @Composable
     @NonRestartableComposable
     private fun ChangeNotes() {
@@ -242,6 +271,12 @@ class ScheduleUpdateScreen(
         }
     }
 
+    /**
+     * The change note added and its details
+     *
+     * @param index The index of the change note
+     * @param changeNote The content of the change note
+     */
     @Composable
     @NonRestartableComposable
     private fun ChangeNoteItem(
@@ -296,6 +331,9 @@ class ScheduleUpdateScreen(
         )
     }
 
+    /**
+     * The form to allow the user to type the content of the change note to add
+     */
     @Composable
     @NonRestartableComposable
     private fun BoxScope.ChangeNoteForm() {

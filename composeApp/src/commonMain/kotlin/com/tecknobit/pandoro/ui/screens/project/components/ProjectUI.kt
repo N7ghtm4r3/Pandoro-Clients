@@ -38,6 +38,12 @@ import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersio
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+/**
+ * The projects icons of the projects shared with the [group]
+ *
+ * @param modifier The modifier to apply to the component
+ * @param group The group from fetch the projects
+ */
 @Composable
 @NonRestartableComposable
 fun ProjectIcons(
@@ -72,21 +78,28 @@ fun ProjectIcons(
         }
     }
     ProjectsListExpanded(
-        modalBottomSheetState = modalBottomSheetState,
+        state = modalBottomSheetState,
         scope = scope,
         group = group
     )
 }
 
+/**
+ * The expanded list of the project shared with the [group]
+ *
+ * @param state The state useful to manage the visibility of the [ModalBottomSheet]
+ * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+ * @param group The group from fetch the projects
+ */
 @Composable
 @NonRestartableComposable
 private fun ProjectsListExpanded(
-    modalBottomSheetState: SheetState,
+    state: SheetState,
     scope: CoroutineScope,
     group: Group
 ) {
     ProjectsListExpanded(
-        modalBottomSheetState = modalBottomSheetState,
+        state = state,
         scope = scope,
         projects = group.projects,
         trailingContent = { project ->
@@ -107,6 +120,12 @@ private fun ProjectsListExpanded(
     )
 }
 
+/**
+ * The projects icons list
+ *
+ * @param projects The list of the projects
+ * @param onClick The action to execute when the list is clicked
+ */
 @Composable
 @NonRestartableComposable
 fun ProjectIcons(
@@ -138,17 +157,26 @@ fun ProjectIcons(
     }
 }
 
+/**
+ * List of the candidate projects to share with the group
+ *
+ * @param extraOnDismissAction The action to execute when [ModalBottomSheet] dismissed
+ * @param state The state useful to manage the visibility of the [ModalBottomSheet]
+ * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+ * @param projects The list of the projects
+ * @param trailingContent The content at the end of the layout
+ */
 @Composable
 @NonRestartableComposable
 fun GroupProjectsCandidate(
     extraOnDismissAction: (() -> Unit)? = null,
-    modalBottomSheetState: SheetState,
+    state: SheetState,
     scope: CoroutineScope,
     projects: List<Project>,
     trailingContent: @Composable (Project) -> Unit
 ) {
     ProjectsListExpanded(
-        modalBottomSheetState = modalBottomSheetState,
+        state = state,
         scope = scope,
         extraOnDismissAction = extraOnDismissAction,
         projects = projects,
@@ -156,21 +184,30 @@ fun GroupProjectsCandidate(
     )
 }
 
+/**
+ * Expanded list of the projects to display each project details
+ *
+ * @param state The state useful to manage the visibility of the [ModalBottomSheet]
+ * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+ * @param projects The list of the projects
+ * @param extraOnDismissAction The action to execute when [ModalBottomSheet] dismissed
+ * @param trailingContent The content at the end of the layout
+ */
 @Composable
 @NonRestartableComposable
 private fun ProjectsListExpanded(
-    modalBottomSheetState: SheetState,
+    state: SheetState,
     scope: CoroutineScope,
     projects: List<Project>,
     extraOnDismissAction: (() -> Unit)? = null,
     trailingContent: @Composable (Project) -> Unit
 ) {
-    if(modalBottomSheetState.isVisible) {
+    if(state.isVisible) {
         ModalBottomSheet(
             onDismissRequest = {
                 extraOnDismissAction?.invoke()
                 scope.launch {
-                    modalBottomSheetState.hide()
+                    state.hide()
                 }
             }
         ) {
@@ -189,6 +226,12 @@ private fun ProjectsListExpanded(
     }
 }
 
+/**
+ * Project item details
+ *
+ * @param project The project to display
+ * @param trailingContent The content at the end of the layout
+ */
 @Composable
 @NonRestartableComposable
 private fun ProjectListItem(

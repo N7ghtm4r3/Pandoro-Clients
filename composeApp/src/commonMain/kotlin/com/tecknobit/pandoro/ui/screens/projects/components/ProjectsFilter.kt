@@ -17,6 +17,13 @@ import pandoro.composeapp.generated.resources.filter_projects
 import pandoro.composeapp.generated.resources.filters_placeholder
 import pandoro.composeapp.generated.resources.wrong_filters_text
 
+/**
+ * Dialog layout to allow the user to filter a projects list
+ *
+ * @param show Whether the dialog is shown
+ * @param isAllProjectsFiltering Whether is filtering the complete projects list
+ * @param viewModel The support viewmodel for the screen
+ */
 @Composable
 @NonRestartableComposable
 fun FilterProjects(

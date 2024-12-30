@@ -4,6 +4,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxProfileViewModel
+import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedWRequest
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
@@ -14,14 +15,31 @@ import com.tecknobit.pandoro.ui.screens.profile.data.Changelog
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlinx.coroutines.launch
 
+/**
+ * The **ProfileScreenViewModel** class is the support class used to change the user account settings
+ * or preferences
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see androidx.lifecycle.ViewModel
+ * @see com.tecknobit.equinoxbackend.FetcherManager
+ * @see EquinoxViewModel
+ * @see EquinoxProfileViewModel
+ */
 class ProfileScreenViewModel: EquinoxProfileViewModel(
     snackbarHostState = SnackbarHostState(),
     requester = requester,
     localUser = localUser
 ) {
 
+    /**
+     * **profilePic** -> the profile picture value
+     */
     lateinit var profilePic: MutableState<String>
 
+    /**
+     * **changelogsState** -> the state used to manage the pagination for the
+     * [retrieveChangelogs] method
+     */
     val changelogsState = PaginationState<Int, Changelog>(
         initialPageKey = PaginatedResponse.DEFAULT_PAGE,
         onRequestPage = { page ->
@@ -31,6 +49,11 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
         }
     )
 
+    /**
+     * Method to retrieve the changelogs owned by the [com.tecknobit.pandoro.localUser]
+     *
+     * @param page The page to request to the server
+     */
     private fun retrieveChangelogs(
         page: Int
     ) {
@@ -54,6 +77,11 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
         }
     }
 
+    /**
+     * Method to read a changelog
+     *
+     * @param changelog The changelog to read
+     */
     fun readChangelog(
         changelog: Changelog
     ) {
@@ -72,6 +100,11 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
         }
     }
 
+    /**
+     * Method to accept a [com.tecknobit.pandoro.ui.screens.groups.data.Group] invitation
+     *
+     * @param changelog The changelog from fetch the group
+     */
     fun acceptInvite(
         changelog: Changelog
     ) {
@@ -91,6 +124,11 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
         }
     }
 
+    /**
+     * Method to decline a [com.tecknobit.pandoro.ui.screens.groups.data.Group] invitation
+     *
+     * @param changelog The changelog from fetch the group
+     */
     fun declineInvite(
         changelog: Changelog
     ) {
@@ -110,6 +148,11 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
         }
     }
 
+    /**
+     * Method to delete a changelog
+     *
+     * @param changelog The changelog to delete
+     */
     fun deleteChangelog(
         changelog: Changelog
     ) {

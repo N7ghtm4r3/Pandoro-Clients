@@ -288,7 +288,7 @@ class CreateGroupScreen(
             projects.addAll(viewModel!!.userProjects + viewModel!!.groupProjects)
         }
         GroupProjectsCandidate(
-            modalBottomSheetState = state,
+            state = state,
             scope = scope,
             projects = projects.distinctBy { project -> project.id },
             trailingContent = { project ->

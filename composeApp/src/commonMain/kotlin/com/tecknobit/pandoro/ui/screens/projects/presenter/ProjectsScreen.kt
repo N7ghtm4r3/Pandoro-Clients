@@ -33,6 +33,7 @@ import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.NewHorizontalPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.NewPageProgressIndicator
+import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.projects.components.FilterProjects
 import com.tecknobit.pandoro.ui.screens.projects.components.InDevelopmentProjectCard
@@ -49,11 +50,23 @@ import pandoro.composeapp.generated.resources.in_development
 import pandoro.composeapp.generated.resources.no_projects_available
 import pandoro.composeapp.generated.resources.projects
 
+/**
+ * The [ProjectsScreen] displays the projects lists of the [com.tecknobit.pandoro.localUser] such
+ * projects in development and the complete projects list
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see PandoroScreen
+ * @see ListsScreen
+ */
 class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
     viewModel = ProjectsScreenViewModel(),
     screenTitle = Res.string.projects
 ) {
 
+    /**
+     * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
+     */
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
@@ -67,6 +80,10 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
         }
     }
 
+    /**
+     * The horizontal list to display the items in row format, the projects currently
+     * [com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT]
+     */
     @Composable
     @NonRestartableComposable
     override fun ItemsInRow() {
@@ -111,6 +128,10 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
         }
     }
 
+    /**
+     * The column or grid list dynamically adapted based on the screen size, the complete projects
+     * list
+     */
     @Composable
     @NonRestartableComposable
     override fun ItemsAdaptedSize() {
@@ -195,6 +216,11 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
         }
     }
 
+    /**
+     * UI to filter the [ItemsInRow] list
+     *
+     * @param show Whether the dialog is shown
+     */
     @Composable
     @NonRestartableComposable
     override fun FilterRowItemsUi(
@@ -207,6 +233,11 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
         )
     }
 
+    /**
+     * UI to filter the [ItemsAdaptedSize] list
+     *
+     * @param show Whether the dialog is shown
+     */
     @Composable
     @NonRestartableComposable
     override fun FilterAllItemsUi(
@@ -219,6 +250,9 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
         )
     }
 
+    /**
+     * Method invoked when the [ShowContent] composable has been created
+     */
     override fun onCreate() {
         viewModel!!.setActiveContext(HomeScreen::class.java)
     }

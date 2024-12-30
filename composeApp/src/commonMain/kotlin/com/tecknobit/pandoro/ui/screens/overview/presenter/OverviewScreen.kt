@@ -54,10 +54,20 @@ import pandoro.composeapp.generated.resources.projects
 import pandoro.composeapp.generated.resources.retry_to_reconnect
 import pandoro.composeapp.generated.resources.updates
 
+/**
+ * The [OverviewScreen] displays the details of an overview
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see PandoroScreen
+ */
 class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
     viewModel = OverviewScreenViewModel()
 ) {
 
+    /**
+     * **overview** -> state flow holds the overview data
+     */
     private lateinit var overview: State<Overview?>
 
     /**
@@ -88,6 +98,9 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
         )
     }
 
+    /**
+     * The UI to display when no overview data are available to be displayed
+     */
     @Composable
     @NonRestartableComposable
     private fun NoOverviewDataAvailable() {
@@ -101,6 +114,9 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
         )
     }
 
+    /**
+     * Method to display dynamically based on the screen size the content of the overview
+     */
     @Composable
     @NonRestartableComposable
     private fun OverviewData() {
@@ -124,6 +140,9 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
         }
     }
 
+    /**
+     * The overview data displayed as dashboard
+     */
     @Composable
     @NonRestartableComposable
     private fun DashboardOverview() {
@@ -187,6 +206,9 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
         }
     }
 
+    /**
+     * The overview data displayed in column for the mobile devices for example
+     */
     @Composable
     @NonRestartableComposable
     private fun OverviewColumned() {
@@ -210,6 +232,13 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
         }
     }
 
+    /**
+     * The statistics about the projects
+     *
+     * @param modifier The modifier to apply to the card
+     * @param pieSize The size of the pie chart
+     * @param pieStroke The stroke to apply to the pie chart
+     */
     @Composable
     @NonRestartableComposable
     private fun ProjectsStats(
@@ -241,6 +270,13 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
         )
     }
 
+    /**
+     * The statistics about the updates
+     *
+     * @param modifier The modifier to apply to the card
+     * @param pieSize The size of the pie chart
+     * @param pieStroke The stroke to apply to the pie chart
+     */
     @Composable
     @NonRestartableComposable
     private fun UpdatesStats(
@@ -271,6 +307,9 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
         )
     }
 
+    /**
+     * Method invoked when the [ShowContent] composable has been created
+     */
     override fun onCreate() {
         viewModel!!.setActiveContext(HomeScreen::class.java)
     }

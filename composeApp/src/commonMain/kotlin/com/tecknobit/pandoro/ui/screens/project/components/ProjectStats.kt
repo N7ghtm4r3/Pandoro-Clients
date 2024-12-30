@@ -78,10 +78,22 @@ private val axisProperties = GridProperties.AxisProperties(
     enabled = false
 )
 
+/**
+ * **contentBuilder** custom content builder to format the content of the popups of the points in the
+ * charts
+ */
 private val contentBuilder: (Double) -> String = {
     "%.0f".format(it)
 }
 
+/**
+ * Custom [ModalBottomSheet] container to display the projects stats
+ *
+ * @param state The state useful to manage the visibility of the [ModalBottomSheet]
+ * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+ * @param project The project to display its stats
+ * @param publishedUpdates The list of the published updates
+ */
 @Composable
 @NonRestartableComposable
 fun ModalProjectStats(
@@ -125,6 +137,13 @@ fun ModalProjectStats(
     }
 }
 
+
+/**
+ * Custom [Column] container to display the projects stats
+ *
+ * @param project The project to display its stats
+ * @param publishedUpdates The list of the published updates
+ */
 @Composable
 @NonRestartableComposable
 fun ProjectsStats(
@@ -155,6 +174,12 @@ fun ProjectsStats(
     }
 }
 
+/**
+ * Section to display the development days statistic
+ *
+ * @param project The project to display its stats
+ * @param publishedUpdates The list of the published updates
+ */
 @Composable
 @NonRestartableComposable
 private fun DevelopmentDays(
@@ -261,6 +286,14 @@ private fun DevelopmentDays(
     )
 }
 
+/**
+ * Method to get the chart data
+ *
+ * @param pieChartColors The colors of the pie chart
+ * @param publishedUpdates The list of the published updates
+ *
+ * @return the chart data as [List] of [Pie]
+ */
 private fun getTotalDevelopmentDaysData(
     pieChartColors: Array<Color>,
     publishedUpdates: List<ProjectUpdate>
@@ -285,6 +318,13 @@ private fun getTotalDevelopmentDaysData(
     return pies
 }
 
+/**
+ * Section to display the average days per update statistic
+ *
+ * @param modifier The modifier to apply to the component
+ * @param project The project to display its stats
+ * @param publishedUpdates The list of the published updates
+ */
 @Composable
 @NonRestartableComposable
 private fun AverageDaysPerUpdate(
@@ -350,6 +390,14 @@ private fun AverageDaysPerUpdate(
     )
 }
 
+/**
+ * Method to get the chart data
+ *
+ * @param lineColor The colors of the line chart
+ * @param publishedUpdates The list of the published updates
+ *
+ * @return the chart data as [List] of [Line]
+ */
 private fun getAverageDaysPerUpdateData(
     lineColor: Color,
     publishedUpdates: List<ProjectUpdate>
@@ -372,6 +420,14 @@ private fun getAverageDaysPerUpdateData(
     )
 }
 
+/**
+ * Section to display the statistics
+ *
+ * @param modifier The modifier to apply to the component
+ * @param header The header of the section
+ * @param subText The representative subtext of the section
+ * @param chart The chart related to the section
+ */
 @Composable
 @NonRestartableComposable
 private fun StatsSection(

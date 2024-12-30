@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.helpers.session.setHasBeenDisconnectedValue
 import com.tecknobit.equinoxcompose.helpers.session.setServerOfflineValue
+import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedWRequest
 import com.tecknobit.pandoro.requester
@@ -14,10 +15,26 @@ import com.tecknobit.pandoro.ui.screens.shared.viewmodels.MultipleListViewModel
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlinx.coroutines.launch
 
+/**
+ * The [ProjectsScreenViewModel] is useful to manage the lists displayed in the
+ * [com.tecknobit.pandoro.ui.screens.projects.presenter.ProjectsScreen]
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see EquinoxViewModel
+ * @see MultipleListViewModel
+ * @see ProjectDeleter
+ */
 class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
 
+    /**
+     * **inDevelopmentProjectsFilter** -> the filters to apply to the [inDevelopmentProjectsState] list
+     */
     lateinit var inDevelopmentProjectsFilter: MutableState<String>
 
+    /**
+     * **inDevelopmentProjectsState** -> the state used to manage the pagination for the
+     * [retrieveInDevelopmentProjects] method
+     */
     val inDevelopmentProjectsState = PaginationState<Int, InDevelopmentProject>(
         initialPageKey = DEFAULT_PAGE,
         onRequestPage = { page ->
@@ -27,6 +44,12 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
         }
     )
 
+    /**
+     * Method to retrieve the projects currently
+     * [com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT]
+     *
+     * @param page The page to request to the server
+     */
     private fun retrieveInDevelopmentProjects(
         page: Int
     ) {
@@ -56,6 +79,11 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
         }
     }
 
+    /**
+     * Method to transform a list of [Project] in a list of [InDevelopmentProject]
+     *
+     * @return the list transformed as [List] of [InDevelopmentProject]
+     */
     private fun List<Project>.toDevelopmentProjects() : List<InDevelopmentProject> {
         val inDevelopmentProjects = arrayListOf<InDevelopmentProject>()
         this.forEach { project: Project ->
@@ -74,8 +102,15 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
         return inDevelopmentProjects
     }
 
+    /**
+     * **projectsFilter** -> the filters to apply to the [projectsState] list
+     */
     lateinit var projectsFilter: MutableState<String>
 
+    /**
+     * **projectsState** -> the state used to manage the pagination for the
+     * [retrieveProjects] method
+     */
     val projectsState = PaginationState<Int, Project>(
         initialPageKey = DEFAULT_PAGE,
         onRequestPage = { page ->
@@ -85,6 +120,11 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
         }
     )
 
+    /**
+     * Method to retrieve the complete projects list of the [com.tecknobit.pandoro.localUser]
+     *
+     * @param page The page to request to the server
+     */
     private fun retrieveProjects(
         page: Int
     ) {
@@ -114,11 +154,19 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
         }
     }
 
+    /**
+     * Method to retry the retrieving of the lists data
+     */
     override fun retryRetrieveLists() {
         inDevelopmentProjectsState.retryLastFailedRequest()
         projectsState.retryLastFailedRequest()
     }
 
+    /**
+     * Method to check whether the filters have been set
+     *
+     * @param allItems Whether check the all items list
+     */
     override fun areFiltersSet(
         allItems: Boolean
     ): Boolean {
@@ -128,6 +176,11 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
             inDevelopmentProjectsFilter.value.isNotEmpty()
     }
 
+    /**
+     * Method to clear filters have been set
+     *
+     * @param allItems Whether clear the all items filters
+     */
     override fun clearFilters(
         allItems: Boolean
     ) {
@@ -140,6 +193,13 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
         }
     }
 
+    /**
+     * Method to filter the items list
+     *
+     * @param allItems Whether filter the all items list
+     * @param filters The filters to use
+     * @param onFiltersSet The action to execute when the filters have been set
+     */
     override fun filterItems(
         allItems: Boolean,
         filters: MutableState<String>,

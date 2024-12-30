@@ -98,6 +98,15 @@ import pandoro.composeapp.generated.resources.start_development
 import pandoro.composeapp.generated.resources.update_completed_in
 import pandoro.composeapp.generated.resources.update_completed_info
 
+/**
+ * Custom [Card] to display the details about an update
+ *
+ * @param modifier The modifier to apply to the card
+ * @param viewModel The support viewmodel for the screen
+ * @param project The project owner of the update
+ * @param update The update to display
+ * @param viewChangeNotesFlag The flag used to control the flow to display or not the changes notes
+ */
 @Composable
 @NonRestartableComposable
 fun UpdateCard(
@@ -127,6 +136,14 @@ fun UpdateCard(
     }
 }
 
+/**
+ * The header of the [UpdateCard]
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param viewChangeNotes The flag used to control the flow to display or not the changes notes
+ * @param project The project owner of the update
+ * @param update The update to display
+ */
 @Composable
 @NonRestartableComposable
 private fun CardHeader(
@@ -200,6 +217,14 @@ private fun CardHeader(
     HorizontalDivider()
 }
 
+/**
+ * The action available to operate on the [UpdateCard]
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param viewChangeNotes The flag used to control the flow to display or not the changes notes
+ * @param project The project owner of the update
+ * @param update The update to display
+ */
 @Composable
 @NonRestartableComposable
 private fun UpdateActions(
@@ -286,6 +311,14 @@ private fun UpdateActions(
     )
 }
 
+/**
+ * Custom [ModalBottomSheet] to display the events related to the [update]
+ *
+ * @param state The state useful to manage the visibility of the [ModalBottomSheet]
+ * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+ * @param project The project owner of the update
+ * @param update The update to display
+ */
 @Composable
 @NonRestartableComposable
 private fun ViewTimeline(
@@ -331,6 +364,14 @@ private fun formatNotesAsMarkdown(update: ProjectUpdate): String {
     return builder.toString()
 }
 
+/**
+ * Custom content to display based on the [UpdateStatus]
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param viewChangeNotes The flag used to control the flow to display or not the changes notes
+ * @param project The project owner of the update
+ * @param update The update to display
+ */
 @Composable
 @NonRestartableComposable
 private fun UpdateStatus.Content(
@@ -466,6 +507,13 @@ private fun UpdateStatus.Content(
     }
 }
 
+/**
+ * Custom [Button] to execute an action on an update
+ *
+ * @param color The color of the button
+ * @param action The action to execute
+ * @param text The text of the button
+ */
 @Composable
 @NonRestartableComposable
 private fun ColumnScope.ActionButton(
@@ -490,6 +538,14 @@ private fun ColumnScope.ActionButton(
     }
 }
 
+/**
+ * Section where the change notes related to the [update] can be displayed and managed
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param viewChangeNotes The flag used to control the flow to display or not the changes notes
+ * @param project The project owner of the update
+ * @param update The update to display
+ */
 @Composable
 @NonRestartableComposable
 private fun ViewChangeNotes(
@@ -589,6 +645,12 @@ private fun ViewChangeNotes(
     }
 }
 
+/**
+ * Method to prevent the screen sleeps when reading the change notes of an update
+ */
 expect fun preventScreenSleep()
 
+/**
+ * Method to allow the screen sleeps when finished reading the change notes of an update
+ */
 expect fun allowsScreenSleep()

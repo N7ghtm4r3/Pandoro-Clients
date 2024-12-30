@@ -63,6 +63,11 @@ import pandoro.composeapp.generated.resources.update_completed_in
 import pandoro.composeapp.generated.resources.update_completed_info
 import pandoro.composeapp.generated.resources.update_in_progress_info
 
+/**
+ * Custom [Card] to display a project currently [com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT]
+ *
+ * @param inDevelopmentProject The in development project to display
+ */
 @Composable
 fun InDevelopmentProjectCard(
     inDevelopmentProject: InDevelopmentProject
@@ -117,6 +122,13 @@ fun InDevelopmentProjectCard(
     }
 }
 
+/**
+ * The custom icon to represent the current status of the project such currently in development or
+ * ready to be published
+ *
+ * @param update The update [com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT] of the project
+ * @param updateCompleted Whether the update is ready to be published
+ */
 @Composable
 @NonRestartableComposable
 private fun UpdateStatusIcon(
@@ -169,6 +181,13 @@ private fun UpdateStatusIcon(
     }
 }
 
+/**
+ * Custom [Card] to display a project item
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param modifier The modifier to apply to the [Card]
+ * @param project The project to display
+ */
 @Composable
 @NonRestartableComposable
 fun ProjectCard(
@@ -281,6 +300,11 @@ fun ProjectCard(
         navigator.navigate("$CREATE_PROJECT_SCREEN/${project.id}")
 }
 
+/**
+ * Custom header for the [ProjectCard]
+ *
+ * @param project The project displayed
+ */
 @Composable
 @NonRestartableComposable
 private fun ProjectHeader(
@@ -306,6 +330,12 @@ private fun ProjectHeader(
     }
 }
 
+/**
+ * Custom title component for the [ProjectCard]
+ *
+ * @param modifier The modifier to apply to the component
+ * @param project The project displayed
+ */
 @Composable
 @NonRestartableComposable
 private fun ProjectTitle(
