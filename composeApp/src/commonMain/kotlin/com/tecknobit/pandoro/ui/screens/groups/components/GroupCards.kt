@@ -46,6 +46,12 @@ import org.jetbrains.compose.resources.pluralStringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.members_number
 
+/**
+ * Card to display a group owned by the [com.tecknobit.pandoro.localUser]
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param group The group to display
+ */
 @Composable
 @NonRestartableComposable
 fun MyGroupCard(
@@ -87,6 +93,13 @@ fun MyGroupCard(
     )
 }
 
+/**
+ * Card to display a group where the [com.tecknobit.pandoro.localUser] is a member
+ *
+ * @param modifier The modifier to apply to the component
+ * @param viewModel The support viewmodel for the screen
+ * @param group The group to display
+ */
 @Composable
 @NonRestartableComposable
 fun GroupCard(
@@ -126,6 +139,15 @@ fun GroupCard(
     )
 }
 
+/**
+ * The content of the group's cards
+ *
+ * @param modifier The modifier to apply to the component
+ * @param viewModel The support viewmodel for the screen
+ * @param group The group to display
+ * @param memberAllowedToDelete Whether the member is allowed to delete the [group]
+ * @param overlineText The content to display as overline text
+ */
 @Composable
 @NonRestartableComposable
 private fun GroupCardContent(
@@ -166,6 +188,12 @@ private fun GroupCardContent(
     }
 }
 
+/**
+ * The title section of the group's cards
+ *
+ * @param modifier The modifier to apply to the component
+ * @param group The group to display
+ */
 @Composable
 @NonRestartableComposable
 private fun GroupTitle(
@@ -195,8 +223,13 @@ private fun GroupTitle(
     }
 }
 
-
-
+/**
+ * The footer section of the group's cards
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param group The group to display
+ * @param memberAllowedToDelete Whether the member is allowed to delete the [group]
+ */
 @Composable
 @NonRestartableComposable
 private fun CardFooter(
@@ -230,6 +263,12 @@ private fun CardFooter(
     }
 }
 
+/**
+ * The custom button to delete the [group]
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param group The group to display
+ */
 @Composable
 @NonRestartableComposable
 private fun DeleteGroupButton(
@@ -263,12 +302,24 @@ private fun DeleteGroupButton(
     }
 }
 
+/**
+ * Method to navigate to the [com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen]
+ * to edit the [group]
+ *
+ * @param group The group to edit
+ */
 private fun navToEditGroup(
     group: Group
 ) {
     navigator.navigate("$CREATE_GROUP_SCREEN/${group.id}")
 }
 
+/**
+ * Method to navigate to the [com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen]
+ * to display the [group]
+ *
+ * @param group The group to display in that screen
+ */
 private fun navToGroup(
     group: Group
 ) {

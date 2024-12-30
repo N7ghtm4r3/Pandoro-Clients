@@ -37,6 +37,7 @@ import com.tecknobit.pandoro.ui.components.ChangeMemberRole
 import com.tecknobit.pandoro.ui.components.DeleteGroup
 import com.tecknobit.pandoro.ui.components.LeaveGroup
 import com.tecknobit.pandoro.ui.components.Thumbnail
+import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.group.components.GroupActions
 import com.tecknobit.pandoro.ui.screens.group.components.MembersTable
 import com.tecknobit.pandoro.ui.screens.group.presentation.GroupScreenViewModel
@@ -49,6 +50,16 @@ import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.shared.screens.ItemScreen
 import com.tecknobit.pandorocore.enums.InvitationStatus.PENDING
 
+/**
+ * The [GroupScreen] displays the details of a group and allow to manage that group
+ *
+ * @param groupId The identifier of the group to display
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see PandoroScreen
+ * @see ItemScreen
+ */
 class GroupScreen(
     groupId: String
 ) : ItemScreen<Group, GroupScreenViewModel>(
@@ -58,8 +69,14 @@ class GroupScreen(
     bottomPadding = 0.dp
 ) {
 
+    /**
+     * **candidatesAvailable** -> whether there are any candidates available to be added in the group
+     */
     private lateinit var candidatesAvailable: State<Boolean>
 
+    /**
+     * The title of the screen
+     */
     @Composable
     @NonRestartableComposable
     override fun ItemTitle() {
@@ -69,10 +86,18 @@ class GroupScreen(
         )
     }
 
+    /**
+     * Method to get the thumbnail data from the item
+     *
+     * @return the thumbnail data of the item as nullable [String]
+     */
     override fun getThumbnailData(): String {
         return item.value!!.logo
     }
 
+    /**
+     * The related items of the [item] such groups or projects
+     */
     @Composable
     @NonRestartableComposable
     override fun ItemRelationshipItems() {
@@ -85,14 +110,27 @@ class GroupScreen(
         )
     }
 
+    /**
+     * Method to get the description of the item
+     *
+     * @return the description of the item as [String]
+     */
     override fun getItemDescription(): String {
         return item.value!!.description
     }
 
+    /**
+     * The action to execute when the [item] has been edited
+     */
     override fun onEdit() {
         navigator.navigate("$CREATE_GROUP_SCREEN/${item.value!!.id}")
     }
 
+    /**
+     * The action to execute when the [item] has been requested to delete
+     *
+     * @param delete Whether the warn alert about the deletion is shown
+     */
     @Composable
     @NonRestartableComposable
     override fun DeleteItemAction(
@@ -109,10 +147,19 @@ class GroupScreen(
         )
     }
 
+    /**
+     * Method to get the author of the [item]
+     *
+     * @return the author of the item as [PandoroUser]
+     */
     override fun getItemAuthor(): PandoroUser {
         return item.value!!.author
     }
 
+    /**
+     * Extra action component to allow the user to execute an action on the [item] such the
+     * leaving from a group
+     */
     @Composable
     @NonRestartableComposable
     override fun ExtraAction() {
@@ -135,6 +182,9 @@ class GroupScreen(
         }
     }
 
+    /**
+     * The related content of the screen
+     */
     @Composable
     @NonRestartableComposable
     override fun ScreenContent() {
@@ -164,6 +214,9 @@ class GroupScreen(
         }
     }
 
+    /**
+     * The members displayed in a [LazyColumn] format for the mobile devices for example
+     */
     @Composable
     @NonRestartableComposable
     private fun MembersColumn() {
@@ -184,6 +237,11 @@ class GroupScreen(
         }
     }
 
+    /**
+     * The member item details
+     *
+     * @param member The member to display
+     */
     @Composable
     @NonRestartableComposable
     private fun Member(
@@ -269,6 +327,9 @@ class GroupScreen(
         )
     }
 
+    /**
+     * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
+     */
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
@@ -281,6 +342,9 @@ class GroupScreen(
         )
     }
 
+    /**
+     * Method invoked when the [ShowContent] composable has been started
+     */
     override fun onStart() {
         super.onStart()
         viewModel!!.retrieveGroup()

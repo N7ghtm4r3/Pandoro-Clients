@@ -6,6 +6,7 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.helpers.session.setHasBeenDisconnectedValue
 import com.tecknobit.equinoxcompose.helpers.session.setServerOfflineValue
+import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedWRequest
 import com.tecknobit.pandoro.requester
@@ -16,10 +17,26 @@ import com.tecknobit.pandorocore.enums.Role
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlinx.coroutines.launch
 
+/**
+ * The [GroupsScreenViewModel] is useful to manage the lists displayed in the
+ * [com.tecknobit.pandoro.ui.screens.groups.presenter.GroupsScreen]
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see EquinoxViewModel
+ * @see MultipleListViewModel
+ * @see GroupDeleter
+ */
 class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
 
+    /**
+     * **myGroupsStateFilters** -> the filters to apply to the [myGroupsState] list
+     */
     lateinit var myGroupsStateFilters: MutableState<String>
 
+    /**
+     * **myGroupsState** -> the state used to manage the pagination for the
+     * [retrieveMyGroups] method
+     */
     val myGroupsState = PaginationState<Int, Group>(
         initialPageKey = DEFAULT_PAGE,
         onRequestPage = { page ->
@@ -29,6 +46,11 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
         }
     )
 
+    /**
+     * Method to retrieve the groups owned by the [com.tecknobit.pandoro.localUser]
+     *
+     * @param page The page to request to the server
+     */
     private fun retrieveMyGroups(
         page: Int
     ) {
@@ -58,10 +80,20 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
         }
     }
 
+    /**
+     * **allGroupsStateFilters** -> the filters to apply to the [allGroupsState] list
+     */
     lateinit var allGroupsStateFilters: MutableState<String>
 
+    /**
+     * **roleFilters** -> the roles used as filters to apply to the [allGroupsState] list
+     */
     val roleFilters: SnapshotStateList<Role> = Role.entries.toMutableStateList()
 
+    /**
+     * **allGroupsState** -> the state used to manage the pagination for the
+     * [retrieveAllGroups] method
+     */
     val allGroupsState = PaginationState<Int, Group>(
         initialPageKey = DEFAULT_PAGE,
         onRequestPage = { page ->
@@ -71,6 +103,11 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
         }
     )
 
+    /**
+     * Method to retrieve the groups where the [com.tecknobit.pandoro.localUser] is a member
+     *
+     * @param page The page to request to the server
+     */
     private fun retrieveAllGroups(
         page: Int
     ) {
@@ -101,11 +138,19 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
         }
     }
 
+    /**
+     * Method to retry the retrieving of the lists data
+     */
     override fun retryRetrieveLists() {
         myGroupsState.retryLastFailedRequest()
         allGroupsState.retryLastFailedRequest()
     }
 
+    /**
+     * Method to check whether the filters have been set
+     *
+     * @param allItems Whether check the all items list
+     */
     override fun areFiltersSet(
         allItems: Boolean
     ): Boolean {
@@ -115,6 +160,11 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
             myGroupsStateFilters.value.isNotEmpty()
     }
 
+    /**
+     * Method to manage the [roleFilters] list
+     *
+     * @param role The role to add or remove from the roles list
+     */
     fun manageRoleFilter(
         role: Role
     ) {
@@ -124,6 +174,11 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
             roleFilters.add(role)
     }
 
+    /**
+     * Method to clear filters have been set
+     *
+     * @param allItems Whether clear the all items filters
+     */
     override fun clearFilters(
         allItems: Boolean
     ) {
@@ -137,11 +192,21 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
         }
     }
 
+    /**
+     * Method to reset as default the [roleFilters] list
+     */
     fun resetRoles() {
         roleFilters.clear()
         roleFilters.addAll(Role.entries)
     }
 
+    /**
+     * Method to filter the items list
+     *
+     * @param allItems Whether filter the all items list
+     * @param filters The filters to use
+     * @param onFiltersSet The action to execute when the filters have been set
+     */
     override fun filterItems(
         allItems: Boolean,
         filters: MutableState<String>,
@@ -157,6 +222,9 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
         onFiltersSet.invoke()
     }
 
+    /**
+     * Method to refresh the [myGroupsState] and the [allGroupsState] after a group deleted
+     */
     fun refreshListsAfterDeletion() {
         myGroupsState.refresh()
         allGroupsState.refresh()

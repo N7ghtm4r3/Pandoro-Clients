@@ -19,6 +19,16 @@ import pandoro.composeapp.generated.resources.group_filter_placeholder
 import pandoro.composeapp.generated.resources.name
 import pandoro.composeapp.generated.resources.wrong_filters_text
 
+/**
+ * Dialog layout to allow the user to filter a groups list
+ *
+ * @param show Whether the dialog is shown
+ * @param isAllProjectsFiltering Whether is filtering the complete groups list
+ * @param viewModel The support viewmodel for the screen
+ * @param extraFilters Additive filters to use
+ * @param filterNameRequired Whether the filter for the name is required
+ * @param onDismissAction The action to execute when the dialog is dismissed
+ */
 @Composable
 @NonRestartableComposable
 fun FilterGroups(

@@ -63,6 +63,9 @@ import pandoro.composeapp.generated.resources.member
 import pandoro.composeapp.generated.resources.role
 import pandoro.composeapp.generated.resources.status
 
+/**
+ * **maintainerHeaders** the headers of the table to use when the [localUser] is a maintainer
+ */
 private val maintainerHeaders = listOf(
     Res.string.member,
     Res.string.email,
@@ -71,6 +74,9 @@ private val maintainerHeaders = listOf(
     Res.string.actions
 )
 
+/**
+ * **developerHeaders** the headers of the table to use when the [localUser] is a developer
+ */
 private val developerHeaders = listOf(
     Res.string.member,
     Res.string.email,
@@ -78,6 +84,12 @@ private val developerHeaders = listOf(
     Res.string.status
 )
 
+/**
+ * The table to display and manage the members of the group
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param group The group from fetch the members
+ */
 @Composable
 @NonRestartableComposable
 fun MembersTable(
@@ -113,6 +125,11 @@ fun MembersTable(
     }
 }
 
+/**
+ * The header of the [MembersTable]
+ *
+ * @param currentUserIsMaintainer Whether the [localUser] is a maintainer
+ */
 @Composable
 @NonRestartableComposable
 private fun TableHeader(
@@ -152,6 +169,13 @@ private fun TableHeader(
     }
 }
 
+/**
+ * The content of the [MembersTable]
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param group The group from fetch the members
+ * @param currentUserIsMaintainer Whether the [localUser] is a maintainer
+ */
 @Composable
 @NonRestartableComposable
 private fun TableContent(
@@ -212,6 +236,12 @@ private fun TableContent(
     }
 }
 
+/**
+ * A row of the [MembersTable] representing each member
+ *
+ * @param weight The weight can be occupier by the row
+ * @param member The member to represent
+ */
 @Composable
 @NonRestartableComposable
 private fun RowScope.Member(
@@ -241,6 +271,12 @@ private fun RowScope.Member(
     }
 }
 
+/**
+ * The email section
+ *
+ * @param weight The weight can be occupier by the row
+ * @param member The member from fetch his/her email
+ */
 @Composable
 @NonRestartableComposable
 private fun RowScope.MemberEmail(
@@ -257,6 +293,12 @@ private fun RowScope.MemberEmail(
     )
 }
 
+/**
+ * The member role section
+ *
+ * @param weight The weight can be occupier by the row
+ * @param member The member from fetch his/her role
+ */
 @Composable
 @NonRestartableComposable
 private fun RowScope.MemberRole(
@@ -287,6 +329,11 @@ private fun RowScope.MemberRole(
     }
 }
 
+/**
+ * The member status section
+ *
+ * @param member The member from fetch his/her status
+ */
 @Composable
 @NonRestartableComposable
 private fun RowScope.MemberStatus(
@@ -316,6 +363,13 @@ private fun RowScope.MemberStatus(
     }
 }
 
+/**
+ * The actions can be execute on a member if authorized
+ *
+ * @param weight The weight can be occupier by the row
+ * @param viewModel The support viewmodel for the screen
+ * @param member The member from fetch his/her role
+ */
 @Composable
 @NonRestartableComposable
 private fun RowScope.Actions(
@@ -365,6 +419,14 @@ private fun RowScope.Actions(
     }
 }
 
+/**
+ * The roles menu to chose the new role for the
+ *
+ * @param expanded Whether the [DropdownMenu] is currently available to chose the new role for the
+ * member
+ * @param viewModel The support viewmodel for the screen
+ * @param member The member to change his/her role
+ */
 @Composable
 @NonRestartableComposable
 private fun ChangeMemberRole(
@@ -396,6 +458,11 @@ private fun ChangeMemberRole(
     }
 }
 
+/**
+ * Method to get the correct background color for the [MemberStatus] section
+ *
+ * @return the background color as [Color]
+ */
 @Composable
 private fun InvitationStatus.getBackground(): Color {
     return when(this) {

@@ -37,6 +37,7 @@ import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.NewHorizontalPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.NewPageProgressIndicator
+import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.groups.components.FilterGroups
 import com.tecknobit.pandoro.ui.screens.groups.components.GroupCard
 import com.tecknobit.pandoro.ui.screens.groups.components.MyGroupCard
@@ -56,11 +57,23 @@ import pandoro.composeapp.generated.resources.my_groups
 import pandoro.composeapp.generated.resources.no_groups_available
 import pandoro.composeapp.generated.resources.role
 
+/**
+ * The [GroupsScreen] displays the groups lists of the [com.tecknobit.pandoro.localUser] such his/her
+ * owned groups and the groups where him/she is a member
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see PandoroScreen
+ * @see ListsScreen
+ */
 class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
     viewModel = GroupsScreenViewModel(),
     screenTitle = Res.string.groups
 ) {
 
+    /**
+     * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
+     */
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
@@ -74,6 +87,10 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
         }
     }
 
+    /**
+     * The horizontal list to display the items in row format, the owned groups by the
+     * [com.tecknobit.pandoro.localUser]
+     */
     @Composable
     @NonRestartableComposable
     override fun ItemsInRow() {
@@ -119,6 +136,10 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
         }
     }
 
+    /**
+     * The column or grid list dynamically adapted based on the screen size, the groups where the
+     * [com.tecknobit.pandoro.localUser] is a member
+     */
     @Composable
     @NonRestartableComposable
     override fun ItemsAdaptedSize() {
@@ -197,6 +218,11 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
         }
     }
 
+    /**
+     * UI to filter the [ItemsInRow] list
+     *
+     * @param show Whether the dialog is shown
+     */
     @Composable
     @NonRestartableComposable
     override fun FilterRowItemsUi(
@@ -209,6 +235,11 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
         )
     }
 
+    /**
+     * UI to filter the [ItemsAdaptedSize] list
+     *
+     * @param show Whether the dialog is shown
+     */
     @Composable
     @NonRestartableComposable
     override fun FilterAllItemsUi(
