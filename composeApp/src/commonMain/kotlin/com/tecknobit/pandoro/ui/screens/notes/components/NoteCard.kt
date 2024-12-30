@@ -92,6 +92,13 @@ import pandoro.composeapp.generated.resources.note_created_on
 import pandoro.composeapp.generated.resources.timeline
 import pandoro.composeapp.generated.resources.yet_to_complete
 
+/**
+ * The card to display the note details
+ *
+ * @param modifier The modifier to apply to component
+ * @param viewModel The support viewmodel for the screen
+ * @param note The note to display
+ */
 @Composable
 @NonRestartableComposable
 fun NoteCard(
@@ -108,6 +115,16 @@ fun NoteCard(
     )
 }
 
+/**
+ * The card to display the change note details
+ *
+ * @param modifier The modifier to apply to component
+ * @param viewModel The support viewmodel for the screen
+ * @param project The project owner of the update
+ * @param update The update owner of the change note
+ * @param note The change note to display
+ * @param allowedToChangeStatus Whether the status of the change note can be edited
+ */
 @Composable
 @NonRestartableComposable
 fun ChangeNoteCard(
@@ -141,6 +158,20 @@ fun ChangeNoteCard(
     )
 }
 
+/**
+ * The card container to display the note details
+ *
+ * @param modifier The modifier to apply to component
+ * @param colors The colors to apply to the card
+ * @param viewModel The support viewmodel for the screen
+ * @param noteShared Whether the note is shared with groups
+ * @param allowDeletion Whether the note can be deleted
+ * @param update The update owner of the note
+ * @param note The note to display
+ * @param allowedToChangeStatus Whether the status of the change note can be edited
+ * @param onDoubleClick The action to execute when the card is double-clicked
+ * @param onDelete The action to execute when the note has been deleted
+ */
 @Composable
 @NonRestartableComposable
 private fun NoteCardContent(
@@ -220,11 +251,21 @@ private fun NoteCardContent(
     NoteDetails(
         noteShared = noteShared,
         note = note,
-        modalBottomSheetState = modalBottomSheetState,
+        state = modalBottomSheetState,
         scope = scope
     )
 }
 
+/**
+ * The actions can be execute on the [note]
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param update The update owner of the note
+ * @param note The note to display
+ * @param allowedToChangeStatus Whether the status of the change note can be edited
+ * @param onDelete The action to execute when the note has been deleted
+ * @param allowDeletion Whether the note can be deleted
+ */
 @Composable
 @NonRestartableComposable
 private fun NoteActions(
@@ -305,19 +346,27 @@ private fun NoteActions(
     }
 }
 
+/**
+ * The layout to display the note details
+ *
+ * @param noteShared Whether the note is shared with groups
+ * @param note The note to display
+ * @param state The state useful to manage the visibility of the [ModalBottomSheet]
+ * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+ */
 @Composable
 @NonRestartableComposable
 private fun NoteDetails(
     noteShared: Boolean = false,
     note: Note,
-    modalBottomSheetState: SheetState,
+    state: SheetState,
     scope: CoroutineScope
 ) {
-    if(modalBottomSheetState.isVisible) {
+    if(state.isVisible) {
         ModalBottomSheet(
             onDismissRequest = {
                 scope.launch {
-                    modalBottomSheetState.hide()
+                    state.hide()
                 }
             }
         ) {
@@ -332,6 +381,13 @@ private fun NoteDetails(
     }
 }
 
+/**
+ * The layout to display the note details
+ *
+ * @param note The note to display
+ * @param state The state useful to manage the visibility of the [ModalBottomSheet]
+ * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+ */
 @Composable
 @NonRestartableComposable
 fun NoteDetails(
@@ -354,6 +410,12 @@ fun NoteDetails(
     }
 }
 
+/**
+ * The layout to display the timeline events of the [note]
+ *
+ * @param noteShared Whether the note is shared with groups
+ * @param note The note to display
+ */
 @Composable
 @NonRestartableComposable
 private fun NoteTimeline(
@@ -418,6 +480,14 @@ private fun NoteTimeline(
     HorizontalDivider()
 }
 
+/**
+ * The layout to display the details of timeline event of the [note]
+ *
+ * @param position The position in the timeline events
+ * @param noteCompleted Whether the note is completed
+ * @param note The note to display
+ * @param date The date of the event to display
+ */
 @Composable
 @NonRestartableComposable
 private fun NoteTimelineEvent(
@@ -458,6 +528,14 @@ private fun NoteTimelineEvent(
     }
 }
 
+/**
+ * The layout to display the details of timeline event of the [note] shared with groups
+ *
+ * @param position The position in the timeline events
+ * @param noteCompleted Whether the note is completed
+ * @param note The note to display
+ * @param date The date of the event to display
+ */
 @Composable
 @NonRestartableComposable
 private fun SharedNoteTimelineEvent(
@@ -509,6 +587,13 @@ private fun SharedNoteTimelineEvent(
     }
 }
 
+/**
+ * The container to display a timeline event
+ *
+ * @param position The position in the timeline events
+ * @param noteCompleted Whether the note is completed
+ * @param content The content of the event to display
+ */
 @Composable
 @NonRestartableComposable
 private fun NoteTimelineEventContainer(
@@ -547,6 +632,11 @@ private fun NoteTimelineEventContainer(
     }
 }
 
+/**
+ * The content of the [note]
+ *
+ * @param note The note to display its content
+ */
 @Composable
 @NonRestartableComposable
 private fun NoteContent(
@@ -557,6 +647,11 @@ private fun NoteContent(
     )
 }
 
+/**
+ * The content of the [note]
+ *
+ * @param note The content of the note to display
+ */
 @Composable
 @NonRestartableComposable
 private fun NoteContent(

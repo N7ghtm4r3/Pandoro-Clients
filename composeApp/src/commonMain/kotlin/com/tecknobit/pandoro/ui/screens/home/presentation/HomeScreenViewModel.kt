@@ -11,15 +11,31 @@ import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
+/**
+ * The **HomeScreenViewModel** class is the support class used to manage the [HomeScreen]
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see androidx.lifecycle.ViewModel
+ * @see com.tecknobit.equinoxbackend.FetcherManager
+ * @see EquinoxViewModel
+ */
 class HomeScreenViewModel : EquinoxViewModel(
     snackbarHostState = SnackbarHostState()
 ) {
 
+    /**
+     * **_unreadChangelog** -> the current number of the unread changelogs of the
+     * [com.tecknobit.pandoro.localUser]
+     */
     private val _unreadChangelog = MutableStateFlow(
         value = 0
     )
     val unreadChangelog: StateFlow<Int> = _unreadChangelog
 
+    /**
+     * Method to retrieve the number of the unread changelogs of the [com.tecknobit.pandoro.localUser]
+     * each 5 seconds will be requested that value
+     */
     fun countUnreadChangelogs() {
         execRefreshingRoutine(
             currentContext = HomeScreen::class.java,

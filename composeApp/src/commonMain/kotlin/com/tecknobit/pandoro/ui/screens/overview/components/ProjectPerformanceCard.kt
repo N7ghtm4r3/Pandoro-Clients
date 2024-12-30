@@ -35,6 +35,13 @@ import pandoro.composeapp.generated.resources.name
 import pandoro.composeapp.generated.resources.to_improve
 import pandoro.composeapp.generated.resources.updates
 
+/**
+ * Card to display the performance of a project
+ *
+ * @param modifier The modifier to apply to the component
+ * @param project The stats about the performance of the project
+ * @param isTheBest Whether the [project] is the best in terms of performance
+ */
 @Composable
 @NonRestartableComposable
 fun ProjectPerformanceCard(
@@ -114,6 +121,13 @@ fun ProjectPerformanceCard(
     }
 }
 
+/**
+ * The stats info section
+ *
+ * @param modifier The modifier to apply to the component
+ * @param header The representative header of the stats section
+ * @param info The info value of the statistic
+ */
 @Composable
 @NonRestartableComposable
 private fun StatInfo(
@@ -128,6 +142,13 @@ private fun StatInfo(
     )
 }
 
+/**
+ * The stats info section
+ *
+ * @param modifier The modifier to apply to the component
+ * @param header The representative header of the stats section
+ * @param info The info value of the statistic
+ */
 @Composable
 @NonRestartableComposable
 private fun StatInfo(

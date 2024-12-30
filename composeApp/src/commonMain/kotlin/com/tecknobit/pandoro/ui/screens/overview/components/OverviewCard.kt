@@ -59,6 +59,12 @@ import pandoro.composeapp.generated.resources.scheduled_by_me_info_text
 import pandoro.composeapp.generated.resources.started_by_me_info_text
 import pandoro.composeapp.generated.resources.total
 
+/**
+ * The card to display the overview data stats about an [com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate]
+ *
+ * @param modifier The modifier to apply to the card
+ * @param overviewStats The stats to display
+ */
 @Composable
 @NonRestartableComposable
 fun UpdateOverviewCard(
@@ -102,6 +108,18 @@ fun UpdateOverviewCard(
     }
 }
 
+/**
+ * The card to display the overview data stats
+ *
+ * @param modifier The modifier to apply to the card
+ * @param pieSize The size of the pie chart
+ * @param pieStroke The stroke to apply to the pie chart
+ * @param title The title of the card
+ * @param totalHeader The header text for the total value
+ * @param actionIcon The representative icon for an action
+ * @param action The action to execute when the [actionIcon] is clicked
+ * @param overviewStats The stats to display
+ */
 @Composable
 @NonRestartableComposable
 fun OverviewCard(
@@ -165,6 +183,16 @@ fun OverviewCard(
     }
 }
 
+/**
+ * The content of the overview cards
+ *
+ * @param total The total value
+ * @param totalHeader The header text for the total value
+ * @param pieSize The size of the pie chart
+ * @param pieStroke The stroke to apply to the pie chart
+ * @param values The values of the pie chart
+ * @param percentages The percentages values of the pie chart
+ */
 @Composable
 @NonRestartableComposable
 private fun OverviewCardContent(
@@ -239,6 +267,15 @@ private fun OverviewCardContent(
     }
 }
 
+/**
+ * The pie chart related to an overview data
+ *
+ * @param modifier The modifier to apply to the pie chart
+ * @param pieSize The size of the pie chart
+ * @param pieStroke The stroke to apply to the pie chart
+ * @param pieChartColors The values of the pie chart
+ * @param stats The stats to display on the chart
+ */
 @Composable
 @NonRestartableComposable
 private fun PieOverview(
@@ -276,6 +313,14 @@ private fun PieOverview(
     )
 }
 
+/**
+ * Method to format the chart data for the pies chart
+ *
+ * @param pieChartColors The values of the pie chart
+ * @param stats The stats to display on the chart
+ *
+ * @return the chart data as [List] of [Pie]
+ */
 private fun getStatsChartData(
     pieChartColors: List<Color>,
     stats: List<Int>
@@ -293,6 +338,13 @@ private fun getStatsChartData(
     return pies
 }
 
+/**
+ * The pie legend to attach to the charts
+ *
+ * @param pieChartColors The values of the pie chart
+ * @param values The values of the pie chart
+ * @param percentages The percentages values of the pie chart
+ */
 @Composable
 @NonRestartableComposable
 private fun PieLegend(
@@ -354,6 +406,11 @@ private fun PieLegend(
     }
 }
 
+/**
+ * Method to get the stats header based on the index
+ *
+ * @return the stats header as [StringResource]
+ */
 private fun Int.getStatsHeader() : StringResource {
     return when(this) {
         0 -> Res.string.personal

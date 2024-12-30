@@ -17,14 +17,34 @@ import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlinx.coroutines.launch
 
+/**
+ * The **NotesScreenViewModel** class is the support class used to manage the
+ * [com.tecknobit.pandoro.ui.screens.notes.presenter.NotesScreen]
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see androidx.lifecycle.ViewModel
+ * @see com.tecknobit.equinoxbackend.FetcherManager
+ * @see EquinoxViewModel
+ * @see NotesManager
+ */
 class NotesScreenViewModel: EquinoxViewModel(
     snackbarHostState = SnackbarHostState()
 ), NotesManager {
 
+    /**
+     * **selectToDoNotes** -> whether select the to-do notes
+     */
     lateinit var selectToDoNotes: MutableState<Boolean>
 
+    /**
+     * **selectCompletedNotes** -> whether select the completed notes
+     */
     lateinit var selectCompletedNotes: MutableState<Boolean>
 
+    /**
+     * **notesState** -> the state used to manage the pagination for the
+     * [retrieveNotes] method
+     */
     val notesState = PaginationState<Int, Note>(
         initialPageKey = PaginatedResponse.DEFAULT_PAGE,
         onRequestPage = { page ->
@@ -34,6 +54,11 @@ class NotesScreenViewModel: EquinoxViewModel(
         }
     )
 
+    /**
+     * Method to retrieve the notes owned by the [com.tecknobit.pandoro.localUser]
+     *
+     * @param page The page to request to the server
+     */
     private fun retrieveNotes(
         page: Int
     ) {
@@ -64,16 +89,28 @@ class NotesScreenViewModel: EquinoxViewModel(
         }
     }
 
+    /**
+     * Method to manage the [selectToDoNotes] filter and apply if needed to the [notesState]
+     */
     fun manageToDoNotesFilter() {
         selectToDoNotes.value = !selectToDoNotes.value
         notesState.refresh()
     }
 
+    /**
+     * Method to manage the [selectCompletedNotes] filter and apply if needed to the [notesState]
+     */
     fun manageCompletedNotesFilter() {
         selectCompletedNotes.value = !selectCompletedNotes.value
         notesState.refresh()
     }
 
+    /**
+     * Method to manage the status of the [note]
+     *
+     * @param update The update owner of the [note]
+     * @param note The note to manage
+     */
     override fun manageNoteStatus(
         update: ProjectUpdate?,
         note: Note
@@ -94,6 +131,13 @@ class NotesScreenViewModel: EquinoxViewModel(
         }
     }
 
+    /**
+     * Method to delete a [note]
+     *
+     * @param update The update owner of the [note]
+     * @param note The note to delete
+     * @param onDelete The action to execute when the note has been deleted
+     */
     override fun deleteNote(
         update: ProjectUpdate?,
         note: Note,

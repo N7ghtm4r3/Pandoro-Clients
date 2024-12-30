@@ -41,6 +41,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EmptyListUI
+import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
 import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
 import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
 import com.tecknobit.pandoro.bodyFontFamily
@@ -65,6 +66,13 @@ import pandoro.composeapp.generated.resources.retry_to_reconnect
 import pandoro.composeapp.generated.resources.status
 import pandoro.composeapp.generated.resources.to_do
 
+/**
+ * The [NotesScreen] display the list of the notes owned by the [com.tecknobit.pandoro.localUser]
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see EquinoxScreen
+ * @see PandoroScreen
+ */
 class NotesScreen: PandoroScreen<NotesScreenViewModel>(
     viewModel = NotesScreenViewModel()
 ) {
@@ -105,6 +113,9 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
         )
     }
 
+    /**
+     * The filters applicable to the notes list
+     */
     @Composable
     @NonRestartableComposable
     private fun Filters() {
@@ -191,6 +202,9 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
         }
     }
 
+    /**
+     * The notes section dynamically adapted to the screen sizes
+     */
     @Composable
     @NonRestartableComposable
     private fun Notes() {
@@ -260,6 +274,9 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
         }
     }
 
+    /**
+     * The UI to display when no notes are available to be displayed
+     */
     @Composable
     @NonRestartableComposable
     private fun NoNotesAvailable() {
@@ -273,6 +290,9 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
         )
     }
 
+    /**
+     * Method invoked when the [ShowContent] composable has been created
+     */
     override fun onCreate() {
         viewModel!!.setActiveContext(HomeScreen::class.java)
     }

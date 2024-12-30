@@ -85,7 +85,6 @@ import pandoro.composeapp.generated.resources.wrong_surname
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see EquinoxScreen
- * @see EquinoxScreen
  */
 class AuthScreen : EquinoxScreen<AuthScreenViewModel>(
     viewModel = AuthScreenViewModel()

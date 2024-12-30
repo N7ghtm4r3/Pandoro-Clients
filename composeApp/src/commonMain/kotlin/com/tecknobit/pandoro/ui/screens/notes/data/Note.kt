@@ -1,9 +1,7 @@
 package com.tecknobit.pandoro.ui.screens.notes.data
 
-import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.IDENTIFIER_KEY
 import com.tecknobit.pandoro.helpers.TimeFormatter.daysUntil
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
-import com.tecknobit.pandorocore.AUTHOR_KEY
 import com.tecknobit.pandorocore.CONTENT_NOTE_KEY
 import com.tecknobit.pandorocore.CREATION_DATE_KEY
 import com.tecknobit.pandorocore.MARKED_AS_DONE_BY_KEY
@@ -12,11 +10,22 @@ import com.tecknobit.pandorocore.MARKED_AS_DONE_KEY
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * The [Note] data class allow to represent a note data
+ *
+ * @property id The identifier of the note
+ * @property author The author of the note
+ * @property content The content of the note
+ * @property creationDate The date when the note has been created
+ * @property markedAsDone Whether the note has been completed
+ * @property markedAsDoneBy The user who completed the note
+ * @property markAsDoneDate When the note has been completed
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ */
 @Serializable
 data class Note(
-    @SerialName(IDENTIFIER_KEY)
     val id: String,
-    @SerialName(AUTHOR_KEY)
     val author: PandoroUser,
     @SerialName(CONTENT_NOTE_KEY)
     val content: String,
@@ -30,6 +39,11 @@ data class Note(
     val markAsDoneDate: Long = -1,
 ) {
 
+    /**
+     * Method to calculated the days interval used to complete the note
+     *
+     * @return the days interval used to complete the note as [Int]
+     */
     fun completionDays() : Int {
         return creationDate.daysUntil(
             untilDate = markAsDoneDate

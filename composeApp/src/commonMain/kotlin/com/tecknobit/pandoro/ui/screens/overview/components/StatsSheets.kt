@@ -34,6 +34,13 @@ import pandoro.composeapp.generated.resources.performance
 import pandoro.composeapp.generated.resources.personal
 import pandoro.composeapp.generated.resources.updates_status
 
+/**
+ * The [ModalBottomSheet] customized to represent the statistics about a project
+ *
+ * @param state The state useful to manage the visibility of the [ModalBottomSheet]
+ * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+ * @param overview The overview details to represent
+ */
 @Composable
 @NonRestartableComposable
 fun ProjectsStatsSheet(
@@ -97,6 +104,14 @@ fun ProjectsStatsSheet(
     }
 }
 
+/**
+ * The statistics section to represent the best and the worst performance about projects
+ *
+ * @param modifier The modifier to apply to the section
+ * @param header The representative header of the section
+ * @param bestProject The best performance project
+ * @param worstProject The worst performance project
+ */
 @Composable
 @NonRestartableComposable
 private fun StatsSection(
@@ -127,6 +142,13 @@ private fun StatsSection(
     }
 }
 
+/**
+ * The [ModalBottomSheet] customized to represent the statistics about an update
+ *
+ * @param state The state useful to manage the visibility of the [ModalBottomSheet]
+ * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
+ * @param overview The overview details to represent
+ */
 @Composable
 @NonRestartableComposable
 fun UpdatesStatsSheet(

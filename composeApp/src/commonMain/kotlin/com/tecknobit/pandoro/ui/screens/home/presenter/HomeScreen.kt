@@ -61,24 +61,52 @@ import pandoro.composeapp.generated.resources.overview
 import pandoro.composeapp.generated.resources.profile
 import pandoro.composeapp.generated.resources.projects
 
+/**
+ * The [HomeScreen] class is used as container for the main screens of the application and manage the
+ * navigation in app
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see EquinoxScreen
+ */
 class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
     viewModel = HomeScreenViewModel()
 ) {
 
     companion object {
 
+        /**
+         * **MAX_CHANGELOGS_DISPLAYABLE_VALUE** -> the max value displayable in the unread changelogs badge
+         */
         private const val MAX_CHANGELOGS_DISPLAYABLE_VALUE = 99
 
+        /**
+         * **PROJECTS_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.projects.presenter.ProjectsScreen]
+         */
         const val PROJECTS_SCREEN = "ProjectsScreen"
 
+        /**
+         * **NOTES_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.notes.presenter.NotesScreen]
+         */
         const val NOTES_SCREEN = "NotesScreen"
 
+        /**
+         * **OVERVIEW_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.overview.presenter.OverviewScreen]
+         */
         const val OVERVIEW_SCREEN = "OverviewScreen"
 
+        /**
+         * **GROUPS_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.groups.presenter.GroupsScreen]
+         */
         const val GROUPS_SCREEN = "GroupsScreen"
 
+        /**
+         * **PROFILE_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.profile.presenter.ProfileScreen]
+         */
         const val PROFILE_SCREEN = "ProfileScreen"
 
+        /**
+         * **destinations** -> the list of the destination reachable by the navigation
+         */
         private val destinations = listOf(
             NavigationTab(
                 tabIdentifier = PROJECTS_SCREEN,
@@ -106,10 +134,21 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
             )
         )
 
+        /**
+         * **currentScreenDisplayed** -> the index number of the current [destinations] displayed
+         */
         private var currentScreenDisplayed: Int = 0
 
+        /**
+         * **isBottomNavigationMode** -> whether the navigation mode is the side or bottom one
+         */
         lateinit var isBottomNavigationMode: MutableState<Boolean>
 
+        /**
+         * Method to set the current screen displayed before navigating in other one
+         *
+         * @param screen The current screen displayed
+         */
         fun setCurrentScreenDisplayed(
             screen: String
         ) {
@@ -124,8 +163,14 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
 
     }
 
+    /**
+     * **unreadChangelogs** -> the state of the unread changelogs number
+     */
     private lateinit var unreadChangelogs: State<Int>
 
+    /**
+     * **currentDestination** -> the current destination displayed
+     */
     private lateinit var currentDestination: MutableState<NavigationTab>
 
     /**
@@ -161,6 +206,9 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
         }
     }
 
+    /**
+     * The sidebar used to manage the navigation
+     */
     @Composable
     @NonRestartableComposable
     private fun SideNavigationBar() {
@@ -219,6 +267,11 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
         }
     }
 
+    /**
+     * The bottom bar used to manage the navigation
+     *
+     * @param modifier The modifier to apply to the navigation bar
+     */
     @Composable
     @NonRestartableComposable
     private fun BottomNavigationBar(
@@ -247,6 +300,9 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
         }
     }
 
+    /**
+     * The icon to use in each tab of the navigation bars
+     */
     @Composable
     @NonRestartableComposable
     private fun NavigationTab.TabIcon() {
@@ -260,6 +316,13 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
             ProfilePic()
     }
 
+    /**
+     * The profile picture of the [com.tecknobit.pandoro.localUser] used as tab also
+     *
+     * @param modifier The modifier to apply to component
+     * @param size The size of the profile picture
+     * @param onClick The action to execute when the profile picture is clicked
+     */
     @Composable
     @NonRestartableComposable
     private fun ProfilePic(
@@ -298,6 +361,11 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
         }
     }
 
+    /**
+     * Method to format as presentable text the [unreadChangelogs] number
+     *
+     * @return the formatted text as [String]
+     */
     private fun Int.formatUnreadChangelogsValue() : String {
         return if(this > MAX_CHANGELOGS_DISPLAYABLE_VALUE)
             return "$MAX_CHANGELOGS_DISPLAYABLE_VALUE+"
@@ -305,6 +373,9 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
             this.toString()
     }
 
+    /**
+     * Method invoked when the [ShowContent] composable has been started
+     */
     override fun onStart() {
         super.onStart()
         viewModel!!.countUnreadChangelogs()
@@ -320,6 +391,15 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
         unreadChangelogs = viewModel!!.unreadChangelog.collectAsState()
     }
 
+    /**
+     * The [NavigationTab] data class allow to represent a navigation tab
+     *
+     * @property tabIdentifier The identifier of the tab
+     * @property icon The representative icon of the tab
+     * @property title The title of the tab
+     *
+     * @author N7ghtm4r3 - Tecknobit
+     */
     private data class NavigationTab(
         val tabIdentifier: String,
         val icon: ImageVector? = null,
