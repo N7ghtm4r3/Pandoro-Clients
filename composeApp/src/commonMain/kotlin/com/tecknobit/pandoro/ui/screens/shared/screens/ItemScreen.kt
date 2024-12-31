@@ -334,6 +334,8 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
                 ChameleonText(
                     text = stringResource(Res.string.edit),
                     fontSize = 12.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     backgroundColor = MaterialTheme.colorScheme.primary
                 )
             }
@@ -349,7 +351,9 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
             ) {
                 Text(
                     text = stringResource(Res.string.delete),
-                    fontSize = 12.sp
+                    fontSize = 12.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
             DeleteItemAction(

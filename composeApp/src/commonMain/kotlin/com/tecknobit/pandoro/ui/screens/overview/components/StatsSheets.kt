@@ -72,19 +72,21 @@ fun ProjectsStatsSheet(
                     fontSize = 20.sp
                 )
                 HorizontalDivider()
-                StatsSection(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 16.dp
-                        )
-                        .padding(
-                            top = 16.dp,
-                            bottom = 10.dp
-                        ),
-                    header = Res.string.personal,
-                    bestProject = overview.bestPersonalPerformanceProject,
-                    worstProject = overview.worstPersonalPerformanceProject
-                )
+                overview.bestPersonalPerformanceProject?.let { bestProject ->
+                    StatsSection(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = 16.dp
+                            )
+                            .padding(
+                                top = 16.dp,
+                                bottom = 10.dp
+                            ),
+                        header = Res.string.personal,
+                        bestProject = bestProject,
+                        worstProject = overview.worstPersonalPerformanceProject
+                    )
+                }
                 overview.bestGroupPerformanceProject?.let { bestProject ->
                     StatsSection(
                         modifier = Modifier

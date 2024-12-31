@@ -28,7 +28,7 @@ data class Overview(
     val updatesPublished: OverviewFullStatsItem,
     val developmentDays: OverviewStatsItem,
     val averageDevelopmentDays: OverviewStatsItem,
-    val bestPersonalPerformanceProject: ProjectPerformanceStats,
+    val bestPersonalPerformanceProject: ProjectPerformanceStats? = null,
     val worstPersonalPerformanceProject: ProjectPerformanceStats? = null,
     val bestGroupPerformanceProject: ProjectPerformanceStats? = null,
     val worstGroupPerformanceProject: ProjectPerformanceStats? = null

@@ -100,9 +100,11 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
                 onSuccess = {
                     val projects: List<Project> = Json.decodeFromJsonElement(it.toResponseArrayData());
                     userProjects.addAll(projects)
-                    group.value!!.projects.forEach { project ->
-                        if(userProjects.any { userProject -> userProject.id == project.id })
-                            candidateProjects.add(project.id)
+                    group.value?.let { group ->
+                        group.projects.forEach { project ->
+                            if(userProjects.any { userProject -> userProject.id == project.id })
+                                candidateProjects.add(project.id)
+                        }
                     }
                 },
                 onFailure = { showSnackbarMessage(it.toResponseContent()) }
