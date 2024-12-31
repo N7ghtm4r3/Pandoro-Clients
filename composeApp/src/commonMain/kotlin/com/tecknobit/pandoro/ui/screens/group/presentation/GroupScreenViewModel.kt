@@ -1,7 +1,6 @@
 package com.tecknobit.pandoro.ui.screens.group.presentation
 
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.helpers.session.setHasBeenDisconnectedValue
 import com.tecknobit.equinoxcompose.helpers.session.setServerOfflineValue
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
@@ -51,7 +50,7 @@ class GroupScreenViewModel(
                         setServerOfflineValue(false)
                         _group.value = Json.decodeFromJsonElement(it.toResponseData())
                     },
-                    onFailure = { setHasBeenDisconnectedValue(true) },
+                    onFailure = { },
                     onConnectionError = { setServerOfflineValue(true) }
                 )
             }
@@ -108,6 +107,10 @@ class GroupScreenViewModel(
         }
     }
 
+    /**
+     * Method to edit the current projects (owned by the [com.tecknobit.pandoro.localUser]) shared
+     * with the [group]
+     */
     fun editProjects() {
         viewModelScope.launch {
             requester.sendWRequest(

@@ -2,7 +2,6 @@ package com.tecknobit.pandoro.ui.screens.project.presentation
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.helpers.session.setHasBeenDisconnectedValue
 import com.tecknobit.equinoxcompose.helpers.session.setServerOfflineValue
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
@@ -59,7 +58,7 @@ class ProjectScreenViewModel(
                         setServerOfflineValue(false)
                         _project.value = Json.decodeFromJsonElement(it.toResponseData())
                     },
-                    onFailure = { setHasBeenDisconnectedValue(true) },
+                    onFailure = {},
                     onConnectionError = { setServerOfflineValue(true) }
                 )
             }
