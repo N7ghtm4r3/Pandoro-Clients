@@ -92,7 +92,7 @@ dependencies {
   <img src="https://github.com/N7ghtm4r3/Pandoro-Clients/blob/main/images/notes_desktop.png" alt="notes"/>
   <img src="https://github.com/N7ghtm4r3/Pandoro-Clients/blob/main/images/overview_desktop.png" alt="overview"/>
   <img src="https://github.com/N7ghtm4r3/Pandoro-Clients/blob/main/images/groups_desktop.png" alt="groups"/>
-  <img src="https://github.com/N7ghtm4r3/Pandoro-Clients/blob/main/images/group_desktop.png" alt="group"/>
+  <img src="https://github.com/N7ghtm4r3/Pandoro-Clients/blob/main/images/group_desktop.png" alt="groupc"/>
 </details>
 
 ## Authors
