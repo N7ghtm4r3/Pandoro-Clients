@@ -396,7 +396,7 @@ private fun PieLegend(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "(${percentages[index]}%)",
+                    text = "(${percentages[index].format(2)}%)",
                     fontSize = 14.sp,
                     color = color,
                     fontFamily = displayFontFamily

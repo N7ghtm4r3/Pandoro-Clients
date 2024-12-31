@@ -6,7 +6,7 @@
     <string name="version">Version</string>
     <string name="projects">Projets</string>
     <string name="updates">Mises à jour</string>
-    <string name="updates_status">Mise à jour de l\'état</string>
+    <string name="updates_status">Mise à jour de l'état</string>
     <string name="change_language">Changer de langue</string>
     <string name="in_development">En cours de développement</string>
     <string name="notes">Remarques</string>
@@ -204,7 +204,7 @@
     <string name="sign_up">S'inscrire</string>
     <string name="sign_in">Se connecter</string>
     <string name="host">Hôte</string>
-    <string name="wrong_host_address">Mauvaise adresse de l\'hôte</string>
+    <string name="wrong_host_address">Mauvaise adresse de l'hôte</string>
     <string name="wrong_server_secret">Mauvais secret de serveur</string>
     <string name="wrong_surname">Nom de famille erroné</string>
     <string name="have_an_account">Avoir un compte?</string>
