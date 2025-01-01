@@ -50,7 +50,7 @@ class GroupScreenViewModel(
                         setServerOfflineValue(false)
                         _group.value = Json.decodeFromJsonElement(it.toResponseData())
                     },
-                    onFailure = { },
+                    onFailure = {},
                     onConnectionError = { setServerOfflineValue(true) }
                 )
             }

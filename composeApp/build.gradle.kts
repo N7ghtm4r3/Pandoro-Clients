@@ -127,7 +127,7 @@ android {
         applicationId = "com.tecknobit.pandoro"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 15
+        versionCode = 16
         versionName = "1.1.0"
     }
     packaging {
@@ -163,7 +163,7 @@ compose.desktop {
             packageVersion = "1.1.0"
             version = "1.1.0"
             description = "Pandoro, open source management software"
-            copyright = "© 2024 Tecknobit"
+            copyright = "© 2025 Tecknobit"
             vendor = "Tecknobit"
             licenseFile.set(project.file("src/desktopMain/resources/LICENSE"))
             macOS {
@@ -208,6 +208,6 @@ tasks.withType<DokkaTask>().configureEach {
 
     pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
         customAssets = listOf(file("../docs/logo-icon.svg"))
-        footerMessage = "(c) 2024 Tecknobit"
+        footerMessage = "(c) 2025 Tecknobit"
     }
 }
