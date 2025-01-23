@@ -10,11 +10,6 @@ so if you want to customize you can fork it and work on it, if there are any err
 idea to upgrade this project, please open a ticket or contact us to talk about, thanks and good
 use!
 
-## 🛠 Skills
-
-- Java
-- Kotlin
-
 ## Architecture
 
 ### Clients
@@ -95,10 +90,6 @@ dependencies {
   <img src="https://github.com/N7ghtm4r3/Pandoro-Clients/blob/main/images/group_desktop.png" alt="groupc"/>
 </details>
 
-## Authors
-
-- [@N7ghtm4r3](https://www.github.com/N7ghtm4r3)
-
 ## Support
 
 If you need help using the library or encounter any problems or bugs, please contact us via the
@@ -137,5 +128,5 @@ This section concerns Privacy and policy for Android's application published on 
 Store. <br>
 Pandoro application **will not share any personal data of the user with third part applications.**
 
-Copyright © 2024 Tecknobit
+Copyright © 2025 Tecknobit
 
