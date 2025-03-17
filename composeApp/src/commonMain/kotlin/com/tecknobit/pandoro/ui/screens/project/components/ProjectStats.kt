@@ -72,14 +72,14 @@ import pandoro.composeapp.generated.resources.stats
 import pandoro.composeapp.generated.resources.total_development_days
 
 /**
- * **axisProperties** custom axis properties for the [ModalProjectStats]
+ * `axisProperties** custom axis properties for the [ModalProjectStats]
  */
 private val axisProperties = GridProperties.AxisProperties(
     enabled = false
 )
 
 /**
- * **contentBuilder** custom content builder to format the content of the popups of the points in the
+ * `contentBuilder** custom content builder to format the content of the popups of the points in the
  * charts
  */
 private val contentBuilder: (Double) -> String = {

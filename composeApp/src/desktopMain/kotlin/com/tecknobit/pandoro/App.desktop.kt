@@ -12,7 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.DEFAULT_LANGUAGE
+import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import io.github.vinceglb.filekit.core.PlatformFile
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -30,18 +30,20 @@ import java.util.Locale
 @Composable
 @NonRestartableComposable
 actual fun CheckForUpdatesAndLaunch() {
-    var launchApp by remember { mutableStateOf(true) }
-    UpdaterDialog(
-        config = OctocatKDUConfig(
-            locale = Locale.getDefault(),
-            appName = stringResource(Res.string.app_name),
-            currentVersion = stringResource(Res.string.app_version),
-            onUpdateAvailable = { launchApp = false },
-            dismissAction = { launchApp = true }
+    PandoroTheme {
+        var launchApp by remember { mutableStateOf(true) }
+        UpdaterDialog(
+            config = OctocatKDUConfig(
+                locale = Locale.getDefault(),
+                appName = stringResource(Res.string.app_name),
+                currentVersion = stringResource(Res.string.app_version),
+                onUpdateAvailable = { launchApp = false },
+                dismissAction = { launchApp = true }
+            )
         )
-    )
-    if (launchApp)
-        startSession()
+        if (launchApp)
+            startSession()
+    }
 }
 
 /**
@@ -98,8 +100,5 @@ actual fun CloseApplicationOnNavBack() {
  *
  */
 actual fun setUserLanguage() {
-    var tag = localUser.language
-    if (tag == null)
-        tag = DEFAULT_LANGUAGE
-    Locale.setDefault(Locale.forLanguageTag(tag))
+    Locale.setDefault(Locale.forLanguageTag(localUser.language))
 }

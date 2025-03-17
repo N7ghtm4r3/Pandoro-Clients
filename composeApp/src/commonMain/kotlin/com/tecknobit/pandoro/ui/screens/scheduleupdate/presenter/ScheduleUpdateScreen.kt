@@ -215,12 +215,12 @@ class ScheduleUpdateScreen(
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 ),
-                value = viewModel!!.targetVersion,
+                value = viewModel.targetVersion,
                 placeholder = Res.string.target_version,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done
                 ),
-                isError = viewModel!!.targetVersionError,
+                isError = viewModel.targetVersionError,
                 errorText = Res.string.wrong_target_version,
                 validator = { isValidVersion(it) }
             )
@@ -235,7 +235,7 @@ class ScheduleUpdateScreen(
                 ),
                 onClick = {
                     localSoftInputKeyboard?.hide()
-                    viewModel!!.scheduleUpdate()
+                    viewModel.scheduleUpdate()
                 }
             ) {
                 Text(
@@ -261,7 +261,7 @@ class ScheduleUpdateScreen(
             )
         ) {
             itemsIndexed(
-                items = viewModel!!.changeNotes
+                items = viewModel.changeNotes
             ) { index, changeNote ->
                 ChangeNoteItem(
                     index = index,
@@ -310,7 +310,7 @@ class ScheduleUpdateScreen(
             trailingContent = {
                 IconButton(
                     onClick = {
-                        viewModel!!.removeChangeNote(
+                        viewModel.removeChangeNote(
                             changeNote = changeNote
                         )
                     }
@@ -341,7 +341,7 @@ class ScheduleUpdateScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter),
-            value = viewModel!!.changeNoteContent,
+            value = viewModel.changeNoteContent,
             placeholder = Res.string.content_of_the_note,
             maxLines = 3,
             keyboardOptions = KeyboardOptions(
@@ -355,11 +355,11 @@ class ScheduleUpdateScreen(
                 focusedBorderColor = Color.Transparent,
                 errorBorderColor = Color.Transparent
             ),
-            isError = viewModel!!.changeNoteContentError,
+            isError = viewModel.changeNoteContentError,
             validator = { isContentNoteValid(it) },
             trailingIcon = {
                 IconButton(
-                    onClick = { viewModel!!.addChangeNote() }
+                    onClick = { viewModel.addChangeNote() }
                 ) {
                     Icon(
                         imageVector = AddNotes,
@@ -377,10 +377,10 @@ class ScheduleUpdateScreen(
     @RequiresSuperCall
     override fun CollectStates() {
         super.CollectStates()
-        viewModel!!.targetVersion = remember { mutableStateOf("") }
-        viewModel!!.targetVersionError = remember { mutableStateOf(false) }
-        viewModel!!.changeNoteContent = remember { mutableStateOf("") }
-        viewModel!!.changeNoteContentError = remember { mutableStateOf(false) }
+        viewModel.targetVersion = remember { mutableStateOf("") }
+        viewModel.targetVersionError = remember { mutableStateOf(false) }
+        viewModel.changeNoteContent = remember { mutableStateOf("") }
+        viewModel.changeNoteContentError = remember { mutableStateOf(false) }
     }
 
 }

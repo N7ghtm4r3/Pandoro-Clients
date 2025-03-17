@@ -97,7 +97,7 @@ class CreateGroupScreen(
             creationTitle = Res.string.create_group,
             editingTitle = Res.string.edit_group
         ) {
-            viewModel!!.groupLogo = remember {
+            viewModel.groupLogo = remember {
                 mutableStateOf(
                     if(isEditing)
                         item.value!!.logo
@@ -105,7 +105,7 @@ class CreateGroupScreen(
                         ""
                 )
             }
-            viewModel!!.groupName = remember {
+            viewModel.groupName = remember {
                 mutableStateOf(
                     if(isEditing)
                         item.value!!.name
@@ -113,7 +113,7 @@ class CreateGroupScreen(
                         ""
                 )
             }
-            viewModel!!.groupDescription = remember {
+            viewModel.groupDescription = remember {
                 mutableStateOf(
                     if(isEditing)
                         item.value!!.description
@@ -132,7 +132,7 @@ class CreateGroupScreen(
     override fun FabAction() {
         if(fullScreenFormType.value) {
             GroupActions(
-                viewModel = viewModel!!
+                viewModel = viewModel
             )
         }
     }
@@ -185,11 +185,11 @@ class CreateGroupScreen(
                                     .weight(1f)
                             )
                         }
-                        if(viewModel!!.candidatesMemberAvailable.value) {
+                        if(viewModel.candidatesMemberAvailable.value) {
                             GroupMembers(
                                 modifier = Modifier
                                     .weight(1.3f),
-                                viewModel = viewModel!!
+                                viewModel = viewModel
                             )
                         }
                     }
@@ -218,7 +218,7 @@ class CreateGroupScreen(
                 horizontalAlignment = Alignment.End
             ) {
                 SaveButton {
-                    viewModel!!.workOnGroup()
+                    viewModel.workOnGroup()
                 }
             }
         }
@@ -230,11 +230,11 @@ class CreateGroupScreen(
     @Composable
     @NonRestartableComposable
     private fun ManageGroupProjects() {
-        if(viewModel!!.userProjects.isNotEmpty()) {
+        if(viewModel.userProjects.isNotEmpty()) {
             val sheetState = rememberModalBottomSheetState()
             val scope = rememberCoroutineScope()
             AnimatedVisibility(
-                visible = viewModel!!.groupProjects.isEmpty(),
+                visible = viewModel.groupProjects.isEmpty(),
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
@@ -251,12 +251,12 @@ class CreateGroupScreen(
                 }
             }
             AnimatedVisibility(
-                visible = viewModel!!.groupProjects.isNotEmpty(),
+                visible = viewModel.groupProjects.isNotEmpty(),
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
                 ProjectIcons(
-                    projects = viewModel!!.groupProjects,
+                    projects = viewModel.groupProjects,
                     onClick = {
                         scope.launch {
                             sheetState.show()
@@ -285,24 +285,24 @@ class CreateGroupScreen(
     ) {
         val projects: MutableList<Project> = remember { mutableListOf() }
         LaunchedEffect(Unit) {
-            projects.addAll(viewModel!!.userProjects + viewModel!!.groupProjects)
+            projects.addAll(viewModel.userProjects + viewModel.groupProjects)
         }
         GroupProjectsCandidate(
             state = state,
             scope = scope,
             projects = projects.distinctBy { project -> project.id },
             trailingContent = { project ->
-                if (viewModel!!.userProjects.any { checkProject -> checkProject.id == project.id }) {
+                if (viewModel.userProjects.any { checkProject -> checkProject.id == project.id }) {
                     var added by remember {
                         mutableStateOf(
-                            viewModel!!.candidateProjects.contains(project.id) ||
-                            viewModel!!.groupProjects.contains(project)
+                            viewModel.candidateProjects.contains(project.id) ||
+                            viewModel.groupProjects.contains(project)
                         )
                     }
                     Checkbox(
                         checked = added,
                         onCheckedChange = { selected ->
-                            viewModel!!.manageProjectCandidate(
+                            viewModel.manageProjectCandidate(
                                 project = project
                             )
                             added = selected
@@ -357,7 +357,7 @@ class CreateGroupScreen(
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
                         ),
-                        onClick = { viewModel!!.workOnGroup() }
+                        onClick = { viewModel.workOnGroup() }
                     )
                 }
             }
@@ -385,8 +385,8 @@ class CreateGroupScreen(
         EquinoxOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = viewModel!!.groupName,
-            isError = viewModel!!.groupNameError,
+            value = viewModel.groupName,
+            isError = viewModel.groupNameError,
             validator = { isGroupNameValid(it) },
             label = Res.string.name,
             errorText = Res.string.wrong_name,
@@ -398,8 +398,8 @@ class CreateGroupScreen(
             modifier = descriptionModifier
                 .fillMaxWidth(),
             maxLines = Int.MAX_VALUE,
-            value = viewModel!!.groupDescription,
-            isError = viewModel!!.groupDescriptionError,
+            value = viewModel.groupDescription,
+            isError = viewModel.groupDescriptionError,
             validator = { isGroupDescriptionValid(it) },
             label = Res.string.description,
             errorText = Res.string.wrong_description,
@@ -424,10 +424,10 @@ class CreateGroupScreen(
         ImagePicker(
             modifier = modifier,
             pickerSize = pickerSize,
-            imageData = viewModel!!.groupLogo.value,
+            imageData = viewModel.groupLogo.value,
             contentDescription = "Group Logo",
             onImagePicked = { logo ->
-                viewModel!!.groupLogo.value = getImagePath(
+                viewModel.groupLogo.value = getImagePath(
                     imagePic = logo
                 )
             }
@@ -439,9 +439,9 @@ class CreateGroupScreen(
      */
     override fun onStart() {
         super.onStart()
-        viewModel!!.retrieveGroup()
-        viewModel!!.retrieveUserProjects()
-        viewModel!!.countCandidatesMember()
+        viewModel.retrieveGroup()
+        viewModel.retrieveUserProjects()
+        viewModel.countCandidatesMember()
     }
 
     /**
@@ -451,9 +451,9 @@ class CreateGroupScreen(
     @RequiresSuperCall
     override fun CollectStates() {
         super.CollectStates()
-        item = viewModel!!.group.collectAsState()
-        viewModel!!.groupNameError = remember { mutableStateOf(false) }
-        viewModel!!.groupDescriptionError = remember { mutableStateOf(false) }
+        item = viewModel.group.collectAsState()
+        viewModel.groupNameError = remember { mutableStateOf(false) }
+        viewModel.groupDescriptionError = remember { mutableStateOf(false) }
     }
 
 }

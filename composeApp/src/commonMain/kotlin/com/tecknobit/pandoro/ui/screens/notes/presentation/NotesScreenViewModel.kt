@@ -3,13 +3,12 @@ package com.tecknobit.pandoro.ui.screens.notes.presentation
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.helpers.session.setHasBeenDisconnectedValue
-import com.tecknobit.equinoxcompose.helpers.session.setServerOfflineValue
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcompose.session.setHasBeenDisconnectedValue
+import com.tecknobit.equinoxcompose.session.setServerOfflineValue
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedWRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
@@ -23,7 +22,8 @@ import kotlinx.coroutines.launch
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see androidx.lifecycle.ViewModel
- * @see com.tecknobit.equinoxbackend.FetcherManager
+
+ * @see Retriever.RetrieverWrapper
  * @see EquinoxViewModel
  * @see NotesManager
  */
@@ -32,17 +32,17 @@ class NotesScreenViewModel: EquinoxViewModel(
 ), NotesManager {
 
     /**
-     * **selectToDoNotes** -> whether select the to-do notes
+     * `selectToDoNotes` -> whether select the to-do notes
      */
     lateinit var selectToDoNotes: MutableState<Boolean>
 
     /**
-     * **selectCompletedNotes** -> whether select the completed notes
+     * `selectCompletedNotes` -> whether select the completed notes
      */
     lateinit var selectCompletedNotes: MutableState<Boolean>
 
     /**
-     * **notesState** -> the state used to manage the pagination for the
+     * `notesState` -> the state used to manage the pagination for the
      * [retrieveNotes] method
      */
     val notesState = PaginationState<Int, Note>(
@@ -63,7 +63,7 @@ class NotesScreenViewModel: EquinoxViewModel(
         page: Int
     ) {
         viewModelScope.launch {
-            requester.sendPaginatedWRequest(
+            requester.sendPaginatedRequest(
                 serializer = Note.serializer(),
                 request = {
                     getNotes(
@@ -116,7 +116,7 @@ class NotesScreenViewModel: EquinoxViewModel(
         note: Note
     ) {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     changeNoteStatus(
                         noteId = note.id,
@@ -126,7 +126,7 @@ class NotesScreenViewModel: EquinoxViewModel(
                 onSuccess = {
                     notesState.refresh()
                 },
-                onFailure = { showSnackbarMessage(it.toResponseContent())}
+                onFailure = { showSnackbarMessage(it)}
             )
         }
     }
@@ -144,16 +144,14 @@ class NotesScreenViewModel: EquinoxViewModel(
         onDelete: () -> Unit
     ) {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     deleteNote(
                         noteId = note.id
                     )
                 },
-                onSuccess = {
-                    onDelete.invoke()
-                },
-                onFailure = { showSnackbarMessage(it.toResponseContent())}
+                onSuccess = { onDelete.invoke() },
+                onFailure = { showSnackbarMessage(it)}
             )
         }
     }

@@ -287,7 +287,7 @@ fun ProjectCard(
                                     viewModel.projectsState.refresh()
                                 },
                                 onFailure = {
-                                    viewModel.showSnackbarMessage(it.toResponseContent())
+                                    viewModel.showSnackbarMessage(it)
                                 }
                             )
                         }

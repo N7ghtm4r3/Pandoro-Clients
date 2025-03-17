@@ -32,7 +32,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EmptyListUI
-import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
+import com.tecknobit.equinoxcompose.session.ManagedContent
 import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.getCurrentSizeClass
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
@@ -43,7 +43,6 @@ import com.tecknobit.pandoro.ui.screens.overview.components.UpdatesStatsSheet
 import com.tecknobit.pandoro.ui.screens.overview.data.Overview
 import com.tecknobit.pandoro.ui.screens.overview.presentation.OverviewScreenViewModel
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.average_development_days
 import pandoro.composeapp.generated.resources.development_days
@@ -66,7 +65,7 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
 ) {
 
     /**
-     * **overview** -> state flow holds the overview data
+     * `overview` -> state flow holds the overview data
      */
     private lateinit var overview: State<Overview?>
 
@@ -76,11 +75,11 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
     @Composable
     override fun ArrangeScreenContent() {
         ManagedContent(
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             content = {
                 Scaffold (
                     containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
+                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
                     bottomBar = { AdaptBottomBarToNavigationMode() }
                 ) {
                     AdaptContentToNavigationMode(
@@ -93,8 +92,8 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
                     }
                 }
             },
-            serverOfflineRetryText = stringResource(Res.string.retry_to_reconnect),
-            serverOfflineRetryAction = { viewModel!!.retrieveOverview() }
+            serverOfflineRetryText = Res.string.retry_to_reconnect,
+            serverOfflineRetryAction = { viewModel.retrieveOverview() }
         )
     }
 
@@ -311,7 +310,7 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
      * Method invoked when the [ShowContent] composable has been created
      */
     override fun onCreate() {
-        viewModel!!.setActiveContext(HomeScreen::class.java)
+        viewModel.setActiveContext(HomeScreen::class)
     }
 
     /**
@@ -320,9 +319,9 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
     @Composable
     override fun CollectStates() {
         SideEffect {
-            viewModel!!.retrieveOverview()
+            viewModel.retrieveOverview()
         }
-        overview = viewModel!!.overview.collectAsState()
+        overview = viewModel.overview.collectAsState()
     }
 
 }

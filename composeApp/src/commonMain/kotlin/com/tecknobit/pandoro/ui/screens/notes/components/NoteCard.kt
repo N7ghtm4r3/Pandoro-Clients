@@ -52,9 +52,9 @@ import com.pushpal.jetlime.JetLimeColumn
 import com.pushpal.jetlime.JetLimeDefaults
 import com.pushpal.jetlime.JetLimeEvent
 import com.pushpal.jetlime.JetLimeEventDefaults
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.CREATE_CHANGE_NOTE_SCREEN
 import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
 import com.tecknobit.pandoro.copyToClipboard

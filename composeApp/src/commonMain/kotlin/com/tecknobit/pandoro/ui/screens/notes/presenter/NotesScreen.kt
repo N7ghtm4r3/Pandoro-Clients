@@ -41,8 +41,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EmptyListUI
-import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
-import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
+import com.tecknobit.equinoxcompose.session.ManagedContent
 import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
 import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
@@ -83,11 +82,11 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
     @Composable
     override fun ArrangeScreenContent() {
         ManagedContent(
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             content = {
                 Scaffold (
                     containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
+                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
                     floatingActionButton = {
                         FloatingActionButton(
                             onClick = { navigator.navigate(CREATE_NOTE_SCREEN) }
@@ -108,8 +107,8 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                     }
                 }
             },
-            serverOfflineRetryText = stringResource(Res.string.retry_to_reconnect),
-            serverOfflineRetryAction = { viewModel!!.notesState.retryLastFailedRequest() }
+            serverOfflineRetryText = Res.string.retry_to_reconnect,
+            serverOfflineRetryAction = { viewModel.notesState.retryLastFailedRequest() }
         )
     }
 
@@ -174,13 +173,13 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                                 horizontalAlignment = Alignment.End
                             ) {
                                 Checkbox(
-                                    checked = viewModel!!.selectToDoNotes.value,
-                                    onCheckedChange = { viewModel!!.manageToDoNotesFilter() }
+                                    checked = viewModel.selectToDoNotes.value,
+                                    onCheckedChange = { viewModel.manageToDoNotesFilter() }
                                 )
                             }
                         }
                     },
-                    onClick = { viewModel!!.manageToDoNotesFilter() }
+                    onClick = { viewModel.manageToDoNotesFilter() }
                 )
                 DropdownMenuItem(
                     text = {
@@ -191,12 +190,12 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                                 text = stringResource(Res.string.completed)
                             )
                             Checkbox(
-                                checked = viewModel!!.selectCompletedNotes.value,
-                                onCheckedChange = { viewModel!!.manageCompletedNotesFilter() }
+                                checked = viewModel.selectCompletedNotes.value,
+                                onCheckedChange = { viewModel.manageCompletedNotesFilter() }
                             )
                         }
                     },
-                    onClick = { viewModel!!.manageCompletedNotesFilter() }
+                    onClick = { viewModel.manageCompletedNotesFilter() }
                 )
             }
         }
@@ -214,7 +213,7 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                 PaginatedLazyColumn(
                     modifier = Modifier
                         .animateContentSize(),
-                    paginationState = viewModel!!.notesState,
+                    paginationState = viewModel.notesState,
                     contentPadding = PaddingValues(
                         vertical = 10.dp
                     ),
@@ -224,7 +223,7 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                     newPageProgressIndicator = { NewHorizontalPageProgressIndicator() }
                 ) {
                     items(
-                        items = viewModel!!.notesState.allItems!!,
+                        items = viewModel.notesState.allItems!!,
                         key = { note -> note.id }
                     ) { note ->
                         NoteCard(
@@ -232,7 +231,7 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                                 .height(
                                     height = 175.dp
                                 ),
-                            viewModel = viewModel!!,
+                            viewModel = viewModel,
                             note = note
                         )
                     }
@@ -242,7 +241,7 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                 PaginatedLazyVerticalGrid(
                     modifier = Modifier
                         .animateContentSize(),
-                    paginationState = viewModel!!.notesState,
+                    paginationState = viewModel.notesState,
                     columns = GridCells.Adaptive(
                         minSize = 300.dp
                     ),
@@ -256,7 +255,7 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                     newPageProgressIndicator = { NewHorizontalPageProgressIndicator() }
                 ) {
                     items(
-                        items = viewModel!!.notesState.allItems!!,
+                        items = viewModel.notesState.allItems!!,
                         key = { note -> note.id }
                     ) { note ->
                         NoteCard(
@@ -265,7 +264,7 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                                     width = 300.dp,
                                     height = 175.dp
                                 ),
-                            viewModel = viewModel!!,
+                            viewModel = viewModel,
                             note = note
                         )
                     }
@@ -294,7 +293,7 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
      * Method invoked when the [ShowContent] composable has been created
      */
     override fun onCreate() {
-        viewModel!!.setActiveContext(HomeScreen::class.java)
+        viewModel.setActiveContext(HomeScreen::class)
     }
 
     /**
@@ -302,8 +301,8 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
      */
     @Composable
     override fun CollectStates() {
-        viewModel!!.selectToDoNotes = remember { mutableStateOf(true) }
-        viewModel!!.selectCompletedNotes = remember { mutableStateOf(true) }
+        viewModel.selectToDoNotes = remember { mutableStateOf(true) }
+        viewModel.selectCompletedNotes = remember { mutableStateOf(true) }
     }
 
 }

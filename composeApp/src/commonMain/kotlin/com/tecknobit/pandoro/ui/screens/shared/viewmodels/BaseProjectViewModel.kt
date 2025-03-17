@@ -2,8 +2,10 @@ package com.tecknobit.pandoro.ui.screens.shared.viewmodels
 
 import androidx.compose.material3.SnackbarHostState
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendRequest
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +24,7 @@ abstract class BaseProjectViewModel : EquinoxViewModel(
 ) {
 
     /**
-     * **_project** -> state flow holds the project data
+     * `_project` -> state flow holds the project data
      */
     protected val _project = MutableStateFlow<Project?>(
         value = null
@@ -41,6 +43,8 @@ abstract class BaseProjectViewModel : EquinoxViewModel(
      */
     interface ProjectDeleter {
 
+
+
         /**
          * Method to delete a project
          *
@@ -53,7 +57,7 @@ abstract class BaseProjectViewModel : EquinoxViewModel(
             onDelete: () -> Unit,
             onFailure: (JsonObject) -> Unit
         ) {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     deleteProject(
                         projectId = project.id

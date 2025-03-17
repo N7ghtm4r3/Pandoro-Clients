@@ -95,7 +95,7 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
     @NonRestartableComposable
     override fun ItemsInRow() {
         var groupsAvailable by remember { mutableStateOf(false) }
-        if(groupsAvailable || viewModel!!.myGroupsStateFilters.value.isNotEmpty()) {
+        if(groupsAvailable || viewModel.myGroupsStateFilters.value.isNotEmpty()) {
             SectionHeader(
                 header = Res.string.my_groups,
                 isAllItemsFiltering = false
@@ -104,7 +104,7 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
         PaginatedLazyRow(
             modifier = Modifier
                 .animateContentSize(),
-            paginationState = viewModel!!.myGroupsState,
+            paginationState = viewModel.myGroupsState,
             contentPadding = PaddingValues(
                 vertical = if (groupsAvailable)
                     10.dp
@@ -114,7 +114,7 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             firstPageEmptyIndicator = {
                 groupsAvailable = false
-                if(viewModel!!.myGroupsStateFilters.value.isNotEmpty()) {
+                if(viewModel.myGroupsStateFilters.value.isNotEmpty()) {
                     EmptyResultWithFilters(
                         info = Res.string.empty_filtered_groups
                     )
@@ -124,12 +124,12 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
             newPageProgressIndicator = { NewHorizontalPageProgressIndicator() }
         ) {
             items(
-                items = viewModel!!.myGroupsState.allItems!!,
+                items = viewModel.myGroupsState.allItems!!,
                 key = { group -> group.id }
             ) { group ->
                 groupsAvailable = true
                 MyGroupCard(
-                    viewModel = viewModel!!,
+                    viewModel = viewModel,
                     group = group
                 )
             }
@@ -153,7 +153,7 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
                 PaginatedLazyColumn(
                     modifier = Modifier
                         .animateContentSize(),
-                    paginationState = viewModel!!.allGroupsState,
+                    paginationState = viewModel.allGroupsState,
                     contentPadding = PaddingValues(
                         vertical = 10.dp
                     ),
@@ -168,13 +168,13 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
                     newPageProgressIndicator = { NewPageProgressIndicator() }
                 ) {
                     items(
-                        items = viewModel!!.allGroupsState.allItems!!,
+                        items = viewModel.allGroupsState.allItems!!,
                         key = { group -> group.id }
                     ) { group ->
                         GroupCard(
                             modifier = Modifier
                                 .fillMaxWidth(),
-                            viewModel = viewModel!!,
+                            viewModel = viewModel,
                             group = group
                         )
                     }
@@ -184,7 +184,7 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
                 PaginatedLazyVerticalGrid(
                     modifier = Modifier
                         .animateContentSize(),
-                    paginationState = viewModel!!.allGroupsState,
+                    paginationState = viewModel.allGroupsState,
                     columns = GridCells.Adaptive(
                         minSize = 300.dp
                     ),
@@ -203,13 +203,13 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
                     newPageProgressIndicator = { NewPageProgressIndicator() }
                 ) {
                     items(
-                        items = viewModel!!.allGroupsState.allItems!!,
+                        items = viewModel.allGroupsState.allItems!!,
                         key = { group -> group.id }
                     ) { group ->
                         GroupCard(
                             modifier = Modifier
                                 .width(325.dp),
-                            viewModel = viewModel!!,
+                            viewModel = viewModel,
                             group = group
                         )
                     }
@@ -231,7 +231,7 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
         FilterGroups(
             show = show,
             isAllProjectsFiltering = false,
-            viewModel = viewModel!!
+            viewModel = viewModel
         )
     }
 
@@ -248,7 +248,7 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
         FilterGroups(
             show = show,
             isAllProjectsFiltering = true,
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             extraFilters = {
                 Text(
                     modifier = Modifier
@@ -264,7 +264,7 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
                         items = Role.entries,
                     ) { role ->
                         var selected by remember {
-                            mutableStateOf(viewModel!!.roleFilters.contains(role))
+                            mutableStateOf(viewModel.roleFilters.contains(role))
                         }
                         Row (
                             verticalAlignment = Alignment.CenterVertically
@@ -273,7 +273,7 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
                                 checked = selected,
                                 onCheckedChange = {
                                     selected = it
-                                    viewModel!!.manageRoleFilter(
+                                    viewModel.manageRoleFilter(
                                         role = role
                                     )
                                 }
@@ -286,7 +286,7 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
                 }
             },
             filterNameRequired = false,
-            onDismissAction = { viewModel!!.resetRoles() }
+            onDismissAction = { viewModel.resetRoles() }
         )
     }
 
@@ -295,8 +295,8 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
      */
     @Composable
     override fun CollectStates() {
-        viewModel!!.myGroupsStateFilters = remember { mutableStateOf("") }
-        viewModel!!.allGroupsStateFilters = remember { mutableStateOf("") }
+        viewModel.myGroupsStateFilters = remember { mutableStateOf("") }
+        viewModel.allGroupsStateFilters = remember { mutableStateOf("") }
     }
 
 }

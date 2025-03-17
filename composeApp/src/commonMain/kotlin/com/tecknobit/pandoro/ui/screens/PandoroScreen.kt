@@ -21,8 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.navigator
@@ -50,35 +50,35 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
     companion object {
 
         /**
-         * **FORM_CARD_WIDTH** -> constant value for the width of a card used as form
+         * `FORM_CARD_WIDTH` -> constant value for the width of a card used as form
          */
         val FORM_CARD_WIDTH = 750.dp
 
         /**
-         * **FORM_CARD_HEIGHT** -> constant value for the height of a card used as form
+         * `FORM_CARD_HEIGHT` -> constant value for the height of a card used as form
          */
         val FORM_CARD_HEIGHT = 550.dp
 
         /**
-         * **startPaddingBottomNavigationMode** -> constant value for the padding to apply from the
+         * `startPaddingBottomNavigationMode` -> constant value for the padding to apply from the
          * start when the navigation is currently in bottom mode
          */
         private val startPaddingBottomNavigationMode = 16.dp
 
         /**
-         * **startPaddingSideNavigationMode** -> constant value for the padding to apply from the
+         * `startPaddingSideNavigationMode` -> constant value for the padding to apply from the
          * start when the navigation is currently in side mode
          */
         private val startPaddingSideNavigationMode = 141.dp
 
         /**
-         * **bottomPaddingBottomNavigationMode** -> constant value for the padding to apply from the
+         * `bottomPaddingBottomNavigationMode` -> constant value for the padding to apply from the
          * bottom when the navigation is currently in bottom mode
          */
         private val bottomPaddingBottomNavigationMode = 96.dp
 
         /**
-         * **bottomPaddingSideNavigationMode** -> constant value for the padding to apply from the
+         * `bottomPaddingSideNavigationMode` -> constant value for the padding to apply from the
          * bottom when the navigation is currently in side mode
          */
         private val bottomPaddingSideNavigationMode = 16.dp

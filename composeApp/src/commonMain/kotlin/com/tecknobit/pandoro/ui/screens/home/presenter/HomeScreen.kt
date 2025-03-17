@@ -37,7 +37,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+import com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
 import com.tecknobit.pandoro.CloseApplicationOnNavBack
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.getCurrentWidthSizeClass
@@ -75,37 +75,37 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
     companion object {
 
         /**
-         * **MAX_CHANGELOGS_DISPLAYABLE_VALUE** -> the max value displayable in the unread changelogs badge
+         * `MAX_CHANGELOGS_DISPLAYABLE_VALUE` -> the max value displayable in the unread changelogs badge
          */
         private const val MAX_CHANGELOGS_DISPLAYABLE_VALUE = 99
 
         /**
-         * **PROJECTS_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.projects.presenter.ProjectsScreen]
+         * `PROJECTS_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.projects.presenter.ProjectsScreen]
          */
         const val PROJECTS_SCREEN = "ProjectsScreen"
 
         /**
-         * **NOTES_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.notes.presenter.NotesScreen]
+         * `NOTES_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.notes.presenter.NotesScreen]
          */
         const val NOTES_SCREEN = "NotesScreen"
 
         /**
-         * **OVERVIEW_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.overview.presenter.OverviewScreen]
+         * `OVERVIEW_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.overview.presenter.OverviewScreen]
          */
         const val OVERVIEW_SCREEN = "OverviewScreen"
 
         /**
-         * **GROUPS_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.groups.presenter.GroupsScreen]
+         * `GROUPS_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.groups.presenter.GroupsScreen]
          */
         const val GROUPS_SCREEN = "GroupsScreen"
 
         /**
-         * **PROFILE_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.profile.presenter.ProfileScreen]
+         * `PROFILE_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.profile.presenter.ProfileScreen]
          */
         const val PROFILE_SCREEN = "ProfileScreen"
 
         /**
-         * **destinations** -> the list of the destination reachable by the navigation
+         * `destinations` -> the list of the destination reachable by the navigation
          */
         private val destinations = listOf(
             NavigationTab(
@@ -135,12 +135,12 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
         )
 
         /**
-         * **currentScreenDisplayed** -> the index number of the current [destinations] displayed
+         * `currentScreenDisplayed` -> the index number of the current [destinations] displayed
          */
         private var currentScreenDisplayed: Int = 0
 
         /**
-         * **isBottomNavigationMode** -> whether the navigation mode is the side or bottom one
+         * `isBottomNavigationMode` -> whether the navigation mode is the side or bottom one
          */
         lateinit var isBottomNavigationMode: MutableState<Boolean>
 
@@ -164,12 +164,12 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
     }
 
     /**
-     * **unreadChangelogs** -> the state of the unread changelogs number
+     * `unreadChangelogs` -> the state of the unread changelogs number
      */
     private lateinit var unreadChangelogs: State<Int>
 
     /**
-     * **currentDestination** -> the current destination displayed
+     * `currentDestination` -> the current destination displayed
      */
     private lateinit var currentDestination: MutableState<NavigationTab>
 
@@ -378,7 +378,7 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
      */
     override fun onStart() {
         super.onStart()
-        viewModel!!.countUnreadChangelogs()
+        viewModel.countUnreadChangelogs()
     }
 
     /**
@@ -388,7 +388,7 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
     override fun CollectStates() {
         currentDestination = remember { mutableStateOf(destinations[currentScreenDisplayed]) }
         isBottomNavigationMode = remember { mutableStateOf(false) }
-        unreadChangelogs = viewModel!!.unreadChangelog.collectAsState()
+        unreadChangelogs = viewModel.unreadChangelog.collectAsState()
     }
 
     /**

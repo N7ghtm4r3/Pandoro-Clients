@@ -42,8 +42,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcompose.resources.loading_data
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.getCurrentSizeClass
@@ -81,17 +81,17 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
 ) {
 
     /**
-     * **isEditing** -> whether the user is creating or editing an item
+     * `isEditing` -> whether the user is creating or editing an item
      */
     protected val isEditing: Boolean = itemId != null
 
     /**
-     * **item** -> state flow holds the item data if [isEditing] is true
+     * `item` -> state flow holds the item data if [isEditing] is true
      */
     protected lateinit var item: State<I?>
 
     /**
-     * **fullScreenFormType** -> state holds the type of the form to use to create or edit the [item]
+     * `fullScreenFormType` -> state holds the type of the form to use to create or edit the [item]
      */
     protected lateinit var fullScreenFormType: MutableState<Boolean>
 
@@ -157,7 +157,7 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
     ) {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.primary,
-            snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
+            snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
             floatingActionButton = { FabAction() }
         ) {
             PlaceContent(

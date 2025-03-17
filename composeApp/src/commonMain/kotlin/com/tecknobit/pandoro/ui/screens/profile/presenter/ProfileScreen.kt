@@ -131,7 +131,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
 ) {
 
     /**
-     * **userEmail** -> the current [localUser]'s email
+     * `userEmail` -> the current [localUser]'s email
      */
     private lateinit var userEmail: MutableState<String>
 
@@ -141,11 +141,11 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     @Composable
     override fun ArrangeScreenContent() {
         ManagedContent(
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             content = {
                 Scaffold (
                     containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
+                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
                     bottomBar = { AdaptBottomBarToNavigationMode() }
                 ) {
                     AdaptContentToNavigationMode(
@@ -249,9 +249,9 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                 imagePic = imagePath
             )
             newProfilePic?.let {
-                viewModel!!.changeProfilePic(
+                viewModel.changeProfilePic(
                     imagePath = newProfilePic,
-                    profilePic = viewModel!!.profilePic
+                    profilePic = viewModel.profilePic
                 )
             }
         }
@@ -264,7 +264,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                 ),
             size = 100.dp,
             contentDescription = "Profile pic",
-            thumbnailData = viewModel!!.profilePic.value,
+            thumbnailData = viewModel.profilePic.value,
             onClick = { launcher.launch() }
         )
     }
@@ -297,7 +297,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                 )
             }
             Logout(
-                viewModel = viewModel!!,
+                viewModel = viewModel,
                 show = logout
             )
             val deleteAccount = remember { mutableStateOf(false) }
@@ -318,7 +318,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                 )
             }
             DeleteAccount(
-                viewModel = viewModel!!,
+                viewModel = viewModel,
                 show = deleteAccount
             )
         }
@@ -417,8 +417,8 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
         }
-        viewModel!!.newEmail = remember { mutableStateOf("") }
-        viewModel!!.newEmailError = remember { mutableStateOf(false) }
+        viewModel.newEmail = remember { mutableStateOf("") }
+        viewModel.newEmailError = remember { mutableStateOf(false) }
         EquinoxTextField(
             modifier = Modifier
                 .focusRequester(focusRequester),
@@ -427,13 +427,13 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                 focusedIndicatorColor = Color.Transparent,
                 errorIndicatorColor = Color.Transparent
             ),
-            value = viewModel!!.newEmail,
+            value = viewModel.newEmail,
             textFieldStyle = TextStyle(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = bodyFontFamily
             ),
-            isError = viewModel!!.newEmailError,
+            isError = viewModel.newEmailError,
             mustBeInLowerCase = true,
             allowsBlankSpaces = false,
             validator = { isEmailValid(it) },
@@ -460,8 +460,8 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
         }
-        viewModel!!.newPassword = remember { mutableStateOf("") }
-        viewModel!!.newPasswordError = remember { mutableStateOf(false) }
+        viewModel.newPassword = remember { mutableStateOf("") }
+        viewModel.newPasswordError = remember { mutableStateOf(false) }
         var hiddenPassword by remember { mutableStateOf(true) }
         EquinoxOutlinedTextField(
             modifier = Modifier
@@ -471,13 +471,13 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                 focusedIndicatorColor = Color.Transparent,
                 errorIndicatorColor = Color.Transparent
             ),
-            value = viewModel!!.newPassword,
+            value = viewModel.newPassword,
             outlinedTextFieldStyle = TextStyle(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = bodyFontFamily
             ),
-            isError = viewModel!!.newPasswordError,
+            isError = viewModel.newPasswordError,
             allowsBlankSpaces = false,
             trailingIcon = {
                 IconButton(
@@ -592,7 +592,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                                     max = FORM_CARD_HEIGHT
                                 )
                                 .animateContentSize(),
-                            paginationState = viewModel!!.changelogsState,
+                            paginationState = viewModel.changelogsState,
                             firstPageEmptyIndicator = {
                                 EmptyListUI(
                                     containerModifier = Modifier
@@ -617,11 +617,11 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                             newPageProgressIndicator = { NewPageProgressIndicator() }
                         ) {
                             items(
-                                items = viewModel!!.changelogsState.allItems!!,
+                                items = viewModel.changelogsState.allItems!!,
                                 key = { changelog -> changelog.id }
                             ) { changelog ->
                                 ChangelogItem(
-                                    viewModel = viewModel!!,
+                                    viewModel = viewModel,
                                     changelog = changelog
                                 )
                             }
@@ -731,7 +731,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     IconButton(
                         onClick = {
                             confirmAction.invoke(
-                                viewModel!!,
+                                viewModel,
                                 expanded
                             )
                         }
@@ -825,7 +825,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
      * Method invoked when the [ShowContent] composable has been created
      */
     override fun onCreate() {
-        viewModel!!.setActiveContext(HomeScreen::class.java)
+        viewModel.setActiveContext(HomeScreen::class)
     }
 
     /**
@@ -833,7 +833,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
      */
     @Composable
     override fun CollectStates() {
-        viewModel!!.profilePic = remember { mutableStateOf(localUser.profilePic) }
+        viewModel.profilePic = remember { mutableStateOf(localUser.profilePic) }
         userEmail = remember { mutableStateOf(localUser.email) }
     }
 

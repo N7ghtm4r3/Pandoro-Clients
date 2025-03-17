@@ -101,7 +101,7 @@ class CreateNoteScreen(
             } else
                 null
         ) {
-            viewModel!!.content = remember {
+            viewModel.content = remember {
                 mutableStateOf(
                     if(isEditing)
                         item.value!!.content
@@ -119,7 +119,7 @@ class CreateNoteScreen(
     @NonRestartableComposable
     override fun FabAction() {
         FloatingActionButton(
-            onClick = { viewModel!!.saveNote() }
+            onClick = { viewModel.saveNote() }
         ) {
             Icon(
                 imageVector = Icons.Default.Done,
@@ -199,7 +199,7 @@ class CreateNoteScreen(
             textFieldColors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent
             ),
-            value = viewModel!!.content,
+            value = viewModel.content,
             placeholder = Res.string.content_of_the_note,
             maxLines = Int.MAX_VALUE,
             keyboardOptions = KeyboardOptions(
@@ -213,7 +213,7 @@ class CreateNoteScreen(
      */
     override fun onStart() {
         super.onStart()
-        viewModel!!.retrieveNote()
+        viewModel.retrieveNote()
     }
 
     /**
@@ -223,7 +223,7 @@ class CreateNoteScreen(
     @RequiresSuperCall
     override fun CollectStates() {
         super.CollectStates()
-        item = viewModel!!.note.collectAsState()
+        item = viewModel.note.collectAsState()
     }
 
 }

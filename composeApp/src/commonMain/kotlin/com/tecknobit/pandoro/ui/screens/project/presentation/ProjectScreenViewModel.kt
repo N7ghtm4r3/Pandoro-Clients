@@ -4,7 +4,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.helpers.session.setServerOfflineValue
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendRequest
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseData
 import com.tecknobit.pandoro.requester
@@ -37,7 +37,7 @@ class ProjectScreenViewModel(
 ) : BaseProjectViewModel(), ProjectDeleter, NotesManager {
 
     /**
-     * **updateStatusesFilters** -> the statuses of The update to use as filters
+     * `updateStatusesFilters` -> the statuses of The update to use as filters
      */
     lateinit var updateStatusesFilters: SnapshotStateList<UpdateStatus>
 
@@ -46,9 +46,9 @@ class ProjectScreenViewModel(
      */
     override fun retrieveProject() {
         execRefreshingRoutine(
-            currentContext = ProjectScreen::class.java,
+            currentContext = ProjectScreen::class,
             routine = {
-                requester.sendWRequest(
+                requester.sendRequest(
                     request = {
                         getProject(
                             projectId = projectId
@@ -118,7 +118,7 @@ class ProjectScreenViewModel(
         update: ProjectUpdate
     ) {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     startUpdate(
                         projectId = projectId,
@@ -126,7 +126,7 @@ class ProjectScreenViewModel(
                     )
                 },
                 onSuccess = {},
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }
@@ -142,7 +142,7 @@ class ProjectScreenViewModel(
         note: Note
     ) {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     workOnChangeNoteStatus(
                         projectId = projectId,
@@ -152,7 +152,7 @@ class ProjectScreenViewModel(
                     )
                 },
                 onSuccess = {},
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }
@@ -170,7 +170,7 @@ class ProjectScreenViewModel(
         onDelete: () -> Unit
     ) {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     deleteChangeNote(
                         projectId = projectId,
@@ -179,7 +179,7 @@ class ProjectScreenViewModel(
                     )
                 },
                 onSuccess = { onDelete.invoke() },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }
@@ -193,7 +193,7 @@ class ProjectScreenViewModel(
         update: ProjectUpdate
     ) {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     publishUpdate(
                         projectId = projectId,
@@ -201,7 +201,7 @@ class ProjectScreenViewModel(
                     )
                 },
                 onSuccess = { },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }
@@ -217,7 +217,7 @@ class ProjectScreenViewModel(
         onDelete: () -> Unit
     ) {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     deleteUpdate(
                         projectId = projectId,
@@ -225,7 +225,7 @@ class ProjectScreenViewModel(
                     )
                 },
                 onSuccess = { onDelete.invoke() },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }

@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 
 /**
- * **CHANGE_NOTES_COMPLETED_VALUE** -> constant dimension value used as total completion of an update
+ * `CHANGE_NOTES_COMPLETED_VALUE` -> constant dimension value used as total completion of an update
  */
 private val CHANGE_NOTES_COMPLETED_VALUE = 230.dp
 

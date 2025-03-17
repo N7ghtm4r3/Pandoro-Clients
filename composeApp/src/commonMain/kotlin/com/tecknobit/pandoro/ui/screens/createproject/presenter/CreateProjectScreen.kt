@@ -103,7 +103,7 @@ class CreateProjectScreen(
             creationTitle = Res.string.create_project,
             editingTitle = Res.string.edit_project
         ) {
-            viewModel!!.projectIcon = remember {
+            viewModel.projectIcon = remember {
                 mutableStateOf(
                     if(isEditing)
                         item.value!!.icon
@@ -111,7 +111,7 @@ class CreateProjectScreen(
                         ""
                 )
             }
-            viewModel!!.projectName = remember {
+            viewModel.projectName = remember {
                 mutableStateOf(
                     if(isEditing)
                         item.value!!.name
@@ -119,7 +119,7 @@ class CreateProjectScreen(
                         ""
                 )
             }
-            viewModel!!.projectVersion = remember {
+            viewModel.projectVersion = remember {
                 mutableStateOf(
                     if(isEditing)
                         item.value!!.version
@@ -127,7 +127,7 @@ class CreateProjectScreen(
                         ""
                 )
             }
-            viewModel!!.projectRepository = remember {
+            viewModel.projectRepository = remember {
                 mutableStateOf(
                     if(isEditing)
                         item.value!!.projectRepo
@@ -135,7 +135,7 @@ class CreateProjectScreen(
                         ""
                 )
             }
-            viewModel!!.projectDescription = remember {
+            viewModel.projectDescription = remember {
                 mutableStateOf(
                     if(isEditing)
                         item.value!!.description
@@ -235,8 +235,8 @@ class CreateProjectScreen(
             EquinoxOutlinedTextField(
                 modifier = Modifier
                     .weight(1f),
-                value = viewModel!!.projectName,
-                isError = viewModel!!.projectNameError,
+                value = viewModel.projectName,
+                isError = viewModel.projectNameError,
                 validator = { isValidProjectName(it) },
                 label = Res.string.name,
                 errorText = Res.string.wrong_name
@@ -244,8 +244,8 @@ class CreateProjectScreen(
             EquinoxOutlinedTextField(
                 modifier = Modifier
                     .weight(1f),
-                value = viewModel!!.projectVersion,
-                isError = viewModel!!.projectVersionError,
+                value = viewModel.projectVersion,
+                isError = viewModel.projectVersionError,
                 validator = { isValidVersion(it) },
                 label = Res.string.version,
                 errorText = Res.string.wrong_project_version
@@ -254,8 +254,8 @@ class CreateProjectScreen(
         EquinoxOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = viewModel!!.projectRepository,
-            isError = viewModel!!.projectRepositoryError,
+            value = viewModel.projectRepository,
+            isError = viewModel.projectRepositoryError,
             validator = { isValidRepository(it) },
             label = Res.string.project_repository,
             errorText = Res.string.wrong_repository_url
@@ -264,8 +264,8 @@ class CreateProjectScreen(
             modifier = descriptionModifier
                 .fillMaxWidth(),
             maxLines = Int.MAX_VALUE,
-            value = viewModel!!.projectDescription,
-            isError = viewModel!!.projectDescriptionError,
+            value = viewModel.projectDescription,
+            isError = viewModel.projectDescriptionError,
             validator = { isValidProjectDescription(it) },
             label = Res.string.description,
             errorText = Res.string.wrong_description
@@ -291,7 +291,7 @@ class CreateProjectScreen(
                 horizontalAlignment = Alignment.End
             ) {
                 SaveButton {
-                    viewModel!!.workOnProject()
+                    viewModel.workOnProject()
                 }
             }
         }
@@ -303,11 +303,11 @@ class CreateProjectScreen(
     @Composable
     @NonRestartableComposable
     private fun ManageProjectGroups() {
-        if(viewModel!!.authoredGroups.isNotEmpty()) {
+        if(viewModel.authoredGroups.isNotEmpty()) {
             val modalBottomSheetState = rememberModalBottomSheetState()
             val scope = rememberCoroutineScope()
             AnimatedVisibility(
-                visible = viewModel!!.projectGroups.isEmpty(),
+                visible = viewModel.projectGroups.isEmpty(),
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
@@ -324,12 +324,12 @@ class CreateProjectScreen(
                 }
             }
             AnimatedVisibility(
-                visible = viewModel!!.projectGroups.isNotEmpty(),
+                visible = viewModel.projectGroups.isNotEmpty(),
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
                 GroupLogos(
-                    groups = viewModel!!.projectGroups,
+                    groups = viewModel.projectGroups,
                     onClick = {
                         scope.launch {
                             modalBottomSheetState.show()
@@ -398,8 +398,8 @@ class CreateProjectScreen(
                 EquinoxOutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    value = viewModel!!.projectName,
-                    isError = viewModel!!.projectNameError,
+                    value = viewModel.projectName,
+                    isError = viewModel.projectNameError,
                     validator = { isValidProjectName(it) },
                     label = Res.string.name,
                     errorText = Res.string.wrong_name
@@ -407,8 +407,8 @@ class CreateProjectScreen(
                 EquinoxOutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    value = viewModel!!.projectVersion,
-                    isError = viewModel!!.projectVersionError,
+                    value = viewModel.projectVersion,
+                    isError = viewModel.projectVersionError,
                     validator = { isValidVersion(it) },
                     label = Res.string.version,
                     errorText = Res.string.wrong_project_version
@@ -416,8 +416,8 @@ class CreateProjectScreen(
                 EquinoxOutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    value = viewModel!!.projectRepository,
-                    isError = viewModel!!.projectRepositoryError,
+                    value = viewModel.projectRepository,
+                    isError = viewModel.projectRepositoryError,
                     validator = { isValidRepository(it) },
                     label = Res.string.project_repository,
                     errorText = Res.string.wrong_repository_url
@@ -425,8 +425,8 @@ class CreateProjectScreen(
                 EquinoxOutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    value = viewModel!!.projectDescription,
-                    isError = viewModel!!.projectDescriptionError,
+                    value = viewModel.projectDescription,
+                    isError = viewModel.projectDescriptionError,
                     validator = { isValidProjectDescription(it) },
                     maxLines = 8,
                     label = Res.string.description,
@@ -443,7 +443,7 @@ class CreateProjectScreen(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     ),
-                    onClick = { viewModel!!.workOnProject() }
+                    onClick = { viewModel.workOnProject() }
                 )
             }
         }
@@ -463,24 +463,24 @@ class CreateProjectScreen(
     ) {
         val groups = remember { mutableListOf<Group>() }
         LaunchedEffect(Unit) {
-            groups.addAll(viewModel!!.projectGroups + viewModel!!.authoredGroups)
+            groups.addAll(viewModel.projectGroups + viewModel.authoredGroups)
         }
         GroupsProjectCandidate(
             state = state,
             scope = scope,
             groups = groups.distinctBy { group -> group.id }
         ) { group ->
-            if (viewModel!!.authoredGroups.any { groupToCheck -> groupToCheck.id == group.id }) {
+            if (viewModel.authoredGroups.any { groupToCheck -> groupToCheck.id == group.id }) {
                 var added by remember {
                     mutableStateOf(
-                        viewModel!!.candidateGroups.contains(group.id) ||
-                        viewModel!!.projectGroups.contains(group)
+                        viewModel.candidateGroups.contains(group.id) ||
+                        viewModel.projectGroups.contains(group)
                     )
                 }
                 Checkbox(
                     checked = added,
                     onCheckedChange = { selected ->
-                        viewModel!!.manageCandidateGroup(
+                        viewModel.manageCandidateGroup(
                             group = group
                         )
                         added = selected
@@ -505,10 +505,10 @@ class CreateProjectScreen(
         ImagePicker(
             modifier = modifier,
             pickerSize = pickerSize,
-            imageData = viewModel!!.projectIcon.value,
+            imageData = viewModel.projectIcon.value,
             contentDescription = "Project icon",
             onImagePicked = { image ->
-                viewModel!!.projectIcon.value = getImagePath(
+                viewModel.projectIcon.value = getImagePath(
                     imagePic = image
                 )
             }
@@ -520,8 +520,8 @@ class CreateProjectScreen(
      */
     override fun onStart() {
         super.onStart()
-        viewModel!!.retrieveProject()
-        viewModel!!.retrieveAuthoredGroups()
+        viewModel.retrieveProject()
+        viewModel.retrieveAuthoredGroups()
     }
 
     /**
@@ -531,11 +531,11 @@ class CreateProjectScreen(
     @RequiresSuperCall
     override fun CollectStates() {
         super.CollectStates()
-        item = viewModel!!.project.collectAsState()
-        viewModel!!.projectNameError = remember { mutableStateOf(false) }
-        viewModel!!.projectVersionError = remember { mutableStateOf(false) }
-        viewModel!!.projectRepositoryError = remember { mutableStateOf(false) }
-        viewModel!!.projectDescriptionError = remember { mutableStateOf(false) }
+        item = viewModel.project.collectAsState()
+        viewModel.projectNameError = remember { mutableStateOf(false) }
+        viewModel.projectVersionError = remember { mutableStateOf(false) }
+        viewModel.projectRepositoryError = remember { mutableStateOf(false) }
+        viewModel.projectDescriptionError = remember { mutableStateOf(false) }
     }
 
 }

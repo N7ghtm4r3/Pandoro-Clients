@@ -4,11 +4,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.helpers.session.setHasBeenDisconnectedValue
-import com.tecknobit.equinoxcompose.helpers.session.setServerOfflineValue
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcompose.session.setHasBeenDisconnectedValue
+import com.tecknobit.equinoxcompose.session.setServerOfflineValue
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedWRequest
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.MultipleListViewModel
@@ -29,12 +28,12 @@ import kotlinx.coroutines.launch
 class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
 
     /**
-     * **myGroupsStateFilters** -> the filters to apply to the [myGroupsState] list
+     * `myGroupsStateFilters` -> the filters to apply to the [myGroupsState] list
      */
     lateinit var myGroupsStateFilters: MutableState<String>
 
     /**
-     * **myGroupsState** -> the state used to manage the pagination for the
+     * `myGroupsState` -> the state used to manage the pagination for the
      * [retrieveMyGroups] method
      */
     val myGroupsState = PaginationState<Int, Group>(
@@ -55,7 +54,7 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
         page: Int
     ) {
         viewModelScope.launch {
-            requester.sendPaginatedWRequest(
+            requester.sendPaginatedRequest(
                 request = {
                     getAuthoredGroups(
                         page = page,
@@ -81,17 +80,17 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
     }
 
     /**
-     * **allGroupsStateFilters** -> the filters to apply to the [allGroupsState] list
+     * `allGroupsStateFilters` -> the filters to apply to the [allGroupsState] list
      */
     lateinit var allGroupsStateFilters: MutableState<String>
 
     /**
-     * **roleFilters** -> the roles used as filters to apply to the [allGroupsState] list
+     * `roleFilters` -> the roles used as filters to apply to the [allGroupsState] list
      */
     val roleFilters: SnapshotStateList<Role> = Role.entries.toMutableStateList()
 
     /**
-     * **allGroupsState** -> the state used to manage the pagination for the
+     * `allGroupsState` -> the state used to manage the pagination for the
      * [retrieveAllGroups] method
      */
     val allGroupsState = PaginationState<Int, Group>(
@@ -112,7 +111,7 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
         page: Int
     ) {
         viewModelScope.launch {
-            requester.sendPaginatedWRequest(
+            requester.sendPaginatedRequest(
                 request = {
                     getGroups(
                         page = page,

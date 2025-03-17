@@ -29,12 +29,12 @@ class MainActivity : ComponentActivity() {
     companion object {
 
         /**
-         * **appUpdateManager** the manager to check if there is an update available
+         * `appUpdateManager** the manager to check if there is an update available
          */
         lateinit var appUpdateManager: AppUpdateManager
 
         /**
-         * **launcher** the result registered for [appUpdateManager] and the action to execute if fails
+         * `launcher** the result registered for [appUpdateManager] and the action to execute if fails
          */
         lateinit var launcher: ActivityResultLauncher<IntentSenderRequest>
 

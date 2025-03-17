@@ -62,11 +62,11 @@ abstract class ListsScreen<V: MultipleListViewModel>(
     @Composable
     override fun ArrangeScreenContent() {
         ManagedContent(
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             content = {
                 Scaffold(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
+                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
                     floatingActionButton = { FabAction() },
                     bottomBar = { AdaptBottomBarToNavigationMode() }
                 ) {
@@ -79,7 +79,7 @@ abstract class ListsScreen<V: MultipleListViewModel>(
                 }
             },
             serverOfflineRetryText = stringResource(Res.string.retry_to_reconnect),
-            serverOfflineRetryAction = { viewModel!!.retryRetrieveLists() }
+            serverOfflineRetryAction = { viewModel.retryRetrieveLists() }
         )
     }
 
@@ -159,7 +159,7 @@ abstract class ListsScreen<V: MultipleListViewModel>(
         isAllItemsFiltering: Boolean
     ) {
         val filter = remember { mutableStateOf(false) }
-        val areFiltersSet = viewModel!!.areFiltersSet(
+        val areFiltersSet = viewModel.areFiltersSet(
             allItems = isAllItemsFiltering
         )
         Row (
@@ -176,7 +176,7 @@ abstract class ListsScreen<V: MultipleListViewModel>(
                     .size(24.dp),
                 onClick = {
                     if(areFiltersSet) {
-                        viewModel!!.clearFilters(
+                        viewModel.clearFilters(
                             allItems = isAllItemsFiltering
                         )
                     } else
@@ -233,7 +233,7 @@ abstract class ListsScreen<V: MultipleListViewModel>(
      *
      */
     override fun onCreate() {
-        viewModel!!.setActiveContext(HomeScreen::class.java)
+        viewModel.setActiveContext(HomeScreen::class)
     }
 
 }

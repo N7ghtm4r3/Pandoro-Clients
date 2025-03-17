@@ -211,18 +211,18 @@ class ProjectScreen(
         delete: MutableState<Boolean>
     ) {
         DeleteProject(
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             project = item.value!!,
             show = delete,
             deleteRequest = { project ->
-                viewModel!!.deleteProject(
+                viewModel.deleteProject(
                     project = project,
                     onDelete = {
                         delete.value = false
                         navigator.goBack()
                     },
                     onFailure = {
-                        viewModel!!.showSnackbarMessage(it.toResponseContent())
+                        viewModel.showSnackbarMessage(it)
                     }
                 )
             }
@@ -324,7 +324,7 @@ class ProjectScreen(
             header = Res.string.updates,
             filtersContent = { Filters() }
         ) {
-            val updates = viewModel!!.arrangeUpdatesList()
+            val updates = viewModel.arrangeUpdatesList()
             if(updates.isNotEmpty()) {
                 LazyColumn (
                     modifier = Modifier
@@ -336,7 +336,7 @@ class ProjectScreen(
                         key = { update -> update.id }
                     ) { update ->
                         UpdateCard(
-                            viewModel = viewModel!!,
+                            viewModel = viewModel,
                             project = item.value!!,
                             update = update,
                             viewChangeNotesFlag = updateToExpandId != null && update.id == updateToExpandId
@@ -363,13 +363,13 @@ class ProjectScreen(
     @NonRestartableComposable
     private fun Filters() {
         var menuOpened by remember { mutableStateOf(false) }
-        val areFiltersSet = viewModel!!.areFiltersSet()
+        val areFiltersSet = viewModel.areFiltersSet()
         IconButton(
             modifier = Modifier
                 .size(24.dp),
             onClick = {
                 if(areFiltersSet)
-                    viewModel!!.clearFilters()
+                    viewModel.clearFilters()
                 else
                     menuOpened = true
             }
@@ -388,7 +388,7 @@ class ProjectScreen(
         ) {
             UpdateStatus.entries.forEach { status ->
                 var selected by remember {
-                    mutableStateOf(viewModel!!.updateStatusesFilters.contains(status))
+                    mutableStateOf(viewModel.updateStatusesFilters.contains(status))
                 }
                 DropdownMenuItem(
                     modifier = Modifier
@@ -413,7 +413,7 @@ class ProjectScreen(
                                     checked = selected,
                                     onCheckedChange = {
                                         selected = it
-                                        viewModel!!.manageStatusesFilter(
+                                        viewModel.manageStatusesFilter(
                                             selected = selected,
                                             updateStatus = status
                                         )
@@ -424,7 +424,7 @@ class ProjectScreen(
                     },
                     onClick = {
                         selected = !selected
-                        viewModel!!.manageStatusesFilter(
+                        viewModel.manageStatusesFilter(
                             selected = selected,
                             updateStatus = status
                         )
@@ -536,7 +536,7 @@ class ProjectScreen(
      */
     override fun onStart() {
         super.onStart()
-        viewModel!!.retrieveProject()
+        viewModel.retrieveProject()
     }
 
     /**
@@ -544,8 +544,8 @@ class ProjectScreen(
      */
     @Composable
     override fun CollectStates() {
-        item = viewModel!!.project.collectAsState()
-        viewModel!!.updateStatusesFilters = remember { UpdateStatus.entries.toMutableStateList() }
+        item = viewModel.project.collectAsState()
+        viewModel.updateStatusesFilters = remember { UpdateStatus.entries.toMutableStateList() }
     }
 
 }

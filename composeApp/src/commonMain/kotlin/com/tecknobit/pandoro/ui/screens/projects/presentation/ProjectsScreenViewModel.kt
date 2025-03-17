@@ -6,7 +6,7 @@ import com.tecknobit.equinoxcompose.helpers.session.setHasBeenDisconnectedValue
 import com.tecknobit.equinoxcompose.helpers.session.setServerOfflineValue
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedWRequest
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedRequest
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
@@ -27,12 +27,12 @@ import kotlinx.coroutines.launch
 class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
 
     /**
-     * **inDevelopmentProjectsFilter** -> the filters to apply to the [inDevelopmentProjectsState] list
+     * `inDevelopmentProjectsFilter` -> the filters to apply to the [inDevelopmentProjectsState] list
      */
     lateinit var inDevelopmentProjectsFilter: MutableState<String>
 
     /**
-     * **inDevelopmentProjectsState** -> the state used to manage the pagination for the
+     * `inDevelopmentProjectsState` -> the state used to manage the pagination for the
      * [retrieveInDevelopmentProjects] method
      */
     val inDevelopmentProjectsState = PaginationState<Int, InDevelopmentProject>(
@@ -54,7 +54,7 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
         page: Int
     ) {
         viewModelScope.launch {
-            requester.sendPaginatedWRequest(
+            requester.sendPaginatedRequest(
                 request = {
                     getInDevelopmentProjects(
                         page = page,
@@ -103,12 +103,12 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
     }
 
     /**
-     * **projectsFilter** -> the filters to apply to the [projectsState] list
+     * `projectsFilter` -> the filters to apply to the [projectsState] list
      */
     lateinit var projectsFilter: MutableState<String>
 
     /**
-     * **projectsState** -> the state used to manage the pagination for the
+     * `projectsState` -> the state used to manage the pagination for the
      * [retrieveProjects] method
      */
     val projectsState = PaginationState<Int, Project>(
@@ -129,7 +129,7 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
         page: Int
     ) {
         viewModelScope.launch {
-            requester.sendPaginatedWRequest(
+            requester.sendPaginatedRequest(
                 request = {
                     getProjects(
                         page = page,

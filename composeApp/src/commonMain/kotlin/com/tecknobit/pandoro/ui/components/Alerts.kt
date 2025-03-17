@@ -25,10 +25,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxAlertDialog
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.SPLASHSCREEN
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.screens.group.presentation.GroupScreenViewModel
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
@@ -65,7 +64,7 @@ import pandoro.composeapp.generated.resources.logout_warn_text
 import pandoro.composeapp.generated.resources.not_all_the_change_notes_are_done
 
 /**
- * **titleStyle** -> the style to apply to the title of the [EquinoxAlertDialog]
+ * `titleStyle` -> the style to apply to the title of the [EquinoxAlertDialog]
  */
 val titleStyle = TextStyle(
     fontFamily = displayFontFamily,
@@ -217,7 +216,7 @@ fun DeleteGroup(
             (viewModel as GroupDeleter).deleteGroup(
                 group = group,
                 onDelete = onDelete,
-                onFailure = { viewModel.showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { viewModel.showSnackbarMessage(it) }
             )
         },
         confirmText = stringResource(Res.string.confirm),

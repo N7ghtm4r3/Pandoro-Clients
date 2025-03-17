@@ -1,6 +1,6 @@
 # Pandoro-Clients
 
-**v1.1.0**
+**v1.1.1**
 
 This project, based on Java and the Spring Boot framework, is an open source self-hosted management software useful in managing your personal projects and group projects.
 Create, develop and publish your projects with **Pandoro**!
@@ -20,7 +20,7 @@ steps:
 
 - Mobile
   - [Android](https://play.google.com/store/apps/details?id=com.tecknobit.pandoro)
-  - [Pandoro desktop version](https://github.com/N7ghtm4r3/Pandoro-Clients/releases/tag/1.1.0)
+  - [Pandoro desktop version](https://github.com/N7ghtm4r3/Pandoro-Clients/releases/tag/1.1.1)
   - iOS -> planned
   - Web -> planned
 
@@ -61,7 +61,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'com.tecknobit.pandorocore:pandorocore:1.0.5'
+  implementation 'com.tecknobit.pandorocore:pandorocore:1.0.6'
 }
 ```
 
@@ -74,7 +74,7 @@ repositories {
 }
 
 dependencies {
-  implementation("com.tecknobit.pandorocore:pandorocore:1.0.5")
+  implementation("com.tecknobit.pandorocore:pandorocore:1.0.6")
 }
 ```
 

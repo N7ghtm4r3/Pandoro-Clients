@@ -70,7 +70,7 @@ class GroupScreen(
 ) {
 
     /**
-     * **candidatesAvailable** -> whether there are any candidates available to be added in the group
+     * `candidatesAvailable` -> whether there are any candidates available to be added in the group
      */
     private lateinit var candidatesAvailable: State<Boolean>
 
@@ -137,7 +137,7 @@ class GroupScreen(
         delete: MutableState<Boolean>
     ) {
         DeleteGroup(
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             group = item.value!!,
             show = delete,
             onDelete = {
@@ -175,7 +175,7 @@ class GroupScreen(
                 )
             }
             LeaveGroup(
-                viewModel = viewModel!!,
+                viewModel = viewModel,
                 show = leaveGroup,
                 group = item.value!!
             )
@@ -194,7 +194,7 @@ class GroupScreen(
         when {
             widthClass == Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
                 MembersTable(
-                    viewModel = viewModel!!,
+                    viewModel = viewModel,
                     group = item
                 )
             }
@@ -203,7 +203,7 @@ class GroupScreen(
             }
             widthClass == Expanded && heightClass == WindowHeightSizeClass.Medium -> {
                 MembersTable(
-                    viewModel = viewModel!!,
+                    viewModel = viewModel,
                     group = item
                 )
             }
@@ -304,7 +304,7 @@ class GroupScreen(
                 {
                     IconButton(
                         onClick = {
-                            viewModel!!.removeMember(
+                            viewModel.removeMember(
                                 member = member
                             )
                         }
@@ -321,7 +321,7 @@ class GroupScreen(
         )
         HorizontalDivider()
         ChangeMemberRole(
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             show = changeMemberRole,
             member = member
         )
@@ -334,11 +334,11 @@ class GroupScreen(
     @NonRestartableComposable
     override fun FabAction() {
         GroupActions(
-            viewModel = viewModel!!,
-            userCanAddProjects = item.value!!.iAmAnAdmin() && viewModel!!.userProjects.isNotEmpty(),
-            projectsOnDismissAction = { viewModel!!.editProjects() },
+            viewModel = viewModel,
+            userCanAddProjects = item.value!!.iAmAnAdmin() && viewModel.userProjects.isNotEmpty(),
+            projectsOnDismissAction = { viewModel.editProjects() },
             userCanAddMembers = item.value!!.iAmAMaintainer() && candidatesAvailable.value,
-            membersOnDismissAction = { viewModel!!.addMembers() }
+            membersOnDismissAction = { viewModel.addMembers() }
         )
     }
 
@@ -347,9 +347,9 @@ class GroupScreen(
      */
     override fun onStart() {
         super.onStart()
-        viewModel!!.retrieveGroup()
-        viewModel!!.retrieveUserProjects()
-        viewModel!!.countCandidatesMember()
+        viewModel.retrieveGroup()
+        viewModel.retrieveUserProjects()
+        viewModel.countCandidatesMember()
     }
 
     /**
@@ -357,8 +357,8 @@ class GroupScreen(
      */
     @Composable
     override fun CollectStates() {
-        item = viewModel!!.group.collectAsState()
-        candidatesAvailable = viewModel!!.candidatesMemberAvailable.collectAsState()
+        item = viewModel.group.collectAsState()
+        candidatesAvailable = viewModel.candidatesMemberAvailable.collectAsState()
     }
 
 }

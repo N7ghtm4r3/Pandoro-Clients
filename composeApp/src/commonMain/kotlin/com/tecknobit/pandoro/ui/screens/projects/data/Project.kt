@@ -55,7 +55,7 @@ data class Project(
     companion object {
 
         /**
-         * **VERSION_PREFIX** -> constant value for the prefix to use for the versions values
+         * `VERSION_PREFIX` -> constant value for the prefix to use for the versions values
          */
         private const val VERSION_PREFIX = "v"
 

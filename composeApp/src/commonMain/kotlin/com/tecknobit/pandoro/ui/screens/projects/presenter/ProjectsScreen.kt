@@ -88,7 +88,7 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
     @NonRestartableComposable
     override fun ItemsInRow() {
         var projectsAvailable by remember { mutableStateOf(false) }
-        if(projectsAvailable || viewModel!!.inDevelopmentProjectsFilter.value.isNotEmpty()) {
+        if(projectsAvailable || viewModel.inDevelopmentProjectsFilter.value.isNotEmpty()) {
             SectionHeader(
                 header = Res.string.in_development,
                 isAllItemsFiltering = false
@@ -97,7 +97,7 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
         PaginatedLazyRow(
             modifier = Modifier
                 .animateContentSize(),
-            paginationState = viewModel!!.inDevelopmentProjectsState,
+            paginationState = viewModel.inDevelopmentProjectsState,
             contentPadding = PaddingValues(
                 vertical = if(projectsAvailable)
                     10.dp
@@ -107,7 +107,7 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             firstPageEmptyIndicator = {
                 projectsAvailable = false
-                if(viewModel!!.inDevelopmentProjectsFilter.value.isNotEmpty()) {
+                if(viewModel.inDevelopmentProjectsFilter.value.isNotEmpty()) {
                     EmptyResultWithFilters(
                         info = Res.string.empty_filtered_projects
                     )
@@ -117,7 +117,7 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
             newPageProgressIndicator = { NewHorizontalPageProgressIndicator() }
         ) {
             items(
-                items = viewModel!!.inDevelopmentProjectsState.allItems!!,
+                items = viewModel.inDevelopmentProjectsState.allItems!!,
                 key = { inDevelopmentProject -> inDevelopmentProject.update.id }
             ) { inDevelopmentProject ->
                 projectsAvailable = true
@@ -145,7 +145,7 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
                 PaginatedLazyColumn(
                     modifier = Modifier
                         .animateContentSize(),
-                    paginationState = viewModel!!.projectsState,
+                    paginationState = viewModel.projectsState,
                     contentPadding = PaddingValues(
                         vertical = 10.dp
                     ),
@@ -160,11 +160,11 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
                     newPageProgressIndicator = { NewPageProgressIndicator() }
                 ) {
                     items(
-                        items = viewModel!!.projectsState.allItems!!,
+                        items = viewModel.projectsState.allItems!!,
                         key = { project -> project.id }
                     ) { project ->
                         ProjectCard(
-                            viewModel = viewModel!!,
+                            viewModel = viewModel,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(
@@ -179,7 +179,7 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
                 PaginatedLazyVerticalGrid(
                     modifier = Modifier
                         .animateContentSize(),
-                    paginationState = viewModel!!.projectsState,
+                    paginationState = viewModel.projectsState,
                     columns = GridCells.Adaptive(
                         minSize = 300.dp
                     ),
@@ -198,11 +198,11 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
                     newPageProgressIndicator = { NewPageProgressIndicator() }
                 ) {
                     items(
-                        items = viewModel!!.projectsState.allItems!!,
+                        items = viewModel.projectsState.allItems!!,
                         key = { project -> project.id }
                     ) { project ->
                         ProjectCard(
-                            viewModel = viewModel!!,
+                            viewModel = viewModel,
                             modifier = Modifier
                                 .size(
                                     width = 300.dp,
@@ -228,7 +228,7 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
     ) {
         FilterProjects(
             show = show,
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             isAllProjectsFiltering = false
         )
     }
@@ -245,7 +245,7 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
     ) {
         FilterProjects(
             show = show,
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             isAllProjectsFiltering = true
         )
     }
@@ -254,7 +254,7 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
      * Method invoked when the [ShowContent] composable has been created
      */
     override fun onCreate() {
-        viewModel!!.setActiveContext(HomeScreen::class.java)
+        viewModel.setActiveContext(HomeScreen::class)
     }
 
     /**
@@ -262,8 +262,8 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
      */
     @Composable
     override fun CollectStates() {
-        viewModel!!.inDevelopmentProjectsFilter = remember { mutableStateOf("") }
-        viewModel!!.projectsFilter = remember { mutableStateOf("") }
+        viewModel.inDevelopmentProjectsFilter = remember { mutableStateOf("") }
+        viewModel.projectsFilter = remember { mutableStateOf("") }
     }
 
 }

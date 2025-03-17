@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
+import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendRequest
 import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.requester
@@ -24,8 +24,7 @@ import pandoro.composeapp.generated.resources.wrong_change_notes_list
  * @param projectId The identifier of the project where the update must be attached
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see androidx.lifecycle.ViewModel
- * @see com.tecknobit.equinoxbackend.FetcherManager
+ * @see androidx.lifecycle.ViewModel * @see Retriever.RetrieverWrapper
  * @see EquinoxViewModel
  */
 class ScheduleUpdateScreenViewModel(
@@ -35,27 +34,27 @@ class ScheduleUpdateScreenViewModel(
 ) {
 
     /**
-     * **targetVersion** -> the value of the target version
+     * `targetVersion` -> the value of the target version
      */
     lateinit var targetVersion: MutableState<String>
 
     /**
-     * **targetVersionError** -> whether the [targetVersion] field is not valid
+     * `targetVersionError` -> whether the [targetVersion] field is not valid
      */
     lateinit var targetVersionError: MutableState<Boolean>
 
     /**
-     * **changeNoteContent** -> the content of the change note
+     * `changeNoteContent` -> the content of the change note
      */
     lateinit var changeNoteContent: MutableState<String>
 
     /**
-     * **changeNoteContentError** -> whether the [changeNoteContent] field is not valid
+     * `changeNoteContentError` -> whether the [changeNoteContent] field is not valid
      */
     lateinit var changeNoteContentError: MutableState<Boolean>
 
     /**
-     * **changeNotes** -> the list of the change notes of the update
+     * `changeNotes` -> the list of the change notes of the update
      */
     val changeNotes: SnapshotStateList<String> = mutableStateListOf()
 
@@ -101,7 +100,7 @@ class ScheduleUpdateScreenViewModel(
             return
         }
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     scheduleUpdate(
                         projectId = projectId,
@@ -110,7 +109,7 @@ class ScheduleUpdateScreenViewModel(
                     )
                 },
                 onSuccess = { navigator.goBack() },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }

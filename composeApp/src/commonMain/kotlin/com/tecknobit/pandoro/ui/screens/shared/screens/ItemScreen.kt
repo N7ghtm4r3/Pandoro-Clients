@@ -51,6 +51,7 @@ import com.tecknobit.equinoxcompose.components.ChameleonText
 import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
 import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcompose.resources.loading_data
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.localUser
@@ -85,7 +86,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
 ) {
 
     /**
-     * **item** -> state flow holds the item data
+     * `item` -> state flow holds the item data
      */
     protected lateinit var item: State<I?>
 
@@ -142,11 +143,11 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
     @NonRestartableComposable
     protected fun ItemLoadedContent() {
         ManagedContent(
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             content = {
                 Scaffold(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
+                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
                     floatingActionButton = { FabAction() }
                 ) {
                     PlaceContent(

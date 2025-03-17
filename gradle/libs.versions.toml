@@ -1,33 +1,32 @@
 [versions]
 agp = "8.5.2"
-android-compileSdk = "34"
+android-compileSdk = "35"
 android-minSdk = "26"
-android-targetSdk = "34"
-androidx-activityCompose = "1.9.3"
+android-targetSdk = "35"
+androidx-activityCompose = "1.10.1"
 androidx-lifecycle = "2.8.4"
-coilCompose = "3.0.4"
-compose-multiplatform = "1.7.1"
+coilCompose = "3.1.0"
+compose-multiplatform = "1.7.3"
 composeCharts = "0.1.0"
-equinoxCompose = "1.0.3"
-equinoxCore = "1.0.5"
-filekitCore = "0.8.7"
-filekitCompose = "0.8.7"
+equinoxCompose = "1.0.9"
+equinoxCore = "1.0.9"
+filekitCore = "0.8.8"
+filekitCompose = "0.8.8"
 jetlime = "3.0.1"
-kmprefs = "1.0.0"
-kotlin = "2.0.21"
-kotlinx-coroutines = "1.9.0"
+kotlin = "2.1.0"
+kotlinx-coroutines = "1.10.1"
 kotlinxDatetime = "0.6.1"
-kotlinxSerializationJson = "1.7.3"
-material3WindowSizeClass = "1.7.1"
-octocatkdu = "1.0.4"
-pandorocore = "1.0.5"
+kotlinxSerializationJson = "1.8.0"
+material3WindowSizeClass = "1.7.3"
+octocatkdu = "1.0.5"
+pandorocore = "1.0.6"
 precompose = "1.7.0-alpha03"
-ktor = "3.0.2"
+ktor = "3.0.3"
 lazy-pagination-compose = "1.4.0"
 startupRuntime = "1.2.0"
 appUpdate = "2.1.0"
 review = "2.0.2"
-dokka = "1.9.20"
+dokka = "2.0.0"
 
 [libraries]
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
@@ -36,11 +35,9 @@ compose-charts = { module = "io.github.ehsannarmani:compose-charts", version.ref
 filekit-compose = { module = "io.github.vinceglb:filekit-compose", version.ref = "filekitCompose" }
 filekit-core = { module = "io.github.vinceglb:filekit-core", version.ref = "filekitCore" }
 jetlime = { module = "io.github.pushpalroy:jetlime", version.ref = "jetlime" }
-kmprefs = { module = "io.github.n7ghtm4r3:KMPrefs", version.ref = "kmprefs" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
-equinox-backend = { module = "io.github.n7ghtm4r3:equinox-backend", version.ref = "equinoxCore" }
-equinox-compose = { module = "io.github.n7ghtm4r3:Equinox-Compose", version.ref = "equinoxCompose" }
+equinox-compose = { module = "io.github.n7ghtm4r3:equinox-compose", version.ref = "equinoxCompose" }
 equinox-core = { module = "io.github.n7ghtm4r3:equinox-core", version.ref = "equinoxCore" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
@@ -48,7 +45,7 @@ androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 material3-window-size = { module = "org.jetbrains.compose.material3:material3-window-size-class", version.ref = "material3WindowSizeClass" }
-octocatkdu = { module = "com.tecknobit.octocatkdu:OctocatKDU", version.ref = "octocatkdu" }
+octocatkdu = { module = "io.github.n7ghtm4r3:octocatkdu", version.ref = "octocatkdu" }
 pandorocore = { module = "com.tecknobit.pandorocore:pandorocore", version.ref = "pandorocore" }
 precompose = { module = "moe.tlaster:precompose", version.ref = "precompose" }
 lazyPaginationCompose = { module = "io.github.ahmad-hamwi:lazy-pagination-compose", version.ref = "lazy-pagination-compose" }
