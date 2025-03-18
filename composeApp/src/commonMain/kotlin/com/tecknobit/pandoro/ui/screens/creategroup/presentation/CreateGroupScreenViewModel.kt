@@ -120,7 +120,7 @@ class CreateGroupScreenViewModel(
      * @return whether the form data are valid as [Boolean]
      */
     private fun isFormValid() : Boolean {
-        if(groupId == null && groupLogo.value.isNullOrEmpty()) {
+        if(groupId == null && groupLogoPayload == null) {
             showSnackbarMessage(
                 message = Res.string.wrong_logo
             )
