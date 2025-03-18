@@ -17,9 +17,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.SideEffect
@@ -33,8 +30,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.session.ManagedContent
+import com.tecknobit.equinoxcompose.utilities.ExpandedClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.pandoro.bodyFontFamily
-import com.tecknobit.pandoro.getCurrentSizeClass
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.overview.components.OverviewCard
@@ -119,30 +119,18 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
     @Composable
     @NonRestartableComposable
     private fun OverviewData() {
-        val windowSizeClass = getCurrentSizeClass()
-        val widthClass = windowSizeClass.widthSizeClass
-        val heightClass = windowSizeClass.heightSizeClass
-        when {
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
-                DashboardOverview()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
-                OverviewColumned()
-            }
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Medium -> {
-                DashboardOverview()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
-                OverviewColumned()
-            }
-            else -> OverviewColumned()
-        }
+        ResponsiveContent(
+            onExpandedSizeClass = { DashboardOverview() },
+            onMediumSizeClass = { OverviewColumned() },
+            onCompactSizeClass = { OverviewColumned() }
+        )
     }
 
     /**
      * The overview data displayed as dashboard
      */
     @Composable
+    @ExpandedClassComponent
     @NonRestartableComposable
     private fun DashboardOverview() {
         Column (
@@ -210,6 +198,9 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
      */
     @Composable
     @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
+    )
     private fun OverviewColumned() {
         Column(
             modifier = Modifier

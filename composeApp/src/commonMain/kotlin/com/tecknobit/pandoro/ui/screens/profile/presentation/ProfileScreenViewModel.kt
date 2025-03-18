@@ -1,15 +1,11 @@
 package com.tecknobit.pandoro.ui.screens.profile.presentation
 
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxProfileViewModel
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxProfileViewModel
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.profile.data.Changelog
@@ -32,11 +28,6 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
     requester = requester,
     localUser = localUser
 ) {
-
-    /**
-     * `profilePic` -> the profile picture value
-     */
-    lateinit var profilePic: MutableState<String>
 
     /**
      * `changelogsState` -> the state used to manage the pagination for the

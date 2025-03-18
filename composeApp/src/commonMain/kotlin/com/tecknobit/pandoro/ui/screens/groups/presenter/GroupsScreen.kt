@@ -4,21 +4,15 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Groups3
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Compact
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
@@ -32,29 +26,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
-import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.NewHorizontalPageProgressIndicator
-import com.tecknobit.pandoro.ui.components.NewPageProgressIndicator
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.groups.components.FilterGroups
-import com.tecknobit.pandoro.ui.screens.groups.components.GroupCard
+import com.tecknobit.pandoro.ui.screens.groups.components.Groups
 import com.tecknobit.pandoro.ui.screens.groups.components.MyGroupCard
 import com.tecknobit.pandoro.ui.screens.groups.presentation.GroupsScreenViewModel
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
 import com.tecknobit.pandoro.ui.screens.shared.screens.ListsScreen
 import com.tecknobit.pandorocore.enums.Role
-import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyRow
-import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyVerticalGrid
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.all
 import pandoro.composeapp.generated.resources.empty_filtered_groups
 import pandoro.composeapp.generated.resources.groups
 import pandoro.composeapp.generated.resources.my_groups
-import pandoro.composeapp.generated.resources.no_groups_available
 import pandoro.composeapp.generated.resources.role
 
 /**
@@ -147,75 +136,9 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
             header = Res.string.all,
             isAllItemsFiltering = true
         )
-        val windowWidthSizeClass = getCurrentWidthSizeClass()
-        when(windowWidthSizeClass) {
-            Compact -> {
-                PaginatedLazyColumn(
-                    modifier = Modifier
-                        .animateContentSize(),
-                    paginationState = viewModel.allGroupsState,
-                    contentPadding = PaddingValues(
-                        vertical = 10.dp
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                    firstPageEmptyIndicator = {
-                        NoDataAvailable(
-                            icon = Icons.Default.Groups3,
-                            subText = Res.string.no_groups_available,
-                        )
-                    },
-                    firstPageProgressIndicator = { FirstPageProgressIndicator() },
-                    newPageProgressIndicator = { NewPageProgressIndicator() }
-                ) {
-                    items(
-                        items = viewModel.allGroupsState.allItems!!,
-                        key = { group -> group.id }
-                    ) { group ->
-                        GroupCard(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            viewModel = viewModel,
-                            group = group
-                        )
-                    }
-                }
-            }
-            else -> {
-                PaginatedLazyVerticalGrid(
-                    modifier = Modifier
-                        .animateContentSize(),
-                    paginationState = viewModel.allGroupsState,
-                    columns = GridCells.Adaptive(
-                        minSize = 300.dp
-                    ),
-                    contentPadding = PaddingValues(
-                        vertical = 10.dp
-                    ),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                    firstPageEmptyIndicator = {
-                        NoDataAvailable(
-                            icon = Icons.Default.Groups3,
-                            subText = Res.string.no_groups_available,
-                        )
-                    },
-                    firstPageProgressIndicator = { FirstPageProgressIndicator() },
-                    newPageProgressIndicator = { NewPageProgressIndicator() }
-                ) {
-                    items(
-                        items = viewModel.allGroupsState.allItems!!,
-                        key = { group -> group.id }
-                    ) { group ->
-                        GroupCard(
-                            modifier = Modifier
-                                .width(325.dp),
-                            viewModel = viewModel,
-                            group = group
-                        )
-                    }
-                }
-            }
-        }
+        Groups(
+            viewModel = viewModel
+        )
     }
 
     /**

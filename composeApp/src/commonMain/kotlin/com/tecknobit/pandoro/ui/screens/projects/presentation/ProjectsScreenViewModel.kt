@@ -2,17 +2,18 @@ package com.tecknobit.pandoro.ui.screens.projects.presentation
 
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.helpers.session.setHasBeenDisconnectedValue
-import com.tecknobit.equinoxcompose.helpers.session.setServerOfflineValue
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcompose.session.setHasBeenDisconnectedValue
+import com.tecknobit.equinoxcompose.session.setServerOfflineValue
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedRequest
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseProjectViewModel.ProjectDeleter
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.MultipleListViewModel
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 /**
@@ -25,6 +26,11 @@ import kotlinx.coroutines.launch
  * @see ProjectDeleter
  */
 class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
+
+    /**
+     * `requestsScope` -> coroutine used to send the requests to the backend
+     */
+    override val requestsScope: CoroutineScope = MainScope()
 
     /**
      * `inDevelopmentProjectsFilter` -> the filters to apply to the [inDevelopmentProjectsState] list

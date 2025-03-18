@@ -44,7 +44,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -70,20 +69,22 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.ApplicationTheme
+import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.components.ChameleonText
 import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
-import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
-import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
+import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme
+import com.tecknobit.equinoxcompose.session.ManagedContent
+import com.tecknobit.equinoxcompose.utilities.ExpandedClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.LANGUAGES_SUPPORTED
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isEmailValid
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isPasswordValid
 import com.tecknobit.pandoro.SPLASHSCREEN
 import com.tecknobit.pandoro.bodyFontFamily
-import com.tecknobit.pandoro.getCurrentWidthSizeClass
-import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteAccount
@@ -100,6 +101,7 @@ import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
 import io.github.vinceglb.filekit.core.PickerType
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -164,18 +166,19 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     @Composable
     @NonRestartableComposable
     private fun ProfileContentManager() {
-        val widthSizeClass = getCurrentWidthSizeClass()
-        when(widthSizeClass) {
-            Expanded -> {
+
+        ResponsiveContent(
+            onExpandedSizeClass = {
                 ProfileContent(
                     modifier = Modifier
                         .widthIn(
                             max = FORM_CARD_WIDTH
                         )
                 )
-            }
-            else -> { ProfileContent() }
-        }
+            },
+            onMediumSizeClass = { ProfileContent() },
+            onCompactSizeClass = { ProfileContent() }
+        )
     }
 
     /**
@@ -184,6 +187,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
      * @param modifier The modifier to apply to the component
      */
     @Composable
+    @ExpandedClassComponent
     @NonRestartableComposable
     private fun ProfileContent(
         modifier: Modifier = Modifier
@@ -205,6 +209,9 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
      */
     @Composable
     @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
+    )
     private fun UserDetails() {
         Row (
             modifier = Modifier
@@ -244,15 +251,14 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         val launcher = rememberFilePickerLauncher(
             type = PickerType.Image,
             mode = PickerMode.Single
-        ) { imagePath ->
-            val newProfilePic = getImagePath(
-                imagePic = imagePath
-            )
-            newProfilePic?.let {
-                viewModel.changeProfilePic(
-                    imagePath = newProfilePic,
-                    profilePic = viewModel.profilePic
-                )
+        ) { profilePic ->
+            profilePic?.let {
+                viewModel.viewModelScope.launch {
+                    viewModel.changeProfilePic(
+                        profilePicBytes = profilePic.readBytes(),
+                        profilePicName = profilePic.name
+                    )
+                }
             }
         }
         Thumbnail(
@@ -358,19 +364,13 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                         }
                     }
                 )
-                val language = remember { mutableStateOf(localUser.language) }
                 ProfileAction(
                     leadingIcon = Icons.Default.Language,
                     actionText = Res.string.change_language,
-                    actionContent = {
-                        ChangeLanguage(
-                            currentLanguage = language
-                        )
-                    },
-                    dismissAction = { language.value = localUser.language },
+                    actionContent = { ChangeLanguage() },
+                    dismissAction = { viewModel.language.value = localUser.language },
                     confirmAction = { visible ->
                         changeLanguage(
-                            newLanguage = language.value,
                             onSuccess = {
                                 visible.value = false
                                 navigator.navigate(SPLASHSCREEN)
@@ -378,7 +378,6 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                         )
                     }
                 )
-                val theme = remember { mutableStateOf(localUser.theme) }
                 ProfileAction(
                     shape = RoundedCornerShape(
                         bottomStart = 12.dp,
@@ -386,15 +385,10 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     ),
                     leadingIcon = Icons.Default.Palette,
                     actionText = Res.string.change_theme,
-                    actionContent = {
-                        ChangeTheme(
-                            currentTheme = theme
-                        )
-                    },
-                    dismissAction = { theme.value = localUser.theme },
+                    actionContent = { ChangeTheme() },
+                    dismissAction = { viewModel.theme.value = localUser.theme },
                     confirmAction = { visible ->
                         changeTheme(
-                            newTheme = theme.value,
                             onChange = {
                                 visible.value = false
                                 navigator.navigate(SPLASHSCREEN)
@@ -512,14 +506,10 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
 
     /**
      * Section to change the [localUser]'s language
-     *
-     * @param currentLanguage The current [localUser]'s language
      */
     @Composable
     @NonRestartableComposable
-    private fun ChangeLanguage(
-        currentLanguage: MutableState<String>
-    ) {
+    private fun ChangeLanguage() {
         Column (
             modifier = Modifier
                 .selectableGroup()
@@ -529,8 +519,8 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        selected = currentLanguage.value == entry.key,
-                        onClick = { currentLanguage.value = entry.key }
+                        selected = viewModel.language.value == entry.key,
+                        onClick = { viewModel.language.value = entry.key }
                     )
                     Text(
                         text = entry.value
@@ -542,14 +532,10 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
 
     /**
      * Section to change the [localUser]'s theme
-     *
-     * @param currentTheme The current [localUser]'s theme
      */
     @Composable
     @NonRestartableComposable
-    private fun ChangeTheme(
-        currentTheme: MutableState<ApplicationTheme>
-    ) {
+    private fun ChangeTheme() {
         Column (
             modifier = Modifier
                 .selectableGroup()
@@ -559,8 +545,8 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        selected = currentTheme.value == entry,
-                        onClick = { currentTheme.value = entry }
+                        selected = viewModel.theme.value == entry,
+                        onClick = { viewModel.theme.value = entry }
                     )
                     Text(
                         text = entry.name

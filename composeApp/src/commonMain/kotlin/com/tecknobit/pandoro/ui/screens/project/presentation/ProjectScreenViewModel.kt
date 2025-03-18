@@ -2,11 +2,10 @@ package com.tecknobit.pandoro.ui.screens.project.presentation
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.helpers.session.setServerOfflineValue
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseData
+import com.tecknobit.equinoxcompose.session.setServerOfflineValue
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
+import com.tecknobit.equinoxcore.toggle
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen
@@ -16,6 +15,8 @@ import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseProjectViewModel
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseProjectViewModel.ProjectDeleter
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
 import com.tecknobit.pandorocore.enums.UpdateStatus
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -37,6 +38,11 @@ class ProjectScreenViewModel(
 ) : BaseProjectViewModel(), ProjectDeleter, NotesManager {
 
     /**
+     * `requestsScope` -> coroutine used to send the requests to the backend
+     */
+    override val requestsScope: CoroutineScope = MainScope()
+
+    /**
      * `updateStatusesFilters` -> the statuses of The update to use as filters
      */
     lateinit var updateStatusesFilters: SnapshotStateList<UpdateStatus>
@@ -45,7 +51,7 @@ class ProjectScreenViewModel(
      * Method to retrieve the data of a [Project]
      */
     override fun retrieveProject() {
-        execRefreshingRoutine(
+        retrieve(
             currentContext = ProjectScreen::class,
             routine = {
                 requester.sendRequest(
@@ -75,10 +81,10 @@ class ProjectScreenViewModel(
         updateStatus: UpdateStatus,
         selected: Boolean
     ) {
-        if(selected)
-            updateStatusesFilters.add(updateStatus)
-        else
-            updateStatusesFilters.remove(updateStatus)
+        updateStatusesFilters.toggle(
+            add = selected,
+            element = updateStatus
+        )
         arrangeUpdatesList()
     }
 

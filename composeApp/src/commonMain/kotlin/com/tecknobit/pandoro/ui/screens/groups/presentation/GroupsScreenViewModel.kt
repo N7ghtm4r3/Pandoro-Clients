@@ -14,6 +14,8 @@ import com.tecknobit.pandoro.ui.screens.shared.viewmodels.MultipleListViewModel
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.BaseGroupViewModel.GroupDeleter
 import com.tecknobit.pandorocore.enums.Role
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 /**
@@ -26,6 +28,11 @@ import kotlinx.coroutines.launch
  * @see GroupDeleter
  */
 class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
+
+    /**
+     * `requestsScope` -> coroutine used to send the requests to the backend
+     */
+    override val requestsScope: CoroutineScope = MainScope()
 
     /**
      * `myGroupsStateFilters` -> the filters to apply to the [myGroupsState] list

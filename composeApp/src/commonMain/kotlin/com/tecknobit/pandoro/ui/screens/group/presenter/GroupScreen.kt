@@ -16,9 +16,6 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
@@ -30,8 +27,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
-import com.tecknobit.pandoro.getCurrentSizeClass
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.ChangeMemberRole
 import com.tecknobit.pandoro.ui.components.DeleteGroup
@@ -188,30 +187,16 @@ class GroupScreen(
     @Composable
     @NonRestartableComposable
     override fun ScreenContent() {
-        val windowSizeClass = getCurrentSizeClass()
-        val widthClass = windowSizeClass.widthSizeClass
-        val heightClass = windowSizeClass.heightSizeClass
-        when {
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
+        ResponsiveContent(
+            onExpandedSizeClass = {
                 MembersTable(
                     viewModel = viewModel,
                     group = item
                 )
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
-                MembersColumn()
-            }
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Medium -> {
-                MembersTable(
-                    viewModel = viewModel,
-                    group = item
-                )
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
-                MembersColumn()
-            }
-            else -> MembersColumn()
-        }
+            },
+            onMediumSizeClass = { MembersColumn() },
+            onCompactSizeClass = { MembersColumn() }
+        )
     }
 
     /**
@@ -219,6 +204,9 @@ class GroupScreen(
      */
     @Composable
     @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
+    )
     private fun MembersColumn() {
         LazyColumn(
             modifier = Modifier

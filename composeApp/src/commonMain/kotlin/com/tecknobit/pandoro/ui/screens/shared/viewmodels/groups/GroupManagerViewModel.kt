@@ -7,10 +7,9 @@ import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.equinoxcore.json.treatsAsLong
 import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
 import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseArrayData
+import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseArrayData
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseData
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
@@ -96,7 +95,7 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
             requester.sendRequest(
                 request = { getAuthoredProjects() },
                 onSuccess = {
-                    val projects: List<Project> = Json.decodeFromJsonElement(it.toResponseArrayData());
+                    val projects: List<Project> = Json.decodeFromJsonElement(it.toResponseArrayData())
                     userProjects.addAll(projects)
                     group.value?.let { group ->
                         group.projects.forEach { project ->

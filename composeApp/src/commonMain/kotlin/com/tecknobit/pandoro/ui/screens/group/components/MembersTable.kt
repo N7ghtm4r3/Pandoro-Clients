@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme.Auto
 import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme.Dark
+import com.tecknobit.equinoxcompose.utilities.ExpandedClassComponent
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.ui.components.Thumbnail
@@ -91,6 +92,7 @@ private val developerHeaders = listOf(
  * @param group The group from fetch the members
  */
 @Composable
+@ExpandedClassComponent
 @NonRestartableComposable
 fun MembersTable(
     viewModel: GroupScreenViewModel,

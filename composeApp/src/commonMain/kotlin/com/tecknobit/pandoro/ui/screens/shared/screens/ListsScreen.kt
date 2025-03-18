@@ -26,7 +26,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EmptyListUI
-import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
+import com.tecknobit.equinoxcompose.session.ManagedContent
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
@@ -78,7 +78,7 @@ abstract class ListsScreen<V: MultipleListViewModel>(
                     }
                 }
             },
-            serverOfflineRetryText = stringResource(Res.string.retry_to_reconnect),
+            serverOfflineRetryText = Res.string.retry_to_reconnect,
             serverOfflineRetryAction = { viewModel.retryRetrieveLists() }
         )
     }

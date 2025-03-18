@@ -31,6 +31,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
+import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.createnote.presentation.CreateNoteScreenViewModel
@@ -132,8 +136,11 @@ class CreateNoteScreen(
      * [Form] displayed as card
      */
     @Composable
-    @NonRestartableComposable
     @RequiresSuperCall
+    @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
+    )
     override fun CardForm() {
         super.CardForm()
         Column(
@@ -161,8 +168,9 @@ class CreateNoteScreen(
      * [Form] displayed as full screen object, this is used for example in the mobile devices
      */
     @Composable
-    @NonRestartableComposable
     @RequiresSuperCall
+    @CompactClassComponent
+    @NonRestartableComposable
     override fun FullScreenForm() {
         super.FullScreenForm()
         Column(

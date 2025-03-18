@@ -12,6 +12,8 @@ import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.BaseGroupViewModel.GroupDeleter
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.GroupManagerViewModel
 import com.tecknobit.pandorocore.enums.Role
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -30,6 +32,11 @@ import kotlinx.serialization.json.decodeFromJsonElement
 class GroupScreenViewModel(
     private val groupId: String
 ) : GroupManagerViewModel(), GroupDeleter {
+
+    /**
+     * `requestsScope` -> coroutine used to send the requests to the backend
+     */
+    override val requestsScope: CoroutineScope = MainScope()
 
     /**
      * Method to retrieve the data of a [Group]

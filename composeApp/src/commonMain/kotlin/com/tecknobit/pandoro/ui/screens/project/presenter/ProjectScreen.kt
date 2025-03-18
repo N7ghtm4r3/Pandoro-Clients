@@ -32,9 +32,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
@@ -53,12 +50,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
+import com.tecknobit.equinoxcompose.utilities.ExpandedClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.COMPACT_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
 import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.SCHEDULE_UPDATE_SCREEN
 import com.tecknobit.pandoro.bodyFontFamily
-import com.tecknobit.pandoro.getCurrentSizeClass
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
@@ -244,30 +244,18 @@ class ProjectScreen(
     @Composable
     @NonRestartableComposable
     override fun ScreenContent() {
-        val windowSizeClass = getCurrentSizeClass()
-        val widthClass = windowSizeClass.widthSizeClass
-        val heightClass = windowSizeClass.heightSizeClass
-        when {
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
-                UpdatesStatsSection()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
-                ProjectUpdatesSection()
-            }
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Medium -> {
-                UpdatesStatsSection()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
-                ProjectUpdatesSection()
-            }
-            else -> ProjectUpdatesSection()
-        }
+        ResponsiveContent(
+            onExpandedSizeClass = { UpdatesStatsSection() },
+            onMediumSizeClass = { ProjectUpdatesSection() },
+            onCompactSizeClass = { ProjectUpdatesSection() }
+        )
     }
 
     /**
      * The statistics about the updates of the project
      */
     @Composable
+    @ExpandedClassComponent
     @NonRestartableComposable
     private fun UpdatesStatsSection() {
         Row (
@@ -311,6 +299,9 @@ class ProjectScreen(
      */
     @Composable
     @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
+    )
     private fun ProjectUpdatesSection() {
         Section(
             modifier = Modifier
@@ -440,24 +431,11 @@ class ProjectScreen(
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
-        val windowSizeClass = getCurrentSizeClass()
-        val widthClass = windowSizeClass.widthSizeClass
-        val heightClass = windowSizeClass.heightSizeClass
-        when {
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
-                ScheduleButton()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
-                FabButtons()
-            }
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Medium -> {
-                ScheduleButton()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
-                FabButtons()
-            }
-            else -> FabButtons()
-        }
+        ResponsiveContent(
+            onExpandedSizeClass = { ScheduleButton() },
+            onMediumSizeClass = { FabButtons() },
+            onCompactSizeClass = { FabButtons() }
+        )
     }
 
     /**
@@ -465,6 +443,9 @@ class ProjectScreen(
      */
     @Composable
     @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
+    )
     private fun FabButtons() {
         Column(
             horizontalAlignment = Alignment.End
@@ -515,6 +496,7 @@ class ProjectScreen(
      * project
      */
     @Composable
+    @ExpandedClassComponent
     @NonRestartableComposable
     private fun ScheduleButton() {
         FloatingActionButton(

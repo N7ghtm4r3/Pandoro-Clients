@@ -5,8 +5,8 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.ApplicationTheme.Dark
-import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.ApplicationTheme.Light
+import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme.Dark
+import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme.Light
 import com.tecknobit.pandoro.localUser
 
 /**

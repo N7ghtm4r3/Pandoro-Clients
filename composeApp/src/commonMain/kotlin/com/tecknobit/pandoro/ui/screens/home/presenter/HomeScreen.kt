@@ -22,8 +22,6 @@ import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Medium
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
@@ -38,9 +36,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
+import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.pandoro.CloseApplicationOnNavBack
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.getCurrentWidthSizeClass
 import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.icons.Activity
@@ -180,7 +182,6 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
     @ExperimentalMaterial3WindowSizeClassApi
     override fun ArrangeScreenContent() {
         CloseApplicationOnNavBack()
-        val widthSizeClass = getCurrentWidthSizeClass()
         Box (
             modifier = Modifier
                 .fillMaxSize()
@@ -194,15 +195,16 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
                     PROFILE_SCREEN -> { ProfileScreen().ShowContent() }
                 }
             }
-            when(widthSizeClass) {
-                Expanded, Medium -> SideNavigationBar()
-                else -> {
+            ResponsiveContent(
+                onExpandedSizeClass = { SideNavigationBar() },
+                onMediumSizeClass = { SideNavigationBar() },
+                onCompactSizeClass = {
                     BottomNavigationBar(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                     )
                 }
-            }
+            )
         }
     }
 
@@ -211,6 +213,9 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
      */
     @Composable
     @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
+    )
     private fun SideNavigationBar() {
         isBottomNavigationMode.value = false
         NavigationRail(
@@ -273,6 +278,7 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
      * @param modifier The modifier to apply to the navigation bar
      */
     @Composable
+    @CompactClassComponent
     @NonRestartableComposable
     private fun BottomNavigationBar(
         modifier: Modifier = Modifier

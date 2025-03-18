@@ -1,7 +1,5 @@
 package com.tecknobit.pandoro
 
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.text.font.FontFamily
@@ -31,7 +29,6 @@ import com.tecknobit.pandorocore.NOTE_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.PROJECT_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.UPDATE_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.UPDATE_TARGET_VERSION_KEY
-import io.github.vinceglb.filekit.core.PlatformFile
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
@@ -286,45 +283,3 @@ expect fun setUserLanguage()
 @Composable
 @NonRestartableComposable
 expect fun CloseApplicationOnNavBack()
-
-/**
- * Method to get the current screen dimension of the device where the application is running
- *
- *
- * @return the width size class based on the current dimension of the screen as [WindowWidthSizeClass]
- */
-@Composable
-fun getCurrentWidthSizeClass(): WindowWidthSizeClass {
-    return getCurrentSizeClass().widthSizeClass
-}
-
-/**
- * Method to get the current screen dimension of the device where the application is running
- *
- *
- * @return the size class based on the current dimension of the screen as [WindowWidthSizeClass]
- */
-@Composable
-expect fun getCurrentSizeClass(): WindowSizeClass
-
-/**
- * Method to get the image picture's path
- *
- * @param imagePic: the asset from fetch its path
- *
- * @return the asset path as [String]
- */
-expect fun getImagePath(
-    imagePic: PlatformFile?
-): String?
-
-/**
- * Method to copy to the clipboard a content value
- *
- * @param content The content to copy
- * @param onCopy The action to execute after the copy in the clipboard
- */
-expect fun copyToClipboard(
-    content: String,
-    onCopy: () -> Unit = {}
-)

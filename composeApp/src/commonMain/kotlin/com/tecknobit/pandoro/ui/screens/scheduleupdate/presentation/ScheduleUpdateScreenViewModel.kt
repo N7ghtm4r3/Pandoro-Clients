@@ -5,9 +5,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isContentNoteValid
