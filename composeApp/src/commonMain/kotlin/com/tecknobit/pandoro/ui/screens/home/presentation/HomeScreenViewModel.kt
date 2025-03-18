@@ -4,9 +4,8 @@ import androidx.compose.material3.SnackbarHostState
 import com.tecknobit.equinoxcompose.session.setHasBeenDisconnectedValue
 import com.tecknobit.equinoxcompose.session.setServerOfflineValue
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
-import com.tecknobit.equinoxcore.json.treatsAsInt
 import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
-import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
+import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseContent
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,7 +45,7 @@ class HomeScreenViewModel : EquinoxViewModel(
                     request = { getUnreadChangelogsCount() },
                     onSuccess = {
                         setServerOfflineValue(false)
-                        _unreadChangelog.value = it.toResponseData().treatsAsInt()
+                        _unreadChangelog.value = it.toResponseContent().toInt()
                     },
                     onFailure = { setHasBeenDisconnectedValue(true) },
                     onConnectionError = { setServerOfflineValue(true) }

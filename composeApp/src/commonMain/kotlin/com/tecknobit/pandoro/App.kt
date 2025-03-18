@@ -10,6 +10,8 @@ import coil3.request.CachePolicy
 import coil3.request.addLastModifiedToFileCacheKey
 import com.tecknobit.equinoxcompose.session.EquinoxLocalUser
 import com.tecknobit.equinoxcore.helpers.NAME_KEY
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.pandoro.helpers.PandoroRequester
 import com.tecknobit.pandoro.helpers.customHttpClient
 import com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen
@@ -29,6 +31,8 @@ import com.tecknobit.pandorocore.NOTE_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.PROJECT_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.UPDATE_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.UPDATE_TARGET_VERSION_KEY
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
@@ -260,12 +264,26 @@ fun startSession() {
     requester = PandoroRequester(
         host = localUser.hostAddress,
         userId = localUser.userId,
-        userToken = localUser.userToken
+        userToken = localUser.userToken,
+        debugMode = true // TODO: TO REMOVE
     )
-    val route = if (localUser.userId == null)
-        AUTH_SCREEN
-    else
+    val route = if (localUser.isAuthenticated) {
+        MainScope().launch {
+            requester.sendRequest(
+                request = {
+                    getDynamicAccountData()
+                },
+                onSuccess = { response ->
+                    localUser.updateDynamicAccountData(
+                        dynamicData = response.toResponseData()
+                    )
+                },
+                onFailure = {}
+            )
+        }
         HOME_SCREEN
+    } else
+        AUTH_SCREEN
     setUserLanguage()
     navigator.navigate(route)
 }

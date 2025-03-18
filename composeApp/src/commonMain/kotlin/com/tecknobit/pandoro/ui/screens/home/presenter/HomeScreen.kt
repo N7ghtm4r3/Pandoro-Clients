@@ -21,7 +21,6 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
@@ -179,7 +178,6 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
      * Method to arrange the content of the screen to display
      */
     @Composable
-    @ExperimentalMaterial3WindowSizeClassApi
     override fun ArrangeScreenContent() {
         CloseApplicationOnNavBack()
         Box (

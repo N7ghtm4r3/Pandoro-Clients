@@ -3,7 +3,7 @@ package com.tecknobit.pandoro.ui.screens.projects.data
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.tecknobit.pandoro.helpers.TimeFormatter.daysUntil
+import com.tecknobit.equinoxcore.time.TimeFormatter.daysUntil
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.theme.Green

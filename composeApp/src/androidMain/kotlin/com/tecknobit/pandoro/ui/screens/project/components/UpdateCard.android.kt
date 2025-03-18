@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.ui.screens.project.components
 
 import android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-import com.tecknobit.equinoxcompose.helpers.utils.ContextActivityProvider
+import com.tecknobit.equinoxcore.utilities.ContextActivityProvider
 
 /**
  * Method to prevent the screen sleeps when reading the change notes of an update

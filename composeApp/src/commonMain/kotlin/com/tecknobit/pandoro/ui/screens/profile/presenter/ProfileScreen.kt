@@ -128,6 +128,7 @@ import pandoro.composeapp.generated.resources.wrong_password
  * @see EquinoxScreen
  * @see PandoroScreen
  */
+// TODO: TO INTEGRATE THE STEPPER 
 class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     viewModel = ProfileScreenViewModel()
 ) {
@@ -166,7 +167,6 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     @Composable
     @NonRestartableComposable
     private fun ProfileContentManager() {
-
         ResponsiveContent(
             onExpandedSizeClass = {
                 ProfileContent(
@@ -820,6 +820,8 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     @Composable
     override fun CollectStates() {
         viewModel.profilePic = remember { mutableStateOf(localUser.profilePic) }
+        viewModel.language = remember { mutableStateOf(localUser.language) }
+        viewModel.theme = remember { mutableStateOf(localUser.theme) }
         userEmail = remember { mutableStateOf(localUser.email) }
     }
 

@@ -1,7 +1,10 @@
 package com.tecknobit.pandoro
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
+import kotlinx.browser.document
+import kotlinx.coroutines.delay
 
 /**
  * Method to check whether are available any updates for each platform and then launch the application
@@ -11,12 +14,17 @@ import androidx.compose.runtime.NonRestartableComposable
 @Composable
 @NonRestartableComposable
 actual fun CheckForUpdatesAndLaunch() {
+    LaunchedEffect(Unit) {
+        delay(1000)
+        startSession()
+    }
 }
 
 /**
  * Method to set locale language for the application
  */
 actual fun setUserLanguage() {
+    document.documentElement?.setAttribute("lang", localUser.language)
 }
 
 /**
@@ -26,4 +34,5 @@ actual fun setUserLanguage() {
 @NonRestartableComposable
 @Composable
 actual fun CloseApplicationOnNavBack() {
+
 }

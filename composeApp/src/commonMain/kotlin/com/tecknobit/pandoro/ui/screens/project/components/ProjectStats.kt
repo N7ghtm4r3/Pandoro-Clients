@@ -70,6 +70,7 @@ import pandoro.composeapp.generated.resources.days
 import pandoro.composeapp.generated.resources.development_days
 import pandoro.composeapp.generated.resources.stats
 import pandoro.composeapp.generated.resources.total_development_days
+import kotlin.math.round
 
 /**
  * `axisProperties** custom axis properties for the [ModalProjectStats]
@@ -83,7 +84,8 @@ private val axisProperties = GridProperties.AxisProperties(
  * charts
  */
 private val contentBuilder: (Double) -> String = {
-    "%.0f".format(it)
+    val factor = 100
+    "${round(it * factor) / factor}"
 }
 
 /**

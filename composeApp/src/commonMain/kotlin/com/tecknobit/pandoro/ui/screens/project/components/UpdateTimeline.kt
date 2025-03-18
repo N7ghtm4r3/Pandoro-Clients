@@ -21,10 +21,10 @@ import com.pushpal.jetlime.JetLimeColumn
 import com.pushpal.jetlime.JetLimeDefaults
 import com.pushpal.jetlime.JetLimeEvent
 import com.pushpal.jetlime.JetLimeEventDefaults
+import com.tecknobit.equinoxcore.time.TimeFormatter.EUROPEAN_DATE_PATTERN
+import com.tecknobit.equinoxcore.time.TimeFormatter.H24_HOURS_MINUTES_PATTERN
+import com.tecknobit.equinoxcore.time.TimeFormatter.toDateString
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.helpers.TimeFormatter.DATE_PATTERN
-import com.tecknobit.pandoro.helpers.TimeFormatter.H24_HOURS_MINUTES_PATTERN
-import com.tecknobit.pandoro.helpers.TimeFormatter.formatAsTimeString
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
@@ -234,10 +234,10 @@ private fun EventDateInfo(
         modifier = modifier,
         text = stringResource(
             resource = eventMessage,
-            eventDate.formatAsTimeString(
-                pattern = DATE_PATTERN
+            eventDate.toDateString(
+                pattern = EUROPEAN_DATE_PATTERN
             ),
-            eventDate.formatAsTimeString(
+            eventDate.toDateString(
                 pattern = H24_HOURS_MINUTES_PATTERN
             )
         ),

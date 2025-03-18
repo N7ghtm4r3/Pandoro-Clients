@@ -182,16 +182,6 @@ compose.desktop {
     }
 }
 
-configurations.all {
-    resolutionStrategy {
-        force("org.slf4j:slf4j-api:1.7.36")
-        // FIXME: TO REMOVE IN THE NEXT VERSION (DEPRECATED TRIGGER SEARCH)
-        force("com.github.N7ghtm4r3:GitHubManager:1.0.1")
-    }
-    // FIXME: TO REMOVE IN THE NEXT VERSION (DEPRECATED TRIGGER SEARCH)
-    exclude("commons-logging", "commons-logging")
-}
-
 tasks.withType<DokkaTask>().configureEach {
     dokkaSourceSets {
         moduleName.set("Pandoro")
