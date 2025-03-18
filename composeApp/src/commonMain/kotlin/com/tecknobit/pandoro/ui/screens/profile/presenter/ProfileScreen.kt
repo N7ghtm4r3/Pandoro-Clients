@@ -128,7 +128,7 @@ import pandoro.composeapp.generated.resources.wrong_password
  * @see EquinoxScreen
  * @see PandoroScreen
  */
-// TODO: TO INTEGRATE THE STEPPER 
+// TODO: TO INTEGRATE THE STEPPER
 class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     viewModel = ProfileScreenViewModel()
 ) {

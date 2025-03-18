@@ -13,8 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.tecknobit.equinoxcompose.helpers.session.setUpSession
-import com.tecknobit.equinoxcompose.helpers.utils.ContextActivityProvider
+import com.tecknobit.equinoxcompose.session.setUpSession
+import com.tecknobit.equinoxcore.utilities.ContextActivityProvider
 import io.github.vinceglb.filekit.core.FileKit
 
 /**
@@ -78,6 +78,10 @@ class MainActivity : ComponentActivity() {
         setUpSession(
             hasBeenDisconnectedAction = {
                 localUser.clear()
+                requester.setUserCredentials(
+                    userId = null,
+                    userToken = null
+                )
                 navigator.navigate(AUTH_SCREEN)
             }
         )

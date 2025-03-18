@@ -1,8 +1,7 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMultiplatform::class)
 
 package com.tecknobit.pandoro.ui.screens.overview.presenter
 
-import ChartLine
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,16 +24,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.tecknobit.equinoxcompose.components.EmptyListUI
+import com.tecknobit.equinoxcompose.components.EmptyState
 import com.tecknobit.equinoxcompose.session.ManagedContent
 import com.tecknobit.equinoxcompose.utilities.ExpandedClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
-import com.tecknobit.pandoro.bodyFontFamily
+import com.tecknobit.equinoxcompose.utilities.responsiveAssignment
 import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.overview.components.OverviewCard
@@ -42,12 +40,15 @@ import com.tecknobit.pandoro.ui.screens.overview.components.ProjectsStatsSheet
 import com.tecknobit.pandoro.ui.screens.overview.components.UpdatesStatsSheet
 import com.tecknobit.pandoro.ui.screens.overview.data.Overview
 import com.tecknobit.pandoro.ui.screens.overview.presentation.OverviewScreenViewModel
+import com.tecknobit.pandoro.ui.theme.AppTypography
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.average_development_days
 import pandoro.composeapp.generated.resources.development_days
 import pandoro.composeapp.generated.resources.general
 import pandoro.composeapp.generated.resources.no_data_available
+import pandoro.composeapp.generated.resources.no_overview_data
 import pandoro.composeapp.generated.resources.overview
 import pandoro.composeapp.generated.resources.projects
 import pandoro.composeapp.generated.resources.retry_to_reconnect
@@ -103,13 +104,16 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
     @Composable
     @NonRestartableComposable
     private fun NoOverviewDataAvailable() {
-        EmptyListUI(
-            icon = ChartLine,
-            subText = Res.string.no_data_available,
-            textStyle = TextStyle(
-                fontFamily = bodyFontFamily
+        EmptyState(
+            resource = Res.drawable.no_overview_data,
+            resourceSize = responsiveAssignment(
+                onExpandedSizeClass = { 325.dp },
+                onMediumSizeClass = { 275.dp },
+                onCompactSizeClass = { 250.dp }
             ),
-            themeColor = MaterialTheme.colorScheme.inversePrimary
+            contentDescription = "No data available",
+            title = stringResource(Res.string.no_data_available),
+            titleStyle = AppTypography.bodyLarge
         )
     }
 

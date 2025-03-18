@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMultiplatform::class)
+
 package com.tecknobit.pandoro.ui.screens.notes.components
 
 import androidx.compose.animation.animateContentSize
@@ -12,16 +14,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.tecknobit.equinoxcompose.components.EmptyState
 import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
+import com.tecknobit.equinoxcompose.utilities.responsiveAssignment
 import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.NewHorizontalPageProgressIndicator
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
+import com.tecknobit.pandoro.ui.theme.AppTypography
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyVerticalGrid
+import org.jetbrains.compose.resources.stringResource
+import pandoro.composeapp.generated.resources.Res
+import pandoro.composeapp.generated.resources.no_notes
+import pandoro.composeapp.generated.resources.no_notes_available
 
 @Composable
 @NonRestartableComposable
@@ -125,5 +134,15 @@ private fun NotesList(
 @Composable
 @NonRestartableComposable
 private fun NoNotesAvailable() {
-    // TODO: TO TO
+    EmptyState(
+        resource = Res.drawable.no_notes,
+        resourceSize = responsiveAssignment(
+            onExpandedSizeClass = { 350.dp },
+            onMediumSizeClass = { 300.dp },
+            onCompactSizeClass = { 275.dp }
+        ),
+        contentDescription = "No notes available",
+        title = stringResource(Res.string.no_notes_available),
+        titleStyle = AppTypography.bodyLarge
+    )
 }
