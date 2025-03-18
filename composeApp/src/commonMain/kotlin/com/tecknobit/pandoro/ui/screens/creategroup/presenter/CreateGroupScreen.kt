@@ -49,7 +49,6 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.creategroup.presentation.CreateGroupScreenViewModel
 import com.tecknobit.pandoro.ui.screens.group.components.GroupActions
 import com.tecknobit.pandoro.ui.screens.group.components.GroupMembers
@@ -58,6 +57,7 @@ import com.tecknobit.pandoro.ui.screens.project.components.GroupProjectsCandidat
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectIcons
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isGroupDescriptionValid
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isGroupNameValid
 import kotlinx.coroutines.CoroutineScope
@@ -434,11 +434,10 @@ class CreateGroupScreen(
             imageData = viewModel.groupLogo.value,
             contentDescription = "Group Logo",
             onImagePicked = { logo ->
-                // TODO: TO SET
-                /*
-                viewModel.groupLogo.value = getImagePath(
-                    imagePic = logo
-                )*/
+                logo?.let {
+                    viewModel.groupLogo.value = logo.path
+                    viewModel.groupLogoPayload = logo
+                }
             }
         )
     }

@@ -4,12 +4,14 @@ import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
+import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.BaseGroupViewModel
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.GroupManagerViewModel
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isGroupDescriptionValid
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isGroupNameValid
+import io.github.vinceglb.filekit.core.PlatformFile
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -34,6 +36,11 @@ class CreateGroupScreenViewModel(
      * `groupLogo` -> the value of the logo of the group
      */
     lateinit var groupLogo: MutableState<String?>
+
+    /**
+     * `groupLogoPayload` -> the payload of the group logo to set
+     */
+    var groupLogoPayload: PlatformFile? = null
 
     /**
      * `groupName` -> the value of the name of the group
@@ -88,16 +95,13 @@ class CreateGroupScreenViewModel(
     fun workOnGroup() {
         if(!isFormValid())
             return
-        // TODO: TO SET
-        /*viewModelScope.launch {
+        viewModelScope.launch {
             requester.sendRequest(
                 request = {
                     workOnGroup(
                         groupId = groupId,
-                        logo = if(groupLogo.value == _group.value?.logo)
-                            ""
-                        else
-                            groupLogo.value,
+                        logo = groupLogoPayload?.readBytes(),
+                        logoName = groupLogoPayload?.name,
                         name = groupName.value,
                         description = groupDescription.value,
                         members = groupMembers,
@@ -107,7 +111,7 @@ class CreateGroupScreenViewModel(
                 onSuccess = { navigator.goBack() },
                 onFailure = { showSnackbarMessage(it)}
             )
-        }*/
+        }
     }
 
     /**
@@ -116,7 +120,7 @@ class CreateGroupScreenViewModel(
      * @return whether the form data are valid as [Boolean]
      */
     private fun isFormValid() : Boolean {
-        if(groupLogo.value.isNullOrEmpty()) {
+        if(groupId == null && groupLogo.value.isNullOrEmpty()) {
             showSnackbarMessage(
                 message = Res.string.wrong_logo
             )

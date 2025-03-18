@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Groups3
@@ -42,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,13 +53,13 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presentation.CreateProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.group.components.GroupLogos
 import com.tecknobit.pandoro.ui.screens.group.components.GroupsProjectCandidate
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectDescription
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectName
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidRepository
@@ -409,7 +411,10 @@ class CreateProjectScreen(
                     isError = viewModel.projectNameError,
                     validator = { isValidProjectName(it) },
                     label = Res.string.name,
-                    errorText = Res.string.wrong_name
+                    errorText = Res.string.wrong_name,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
                 )
                 EquinoxOutlinedTextField(
                     modifier = Modifier
@@ -418,7 +423,10 @@ class CreateProjectScreen(
                     isError = viewModel.projectVersionError,
                     validator = { isValidVersion(it) },
                     label = Res.string.version,
-                    errorText = Res.string.wrong_project_version
+                    errorText = Res.string.wrong_project_version,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
                 )
                 EquinoxOutlinedTextField(
                     modifier = Modifier
@@ -427,7 +435,10 @@ class CreateProjectScreen(
                     isError = viewModel.projectRepositoryError,
                     validator = { isValidRepository(it) },
                     label = Res.string.project_repository,
-                    errorText = Res.string.wrong_repository_url
+                    errorText = Res.string.wrong_repository_url,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
                 )
                 EquinoxOutlinedTextField(
                     modifier = Modifier
@@ -437,7 +448,10 @@ class CreateProjectScreen(
                     validator = { isValidProjectDescription(it) },
                     maxLines = 8,
                     label = Res.string.description,
-                    errorText = Res.string.wrong_description
+                    errorText = Res.string.wrong_description,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done
+                    )
                 )
                 SaveButton(
                     modifier = Modifier
@@ -514,14 +528,11 @@ class CreateProjectScreen(
             pickerSize = pickerSize,
             imageData = viewModel.projectIcon.value,
             contentDescription = "Project icon",
-            onImagePicked = { image ->
-                // TODO: TO SET
-                /*
-
-                viewModel.projectIcon.value = getImagePath(
-                    imagePic = image
-                )
-                 */
+            onImagePicked = { icon ->
+                icon?.let {
+                    viewModel.projectIcon.value = icon.path
+                    viewModel.projectIconPayload = icon
+                }
             }
         )
     }

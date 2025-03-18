@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
 import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
+import com.tecknobit.pandoro.helpers.KReviewer
+import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
@@ -16,6 +18,7 @@ import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectDe
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectName
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidRepository
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidVersion
+import io.github.vinceglb.filekit.core.PlatformFile
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -53,6 +56,11 @@ class CreateProjectScreenViewModel(
      * `projectIcon` -> the value of the icon of the project
      */
     lateinit var projectIcon: MutableState<String?>
+
+    /**
+     * `projectIconPayload` -> the payload of the project icon to set
+     */
+    var projectIconPayload: PlatformFile? = null
 
     /**
      * `projectName` -> the value of the name of the project
@@ -164,15 +172,12 @@ class CreateProjectScreenViewModel(
     fun workOnProject() {
         if(!isFormValid())
             return
-        // TODO: TO SET
-        /*viewModelScope.launch {
+        viewModelScope.launch {
             requester.sendRequest(
                 request = {
                     workOnProject(
-                        icon = if(projectIcon.value == _project.value?.icon)
-                            ""
-                        else
-                            projectIcon.value,
+                        icon = projectIconPayload?.readBytes(),
+                        iconName = projectIconPayload?.name,
                         projectId = projectId,
                         name = projectName.value,
                         projectDescription = projectDescription.value,
@@ -189,7 +194,7 @@ class CreateProjectScreenViewModel(
                 },
                 onFailure = { showSnackbarMessage(it) }
             )
-        }*/
+        }
     }
 
     /**

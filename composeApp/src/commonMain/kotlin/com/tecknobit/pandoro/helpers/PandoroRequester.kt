@@ -2,7 +2,6 @@ package com.tecknobit.pandoro.helpers
 
 import com.tecknobit.equinoxcompose.network.EquinoxRequester
 import com.tecknobit.equinoxcore.annotations.RequestPath
-import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.equinoxcore.annotations.Wrapper
 import com.tecknobit.equinoxcore.helpers.IDENTIFIER_KEY
 import com.tecknobit.equinoxcore.helpers.NAME_KEY
@@ -15,18 +14,25 @@ import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE_SIZE
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.PAGE_KEY
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.PAGE_SIZE_KEY
+import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandorocore.CHANGELOGS_KEY
 import com.tecknobit.pandorocore.CHANGELOG_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.CONTENT_NOTE_KEY
 import com.tecknobit.pandorocore.FILTERS_KEY
 import com.tecknobit.pandorocore.GROUPS_KEY
+import com.tecknobit.pandorocore.GROUP_DESCRIPTION_KEY
 import com.tecknobit.pandorocore.GROUP_IDENTIFIER_KEY
+import com.tecknobit.pandorocore.GROUP_LOGO_KEY
 import com.tecknobit.pandorocore.GROUP_MEMBERS_KEY
 import com.tecknobit.pandorocore.MARKED_AS_DONE_KEY
 import com.tecknobit.pandorocore.MEMBER_ROLE_KEY
 import com.tecknobit.pandorocore.NOTES_KEY
 import com.tecknobit.pandorocore.ONLY_AUTHORED_GROUPS
 import com.tecknobit.pandorocore.PROJECTS_KEY
+import com.tecknobit.pandorocore.PROJECT_DESCRIPTION_KEY
+import com.tecknobit.pandorocore.PROJECT_ICON_KEY
+import com.tecknobit.pandorocore.PROJECT_REPOSITORY_KEY
+import com.tecknobit.pandorocore.PROJECT_VERSION_KEY
 import com.tecknobit.pandorocore.ROLES_FILTER_KEY
 import com.tecknobit.pandorocore.UPDATE_CHANGE_NOTES_KEY
 import com.tecknobit.pandorocore.UPDATE_TARGET_VERSION_KEY
@@ -52,6 +58,10 @@ import com.tecknobit.pandorocore.helpers.PandoroEndpoints.SCHEDULE_UPDATE_ENDPOI
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.START_UPDATE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.UNREAD_CHANGELOGS_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.UPDATES_PATH
+import io.ktor.client.request.forms.formData
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
+import io.ktor.http.content.PartData
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
@@ -65,8 +75,6 @@ import kotlinx.serialization.json.put
  *
  * @author N7ghtm4r3 - Tecknobit
  */
-// TODO: TO REMOVE 
-@Structure
 open class PandoroRequester(
     host: String,
     userId: String? = null,
@@ -164,11 +172,11 @@ open class PandoroRequester(
         }
     }
 
-    // TODO: TO SET
-    /*
+    /**
      * Method to execute the request to add a new project or edit an exiting project
      *
      * @param icon The icon of the project
+     * @param iconName The name of the icon of the project
      * @param projectId The identifier of the project to edit
      * @param name The name of the project
      * @param projectDescription The description of the project
@@ -178,9 +186,10 @@ open class PandoroRequester(
      *
      * @return the result of the request as [JsonObject]
      *
-     *
+     */
     suspend fun workOnProject(
-        icon: String?,
+        icon: ByteArray?,
+        iconName: String?,
         projectId: String? = null,
         name: String,
         projectDescription: String,
@@ -188,13 +197,18 @@ open class PandoroRequester(
         groups: List<String>,
         projectRepository: String = ""
     ) : JsonObject {
-        val payload = buildJsonObject {
-            put(PROJECT_ICON_KEY, icon)
-            put(NAME_KEY, name)
-            put(PROJECT_DESCRIPTION_KEY, projectDescription)
-            put(PROJECT_VERSION_KEY, projectVersion)
-            put(GROUPS_KEY, groups.joinToString())
-            put(PROJECT_REPOSITORY_KEY, projectRepository)
+        val payload = formData {
+            icon?.let {
+                append(PROJECT_ICON_KEY, icon, Headers.build {
+                    append(HttpHeaders.ContentType, "image/*")
+                    append(HttpHeaders.ContentDisposition, "filename=\"$iconName\"")
+                })
+            }
+            append(NAME_KEY, name)
+            append(PROJECT_DESCRIPTION_KEY, projectDescription)
+            append(PROJECT_VERSION_KEY, projectVersion)
+            append(GROUPS_KEY, groups.joinToString())
+            append(PROJECT_REPOSITORY_KEY, projectRepository)
         }
         return if(projectId == null) {
             addProject(
@@ -219,7 +233,7 @@ open class PandoroRequester(
      */
     @RequestPath(path = "/api/v1/users/{id}/projects", method = POST)
     private suspend fun addProject(
-        payload: JsonObject
+        payload: List<PartData>
     ): JsonObject {
         return execMultipartRequest(
             endpoint = createProjectEndpoint(),
@@ -239,7 +253,7 @@ open class PandoroRequester(
     @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}", method = PATCH)
     private suspend fun editProject(
         projectId: String,
-        payload: JsonObject
+        payload: List<PartData>
     ): JsonObject {
         return execMultipartRequest(
             endpoint = createProjectEndpoint(
@@ -247,7 +261,7 @@ open class PandoroRequester(
             ),
             payload = payload
         )
-    }*/
+    }
 
     /**
      * Method to execute the request to get a project of the user
@@ -658,12 +672,12 @@ open class PandoroRequester(
         )
     }
 
-    // TODO: TO SET
-    /*
+    /**
      * Method to execute the request to create a new group or edit an exiting group
      *
      * @param groupId The identifier of the group
      * @param logo The logo of the group
+     * @param logoName The name of the logo of the group
      * @param name The name of the group
      * @param description The description of the group
      * @param members The members to add in the group
@@ -671,21 +685,27 @@ open class PandoroRequester(
      *
      * @return the result of the request as [JsonObject]
      *
-     *
+     */
     suspend fun workOnGroup(
         groupId: String?,
-        logo: String?,
+        logo: ByteArray?,
+        logoName: String?,
         name: String,
         description: String,
         members: List<GroupMember>,
         projects: List<String>
     ) : JsonObject {
-        val payload = buildJsonObject {
-            put(GROUP_LOGO_KEY, logo)
-            put(NAME_KEY, name)
-            put(GROUP_DESCRIPTION_KEY, description)
-            put(GROUP_MEMBERS_KEY, members.joinToString { member -> member.id })
-            put(PROJECTS_KEY, projects.joinToString())
+        val payload = formData {
+            logo?.let {
+                append(GROUP_LOGO_KEY, logo, Headers.build {
+                    append(HttpHeaders.ContentType, "image/*")
+                    append(HttpHeaders.ContentDisposition, "filename=\"$logoName\"")
+                })
+            }
+            append(NAME_KEY, name)
+            append(GROUP_DESCRIPTION_KEY, description)
+            append(GROUP_MEMBERS_KEY, members.joinToString { member -> member.id })
+            append(PROJECTS_KEY, projects.joinToString())
         }
         return if(groupId == null) {
             createGroup(
@@ -699,17 +719,17 @@ open class PandoroRequester(
         }
     }
 
-    *
+    /**
      * Method to execute the request to create a new group
      *
      * @param payload The payload with the group details
      *
      * @return the result of the request as [JsonObject]
      *
-     *
+     */
     @RequestPath(path = "/api/v1/users/{id}/groups", method = POST)
     private suspend fun createGroup(
-        payload: JsonObject
+        payload: List<PartData>
     ): JsonObject {
         return execMultipartRequest(
             endpoint = createGroupsEndpoint(),
@@ -717,18 +737,18 @@ open class PandoroRequester(
         )
     }
 
-    *
+    /**
      * Method to execute the request to create a new group
      *
      * @param payload The payload with the group details
      *
      * @return the result of the request as [JsonObject]
      *
-     *
+     */
     @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}", method = POST)
     private suspend fun editGroup(
         groupId: String,
-        payload: JsonObject
+        payload: List<PartData>
     ): JsonObject {
         return execMultipartRequest(
             endpoint = createGroupsEndpoint(
@@ -736,7 +756,7 @@ open class PandoroRequester(
             ),
             payload = payload
         )
-    }*/
+    }
 
     /**
      * Method to execute the request to get a group of the user
