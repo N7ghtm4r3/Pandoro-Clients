@@ -6,6 +6,7 @@ import com.tecknobit.equinoxcompose.session.setServerOfflineValue
 import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.equinoxcore.toggle
+import com.tecknobit.pandoro.helpers.KReviewer
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen
@@ -206,7 +207,10 @@ class ProjectScreenViewModel(
                         updateId = update.id
                     )
                 },
-                onSuccess = { },
+                onSuccess = {
+                    val kReviewer = KReviewer()
+                    kReviewer.reviewInApp()
+                },
                 onFailure = { showSnackbarMessage(it) }
             )
         }

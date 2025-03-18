@@ -7,6 +7,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.pandoro.helpers.KReviewer
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isContentNoteValid
@@ -107,7 +108,12 @@ class ScheduleUpdateScreenViewModel(
                         updateChangeNotes = changeNotes
                     )
                 },
-                onSuccess = { navigator.goBack() },
+                onSuccess = {
+                    val kReviewer = KReviewer()
+                    kReviewer.reviewInApp {
+                        navigator.goBack()
+                    }
+                },
                 onFailure = { showSnackbarMessage(it) }
             )
         }

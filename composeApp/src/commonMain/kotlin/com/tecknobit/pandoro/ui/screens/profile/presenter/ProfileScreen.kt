@@ -287,9 +287,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                 Step(
                     stepIcon = Icons.Default.AlternateEmail,
                     title = Res.string.change_email,
-                    content = {
-                        ChangeEmail()
-                    },
+                    content = { ChangeEmail() },
                     dismissAction = { visible -> visible.value = false },
                     confirmAction = { visible ->
                         viewModel.changeEmail(

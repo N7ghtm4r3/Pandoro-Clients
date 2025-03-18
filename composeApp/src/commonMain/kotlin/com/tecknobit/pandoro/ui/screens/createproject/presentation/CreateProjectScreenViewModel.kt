@@ -181,7 +181,12 @@ class CreateProjectScreenViewModel(
                         projectRepository = projectRepository.value
                     )
                 },
-                onSuccess = { navigator.goBack() },
+                onSuccess = {
+                    val reviewer = KReviewer()
+                    reviewer.reviewInApp {
+                        navigator.goBack()
+                    }
+                },
                 onFailure = { showSnackbarMessage(it) }
             )
         }*/
