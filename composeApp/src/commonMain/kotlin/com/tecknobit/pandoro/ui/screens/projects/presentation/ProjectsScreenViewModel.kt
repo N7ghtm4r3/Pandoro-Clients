@@ -2,7 +2,6 @@ package com.tecknobit.pandoro.ui.screens.projects.presentation
 
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.session.setHasBeenDisconnectedValue
 import com.tecknobit.equinoxcompose.session.setServerOfflineValue
 import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
@@ -76,7 +75,8 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                         isLastPage = paginatedResponse.isLastPage
                     )
                 },
-                onFailure = { setHasBeenDisconnectedValue(true) },
+                // TODO: TO SET
+                onFailure = { /*setHasBeenDisconnectedValue(true)*/ },
                 onConnectionError = {
                     setServerOfflineValue(true)
                     inDevelopmentProjectsState.setError(Exception())
@@ -151,7 +151,8 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                         isLastPage = paginatedResponse.isLastPage
                     )
                 },
-                onFailure = { setHasBeenDisconnectedValue(true) },
+                // TODO: TO SET
+                onFailure = { /*setHasBeenDisconnectedValue(true)*/ },
                 onConnectionError = {
                     setServerOfflineValue(true)
                     projectsState.setError(Exception())

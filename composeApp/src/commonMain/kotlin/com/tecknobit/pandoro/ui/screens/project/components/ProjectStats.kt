@@ -408,6 +408,7 @@ private fun getAverageDaysPerUpdateData(
     publishedUpdates.forEach { update ->
         chartData.add(update.developmentDays().toDouble())
     }
+    chartData.reverse()
     return listOf(
         Line(
             label = "",
