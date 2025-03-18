@@ -61,7 +61,7 @@ import com.tecknobit.pandoro.SCHEDULE_UPDATE_SCREEN
 import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.group.components.GroupLogos
 import com.tecknobit.pandoro.ui.screens.project.components.ModalProjectStats
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectsStats

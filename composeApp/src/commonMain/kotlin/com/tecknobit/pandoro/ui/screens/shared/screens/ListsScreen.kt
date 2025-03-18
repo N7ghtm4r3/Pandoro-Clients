@@ -29,7 +29,7 @@ import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.session.ManagedContent
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.bodyFontFamily
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.MultipleListViewModel
 import org.jetbrains.compose.resources.StringResource
@@ -52,7 +52,7 @@ import pandoro.composeapp.generated.resources.retry_to_reconnect
 abstract class ListsScreen<V: MultipleListViewModel>(
     viewModel: V,
     private val screenTitle: StringResource
-): PandoroScreen<V> (
+): PandoroScreen<V>(
     viewModel = viewModel
 ) {
 

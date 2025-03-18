@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.ui.screens
+package com.tecknobit.pandoro.ui.shared.presenters
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -111,7 +111,7 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
     ) {
         PlaceContent(
             paddingValues = PaddingValues(
-                top = 16.dp,
+                top = 20.dp,
                 start = calculatedStartPadding(),
                 end = 16.dp,
                 bottom = calculatedBottomPadding()
@@ -136,7 +136,10 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
     @NonRestartableComposable
     protected fun PlaceContent(
         paddingValues: PaddingValues = PaddingValues(
-            all = 16.dp
+            top = 20.dp,
+            start = 16.dp,
+            end = 16.dp,
+            bottom = 16.dp
         ),
         titleModifier: Modifier = Modifier,
         navBackAction: (() -> Unit)? = null,
@@ -171,7 +174,10 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
     @NonRestartableComposable
     protected fun PlaceContent(
         paddingValues: PaddingValues = PaddingValues(
-            all = 16.dp
+            top = 20.dp,
+            start = 16.dp,
+            end = 16.dp,
+            bottom = 16.dp
         ),
         titleModifier: Modifier = Modifier,
         navBackAction: (() -> Unit)? = null,
@@ -211,7 +217,10 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
     @NonRestartableComposable
     protected fun PlaceContent(
         paddingValues: PaddingValues = PaddingValues(
-            all = 16.dp
+            top = 20.dp,
+            start = 16.dp,
+            end = 16.dp,
+            bottom = 16.dp
         ),
         screenTitle: @Composable (() -> Unit)? = null,
         subTitle: @Composable (() -> Unit)? = null,

@@ -36,7 +36,7 @@ import com.tecknobit.pandoro.ui.components.ChangeMemberRole
 import com.tecknobit.pandoro.ui.components.DeleteGroup
 import com.tecknobit.pandoro.ui.components.LeaveGroup
 import com.tecknobit.pandoro.ui.components.Thumbnail
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.group.components.GroupActions
 import com.tecknobit.pandoro.ui.screens.group.components.MembersTable
 import com.tecknobit.pandoro.ui.screens.group.presentation.GroupScreenViewModel

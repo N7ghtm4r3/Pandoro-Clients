@@ -92,10 +92,10 @@ import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.Logout
 import com.tecknobit.pandoro.ui.components.NewPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.Thumbnail
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.profile.components.ChangelogItem
 import com.tecknobit.pandoro.ui.screens.profile.presentation.ProfileScreenViewModel
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.theme.Green
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher

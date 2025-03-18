@@ -33,7 +33,7 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.equinoxcompose.utilities.responsiveAssignment
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.overview.components.OverviewCard
 import com.tecknobit.pandoro.ui.screens.overview.components.ProjectsStatsSheet

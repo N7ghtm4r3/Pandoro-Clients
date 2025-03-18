@@ -29,7 +29,7 @@ import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.NewHorizontalPageProgressIndicator
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.groups.components.FilterGroups
 import com.tecknobit.pandoro.ui.screens.groups.components.Groups
 import com.tecknobit.pandoro.ui.screens.groups.components.MyGroupCard

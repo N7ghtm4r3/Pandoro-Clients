@@ -19,7 +19,7 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
-import com.tecknobit.pandoro.ui.screens.PandoroScreen.Companion.FORM_CARD_HEIGHT
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen.Companion.FORM_CARD_HEIGHT
 import com.tecknobit.pandoro.ui.screens.notes.components.ChangeNoteCard
 import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.projects.data.Project

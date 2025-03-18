@@ -35,7 +35,7 @@ import com.tecknobit.equinoxcompose.session.ManagedContent
 import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.icons.AddNotes
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.notes.components.Notes
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel

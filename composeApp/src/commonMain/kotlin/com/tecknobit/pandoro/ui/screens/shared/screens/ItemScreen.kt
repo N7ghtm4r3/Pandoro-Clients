@@ -55,7 +55,7 @@ import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.ui.components.Thumbnail
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import kotlinx.coroutines.CoroutineScope
