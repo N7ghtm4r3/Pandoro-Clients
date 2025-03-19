@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.ui.screens.projects.presentation
 
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
+import com.tecknobit.equinoxcompose.session.setHasBeenDisconnectedValue
 import com.tecknobit.equinoxcompose.session.setServerOfflineValue
 import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
@@ -75,8 +76,7 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                         isLastPage = paginatedResponse.isLastPage
                     )
                 },
-                // TODO: TO SET
-                onFailure = { /*setHasBeenDisconnectedValue(true)*/ },
+                onFailure = { setHasBeenDisconnectedValue(true) },
                 onConnectionError = {
                     setServerOfflineValue(true)
                     inDevelopmentProjectsState.setError(Exception())
@@ -145,20 +145,33 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                 serializer = Project.serializer(),
                 onSuccess = { paginatedResponse ->
                     setServerOfflineValue(false)
-                    projectsState.appendPage(
-                        items = paginatedResponse.data,
-                        nextPageKey = paginatedResponse.nextPage,
-                        isLastPage = paginatedResponse.isLastPage
-                    )
+                    val projects = paginatedResponse.data
+                    if(projectsState.notContains(projects)) {
+                        projectsState.appendPage(
+                            items = paginatedResponse.data,
+                            nextPageKey = paginatedResponse.nextPage,
+                            isLastPage = paginatedResponse.isLastPage
+                        )
+                    }
                 },
-                // TODO: TO SET
-                onFailure = { /*setHasBeenDisconnectedValue(true)*/ },
+                onFailure = { setHasBeenDisconnectedValue(true) },
                 onConnectionError = {
                     setServerOfflineValue(true)
                     projectsState.setError(Exception())
                 }
             )
         }
+    }
+
+    @Deprecated(
+        message = "WILL BE REMOVED WHEN calculateWindowSizeClass API for DESKTOP PLATFORM WILL BE STABLE",
+        level = DeprecationLevel.WARNING
+    )
+    private fun <KEY, T> PaginationState<KEY, T>.notContains(
+        data: List<T>
+    ) : Boolean {
+        val allItems = this.allItems
+        return allItems.isNullOrEmpty() || !allItems.containsAll(data)
     }
 
     /**

@@ -33,6 +33,8 @@ import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.no_projects
 import pandoro.composeapp.generated.resources.no_projects_available
 
+// TODO: TO COMMENT
+
 @Composable
 @NonRestartableComposable
 fun Projects(
