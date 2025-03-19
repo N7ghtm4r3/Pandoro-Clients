@@ -3,10 +3,9 @@ package com.tecknobit.pandoro.ui.screens.createnote.presentation
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseData
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
@@ -36,7 +35,7 @@ class CreateNoteScreenViewModel(
 ) {
 
     /**
-     * **_note** -> state flow holds the note data
+     * `_note` -> state flow holds the note data
      */
     private val _note = MutableStateFlow<Note?>(
         value = null
@@ -44,7 +43,7 @@ class CreateNoteScreenViewModel(
     val note: StateFlow<Note?> = _note
 
     /**
-     * **content** -> state holds the content of the note
+     * `content` -> state holds the content of the note
      */
     lateinit var content: MutableState<String>
 
@@ -54,7 +53,7 @@ class CreateNoteScreenViewModel(
     fun retrieveNote() {
         noteId?.let {
             viewModelScope.launch {
-                requester.sendWRequest(
+                requester.sendRequest(
                     request = {
                         getNote(
                             noteId = noteId
@@ -63,7 +62,7 @@ class CreateNoteScreenViewModel(
                     onSuccess = {
                         _note.value = Json.decodeFromJsonElement(it.toResponseData())
                     },
-                    onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                    onFailure = { showSnackbarMessage(it) }
                 )
             }
         }
@@ -74,7 +73,7 @@ class CreateNoteScreenViewModel(
      */
     fun saveNote() {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     workOnNote(
                         noteId = noteId,
@@ -84,7 +83,7 @@ class CreateNoteScreenViewModel(
                     )
                 },
                 onSuccess = { navigator.goBack() },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }

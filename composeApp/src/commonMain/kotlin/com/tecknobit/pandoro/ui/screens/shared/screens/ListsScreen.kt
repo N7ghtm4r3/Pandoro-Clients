@@ -26,10 +26,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EmptyListUI
-import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
+import com.tecknobit.equinoxcompose.session.ManagedContent
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.bodyFontFamily
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.MultipleListViewModel
 import org.jetbrains.compose.resources.StringResource
@@ -52,7 +52,7 @@ import pandoro.composeapp.generated.resources.retry_to_reconnect
 abstract class ListsScreen<V: MultipleListViewModel>(
     viewModel: V,
     private val screenTitle: StringResource
-): PandoroScreen<V> (
+): PandoroScreen<V>(
     viewModel = viewModel
 ) {
 
@@ -62,11 +62,11 @@ abstract class ListsScreen<V: MultipleListViewModel>(
     @Composable
     override fun ArrangeScreenContent() {
         ManagedContent(
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             content = {
                 Scaffold(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
+                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
                     floatingActionButton = { FabAction() },
                     bottomBar = { AdaptBottomBarToNavigationMode() }
                 ) {
@@ -78,8 +78,8 @@ abstract class ListsScreen<V: MultipleListViewModel>(
                     }
                 }
             },
-            serverOfflineRetryText = stringResource(Res.string.retry_to_reconnect),
-            serverOfflineRetryAction = { viewModel!!.retryRetrieveLists() }
+            serverOfflineRetryText = Res.string.retry_to_reconnect,
+            serverOfflineRetryAction = { viewModel.retryRetrieveLists() }
         )
     }
 
@@ -159,7 +159,7 @@ abstract class ListsScreen<V: MultipleListViewModel>(
         isAllItemsFiltering: Boolean
     ) {
         val filter = remember { mutableStateOf(false) }
-        val areFiltersSet = viewModel!!.areFiltersSet(
+        val areFiltersSet = viewModel.areFiltersSet(
             allItems = isAllItemsFiltering
         )
         Row (
@@ -176,7 +176,7 @@ abstract class ListsScreen<V: MultipleListViewModel>(
                     .size(24.dp),
                 onClick = {
                     if(areFiltersSet) {
-                        viewModel!!.clearFilters(
+                        viewModel.clearFilters(
                             allItems = isAllItemsFiltering
                         )
                     } else
@@ -233,7 +233,7 @@ abstract class ListsScreen<V: MultipleListViewModel>(
      *
      */
     override fun onCreate() {
-        viewModel!!.setActiveContext(HomeScreen::class.java)
+        viewModel.setActiveContext(HomeScreen::class)
     }
 
 }

@@ -1,8 +1,9 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package com.tecknobit.pandoro
 
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.text.font.FontFamily
 import coil3.ImageLoader
@@ -10,8 +11,12 @@ import coil3.compose.LocalPlatformContext
 import coil3.network.ktor3.KtorNetworkFetcherFactory
 import coil3.request.CachePolicy
 import coil3.request.addLastModifiedToFileCacheKey
-import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY
-import com.tecknobit.pandoro.helpers.PandoroLocalUser
+import com.tecknobit.ametistaengine.AmetistaEngine
+import com.tecknobit.ametistaengine.AmetistaEngine.Companion.FILES_AMETISTA_CONFIG_PATHNAME
+import com.tecknobit.equinoxcompose.session.EquinoxLocalUser
+import com.tecknobit.equinoxcore.helpers.NAME_KEY
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.pandoro.helpers.PandoroRequester
 import com.tecknobit.pandoro.helpers.customHttpClient
 import com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen
@@ -31,12 +36,14 @@ import com.tecknobit.pandorocore.NOTE_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.PROJECT_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.UPDATE_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.UPDATE_TARGET_VERSION_KEY
-import io.github.vinceglb.filekit.core.PlatformFile
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import pandoro.composeapp.generated.resources.Res
@@ -44,85 +51,85 @@ import pandoro.composeapp.generated.resources.oswald
 import pandoro.composeapp.generated.resources.robotomono
 
 /**
- * **bodyFontFamily** -> the Pandoro's body font family
+ * `bodyFontFamily` -> the Pandoro's body font family
  */
 lateinit var bodyFontFamily: FontFamily
 
 /**
- * **displayFontFamily** -> the Pandoro's font family
+ * `displayFontFamily` -> the Pandoro's font family
  */
 lateinit var displayFontFamily: FontFamily
 
 /**
- * **navigator** -> the navigator instance is useful to manage the navigation between the screens of the application
+ * `navigator` -> the navigator instance is useful to manage the navigation between the screens of the application
  */
 lateinit var navigator: Navigator
 
 /**
- * **SPLASHSCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen]
+ * `SPLASHSCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen]
  */
 const val SPLASHSCREEN = "Splashscreen"
 
 /**
- * **AUTH_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen]
+ * `AUTH_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen]
  */
 const val AUTH_SCREEN = "AuthScreen"
 
 /**
- * **HOME_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen]
+ * `HOME_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen]
  */
 const val HOME_SCREEN = "HomeScreen"
 
 /**
- * **CREATE_PROJECT_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen]
+ * `CREATE_PROJECT_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen]
  */
 const val CREATE_PROJECT_SCREEN = "CreateProject"
 
 /**
- * **CREATE_NOTE_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen]
+ * `CREATE_NOTE_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen]
  */
 const val CREATE_NOTE_SCREEN = "CreateNote"
 
 /**
- * **CREATE_CHANGE_NOTE_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen]
+ * `CREATE_CHANGE_NOTE_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen]
  */
 const val CREATE_CHANGE_NOTE_SCREEN = "CreateChangeNote"
 
 /**
- * **SCHEDULE_UPDATE_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter.ScheduleUpdateScreen]
+ * `SCHEDULE_UPDATE_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter.ScheduleUpdateScreen]
  */
 const val SCHEDULE_UPDATE_SCREEN = "ScheduleUpdate"
 
 /**
- * **CREATE_GROUP_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen]
+ * `CREATE_GROUP_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen]
  */
 const val CREATE_GROUP_SCREEN = "CreateGroup"
 
 /**
- * **PROJECT_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen]
+ * `PROJECT_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen]
  */
 const val PROJECT_SCREEN = "ProjectScreen"
 
 /**
- * **GROUP_SCREEN** -> route to navigate to the [com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen]
+ * `GROUP_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen]
  */
 const val GROUP_SCREEN = "GroupScreen"
 
 /**
- * **imageLoader** -> the image loader used by coil library to load the image and by-passing the https self-signed certificates
+ * `imageLoader` -> the image loader used by coil library to load the image and by-passing the https self-signed certificates
  */
 lateinit var imageLoader: ImageLoader
 
 /**
- * **requester** -> the instance to manage the requests with the backend
+ * `requester` -> the instance to manage the requests with the backend
  */
 lateinit var requester: PandoroRequester
 
 /**
- * **localUser** -> the helper to manage the local sessions stored locally in
+ * `localUser` -> the helper to manage the local sessions stored locally in
  * the device
  */
-val localUser = PandoroLocalUser()
+val localUser = EquinoxLocalUser("Pandoro")
 
 /**
  * Common entry point of the **Pandoro** application
@@ -132,6 +139,7 @@ val localUser = PandoroLocalUser()
 fun App() {
     bodyFontFamily = FontFamily(Font(Res.font.robotomono))
     displayFontFamily = FontFamily(Font(Res.font.oswald))
+    InitAmetista()
     imageLoader = ImageLoader.Builder(LocalPlatformContext.current)
         .components {
             add(
@@ -247,6 +255,24 @@ fun App() {
 }
 
 /**
+ * Method used to initialize the Ametista system
+ */
+@Composable
+private fun InitAmetista() {
+    LaunchedEffect(Unit) {
+        val ametistaEngine = AmetistaEngine.ametistaEngine
+        ametistaEngine.fireUp(
+            configData = Res.readBytes(FILES_AMETISTA_CONFIG_PATHNAME),
+            host = AmetistaConfig.HOST,
+            serverSecret = AmetistaConfig.SERVER_SECRET!!,
+            applicationId = AmetistaConfig.APPLICATION_IDENTIFIER!!,
+            bypassSslValidation = AmetistaConfig.BYPASS_SSL_VALIDATION,
+            debugMode = false
+        )
+    }
+}
+
+/**
  * Method to check whether are available any updates for each platform and then launch the application
  * which the correct first screen to display
  *
@@ -265,10 +291,23 @@ fun startSession() {
         userId = localUser.userId,
         userToken = localUser.userToken
     )
-    val route = if (localUser.userId == null)
-        AUTH_SCREEN
-    else
+    val route = if (localUser.isAuthenticated) {
+        MainScope().launch {
+            requester.sendRequest(
+                request = {
+                    getDynamicAccountData()
+                },
+                onSuccess = { response ->
+                    localUser.updateDynamicAccountData(
+                        dynamicData = response.toResponseData()
+                    )
+                },
+                onFailure = {}
+            )
+        }
         HOME_SCREEN
+    } else
+        AUTH_SCREEN
     setUserLanguage()
     navigator.navigate(route)
 }
@@ -286,45 +325,3 @@ expect fun setUserLanguage()
 @Composable
 @NonRestartableComposable
 expect fun CloseApplicationOnNavBack()
-
-/**
- * Method to get the current screen dimension of the device where the application is running
- *
- *
- * @return the width size class based on the current dimension of the screen as [WindowWidthSizeClass]
- */
-@Composable
-fun getCurrentWidthSizeClass(): WindowWidthSizeClass {
-    return getCurrentSizeClass().widthSizeClass
-}
-
-/**
- * Method to get the current screen dimension of the device where the application is running
- *
- *
- * @return the size class based on the current dimension of the screen as [WindowWidthSizeClass]
- */
-@Composable
-expect fun getCurrentSizeClass(): WindowSizeClass
-
-/**
- * Method to get the image picture's path
- *
- * @param imagePic: the asset from fetch its path
- *
- * @return the asset path as [String]
- */
-expect fun getImagePath(
-    imagePic: PlatformFile?
-): String?
-
-/**
- * Method to copy to the clipboard a content value
- *
- * @param content The content to copy
- * @param onCopy The action to execute after the copy in the clipboard
- */
-expect fun copyToClipboard(
-    content: String,
-    onCopy: () -> Unit = {}
-)

@@ -4,11 +4,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedWRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseData
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
+import com.tecknobit.pandoro.helpers.KReviewer
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
@@ -19,6 +18,7 @@ import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectDe
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectName
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidRepository
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidVersion
+import io.github.vinceglb.filekit.core.PlatformFile
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -38,62 +38,67 @@ class CreateProjectScreenViewModel(
 ) : BaseProjectViewModel() {
 
     /**
-     * **candidateGroups** -> the list of the candidates groups where share the project
+     * `candidateGroups` -> the list of the candidates groups where share the project
      */
     val candidateGroups: SnapshotStateList<String> = mutableStateListOf()
 
     /**
-     * **projectGroups** -> the list of the current groups where the project is shared
+     * `projectGroups` -> the list of the current groups where the project is shared
      */
     val projectGroups: SnapshotStateList<Group> = mutableStateListOf()
 
     /**
-     * **authoredGroups** -> the list of the groups owned by the [com.tecknobit.pandoro.localUser]
+     * `authoredGroups` -> the list of the groups owned by the [com.tecknobit.pandoro.localUser]
      */
     val authoredGroups: MutableList<Group> = mutableListOf()
 
     /**
-     * **projectIcon** -> the value of the icon of the project
+     * `projectIcon` -> the value of the icon of the project
      */
     lateinit var projectIcon: MutableState<String?>
 
     /**
-     * **projectName** -> the value of the name of the project
+     * `projectIconPayload` -> the payload of the project icon to set
+     */
+    var projectIconPayload: PlatformFile? = null
+
+    /**
+     * `projectName` -> the value of the name of the project
      */
     lateinit var projectName: MutableState<String>
 
     /**
-     * **projectNameError** -> whether the [projectName] field is not valid
+     * `projectNameError` -> whether the [projectName] field is not valid
      */
     lateinit var projectNameError: MutableState<Boolean>
 
     /**
-     * **projectVersion** -> the value of the version of the project
+     * `projectVersion` -> the value of the version of the project
      */
     lateinit var projectVersion: MutableState<String>
 
     /**
-     * **projectVersionError** -> whether the [projectVersion] field is not valid
+     * `projectVersionError` -> whether the [projectVersion] field is not valid
      */
     lateinit var projectVersionError: MutableState<Boolean>
 
     /**
-     * **projectRepository** -> the value of the repository of the project
+     * `projectRepository` -> the value of the repository of the project
      */
     lateinit var projectRepository: MutableState<String>
 
     /**
-     * **projectRepositoryError** -> whether the [projectRepository] field is not valid
+     * `projectRepositoryError` -> whether the [projectRepository] field is not valid
      */
     lateinit var projectRepositoryError: MutableState<Boolean>
 
     /**
-     * **projectDescription** -> the value of the description of the project
+     * `projectDescription` -> the value of the description of the project
      */
     lateinit var projectDescription: MutableState<String>
 
     /**
-     * **projectDescriptionError** -> whether the [projectDescription] field is not valid
+     * `projectDescriptionError` -> whether the [projectDescription] field is not valid
      */
     lateinit var projectDescriptionError: MutableState<Boolean>
 
@@ -104,7 +109,7 @@ class CreateProjectScreenViewModel(
         if(projectId == null)
             return
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     getProject(
                         projectId = projectId
@@ -115,7 +120,7 @@ class CreateProjectScreenViewModel(
                     projectGroups.addAll(_project.value!!.groups)
                     candidateGroups.addAll(projectGroups.map { group -> group.id })
                 },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }
@@ -125,7 +130,7 @@ class CreateProjectScreenViewModel(
      */
     fun retrieveAuthoredGroups() {
         viewModelScope.launch {
-            requester.sendPaginatedWRequest(
+            requester.sendPaginatedRequest(
                 request = {
                     getAuthoredGroups(
                         pageSize = Int.MAX_VALUE
@@ -136,7 +141,7 @@ class CreateProjectScreenViewModel(
                     authoredGroups.addAll(paginatedResponse.data)
                 },
                 onFailure = {
-                    showSnackbarMessage(it.toResponseContent())
+                    showSnackbarMessage(it)
                 }
             )
         }
@@ -168,13 +173,11 @@ class CreateProjectScreenViewModel(
         if(!isFormValid())
             return
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     workOnProject(
-                        icon = if(projectIcon.value == _project.value?.icon)
-                            ""
-                        else
-                            projectIcon.value,
+                        icon = projectIconPayload?.readBytes(),
+                        iconName = projectIconPayload?.name,
                         projectId = projectId,
                         name = projectName.value,
                         projectDescription = projectDescription.value,
@@ -183,8 +186,13 @@ class CreateProjectScreenViewModel(
                         projectRepository = projectRepository.value
                     )
                 },
-                onSuccess = { navigator.goBack() },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onSuccess = {
+                    val reviewer = KReviewer()
+                    reviewer.reviewInApp {
+                        navigator.goBack()
+                    }
+                },
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }

@@ -49,7 +49,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
-import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.ui.icons.AddNotes
 import com.tecknobit.pandoro.ui.screens.notes.components.NoteDetails
@@ -128,8 +131,11 @@ class ScheduleUpdateScreen(
      * [Form] displayed as card
      */
     @Composable
-    @NonRestartableComposable
     @RequiresSuperCall
+    @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
+    )
     override fun CardForm() {
         super.CardForm()
         Column(
@@ -155,8 +161,9 @@ class ScheduleUpdateScreen(
      * [Form] displayed as full screen object, this is used for example in the mobile devices
      */
     @Composable
-    @NonRestartableComposable
     @RequiresSuperCall
+    @CompactClassComponent
+    @NonRestartableComposable
     override fun FullScreenForm() {
         super.FullScreenForm()
         ScheduleForm(
@@ -215,12 +222,12 @@ class ScheduleUpdateScreen(
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 ),
-                value = viewModel!!.targetVersion,
+                value = viewModel.targetVersion,
                 placeholder = Res.string.target_version,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done
                 ),
-                isError = viewModel!!.targetVersionError,
+                isError = viewModel.targetVersionError,
                 errorText = Res.string.wrong_target_version,
                 validator = { isValidVersion(it) }
             )
@@ -235,7 +242,7 @@ class ScheduleUpdateScreen(
                 ),
                 onClick = {
                     localSoftInputKeyboard?.hide()
-                    viewModel!!.scheduleUpdate()
+                    viewModel.scheduleUpdate()
                 }
             ) {
                 Text(
@@ -261,7 +268,7 @@ class ScheduleUpdateScreen(
             )
         ) {
             itemsIndexed(
-                items = viewModel!!.changeNotes
+                items = viewModel.changeNotes
             ) { index, changeNote ->
                 ChangeNoteItem(
                     index = index,
@@ -310,7 +317,7 @@ class ScheduleUpdateScreen(
             trailingContent = {
                 IconButton(
                     onClick = {
-                        viewModel!!.removeChangeNote(
+                        viewModel.removeChangeNote(
                             changeNote = changeNote
                         )
                     }
@@ -341,7 +348,7 @@ class ScheduleUpdateScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter),
-            value = viewModel!!.changeNoteContent,
+            value = viewModel.changeNoteContent,
             placeholder = Res.string.content_of_the_note,
             maxLines = 3,
             keyboardOptions = KeyboardOptions(
@@ -355,11 +362,11 @@ class ScheduleUpdateScreen(
                 focusedBorderColor = Color.Transparent,
                 errorBorderColor = Color.Transparent
             ),
-            isError = viewModel!!.changeNoteContentError,
+            isError = viewModel.changeNoteContentError,
             validator = { isContentNoteValid(it) },
             trailingIcon = {
                 IconButton(
-                    onClick = { viewModel!!.addChangeNote() }
+                    onClick = { viewModel.addChangeNote() }
                 ) {
                     Icon(
                         imageVector = AddNotes,
@@ -377,10 +384,10 @@ class ScheduleUpdateScreen(
     @RequiresSuperCall
     override fun CollectStates() {
         super.CollectStates()
-        viewModel!!.targetVersion = remember { mutableStateOf("") }
-        viewModel!!.targetVersionError = remember { mutableStateOf(false) }
-        viewModel!!.changeNoteContent = remember { mutableStateOf("") }
-        viewModel!!.changeNoteContentError = remember { mutableStateOf(false) }
+        viewModel.targetVersion = remember { mutableStateOf("") }
+        viewModel.targetVersionError = remember { mutableStateOf(false) }
+        viewModel.changeNoteContent = remember { mutableStateOf("") }
+        viewModel.changeNoteContentError = remember { mutableStateOf(false) }
     }
 
 }

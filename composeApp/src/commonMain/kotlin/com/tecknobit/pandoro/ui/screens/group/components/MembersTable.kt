@@ -43,8 +43,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.ApplicationTheme.Auto
-import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.ApplicationTheme.Dark
+import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme.Auto
+import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme.Dark
+import com.tecknobit.equinoxcompose.utilities.ExpandedClassComponent
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.ui.components.Thumbnail
@@ -64,7 +65,7 @@ import pandoro.composeapp.generated.resources.role
 import pandoro.composeapp.generated.resources.status
 
 /**
- * **maintainerHeaders** the headers of the table to use when the [localUser] is a maintainer
+ * `maintainerHeaders** the headers of the table to use when the [localUser] is a maintainer
  */
 private val maintainerHeaders = listOf(
     Res.string.member,
@@ -75,7 +76,7 @@ private val maintainerHeaders = listOf(
 )
 
 /**
- * **developerHeaders** the headers of the table to use when the [localUser] is a developer
+ * `developerHeaders** the headers of the table to use when the [localUser] is a developer
  */
 private val developerHeaders = listOf(
     Res.string.member,
@@ -91,6 +92,7 @@ private val developerHeaders = listOf(
  * @param group The group from fetch the members
  */
 @Composable
+@ExpandedClassComponent
 @NonRestartableComposable
 fun MembersTable(
     viewModel: GroupScreenViewModel,

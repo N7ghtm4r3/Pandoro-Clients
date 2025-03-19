@@ -16,9 +16,6 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
@@ -30,14 +27,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
-import com.tecknobit.pandoro.getCurrentSizeClass
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.ChangeMemberRole
 import com.tecknobit.pandoro.ui.components.DeleteGroup
 import com.tecknobit.pandoro.ui.components.LeaveGroup
 import com.tecknobit.pandoro.ui.components.Thumbnail
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.group.components.GroupActions
 import com.tecknobit.pandoro.ui.screens.group.components.MembersTable
 import com.tecknobit.pandoro.ui.screens.group.presentation.GroupScreenViewModel
@@ -48,6 +46,7 @@ import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.color
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.shared.screens.ItemScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandorocore.enums.InvitationStatus.PENDING
 
 /**
@@ -70,7 +69,7 @@ class GroupScreen(
 ) {
 
     /**
-     * **candidatesAvailable** -> whether there are any candidates available to be added in the group
+     * `candidatesAvailable` -> whether there are any candidates available to be added in the group
      */
     private lateinit var candidatesAvailable: State<Boolean>
 
@@ -137,7 +136,7 @@ class GroupScreen(
         delete: MutableState<Boolean>
     ) {
         DeleteGroup(
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             group = item.value!!,
             show = delete,
             onDelete = {
@@ -175,7 +174,7 @@ class GroupScreen(
                 )
             }
             LeaveGroup(
-                viewModel = viewModel!!,
+                viewModel = viewModel,
                 show = leaveGroup,
                 group = item.value!!
             )
@@ -188,30 +187,16 @@ class GroupScreen(
     @Composable
     @NonRestartableComposable
     override fun ScreenContent() {
-        val windowSizeClass = getCurrentSizeClass()
-        val widthClass = windowSizeClass.widthSizeClass
-        val heightClass = windowSizeClass.heightSizeClass
-        when {
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
+        ResponsiveContent(
+            onExpandedSizeClass = {
                 MembersTable(
-                    viewModel = viewModel!!,
+                    viewModel = viewModel,
                     group = item
                 )
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
-                MembersColumn()
-            }
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Medium -> {
-                MembersTable(
-                    viewModel = viewModel!!,
-                    group = item
-                )
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
-                MembersColumn()
-            }
-            else -> MembersColumn()
-        }
+            },
+            onMediumSizeClass = { MembersColumn() },
+            onCompactSizeClass = { MembersColumn() }
+        )
     }
 
     /**
@@ -219,6 +204,9 @@ class GroupScreen(
      */
     @Composable
     @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
+    )
     private fun MembersColumn() {
         LazyColumn(
             modifier = Modifier
@@ -304,7 +292,7 @@ class GroupScreen(
                 {
                     IconButton(
                         onClick = {
-                            viewModel!!.removeMember(
+                            viewModel.removeMember(
                                 member = member
                             )
                         }
@@ -321,7 +309,7 @@ class GroupScreen(
         )
         HorizontalDivider()
         ChangeMemberRole(
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             show = changeMemberRole,
             member = member
         )
@@ -334,11 +322,11 @@ class GroupScreen(
     @NonRestartableComposable
     override fun FabAction() {
         GroupActions(
-            viewModel = viewModel!!,
-            userCanAddProjects = item.value!!.iAmAnAdmin() && viewModel!!.userProjects.isNotEmpty(),
-            projectsOnDismissAction = { viewModel!!.editProjects() },
+            viewModel = viewModel,
+            userCanAddProjects = item.value!!.iAmAnAdmin() && viewModel.userProjects.isNotEmpty(),
+            projectsOnDismissAction = { viewModel.editProjects() },
             userCanAddMembers = item.value!!.iAmAMaintainer() && candidatesAvailable.value,
-            membersOnDismissAction = { viewModel!!.addMembers() }
+            membersOnDismissAction = { viewModel.addMembers() }
         )
     }
 
@@ -347,9 +335,9 @@ class GroupScreen(
      */
     override fun onStart() {
         super.onStart()
-        viewModel!!.retrieveGroup()
-        viewModel!!.retrieveUserProjects()
-        viewModel!!.countCandidatesMember()
+        viewModel.retrieveGroup()
+        viewModel.retrieveUserProjects()
+        viewModel.countCandidatesMember()
     }
 
     /**
@@ -357,8 +345,10 @@ class GroupScreen(
      */
     @Composable
     override fun CollectStates() {
-        item = viewModel!!.group.collectAsState()
-        candidatesAvailable = viewModel!!.candidatesMemberAvailable.collectAsState()
+        item = viewModel.group.collectAsState()
+        candidatesAvailable = viewModel.candidatesMemberAvailable.collectAsState(
+            initial = false
+        )
     }
 
 }

@@ -22,14 +22,15 @@
             </intent-filter>
         </activity>
 
+        <!--TODO: TO REMOVE -->
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
             tools:node="merge">
             <meta-data
-                android:name="com.tecknobit.equinoxcompose.helpers.utils.AppContextInitializer"
-                android:value="androidx.startup"/>
+                android:name="com.tecknobit.equinoxcore.utilities.AppContextInitializer"
+                android:value="androidx.startup" />
         </provider>
     </application>
 

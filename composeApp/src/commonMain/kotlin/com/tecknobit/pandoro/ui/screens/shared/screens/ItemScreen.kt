@@ -48,15 +48,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.ChameleonText
-import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcompose.resources.loading_data
+import com.tecknobit.equinoxcompose.session.ManagedContent
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.ui.components.Thumbnail
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -85,7 +85,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
 ) {
 
     /**
-     * **item** -> state flow holds the item data
+     * `item` -> state flow holds the item data
      */
     protected lateinit var item: State<I?>
 
@@ -97,7 +97,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
         LoadAwareContent()
     }
 
-    // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE REAL COMPONENT
+    // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE awaitNullItemLoaded METHOD
     @Composable
     @NonRestartableComposable
     private fun LoadAwareContent() {
@@ -142,11 +142,11 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
     @NonRestartableComposable
     protected fun ItemLoadedContent() {
         ManagedContent(
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             content = {
                 Scaffold(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
+                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
                     floatingActionButton = { FabAction() }
                 ) {
                     PlaceContent(

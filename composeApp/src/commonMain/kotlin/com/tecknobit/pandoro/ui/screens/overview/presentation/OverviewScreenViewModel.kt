@@ -2,10 +2,9 @@ package com.tecknobit.pandoro.ui.screens.overview.presentation
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toNullResponseData
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.toNullableResponseData
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.overview.data.Overview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +25,7 @@ class OverviewScreenViewModel: EquinoxViewModel(
 ) {
 
     /**
-     * **_overview** -> state flow holds the overview data
+     * `_overview` -> state flow holds the overview data
      */
     private val _overview = MutableStateFlow<Overview?>(
         value = null
@@ -38,15 +37,15 @@ class OverviewScreenViewModel: EquinoxViewModel(
      */
     fun retrieveOverview() {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = { getOverview() },
                 onSuccess = { response ->
-                    val overview = response.toNullResponseData()
+                    val overview = response.toNullableResponseData()
                     overview?.let {
                         _overview.value = Json.decodeFromJsonElement(it)
                     }
                 },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }

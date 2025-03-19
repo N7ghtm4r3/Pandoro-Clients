@@ -52,15 +52,14 @@ import com.pushpal.jetlime.JetLimeColumn
 import com.pushpal.jetlime.JetLimeDefaults
 import com.pushpal.jetlime.JetLimeEvent
 import com.pushpal.jetlime.JetLimeEventDefaults
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
+import com.tecknobit.equinoxcompose.utilities.copyOnClipboard
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcore.time.TimeFormatter.toDateString
 import com.tecknobit.pandoro.CREATE_CHANGE_NOTE_SCREEN
 import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
-import com.tecknobit.pandoro.copyToClipboard
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.helpers.TimeFormatter.formatAsDateString
-import com.tecknobit.pandoro.helpers.TimeFormatter.formatAsTimeString
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteNote
 import com.tecknobit.pandoro.ui.components.Thumbnail
@@ -219,9 +218,9 @@ private fun NoteCardContent(
                     start = 16.dp
                 ),
             text = if(note.markedAsDone)
-                stringResource(Res.string.note_completed_on, note.markAsDoneDate.formatAsDateString())
+                stringResource(Res.string.note_completed_on, note.markAsDoneDate.toDateString())
             else
-                stringResource(Res.string.note_created_on, note.creationDate.formatAsDateString()),
+                stringResource(Res.string.note_created_on, note.creationDate.toDateString()),
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold
         )
@@ -310,7 +309,7 @@ private fun NoteActions(
             val noteCopiedMessage = stringResource(Res.string.note_content_copied)
             IconButton(
                 onClick = {
-                    copyToClipboard(
+                    copyOnClipboard(
                         content = note.content,
                         onCopy = { viewModel.showSnackbarMessage(noteCopiedMessage) }
                     )
@@ -435,8 +434,8 @@ private fun NoteTimeline(
     )
     val items = remember {
         listOf(
-            note.creationDate.formatAsTimeString(),
-            note.markAsDoneDate.formatAsTimeString(
+            note.creationDate.toDateString(),
+            note.markAsDoneDate.toDateString(
                 invalidTimeDefValue = yetToCompleteText
             )
         )

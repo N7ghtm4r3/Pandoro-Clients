@@ -1,11 +1,9 @@
 package com.tecknobit.pandoro.ui.screens.group.presentation
 
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.helpers.session.setServerOfflineValue
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseData
+import com.tecknobit.equinoxcompose.session.setServerOfflineValue
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen
@@ -14,6 +12,8 @@ import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.BaseGroupViewModel.GroupDeleter
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.GroupManagerViewModel
 import com.tecknobit.pandorocore.enums.Role
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -34,13 +34,18 @@ class GroupScreenViewModel(
 ) : GroupManagerViewModel(), GroupDeleter {
 
     /**
+     * `requestsScope` -> coroutine used to send the requests to the backend
+     */
+    override val requestsScope: CoroutineScope = MainScope()
+
+    /**
      * Method to retrieve the data of a [Group]
      */
     override fun retrieveGroup() {
-        execRefreshingRoutine(
-            currentContext = GroupScreen::class.java,
+        retrieve(
+            currentContext = GroupScreen::class,
             routine = {
-                requester.sendWRequest(
+                requester.sendRequest(
                     request = {
                         getGroup(
                             groupId = groupId
@@ -70,7 +75,7 @@ class GroupScreenViewModel(
         onChange: () -> Unit
     ) {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     changeMemberRole(
                         groupId = groupId,
@@ -79,7 +84,7 @@ class GroupScreenViewModel(
                     )
                 },
                 onSuccess = { onChange.invoke() },
-                onFailure = { showSnackbarMessage(it.toResponseContent())}
+                onFailure = { showSnackbarMessage(it)}
             )
         }
     }
@@ -90,7 +95,7 @@ class GroupScreenViewModel(
     fun addMembers() {
         viewModelScope.launch {
             val membersAdded = groupMembers.map { member -> member.id }
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     addMembers(
                         groupId = groupId,
@@ -102,7 +107,7 @@ class GroupScreenViewModel(
                         membersEdited = membersAdded.size
                     )
                 },
-                onFailure = { showSnackbarMessage(it.toResponseContent())}
+                onFailure = { showSnackbarMessage(it)}
             )
         }
     }
@@ -113,7 +118,7 @@ class GroupScreenViewModel(
      */
     fun editProjects() {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     editProjects(
                         groupId = groupId,
@@ -122,7 +127,7 @@ class GroupScreenViewModel(
                 },
                 onSuccess = {
                 },
-                onFailure = { showSnackbarMessage(it.toResponseContent())}
+                onFailure = { showSnackbarMessage(it)}
             )
         }
     }
@@ -136,7 +141,7 @@ class GroupScreenViewModel(
         member: GroupMember
     ) {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     removeMember(
                         groupId = groupId,
@@ -148,7 +153,7 @@ class GroupScreenViewModel(
                         membersEdited = -1
                     )
                 },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }
@@ -173,14 +178,14 @@ class GroupScreenViewModel(
      */
     fun leaveGroup() {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     leaveGroup(
                         groupId = groupId,
                     )
                 },
                 onSuccess = { navigator.goBack() },
-                onFailure = { showSnackbarMessage(it.toResponseContent())}
+                onFailure = { showSnackbarMessage(it)}
             )
         }
     }

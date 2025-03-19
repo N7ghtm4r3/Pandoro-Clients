@@ -2,17 +2,18 @@ package com.tecknobit.pandoro.ui.screens.projects.presentation
 
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.helpers.session.setHasBeenDisconnectedValue
-import com.tecknobit.equinoxcompose.helpers.session.setServerOfflineValue
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcompose.session.setHasBeenDisconnectedValue
+import com.tecknobit.equinoxcompose.session.setServerOfflineValue
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedWRequest
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseProjectViewModel.ProjectDeleter
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.MultipleListViewModel
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 /**
@@ -27,12 +28,17 @@ import kotlinx.coroutines.launch
 class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
 
     /**
-     * **inDevelopmentProjectsFilter** -> the filters to apply to the [inDevelopmentProjectsState] list
+     * `requestsScope` -> coroutine used to send the requests to the backend
+     */
+    override val requestsScope: CoroutineScope = MainScope()
+
+    /**
+     * `inDevelopmentProjectsFilter` -> the filters to apply to the [inDevelopmentProjectsState] list
      */
     lateinit var inDevelopmentProjectsFilter: MutableState<String>
 
     /**
-     * **inDevelopmentProjectsState** -> the state used to manage the pagination for the
+     * `inDevelopmentProjectsState` -> the state used to manage the pagination for the
      * [retrieveInDevelopmentProjects] method
      */
     val inDevelopmentProjectsState = PaginationState<Int, InDevelopmentProject>(
@@ -54,7 +60,7 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
         page: Int
     ) {
         viewModelScope.launch {
-            requester.sendPaginatedWRequest(
+            requester.sendPaginatedRequest(
                 request = {
                     getInDevelopmentProjects(
                         page = page,
@@ -103,12 +109,12 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
     }
 
     /**
-     * **projectsFilter** -> the filters to apply to the [projectsState] list
+     * `projectsFilter` -> the filters to apply to the [projectsState] list
      */
     lateinit var projectsFilter: MutableState<String>
 
     /**
-     * **projectsState** -> the state used to manage the pagination for the
+     * `projectsState` -> the state used to manage the pagination for the
      * [retrieveProjects] method
      */
     val projectsState = PaginationState<Int, Project>(
@@ -129,7 +135,7 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
         page: Int
     ) {
         viewModelScope.launch {
-            requester.sendPaginatedWRequest(
+            requester.sendPaginatedRequest(
                 request = {
                     getProjects(
                         page = page,
@@ -139,11 +145,14 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                 serializer = Project.serializer(),
                 onSuccess = { paginatedResponse ->
                     setServerOfflineValue(false)
-                    projectsState.appendPage(
-                        items = paginatedResponse.data,
-                        nextPageKey = paginatedResponse.nextPage,
-                        isLastPage = paginatedResponse.isLastPage
-                    )
+                    val projects = paginatedResponse.data
+                    if(projectsState.notContains(projects)) {
+                        projectsState.appendPage(
+                            items = paginatedResponse.data,
+                            nextPageKey = paginatedResponse.nextPage,
+                            isLastPage = paginatedResponse.isLastPage
+                        )
+                    }
                 },
                 onFailure = { setHasBeenDisconnectedValue(true) },
                 onConnectionError = {
@@ -152,6 +161,17 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                 }
             )
         }
+    }
+
+    @Deprecated(
+        message = "WILL BE REMOVED WHEN calculateWindowSizeClass API for DESKTOP PLATFORM WILL BE STABLE",
+        level = DeprecationLevel.WARNING
+    )
+    private fun <KEY, T> PaginationState<KEY, T>.notContains(
+        data: List<T>
+    ) : Boolean {
+        val allItems = this.allItems
+        return allItems.isNullOrEmpty() || !allItems.containsAll(data)
     }
 
     /**

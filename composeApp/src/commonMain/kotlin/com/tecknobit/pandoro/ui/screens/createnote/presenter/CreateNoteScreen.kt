@@ -31,8 +31,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
+import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.createnote.presentation.CreateNoteScreenViewModel
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
@@ -101,7 +105,7 @@ class CreateNoteScreen(
             } else
                 null
         ) {
-            viewModel!!.content = remember {
+            viewModel.content = remember {
                 mutableStateOf(
                     if(isEditing)
                         item.value!!.content
@@ -119,7 +123,7 @@ class CreateNoteScreen(
     @NonRestartableComposable
     override fun FabAction() {
         FloatingActionButton(
-            onClick = { viewModel!!.saveNote() }
+            onClick = { viewModel.saveNote() }
         ) {
             Icon(
                 imageVector = Icons.Default.Done,
@@ -132,8 +136,11 @@ class CreateNoteScreen(
      * [Form] displayed as card
      */
     @Composable
-    @NonRestartableComposable
     @RequiresSuperCall
+    @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
+    )
     override fun CardForm() {
         super.CardForm()
         Column(
@@ -161,8 +168,9 @@ class CreateNoteScreen(
      * [Form] displayed as full screen object, this is used for example in the mobile devices
      */
     @Composable
-    @NonRestartableComposable
     @RequiresSuperCall
+    @CompactClassComponent
+    @NonRestartableComposable
     override fun FullScreenForm() {
         super.FullScreenForm()
         Column(
@@ -199,7 +207,7 @@ class CreateNoteScreen(
             textFieldColors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent
             ),
-            value = viewModel!!.content,
+            value = viewModel.content,
             placeholder = Res.string.content_of_the_note,
             maxLines = Int.MAX_VALUE,
             keyboardOptions = KeyboardOptions(
@@ -213,7 +221,7 @@ class CreateNoteScreen(
      */
     override fun onStart() {
         super.onStart()
-        viewModel!!.retrieveNote()
+        viewModel.retrieveNote()
     }
 
     /**
@@ -223,7 +231,7 @@ class CreateNoteScreen(
     @RequiresSuperCall
     override fun CollectStates() {
         super.CollectStates()
-        item = viewModel!!.note.collectAsState()
+        item = viewModel.note.collectAsState()
     }
 
 }

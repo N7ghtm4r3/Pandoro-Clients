@@ -1,8 +1,7 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMultiplatform::class)
 
 package com.tecknobit.pandoro.ui.screens.project.presenter
 
-import CalendarPlus
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
@@ -32,9 +31,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
@@ -48,20 +44,21 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tecknobit.equinoxcompose.components.EmptyListUI
+import com.tecknobit.equinoxcompose.components.EmptyState
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
+import com.tecknobit.equinoxcompose.utilities.ExpandedClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.COMPACT_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
+import com.tecknobit.equinoxcompose.utilities.responsiveAssignment
 import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.SCHEDULE_UPDATE_SCREEN
-import com.tecknobit.pandoro.bodyFontFamily
-import com.tecknobit.pandoro.getCurrentSizeClass
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.group.components.GroupLogos
 import com.tecknobit.pandoro.ui.screens.project.components.ModalProjectStats
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectsStats
@@ -73,13 +70,17 @@ import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.as
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.toColor
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.shared.screens.ItemScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
+import com.tecknobit.pandoro.ui.theme.AppTypography
 import com.tecknobit.pandorocore.enums.RepositoryPlatform
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.github
 import pandoro.composeapp.generated.resources.gitlab
+import pandoro.composeapp.generated.resources.no_updates
 import pandoro.composeapp.generated.resources.no_updates_scheduled
 import pandoro.composeapp.generated.resources.stats
 import pandoro.composeapp.generated.resources.updates
@@ -211,18 +212,18 @@ class ProjectScreen(
         delete: MutableState<Boolean>
     ) {
         DeleteProject(
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             project = item.value!!,
             show = delete,
             deleteRequest = { project ->
-                viewModel!!.deleteProject(
+                viewModel.deleteProject(
                     project = project,
                     onDelete = {
                         delete.value = false
                         navigator.goBack()
                     },
                     onFailure = {
-                        viewModel!!.showSnackbarMessage(it.toResponseContent())
+                        viewModel.showSnackbarMessage(it)
                     }
                 )
             }
@@ -244,30 +245,18 @@ class ProjectScreen(
     @Composable
     @NonRestartableComposable
     override fun ScreenContent() {
-        val windowSizeClass = getCurrentSizeClass()
-        val widthClass = windowSizeClass.widthSizeClass
-        val heightClass = windowSizeClass.heightSizeClass
-        when {
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
-                UpdatesStatsSection()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
-                ProjectUpdatesSection()
-            }
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Medium -> {
-                UpdatesStatsSection()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
-                ProjectUpdatesSection()
-            }
-            else -> ProjectUpdatesSection()
-        }
+        ResponsiveContent(
+            onExpandedSizeClass = { UpdatesStatsSection() },
+            onMediumSizeClass = { ProjectUpdatesSection() },
+            onCompactSizeClass = { ProjectUpdatesSection() }
+        )
     }
 
     /**
      * The statistics about the updates of the project
      */
     @Composable
+    @ExpandedClassComponent
     @NonRestartableComposable
     private fun UpdatesStatsSection() {
         Row (
@@ -311,6 +300,9 @@ class ProjectScreen(
      */
     @Composable
     @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
+    )
     private fun ProjectUpdatesSection() {
         Section(
             modifier = Modifier
@@ -324,7 +316,7 @@ class ProjectScreen(
             header = Res.string.updates,
             filtersContent = { Filters() }
         ) {
-            val updates = viewModel!!.arrangeUpdatesList()
+            val updates = viewModel.arrangeUpdatesList()
             if(updates.isNotEmpty()) {
                 LazyColumn (
                     modifier = Modifier
@@ -336,7 +328,7 @@ class ProjectScreen(
                         key = { update -> update.id }
                     ) { update ->
                         UpdateCard(
-                            viewModel = viewModel!!,
+                            viewModel = viewModel,
                             project = item.value!!,
                             update = update,
                             viewChangeNotesFlag = updateToExpandId != null && update.id == updateToExpandId
@@ -344,13 +336,16 @@ class ProjectScreen(
                     }
                 }
             } else {
-                EmptyListUI(
-                    icon = CalendarPlus,
-                    subText = Res.string.no_updates_scheduled,
-                    textStyle = TextStyle(
-                        fontFamily = bodyFontFamily
+                EmptyState(
+                    resource = Res.drawable.no_updates,
+                    resourceSize = responsiveAssignment(
+                        onExpandedSizeClass = { 350.dp },
+                        onMediumSizeClass = { 300.dp },
+                        onCompactSizeClass = { 275.dp }
                     ),
-                    themeColor = MaterialTheme.colorScheme.inversePrimary
+                    contentDescription = "No updates scheduled",
+                    title = stringResource(Res.string.no_updates_scheduled),
+                    titleStyle = AppTypography.bodyLarge
                 )
             }
         }
@@ -363,13 +358,13 @@ class ProjectScreen(
     @NonRestartableComposable
     private fun Filters() {
         var menuOpened by remember { mutableStateOf(false) }
-        val areFiltersSet = viewModel!!.areFiltersSet()
+        val areFiltersSet = viewModel.areFiltersSet()
         IconButton(
             modifier = Modifier
                 .size(24.dp),
             onClick = {
                 if(areFiltersSet)
-                    viewModel!!.clearFilters()
+                    viewModel.clearFilters()
                 else
                     menuOpened = true
             }
@@ -388,7 +383,7 @@ class ProjectScreen(
         ) {
             UpdateStatus.entries.forEach { status ->
                 var selected by remember {
-                    mutableStateOf(viewModel!!.updateStatusesFilters.contains(status))
+                    mutableStateOf(viewModel.updateStatusesFilters.contains(status))
                 }
                 DropdownMenuItem(
                     modifier = Modifier
@@ -413,7 +408,7 @@ class ProjectScreen(
                                     checked = selected,
                                     onCheckedChange = {
                                         selected = it
-                                        viewModel!!.manageStatusesFilter(
+                                        viewModel.manageStatusesFilter(
                                             selected = selected,
                                             updateStatus = status
                                         )
@@ -424,7 +419,7 @@ class ProjectScreen(
                     },
                     onClick = {
                         selected = !selected
-                        viewModel!!.manageStatusesFilter(
+                        viewModel.manageStatusesFilter(
                             selected = selected,
                             updateStatus = status
                         )
@@ -440,24 +435,11 @@ class ProjectScreen(
     @Composable
     @NonRestartableComposable
     override fun FabAction() {
-        val windowSizeClass = getCurrentSizeClass()
-        val widthClass = windowSizeClass.widthSizeClass
-        val heightClass = windowSizeClass.heightSizeClass
-        when {
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
-                ScheduleButton()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
-                FabButtons()
-            }
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Medium -> {
-                ScheduleButton()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
-                FabButtons()
-            }
-            else -> FabButtons()
-        }
+        ResponsiveContent(
+            onExpandedSizeClass = { ScheduleButton() },
+            onMediumSizeClass = { FabButtons() },
+            onCompactSizeClass = { FabButtons() }
+        )
     }
 
     /**
@@ -465,6 +447,9 @@ class ProjectScreen(
      */
     @Composable
     @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
+    )
     private fun FabButtons() {
         Column(
             horizontalAlignment = Alignment.End
@@ -515,6 +500,7 @@ class ProjectScreen(
      * project
      */
     @Composable
+    @ExpandedClassComponent
     @NonRestartableComposable
     private fun ScheduleButton() {
         FloatingActionButton(
@@ -536,7 +522,7 @@ class ProjectScreen(
      */
     override fun onStart() {
         super.onStart()
-        viewModel!!.retrieveProject()
+        viewModel.retrieveProject()
     }
 
     /**
@@ -544,8 +530,8 @@ class ProjectScreen(
      */
     @Composable
     override fun CollectStates() {
-        item = viewModel!!.project.collectAsState()
-        viewModel!!.updateStatusesFilters = remember { UpdateStatus.entries.toMutableStateList() }
+        item = viewModel.project.collectAsState()
+        viewModel.updateStatusesFilters = remember { UpdateStatus.entries.toMutableStateList() }
     }
 
 }

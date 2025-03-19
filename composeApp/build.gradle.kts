@@ -5,9 +5,9 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Pkg
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.dokka.gradle.DokkaTask
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import java.util.UUID
 
 plugins {
@@ -17,26 +17,25 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.dokka)
     kotlin("plugin.serialization") version "2.0.20"
+    id("com.github.gmazzo.buildconfig") version "5.5.1"
 }
 
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_21)
+            jvmTarget.set(JvmTarget.JVM_22)
         }
     }
 
     jvm("desktop") {
         compilations.all {
-            @OptIn(ExperimentalKotlinGradlePluginApi::class)
             this@jvm.compilerOptions {
-                jvmTarget.set(JvmTarget.JVM_21)
+                jvmTarget.set(JvmTarget.JVM_22)
             }
         }
     }
-    // TODO: PLANNED TO BE IMPLEMENTED IN THE NEXT VERSION
-    /*listOf(
+
+   /* listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
@@ -46,15 +45,15 @@ kotlin {
             isStatic = true
         }
     }*/
-    // TODO: PLANNED TO BE IMPLEMENTED IN THE NEXT VERSION
+
     @OptIn(ExperimentalWasmDsl::class)
-    /*wasmJs {
+    wasmJs {
         moduleName = "composeApp"
         browser {
             val rootDirPath = project.rootDir.path
             val projectDirPath = project.projectDir.path
             commonWebpackConfig {
-                outputFileName = "pandoro.js"
+                outputFileName = "Pandoro.js"
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
                     static = (static ?: mutableListOf()).apply {
                         add(rootDirPath)
@@ -64,7 +63,7 @@ kotlin {
             }
         }
         binaries.executable()
-    }*/
+    }
     
     sourceSets {
         val desktopMain by getting
@@ -93,9 +92,7 @@ kotlin {
             implementation(libs.precompose)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.equinox.core)
-            implementation(libs.equinox.backend)
             implementation(libs.equinox.compose)
-            implementation(libs.material3.window.size)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
             implementation(libs.pandorocore)
@@ -103,12 +100,9 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.filekit.core)
             implementation(libs.filekit.compose)
-            implementation(libs.kmprefs)
             implementation(libs.jetlime)
             implementation (libs.compose.charts)
-            implementation("com.squareup.okhttp3:okhttp:4.12.0")
-            implementation("com.github.N7ghtm4r3:APIManager:2.2.4")
-            implementation("org.json:json:20240303")
+            implementation(libs.ametista.engine)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -127,8 +121,8 @@ android {
         applicationId = "com.tecknobit.pandoro"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 16
-        versionName = "1.1.0"
+        versionCode = 17
+        versionName = "1.1.1"
     }
     packaging {
         resources {
@@ -141,8 +135,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_22
+        targetCompatibility = JavaVersion.VERSION_22
     }
 }
 
@@ -160,8 +154,8 @@ compose.desktop {
                 "java.scripting", "java.security.jgss", "java.sql.rowset", "jdk.jfr", "jdk.unsupported", "jdk.security.auth"
             )
             packageName = "Pandoro"
-            packageVersion = "1.1.0"
-            version = "1.1.0"
+            packageVersion = "1.1.1"
+            version = "1.1.1"
             description = "Pandoro, open source management software"
             copyright = "© 2025 Tecknobit"
             vendor = "Tecknobit"
@@ -178,7 +172,7 @@ compose.desktop {
                 iconFile.set(project.file("src/desktopMain/resources/logo.png"))
                 packageName = "com-tecknobit-pandoro"
                 debMaintainer = "infotecknobitcompany@gmail.com"
-                appRelease = "1.1.0"
+                appRelease = "1.1.1"
                 appCategory = "PERSONALIZATION"
                 rpmLicenseType = "MIT"
             }
@@ -188,16 +182,6 @@ compose.desktop {
             obfuscate.set(true)
         }
     }
-}
-
-configurations.all {
-    resolutionStrategy {
-        force("org.slf4j:slf4j-api:1.7.36")
-        // FIXME: TO REMOVE IN THE NEXT VERSION (DEPRECATED TRIGGER SEARCH)
-        force("com.github.N7ghtm4r3:GitHubManager:1.0.1")
-    }
-    // FIXME: TO REMOVE IN THE NEXT VERSION (DEPRECATED TRIGGER SEARCH)
-    exclude("commons-logging", "commons-logging")
 }
 
 tasks.withType<DokkaTask>().configureEach {
@@ -210,4 +194,25 @@ tasks.withType<DokkaTask>().configureEach {
         customAssets = listOf(file("../docs/logo-icon.svg"))
         footerMessage = "(c) 2025 Tecknobit"
     }
+}
+
+buildConfig {
+    className("AmetistaConfig")
+    packageName("com.tecknobit.pandoro")
+    buildConfigField<String>(
+        name = "HOST",
+        value = project.findProperty("host").toString()
+    )
+    buildConfigField<String?>(
+        name = "SERVER_SECRET",
+        value = project.findProperty("server_secret").toString()
+    )
+    buildConfigField<String?>(
+        name = "APPLICATION_IDENTIFIER",
+        value = project.findProperty("application_id").toString()
+    )
+    buildConfigField<Boolean>(
+        name = "BYPASS_SSL_VALIDATION",
+        value = project.findProperty("bypass_ssl_validation").toString().toBoolean()
+    )
 }

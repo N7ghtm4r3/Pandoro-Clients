@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Groups3
@@ -42,19 +43,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
+import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
-import com.tecknobit.pandoro.getImagePath
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presentation.CreateProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.group.components.GroupLogos
 import com.tecknobit.pandoro.ui.screens.group.components.GroupsProjectCandidate
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectDescription
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectName
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidRepository
@@ -103,7 +108,7 @@ class CreateProjectScreen(
             creationTitle = Res.string.create_project,
             editingTitle = Res.string.edit_project
         ) {
-            viewModel!!.projectIcon = remember {
+            viewModel.projectIcon = remember {
                 mutableStateOf(
                     if(isEditing)
                         item.value!!.icon
@@ -111,7 +116,7 @@ class CreateProjectScreen(
                         ""
                 )
             }
-            viewModel!!.projectName = remember {
+            viewModel.projectName = remember {
                 mutableStateOf(
                     if(isEditing)
                         item.value!!.name
@@ -119,7 +124,7 @@ class CreateProjectScreen(
                         ""
                 )
             }
-            viewModel!!.projectVersion = remember {
+            viewModel.projectVersion = remember {
                 mutableStateOf(
                     if(isEditing)
                         item.value!!.version
@@ -127,7 +132,7 @@ class CreateProjectScreen(
                         ""
                 )
             }
-            viewModel!!.projectRepository = remember {
+            viewModel.projectRepository = remember {
                 mutableStateOf(
                     if(isEditing)
                         item.value!!.projectRepo
@@ -135,7 +140,7 @@ class CreateProjectScreen(
                         ""
                 )
             }
-            viewModel!!.projectDescription = remember {
+            viewModel.projectDescription = remember {
                 mutableStateOf(
                     if(isEditing)
                         item.value!!.description
@@ -178,8 +183,11 @@ class CreateProjectScreen(
      * [Form] displayed as card
      */
     @Composable
-    @NonRestartableComposable
     @RequiresSuperCall
+    @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
+    )
     override fun CardForm() {
         super.CardForm()
         Column(
@@ -235,8 +243,8 @@ class CreateProjectScreen(
             EquinoxOutlinedTextField(
                 modifier = Modifier
                     .weight(1f),
-                value = viewModel!!.projectName,
-                isError = viewModel!!.projectNameError,
+                value = viewModel.projectName,
+                isError = viewModel.projectNameError,
                 validator = { isValidProjectName(it) },
                 label = Res.string.name,
                 errorText = Res.string.wrong_name
@@ -244,8 +252,8 @@ class CreateProjectScreen(
             EquinoxOutlinedTextField(
                 modifier = Modifier
                     .weight(1f),
-                value = viewModel!!.projectVersion,
-                isError = viewModel!!.projectVersionError,
+                value = viewModel.projectVersion,
+                isError = viewModel.projectVersionError,
                 validator = { isValidVersion(it) },
                 label = Res.string.version,
                 errorText = Res.string.wrong_project_version
@@ -254,8 +262,8 @@ class CreateProjectScreen(
         EquinoxOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = viewModel!!.projectRepository,
-            isError = viewModel!!.projectRepositoryError,
+            value = viewModel.projectRepository,
+            isError = viewModel.projectRepositoryError,
             validator = { isValidRepository(it) },
             label = Res.string.project_repository,
             errorText = Res.string.wrong_repository_url
@@ -264,8 +272,8 @@ class CreateProjectScreen(
             modifier = descriptionModifier
                 .fillMaxWidth(),
             maxLines = Int.MAX_VALUE,
-            value = viewModel!!.projectDescription,
-            isError = viewModel!!.projectDescriptionError,
+            value = viewModel.projectDescription,
+            isError = viewModel.projectDescriptionError,
             validator = { isValidProjectDescription(it) },
             label = Res.string.description,
             errorText = Res.string.wrong_description
@@ -291,7 +299,7 @@ class CreateProjectScreen(
                 horizontalAlignment = Alignment.End
             ) {
                 SaveButton {
-                    viewModel!!.workOnProject()
+                    viewModel.workOnProject()
                 }
             }
         }
@@ -303,11 +311,11 @@ class CreateProjectScreen(
     @Composable
     @NonRestartableComposable
     private fun ManageProjectGroups() {
-        if(viewModel!!.authoredGroups.isNotEmpty()) {
+        if(viewModel.authoredGroups.isNotEmpty()) {
             val modalBottomSheetState = rememberModalBottomSheetState()
             val scope = rememberCoroutineScope()
             AnimatedVisibility(
-                visible = viewModel!!.projectGroups.isEmpty(),
+                visible = viewModel.projectGroups.isEmpty(),
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
@@ -324,12 +332,12 @@ class CreateProjectScreen(
                 }
             }
             AnimatedVisibility(
-                visible = viewModel!!.projectGroups.isNotEmpty(),
+                visible = viewModel.projectGroups.isNotEmpty(),
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
                 GroupLogos(
-                    groups = viewModel!!.projectGroups,
+                    groups = viewModel.projectGroups,
                     onClick = {
                         scope.launch {
                             modalBottomSheetState.show()
@@ -348,8 +356,9 @@ class CreateProjectScreen(
      * [Form] displayed as full screen object, this is used for example in the mobile devices
      */
     @Composable
-    @NonRestartableComposable
     @RequiresSuperCall
+    @CompactClassComponent
+    @NonRestartableComposable
     override fun FullScreenForm() {
         super.FullScreenForm()
         Box {
@@ -398,39 +407,51 @@ class CreateProjectScreen(
                 EquinoxOutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    value = viewModel!!.projectName,
-                    isError = viewModel!!.projectNameError,
+                    value = viewModel.projectName,
+                    isError = viewModel.projectNameError,
                     validator = { isValidProjectName(it) },
                     label = Res.string.name,
-                    errorText = Res.string.wrong_name
+                    errorText = Res.string.wrong_name,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
                 )
                 EquinoxOutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    value = viewModel!!.projectVersion,
-                    isError = viewModel!!.projectVersionError,
+                    value = viewModel.projectVersion,
+                    isError = viewModel.projectVersionError,
                     validator = { isValidVersion(it) },
                     label = Res.string.version,
-                    errorText = Res.string.wrong_project_version
+                    errorText = Res.string.wrong_project_version,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
                 )
                 EquinoxOutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    value = viewModel!!.projectRepository,
-                    isError = viewModel!!.projectRepositoryError,
+                    value = viewModel.projectRepository,
+                    isError = viewModel.projectRepositoryError,
                     validator = { isValidRepository(it) },
                     label = Res.string.project_repository,
-                    errorText = Res.string.wrong_repository_url
+                    errorText = Res.string.wrong_repository_url,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
                 )
                 EquinoxOutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    value = viewModel!!.projectDescription,
-                    isError = viewModel!!.projectDescriptionError,
+                    value = viewModel.projectDescription,
+                    isError = viewModel.projectDescriptionError,
                     validator = { isValidProjectDescription(it) },
                     maxLines = 8,
                     label = Res.string.description,
-                    errorText = Res.string.wrong_description
+                    errorText = Res.string.wrong_description,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done
+                    )
                 )
                 SaveButton(
                     modifier = Modifier
@@ -443,7 +464,7 @@ class CreateProjectScreen(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     ),
-                    onClick = { viewModel!!.workOnProject() }
+                    onClick = { viewModel.workOnProject() }
                 )
             }
         }
@@ -463,24 +484,24 @@ class CreateProjectScreen(
     ) {
         val groups = remember { mutableListOf<Group>() }
         LaunchedEffect(Unit) {
-            groups.addAll(viewModel!!.projectGroups + viewModel!!.authoredGroups)
+            groups.addAll(viewModel.projectGroups + viewModel.authoredGroups)
         }
         GroupsProjectCandidate(
             state = state,
             scope = scope,
             groups = groups.distinctBy { group -> group.id }
         ) { group ->
-            if (viewModel!!.authoredGroups.any { groupToCheck -> groupToCheck.id == group.id }) {
+            if (viewModel.authoredGroups.any { groupToCheck -> groupToCheck.id == group.id }) {
                 var added by remember {
                     mutableStateOf(
-                        viewModel!!.candidateGroups.contains(group.id) ||
-                        viewModel!!.projectGroups.contains(group)
+                        viewModel.candidateGroups.contains(group.id) ||
+                        viewModel.projectGroups.contains(group)
                     )
                 }
                 Checkbox(
                     checked = added,
                     onCheckedChange = { selected ->
-                        viewModel!!.manageCandidateGroup(
+                        viewModel.manageCandidateGroup(
                             group = group
                         )
                         added = selected
@@ -505,12 +526,13 @@ class CreateProjectScreen(
         ImagePicker(
             modifier = modifier,
             pickerSize = pickerSize,
-            imageData = viewModel!!.projectIcon.value,
+            imageData = viewModel.projectIcon.value,
             contentDescription = "Project icon",
-            onImagePicked = { image ->
-                viewModel!!.projectIcon.value = getImagePath(
-                    imagePic = image
-                )
+            onImagePicked = { icon ->
+                icon?.let {
+                    viewModel.projectIcon.value = icon.path
+                    viewModel.projectIconPayload = icon
+                }
             }
         )
     }
@@ -520,8 +542,8 @@ class CreateProjectScreen(
      */
     override fun onStart() {
         super.onStart()
-        viewModel!!.retrieveProject()
-        viewModel!!.retrieveAuthoredGroups()
+        viewModel.retrieveProject()
+        viewModel.retrieveAuthoredGroups()
     }
 
     /**
@@ -531,11 +553,11 @@ class CreateProjectScreen(
     @RequiresSuperCall
     override fun CollectStates() {
         super.CollectStates()
-        item = viewModel!!.project.collectAsState()
-        viewModel!!.projectNameError = remember { mutableStateOf(false) }
-        viewModel!!.projectVersionError = remember { mutableStateOf(false) }
-        viewModel!!.projectRepositoryError = remember { mutableStateOf(false) }
-        viewModel!!.projectDescriptionError = remember { mutableStateOf(false) }
+        item = viewModel.project.collectAsState()
+        viewModel.projectNameError = remember { mutableStateOf(false) }
+        viewModel.projectVersionError = remember { mutableStateOf(false) }
+        viewModel.projectRepositoryError = remember { mutableStateOf(false) }
+        viewModel.projectDescriptionError = remember { mutableStateOf(false) }
     }
 
 }

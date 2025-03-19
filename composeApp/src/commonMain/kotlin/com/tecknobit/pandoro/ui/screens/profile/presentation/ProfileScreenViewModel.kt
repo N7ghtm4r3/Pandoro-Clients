@@ -1,14 +1,11 @@
 package com.tecknobit.pandoro.ui.screens.profile.presentation
 
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxProfileViewModel
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxProfileViewModel
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedWRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.profile.data.Changelog
@@ -21,7 +18,8 @@ import kotlinx.coroutines.launch
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see androidx.lifecycle.ViewModel
- * @see com.tecknobit.equinoxbackend.FetcherManager
+
+ * @see Retriever.RetrieverWrapper
  * @see EquinoxViewModel
  * @see EquinoxProfileViewModel
  */
@@ -32,12 +30,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
 ) {
 
     /**
-     * **profilePic** -> the profile picture value
-     */
-    lateinit var profilePic: MutableState<String>
-
-    /**
-     * **changelogsState** -> the state used to manage the pagination for the
+     * `changelogsState` -> the state used to manage the pagination for the
      * [retrieveChangelogs] method
      */
     val changelogsState = PaginationState<Int, Changelog>(
@@ -58,7 +51,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
         page: Int
     ) {
         viewModelScope.launch {
-            requester.sendPaginatedWRequest(
+            requester.sendPaginatedRequest(
                 request = {
                     getChangelogs(
                         page = page
@@ -72,7 +65,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
                         isLastPage = paginatedResponse.isLastPage
                     )
                 },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }
@@ -86,7 +79,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
         changelog: Changelog
     ) {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     readChangelog(
                         changelogId = changelog.id
@@ -95,7 +88,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
                 onSuccess = {
                     changelogsState.refresh()
                 },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }
@@ -109,7 +102,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
         changelog: Changelog
     ) {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     acceptInvitation(
                         changelogId = changelog.id,
@@ -119,7 +112,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
                 onSuccess = {
                     changelogsState.refresh()
                 },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }
@@ -133,7 +126,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
         changelog: Changelog
     ) {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     declineInvitation(
                         changelogId = changelog.id,
@@ -143,7 +136,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
                 onSuccess = {
                     changelogsState.refresh()
                 },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }
@@ -157,7 +150,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
         changelog: Changelog
     ) {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     deleteChangelog(
                         changelogId = changelog.id,
@@ -167,7 +160,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
                 onSuccess = {
                     changelogsState.refresh()
                 },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }

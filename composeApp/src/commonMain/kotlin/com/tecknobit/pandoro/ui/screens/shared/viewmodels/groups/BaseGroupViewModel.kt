@@ -1,13 +1,15 @@
 package com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups
 
 import androidx.compose.material3.SnackbarHostState
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonObject
 
 /**
@@ -22,7 +24,7 @@ abstract class BaseGroupViewModel : EquinoxViewModel(
 ) {
 
     /**
-     * **_group** -> state flow holds the group data
+     * `_group` -> state flow holds the group data
      */
     protected val _group = MutableStateFlow<Group?>(
         value = null
@@ -42,6 +44,11 @@ abstract class BaseGroupViewModel : EquinoxViewModel(
     interface GroupDeleter {
 
         /**
+         * `requestsScope` -> coroutine used to send the requests to the backend
+         */
+        val requestsScope: CoroutineScope
+
+        /**
          * Method to delete a group
          *
          * @param group The group to delete
@@ -53,15 +60,17 @@ abstract class BaseGroupViewModel : EquinoxViewModel(
             onDelete: () -> Unit,
             onFailure: (JsonObject) -> Unit
         ) {
-            requester.sendWRequest(
-                request = {
-                    deleteGroup(
-                        groupId = group.id
-                    )
-                },
-                onSuccess = { onDelete.invoke() },
-                onFailure = onFailure
-            )
+            requestsScope.launch {
+                requester.sendRequest(
+                    request = {
+                        deleteGroup(
+                            groupId = group.id
+                        )
+                    },
+                    onSuccess = { onDelete.invoke() },
+                    onFailure = onFailure
+                )
+            }
         }
 
     }

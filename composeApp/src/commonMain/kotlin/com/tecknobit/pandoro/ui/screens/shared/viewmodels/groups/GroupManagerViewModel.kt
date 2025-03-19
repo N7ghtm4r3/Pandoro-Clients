@@ -3,25 +3,22 @@ package com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxbackend.Requester.Companion.RESPONSE_DATA_KEY
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseArrayData
+import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseContent
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendPaginatedWRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseArrayData
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.toResponseContent
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
-import kotlinx.serialization.json.jsonPrimitive
-import kotlinx.serialization.json.long
 
 /**
  * The [GroupManagerViewModel] serves as a base view model for managing group creation or editing
@@ -35,31 +32,31 @@ import kotlinx.serialization.json.long
 abstract class GroupManagerViewModel : BaseGroupViewModel() {
 
     /**
-     * **_candidatesMemberAvailable** -> state flow holds the the availability of the members candidate
+     * `_candidatesMemberAvailable` -> state flow holds the the availability of the members candidate
      * to join in the group
      */
-    private val _candidatesMemberAvailable = MutableStateFlow(
-        value = false
+    private val _candidatesMemberAvailable = MutableSharedFlow<Boolean>(
+        replay = 1
     )
-    var candidatesMemberAvailable: StateFlow<Boolean> = _candidatesMemberAvailable
+    var candidatesMemberAvailable = _candidatesMemberAvailable.asSharedFlow()
 
     /**
-     * **candidateProjects** -> the list of the candidates projects to share in the group
+     * `candidateProjects` -> the list of the candidates projects to share in the group
      */
     val candidateProjects: SnapshotStateList<String> = mutableStateListOf()
 
     /**
-     * **groupProjects** -> the list of the current projects shared in the group
+     * `groupProjects` -> the list of the current projects shared in the group
      */
     val groupProjects: SnapshotStateList<Project> = mutableStateListOf()
 
     /**
-     * **userProjects** -> the list of the projects owned by the [com.tecknobit.pandoro.localUser]
+     * `userProjects` -> the list of the projects owned by the [com.tecknobit.pandoro.localUser]
      */
     val userProjects: MutableList<Project> = mutableListOf()
 
     /**
-     * **candidateMembersState** -> the state used to manage the pagination for the
+     * `candidateMembersState` -> the state used to manage the pagination for the
      * [loadCandidateMembers] method
      */
     val candidateMembersState = PaginationState<Int, GroupMember>(
@@ -72,7 +69,7 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
     )
 
     /**
-     * **groupMembers** -> the list of the current members in the group
+     * `groupMembers` -> the list of the current members in the group
      */
     val groupMembers: SnapshotStateList<GroupMember> = mutableStateListOf()
 
@@ -80,14 +77,18 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
      * Method to set the no-availability of the candidates member
      */
     fun noCandidatesAvailable() {
-        _candidatesMemberAvailable.value = false
+        viewModelScope.launch {
+            _candidatesMemberAvailable.emit(false)
+        }
     }
 
     /**
      * Method to set the availability of the candidates member
      */
     fun candidatesAvailable() {
-        _candidatesMemberAvailable.value = true
+        viewModelScope.launch {
+            _candidatesMemberAvailable.emit(true)
+        }
     }
 
     /**
@@ -95,10 +96,10 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
      */
     fun retrieveUserProjects() {
         viewModelScope.launch {
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = { getAuthoredProjects() },
                 onSuccess = {
-                    val projects: List<Project> = Json.decodeFromJsonElement(it.toResponseArrayData());
+                    val projects: List<Project> = Json.decodeFromJsonElement(it.toResponseArrayData())
                     userProjects.addAll(projects)
                     group.value?.let { group ->
                         group.projects.forEach { project ->
@@ -107,7 +108,7 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
                         }
                     }
                 },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }
@@ -121,7 +122,7 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
         page: Int
     ) {
         viewModelScope.launch {
-            requester.sendPaginatedWRequest(
+            requester.sendPaginatedRequest(
                 request = {
                     getCandidateMembers(
                         page = page,
@@ -139,7 +140,7 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
                         isLastPage = paginatedResponse.isLastPage
                     )
                 },
-                onFailure = { showSnackbarMessage(it.toResponseContent()) }
+                onFailure = { showSnackbarMessage(it) }
             )
         }
     }
@@ -157,17 +158,24 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
                 _group.value!!.members
             else
                 groupMembers).size + membersEdited
-            requester.sendWRequest(
+            requester.sendRequest(
                 request = {
                     countCandidatesMember(
                         membersToExclude = membersToExclude
                     )
                 },
                 onSuccess = { response ->
-                    val count = response[RESPONSE_DATA_KEY]!!.jsonPrimitive.long
-                    _candidatesMemberAvailable.value = count > 0
+                    val count = response.toResponseContent().toLong()
+                    viewModelScope.launch {
+                        delay(100)
+                        _candidatesMemberAvailable.emit(count > 0)
+                    }
                 },
-                onFailure = { _candidatesMemberAvailable.value = false }
+                onFailure = {
+                    viewModelScope.launch {
+                        _candidatesMemberAvailable.emit(false)
+                    }
+                }
             )
         }
     }
@@ -182,7 +190,7 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
     ) {
         val projectId = project.id
         if(candidateProjects.contains(projectId)) {
-            groupProjects.removeIf { it.id == projectId }
+            groupProjects.remove(project)
             candidateProjects.remove(projectId)
         } else {
             groupProjects.add(project)

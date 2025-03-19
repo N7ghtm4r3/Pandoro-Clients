@@ -243,7 +243,7 @@ val darkChangeNoteCardBackground = Color(4292071131)
 val lightChangeNoteCardBackground = Color(4284636780)
 
 /**
- * **pieCharLightColors** -> light colors for the [PieChartColors]
+ * `pieCharLightColors` -> light colors for the [PieChartColors]
  */
 val pieCharLightColors = arrayOf(
     Color(0xFFE6E0F0), Color(0xFF252130), Color(0xFF3D3448), Color(0xFFCCC2DC),
@@ -262,7 +262,7 @@ val pieCharLightColors = arrayOf(
 )
 
 /**
- * **pieChartDarkColors** -> dark colors for the [PieChartColors]
+ * `pieChartDarkColors` -> dark colors for the [PieChartColors]
  */
 val pieChartDarkColors = arrayOf(
     Color(0xFF07020D), Color(0xFF252130), Color(0xFF4B445A), Color(0xFF655D76),

@@ -5,12 +5,12 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.ApplicationTheme.Dark
-import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.ApplicationTheme.Light
+import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme.Dark
+import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme.Light
 import com.tecknobit.pandoro.localUser
 
 /**
- * **lightScheme** default light colors scheme
+ * `lightScheme** default light colors scheme
  */
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -51,7 +51,7 @@ private val lightScheme = lightColorScheme(
 )
 
 /**
- * **darkScheme** default dark colors scheme
+ * `darkScheme** default dark colors scheme
  */
 private val darkScheme = darkColorScheme(
     primary = primaryDark,
@@ -92,7 +92,7 @@ private val darkScheme = darkColorScheme(
 )
 
 /**
- * **mediumContrastLightColorScheme** medium contrast light colors scheme
+ * `mediumContrastLightColorScheme** medium contrast light colors scheme
  */
 private val mediumContrastLightColorScheme = lightColorScheme(
     primary = primaryLightMediumContrast,
@@ -133,7 +133,7 @@ private val mediumContrastLightColorScheme = lightColorScheme(
 )
 
 /**
- * **highContrastLightColorScheme** high contrast light colors scheme
+ * `highContrastLightColorScheme** high contrast light colors scheme
  */
 private val highContrastLightColorScheme = lightColorScheme(
     primary = primaryLightHighContrast,
@@ -174,7 +174,7 @@ private val highContrastLightColorScheme = lightColorScheme(
 )
 
 /**
- * **mediumContrastDarkColorScheme** medium contrast dark colors scheme
+ * `mediumContrastDarkColorScheme** medium contrast dark colors scheme
  */
 private val mediumContrastDarkColorScheme = darkColorScheme(
     primary = primaryDarkMediumContrast,
@@ -215,7 +215,7 @@ private val mediumContrastDarkColorScheme = darkColorScheme(
 )
 
 /**
- * **highContrastDarkColorScheme** high contrast dark colors scheme
+ * `highContrastDarkColorScheme** high contrast dark colors scheme
  */
 private val highContrastDarkColorScheme = darkColorScheme(
     primary = primaryDarkHighContrast,

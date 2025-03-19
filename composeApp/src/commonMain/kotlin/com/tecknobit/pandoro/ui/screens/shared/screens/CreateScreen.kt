@@ -25,8 +25,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
@@ -42,14 +40,17 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcompose.resources.loading_data
+import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.equinoxcore.annotations.Structure
-import com.tecknobit.pandoro.getCurrentSizeClass
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.Thumbnail
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
@@ -81,21 +82,21 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
 ) {
 
     /**
-     * **isEditing** -> whether the user is creating or editing an item
+     * `isEditing` -> whether the user is creating or editing an item
      */
     protected val isEditing: Boolean = itemId != null
 
     /**
-     * **item** -> state flow holds the item data if [isEditing] is true
+     * `item` -> state flow holds the item data if [isEditing] is true
      */
     protected lateinit var item: State<I?>
 
     /**
-     * **fullScreenFormType** -> state holds the type of the form to use to create or edit the [item]
+     * `fullScreenFormType` -> state holds the type of the form to use to create or edit the [item]
      */
     protected lateinit var fullScreenFormType: MutableState<Boolean>
 
-    // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE REAL COMPONENT
+    // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE awaitNullItemLoaded METHOD
     @Composable
     @NonRestartableComposable
     protected fun LoadAwareContent(
@@ -157,7 +158,7 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
     ) {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.primary,
-            snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
+            snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
             floatingActionButton = { FabAction() }
         ) {
             PlaceContent(
@@ -194,32 +195,22 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
     @Composable
     @NonRestartableComposable
     protected fun Form() {
-        val windowSizeClass = getCurrentSizeClass()
-        val widthClass = windowSizeClass.widthSizeClass
-        val heightClass = windowSizeClass.heightSizeClass
-        when {
-            widthClass == WindowWidthSizeClass.Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
-                CardForm()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
-                CardForm()
-            }
-            widthClass == WindowWidthSizeClass.Expanded && heightClass == WindowHeightSizeClass.Medium -> {
-                CardForm()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
-                CardForm()
-            }
-            else -> FullScreenForm()
-        }
+        ResponsiveContent(
+            onExpandedSizeClass = { CardForm() },
+            onMediumSizeClass = { CardForm() },
+            onCompactSizeClass = { FullScreenForm() }
+        )
     }
 
     /**
      * [Form] displayed as card
      */
     @Composable
-    @NonRestartableComposable
     @RequiresSuperCall
+    @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
+    )
     protected open fun CardForm() {
         fullScreenFormType.value = false
     }
@@ -228,8 +219,9 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
      * [Form] displayed as full screen object, this is used for example in the mobile devices
      */
     @Composable
-    @NonRestartableComposable
     @RequiresSuperCall
+    @CompactClassComponent
+    @NonRestartableComposable
     protected open fun FullScreenForm() {
         fullScreenFormType.value = true
     }

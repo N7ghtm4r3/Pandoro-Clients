@@ -1,30 +1,24 @@
+@file:OptIn(ExperimentalLayoutApi::class, ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.profile.presenter
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.AlternateEmail
-import androidx.compose.material.icons.filled.Cancel
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.NotificationsPaused
@@ -34,8 +28,6 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -44,23 +36,19 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -70,20 +58,23 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.ApplicationTheme
+import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.components.ChameleonText
 import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
-import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
-import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
+import com.tecknobit.equinoxcompose.components.stepper.Step
+import com.tecknobit.equinoxcompose.components.stepper.StepContent
+import com.tecknobit.equinoxcompose.components.stepper.Stepper
+import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme
+import com.tecknobit.equinoxcompose.session.ManagedContent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.LANGUAGES_SUPPORTED
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isEmailValid
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isPasswordValid
 import com.tecknobit.pandoro.SPLASHSCREEN
 import com.tecknobit.pandoro.bodyFontFamily
-import com.tecknobit.pandoro.getCurrentWidthSizeClass
-import com.tecknobit.pandoro.getImagePath
 import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteAccount
@@ -91,16 +82,15 @@ import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.Logout
 import com.tecknobit.pandoro.ui.components.NewPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.Thumbnail
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.profile.components.ChangelogItem
 import com.tecknobit.pandoro.ui.screens.profile.presentation.ProfileScreenViewModel
-import com.tecknobit.pandoro.ui.theme.Green
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
 import io.github.vinceglb.filekit.core.PickerType
-import org.jetbrains.compose.resources.StringResource
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.change_email
@@ -114,7 +104,6 @@ import pandoro.composeapp.generated.resources.new_email
 import pandoro.composeapp.generated.resources.new_password
 import pandoro.composeapp.generated.resources.no_changelogs_available
 import pandoro.composeapp.generated.resources.profile
-import pandoro.composeapp.generated.resources.settings
 import pandoro.composeapp.generated.resources.wrong_email
 import pandoro.composeapp.generated.resources.wrong_password
 
@@ -131,27 +120,32 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
 ) {
 
     /**
-     * **userEmail** -> the current [localUser]'s email
-     */
-    private lateinit var userEmail: MutableState<String>
-
-    /**
      * Method to arrange the content of the screen to display
      */
     @Composable
     override fun ArrangeScreenContent() {
         ManagedContent(
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             content = {
                 Scaffold (
                     containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
+                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
                     bottomBar = { AdaptBottomBarToNavigationMode() }
                 ) {
                     AdaptContentToNavigationMode(
                         screenTitle = Res.string.profile
                     ) {
-                        ProfileContentManager()
+                        Column (
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .widthIn(
+                                    max = MAX_CONTAINER_WIDTH
+                                ),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            UserDetails()
+                            Settings()
+                        }
                     }
                 }
             }
@@ -159,58 +153,17 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     }
 
     /**
-     * Method to dynamically display the content of the screen
-     */
-    @Composable
-    @NonRestartableComposable
-    private fun ProfileContentManager() {
-        val widthSizeClass = getCurrentWidthSizeClass()
-        when(widthSizeClass) {
-            Expanded -> {
-                ProfileContent(
-                    modifier = Modifier
-                        .widthIn(
-                            max = FORM_CARD_WIDTH
-                        )
-                )
-            }
-            else -> { ProfileContent() }
-        }
-    }
-
-    /**
-     * The profile details of the user
-     *
-     * @param modifier The modifier to apply to the component
-     */
-    @Composable
-    @NonRestartableComposable
-    private fun ProfileContent(
-        modifier: Modifier = Modifier
-    ) {
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            UserDetails()
-            Settings()
-            Changelogs()
-        }
-    }
-
-    /**
      * The details of the [localUser]
      */
     @Composable
     @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
+    )
     private fun UserDetails() {
         Row (
-            modifier = Modifier
-                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(15.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             ProfilePicker()
             Column (
@@ -225,7 +178,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    text = userEmail.value,
+                    text = viewModel.email.value,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     fontSize = 12.sp
@@ -244,15 +197,14 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         val launcher = rememberFilePickerLauncher(
             type = PickerType.Image,
             mode = PickerMode.Single
-        ) { imagePath ->
-            val newProfilePic = getImagePath(
-                imagePic = imagePath
-            )
-            newProfilePic?.let {
-                viewModel!!.changeProfilePic(
-                    imagePath = newProfilePic,
-                    profilePic = viewModel!!.profilePic
-                )
+        ) { profilePic ->
+            profilePic?.let {
+                viewModel.viewModelScope.launch {
+                    viewModel.changeProfilePic(
+                        profilePicBytes = profilePic.readBytes(),
+                        profilePicName = profilePic.name
+                    )
+                }
             }
         }
         Thumbnail(
@@ -264,7 +216,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                 ),
             size = 100.dp,
             contentDescription = "Profile pic",
-            thumbnailData = viewModel!!.profilePic.value,
+            thumbnailData = viewModel.profilePic.value,
             onClick = { launcher.launch() }
         )
     }
@@ -297,7 +249,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                 )
             }
             Logout(
-                viewModel = viewModel!!,
+                viewModel = viewModel,
                 show = logout
             )
             val deleteAccount = remember { mutableStateOf(false) }
@@ -318,7 +270,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                 )
             }
             DeleteAccount(
-                viewModel = viewModel!!,
+                viewModel = viewModel,
                 show = deleteAccount
             )
         }
@@ -330,86 +282,80 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     @Composable
     @NonRestartableComposable
     private fun Settings() {
-        Section(
-            header = Res.string.settings,
-            content = {
-                ProfileAction(
-                    shape = RoundedCornerShape(
-                        topStart = 12.dp,
-                        topEnd = 12.dp
-                    ),
-                    leadingIcon = Icons.Default.AlternateEmail,
-                    actionText = Res.string.change_email,
-                    actionContent = { ChangeEmail() },
+        val steps = remember {
+            arrayOf(
+                Step(
+                    stepIcon = Icons.Default.AlternateEmail,
+                    title = Res.string.change_email,
+                    content = { ChangeEmail() },
+                    dismissAction = { visible -> visible.value = false },
                     confirmAction = { visible ->
-                        changeEmail {
-                            userEmail.value = localUser.email
-                            visible.value = false
-                        }
-                    }
-                )
-                ProfileAction(
-                    leadingIcon = Icons.Default.Password,
-                    actionText = Res.string.change_password,
-                    actionContent = { ChangePassword() },
-                    confirmAction = { visible ->
-                        changePassword {
-                            visible.value = false
-                        }
-                    }
-                )
-                val language = remember { mutableStateOf(localUser.language) }
-                ProfileAction(
-                    leadingIcon = Icons.Default.Language,
-                    actionText = Res.string.change_language,
-                    actionContent = {
-                        ChangeLanguage(
-                            currentLanguage = language
+                        viewModel.changeEmail(
+                            onSuccess = {
+                                visible.value = false
+                            }
                         )
-                    },
-                    dismissAction = { language.value = localUser.language },
+                    }
+                ),
+                Step(
+                    stepIcon = Icons.Default.Password,
+                    title = Res.string.change_password,
+                    content = { ChangePassword() },
+                    dismissAction = { visible -> visible.value = false },
                     confirmAction = { visible ->
-                        changeLanguage(
-                            newLanguage = language.value,
+                        viewModel.changePassword(
+                            onSuccess = {
+                                visible.value = false
+                            }
+                        )
+                    }
+                ),
+                Step(
+                    stepIcon = Icons.Default.Language,
+                    title = Res.string.change_language,
+                    content = { ChangeLanguage() },
+                    dismissAction = { visible -> visible.value = false },
+                    confirmAction = { visible ->
+                        viewModel.changeLanguage(
                             onSuccess = {
                                 visible.value = false
                                 navigator.navigate(SPLASHSCREEN)
                             }
                         )
                     }
-                )
-                val theme = remember { mutableStateOf(localUser.theme) }
-                ProfileAction(
-                    shape = RoundedCornerShape(
-                        bottomStart = 12.dp,
-                        bottomEnd = 12.dp
-                    ),
-                    leadingIcon = Icons.Default.Palette,
-                    actionText = Res.string.change_theme,
-                    actionContent = {
-                        ChangeTheme(
-                            currentTheme = theme
-                        )
-                    },
-                    dismissAction = { theme.value = localUser.theme },
+                ),
+                Step(
+                    stepIcon = Icons.Default.Palette,
+                    title = Res.string.change_theme,
+                    content = { ChangeTheme() },
+                    dismissAction = { visible -> visible.value = false },
                     confirmAction = { visible ->
-                        changeTheme(
-                            newTheme = theme.value,
+                        viewModel.changeTheme(
                             onChange = {
                                 visible.value = false
                                 navigator.navigate(SPLASHSCREEN)
                             }
                         )
-                    },
-                    bottomDivider = false
+                    }
+                ),
+                Step(
+                    stepIcon = Icons.Default.Notifications,
+                    title = Res.string.changelogs,
+                    content = { Changelogs() }
                 )
-            }
+            )
+        }
+        Stepper(
+            steps = steps
         )
     }
 
     /**
      * Section to change the [localUser]'s email
      */
+    @StepContent(
+        number = 1
+    )
     @Composable
     @NonRestartableComposable
     private fun ChangeEmail() {
@@ -417,8 +363,8 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
         }
-        viewModel!!.newEmail = remember { mutableStateOf("") }
-        viewModel!!.newEmailError = remember { mutableStateOf(false) }
+        viewModel.newEmail = remember { mutableStateOf("") }
+        viewModel.newEmailError = remember { mutableStateOf(false) }
         EquinoxTextField(
             modifier = Modifier
                 .focusRequester(focusRequester),
@@ -427,13 +373,13 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                 focusedIndicatorColor = Color.Transparent,
                 errorIndicatorColor = Color.Transparent
             ),
-            value = viewModel!!.newEmail,
+            value = viewModel.newEmail,
             textFieldStyle = TextStyle(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = bodyFontFamily
             ),
-            isError = viewModel!!.newEmailError,
+            isError = viewModel.newEmailError,
             mustBeInLowerCase = true,
             allowsBlankSpaces = false,
             validator = { isEmailValid(it) },
@@ -453,6 +399,9 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     /**
      * Section to change the [localUser]'s password
      */
+    @StepContent(
+        number = 2
+    )
     @Composable
     @NonRestartableComposable
     private fun ChangePassword() {
@@ -460,8 +409,8 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
         }
-        viewModel!!.newPassword = remember { mutableStateOf("") }
-        viewModel!!.newPasswordError = remember { mutableStateOf(false) }
+        viewModel.newPassword = remember { mutableStateOf("") }
+        viewModel.newPasswordError = remember { mutableStateOf(false) }
         var hiddenPassword by remember { mutableStateOf(true) }
         EquinoxOutlinedTextField(
             modifier = Modifier
@@ -471,13 +420,13 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                 focusedIndicatorColor = Color.Transparent,
                 errorIndicatorColor = Color.Transparent
             ),
-            value = viewModel!!.newPassword,
+            value = viewModel.newPassword,
             outlinedTextFieldStyle = TextStyle(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = bodyFontFamily
             ),
-            isError = viewModel!!.newPasswordError,
+            isError = viewModel.newPasswordError,
             allowsBlankSpaces = false,
             trailingIcon = {
                 IconButton(
@@ -512,25 +461,24 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
 
     /**
      * Section to change the [localUser]'s language
-     *
-     * @param currentLanguage The current [localUser]'s language
      */
+    @StepContent(
+        number = 3
+    )
     @Composable
     @NonRestartableComposable
-    private fun ChangeLanguage(
-        currentLanguage: MutableState<String>
-    ) {
-        Column (
+    private fun ChangeLanguage() {
+        Column(
             modifier = Modifier
                 .selectableGroup()
         ) {
             LANGUAGES_SUPPORTED.entries.forEach { entry ->
-                Row (
+                Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        selected = currentLanguage.value == entry.key,
-                        onClick = { currentLanguage.value = entry.key }
+                        selected = viewModel.language.value == entry.key,
+                        onClick = { viewModel.language.value = entry.key }
                     )
                     Text(
                         text = entry.value
@@ -542,25 +490,24 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
 
     /**
      * Section to change the [localUser]'s theme
-     *
-     * @param currentTheme The current [localUser]'s theme
      */
+    @StepContent(
+        number = 4
+    )
     @Composable
     @NonRestartableComposable
-    private fun ChangeTheme(
-        currentTheme: MutableState<ApplicationTheme>
-    ) {
-        Column (
+    private fun ChangeTheme() {
+        Column(
             modifier = Modifier
                 .selectableGroup()
         ) {
             ApplicationTheme.entries.forEach { entry ->
-                Row (
+                Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        selected = currentTheme.value == entry,
-                        onClick = { currentTheme.value = entry }
+                        selected = viewModel.theme.value == entry,
+                        onClick = { viewModel.theme.value = entry }
                     )
                     Text(
                         text = entry.name
@@ -573,259 +520,59 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     /**
      * The list of the changelogs owned by the [localUser]
      */
+    @StepContent(
+        number = 5
+    )
     @Composable
     @NonRestartableComposable
     private fun Changelogs() {
-        Section(
-            header = Res.string.changelogs,
-            content = {
-                ProfileAction(
-                    shape = RoundedCornerShape(
-                        size = 12.dp
-                    ),
-                    leadingIcon = Icons.Default.Notifications,
-                    actionText = Res.string.changelogs,
-                    actionContent = {
-                        PaginatedLazyColumn(
-                            modifier = Modifier
-                                .heightIn(
-                                    max = FORM_CARD_HEIGHT
-                                )
-                                .animateContentSize(),
-                            paginationState = viewModel!!.changelogsState,
-                            firstPageEmptyIndicator = {
-                                EmptyListUI(
-                                    containerModifier = Modifier
-                                        .padding(
-                                            bottom = 10.dp
-                                        ),
-                                    icon = Icons.Default.NotificationsPaused,
-                                    subText = Res.string.no_changelogs_available,
-                                    textStyle = TextStyle(
-                                        fontFamily = bodyFontFamily
-                                    )
-                                )
-                            },
-                            firstPageProgressIndicator = {
-                                FirstPageProgressIndicator(
-                                    modifier = Modifier
-                                        .padding(
-                                            all = 16.dp
-                                        )
-                                )
-                            },
-                            newPageProgressIndicator = { NewPageProgressIndicator() }
-                        ) {
-                            items(
-                                items = viewModel!!.changelogsState.allItems!!,
-                                key = { changelog -> changelog.id }
-                            ) { changelog ->
-                                ChangelogItem(
-                                    viewModel = viewModel!!,
-                                    changelog = changelog
-                                )
-                            }
-                        }
-                    },
-                    controls = { expanded ->
-                        Column (
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            horizontalAlignment = Alignment.End
-                        ) {
-                            IconButton(
-
-                                onClick = { expanded.value = !expanded.value }
-                            ) {
-                                Icon(
-                                    imageVector = if(expanded.value)
-                                        Icons.Default.KeyboardArrowUp
-                                    else
-                                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                                    contentDescription = null
-                                )
-                            }
-                        }
-                    },
-                    bottomDivider = false
+        PaginatedLazyColumn(
+            modifier = Modifier
+                .heightIn(
+                    max = FORM_CARD_HEIGHT
                 )
-            }
-        )
-    }
-
-    /**
-     * Section to execute a profile action
-     *
-     * @param shape The shape for the container
-     * @param leadingIcon The representative leading icon
-     * @param actionText The representative action text
-     * @param actionContent The content to display to execute the action
-     * @param dismissAction The action to execute when the action dismissed
-     * @param confirmAction The action to execute when the action confirmed
-     * @param bottomDivider Whether create the bottom divider
-     */
-    @Composable
-    @NonRestartableComposable
-    private fun ProfileAction(
-        shape: Shape = RoundedCornerShape(
-            size = 0.dp
-        ),
-        leadingIcon: ImageVector,
-        actionText: StringResource,
-        actionContent: @Composable ColumnScope.() -> Unit,
-        dismissAction: (() -> Unit)? = null,
-        confirmAction: ProfileScreenViewModel.(MutableState<Boolean>) -> Unit,
-        bottomDivider: Boolean = true
-    ) {
-        ProfileAction(
-            shape = shape,
-            leadingIcon = leadingIcon,
-            actionText = actionText,
-            actionContent = actionContent,
-            controls = { expanded ->
-                ActionControls(
-                    expanded = expanded,
-                    dismissAction = dismissAction,
-                    confirmAction = confirmAction
+                .animateContentSize(),
+            paginationState = viewModel.changelogsState,
+            firstPageEmptyIndicator = {
+                EmptyListUI(
+                    containerModifier = Modifier
+                        .padding(
+                            bottom = 10.dp
+                        ),
+                    icon = Icons.Default.NotificationsPaused,
+                    subText = Res.string.no_changelogs_available,
+                    textStyle = TextStyle(
+                        fontFamily = bodyFontFamily
+                    )
                 )
             },
-            bottomDivider = bottomDivider,
-        )
-    }
-
-    /**
-     * The controls action section to manage the [ProfileAction]
-     *
-     * @param expanded Whether the section is visible
-     * @param dismissAction The action to execute when the action dismissed
-     * @param confirmAction The action to execute when the action confirmed
-     */
-    @Composable
-    @NonRestartableComposable
-    private fun ActionControls(
-        expanded: MutableState<Boolean>,
-        dismissAction: (() -> Unit)?,
-        confirmAction: ProfileScreenViewModel.(MutableState<Boolean>) -> Unit,
-    ) {
-        Column (
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.End
-        ) {
-            AnimatedVisibility(
-                visible = expanded.value
-            ) {
-                Row{
-                    IconButton(
-                        onClick = {
-                            dismissAction?.invoke()
-                            expanded.value = !expanded.value
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Cancel,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.error
-                        )
-                    }
-                    IconButton(
-                        onClick = {
-                            confirmAction.invoke(
-                                viewModel!!,
-                                expanded
-                            )
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.CheckCircle,
-                            contentDescription = null,
-                            tint = Green()
-                        )
-                    }
-                }
-            }
-            AnimatedVisibility(
-                visible = !expanded.value
-            ) {
-                IconButton(
-                    onClick = { expanded.value = true }
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = null
-                    )
-                }
-            }
-        }
-    }
-
-    /**
-     * Section to execute a profile action
-     *
-     * @param shape The shape for the container
-     * @param leadingIcon The representative leading icon
-     * @param actionText The representative action text
-     * @param actionContent The content to display to execute the action
-     * @param bottomDivider Whether create the bottom divider
-     */
-    @Composable
-    @NonRestartableComposable
-    private fun ProfileAction(
-        shape: Shape = RoundedCornerShape(
-            size = 0.dp
-        ),
-        leadingIcon: ImageVector,
-        actionText: StringResource,
-        actionContent: @Composable ColumnScope.() -> Unit,
-        controls: @Composable (MutableState<Boolean>) -> Unit,
-        bottomDivider: Boolean = true
-    ) {
-        Card (
-            shape = shape
-        ) {
-            val expanded = rememberSaveable { mutableStateOf(false) }
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = 16.dp
-                    ),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = leadingIcon,
-                    contentDescription = null
-                )
-                Text(
+            firstPageProgressIndicator = {
+                FirstPageProgressIndicator(
                     modifier = Modifier
                         .padding(
-                            start = 10.dp
-                        ),
-                    text = stringResource(actionText)
+                            all = 16.dp
+                        )
                 )
-                controls.invoke(expanded)
-            }
-            AnimatedVisibility(
-                visible = expanded.value
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    HorizontalDivider()
-                    actionContent.invoke(this)
-                }
+            },
+            newPageProgressIndicator = { NewPageProgressIndicator() }
+        ) {
+            items(
+                items = viewModel.changelogsState.allItems!!,
+                key = { changelog -> changelog.id }
+            ) { changelog ->
+                ChangelogItem(
+                    viewModel = viewModel,
+                    changelog = changelog
+                )
             }
         }
-        if(bottomDivider)
-            HorizontalDivider()
     }
 
     /**
      * Method invoked when the [ShowContent] composable has been created
      */
     override fun onCreate() {
-        viewModel!!.setActiveContext(HomeScreen::class.java)
+        viewModel.setActiveContext(HomeScreen::class)
     }
 
     /**
@@ -833,8 +580,11 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
      */
     @Composable
     override fun CollectStates() {
-        viewModel!!.profilePic = remember { mutableStateOf(localUser.profilePic) }
-        userEmail = remember { mutableStateOf(localUser.email) }
+        viewModel.profilePic = remember { mutableStateOf(localUser.profilePic) }
+        viewModel.email = remember { mutableStateOf(localUser.email) }
+        viewModel.password = remember { mutableStateOf(localUser.password) }
+        viewModel.language = remember { mutableStateOf(localUser.language) }
+        viewModel.theme = remember { mutableStateOf(localUser.theme) }
     }
 
 }

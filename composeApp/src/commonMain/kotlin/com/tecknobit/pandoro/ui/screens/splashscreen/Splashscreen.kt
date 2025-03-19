@@ -15,8 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcompose.session.screens.EquinoxNoModelScreen
 import com.tecknobit.pandoro.CheckForUpdatesAndLaunch
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
@@ -28,9 +27,9 @@ import pandoro.composeapp.generated.resources.app_name
  * The [Splashscreen] class is used to retrieve and load the session data and enter the application's workflow
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see EquinoxScreen
+ * @see EquinoxNoModelScreen
  */
-class Splashscreen : EquinoxScreen<EquinoxViewModel>() {
+class Splashscreen : EquinoxNoModelScreen() {
 
     /**
      * Method to arrange the content of the screen to display

@@ -1,13 +1,15 @@
 package com.tecknobit.pandoro.ui.screens.shared.viewmodels
 
 import androidx.compose.material3.SnackbarHostState
-import com.tecknobit.equinoxcompose.helpers.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
-import com.tecknobit.pandoro.helpers.PandoroRequester.Companion.sendWRequest
+import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonObject
 
 /**
@@ -22,7 +24,7 @@ abstract class BaseProjectViewModel : EquinoxViewModel(
 ) {
 
     /**
-     * **_project** -> state flow holds the project data
+     * `_project` -> state flow holds the project data
      */
     protected val _project = MutableStateFlow<Project?>(
         value = null
@@ -42,6 +44,11 @@ abstract class BaseProjectViewModel : EquinoxViewModel(
     interface ProjectDeleter {
 
         /**
+         * `requestsScope` -> coroutine used to send the requests to the backend
+         */
+        val requestsScope: CoroutineScope
+
+        /**
          * Method to delete a project
          *
          * @param project The project to delete
@@ -53,15 +60,17 @@ abstract class BaseProjectViewModel : EquinoxViewModel(
             onDelete: () -> Unit,
             onFailure: (JsonObject) -> Unit
         ) {
-            requester.sendWRequest(
-                request = {
-                    deleteProject(
-                        projectId = project.id
-                    )
-                },
-                onSuccess = { onDelete.invoke() },
-                onFailure = { onFailure.invoke(it) }
-            )
+            requestsScope.launch {
+                requester.sendRequest(
+                    request = {
+                        deleteProject(
+                            projectId = project.id
+                        )
+                    },
+                    onSuccess = { onDelete.invoke() },
+                    onFailure = { onFailure.invoke(it) }
+                )
+            }
         }
 
     }

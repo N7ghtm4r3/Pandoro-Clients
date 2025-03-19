@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Pandoro</string>
-    <string name="app_version" translatable="false">1.1.0</string>
+    <string name="app_version" translatable="false">1.1.1</string>
     <string name="server_secret">Segreto del server</string>
     <string name="edit_project">Modifica progetto</string>
     <string name="version">Versione</string>
@@ -16,7 +16,7 @@
     <string name="delete_item">Eliminare %1$s</string>
     <string name="delete_project_text_dialog">Se confermi, il progetto e tutte le sue informazioni saranno cancellate e non più recuperabili, confermi?</string>
     <plurals name="in_development_since">
-        <item formatted="false" quantity="one">In sviluppo da %1$d</item>
+        <item formatted="false" quantity="one">In sviluppo da %1$d giorno</item>
         <item formatted="false" quantity="other">In sviluppo da %1$d giorni</item>
     </plurals>
     <plurals name="update_completed_in">

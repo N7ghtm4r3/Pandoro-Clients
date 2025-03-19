@@ -1,8 +1,7 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMultiplatform::class)
 
 package com.tecknobit.pandoro.ui.screens.overview.presenter
 
-import ChartLine
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,9 +16,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Expanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.SideEffect
@@ -28,20 +24,23 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.tecknobit.equinoxcompose.components.EmptyListUI
-import com.tecknobit.equinoxcompose.helpers.session.ManagedContent
-import com.tecknobit.pandoro.bodyFontFamily
-import com.tecknobit.pandoro.getCurrentSizeClass
-import com.tecknobit.pandoro.ui.screens.PandoroScreen
+import com.tecknobit.equinoxcompose.components.EmptyState
+import com.tecknobit.equinoxcompose.session.ManagedContent
+import com.tecknobit.equinoxcompose.utilities.ExpandedClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
+import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
+import com.tecknobit.equinoxcompose.utilities.responsiveAssignment
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.overview.components.OverviewCard
 import com.tecknobit.pandoro.ui.screens.overview.components.ProjectsStatsSheet
 import com.tecknobit.pandoro.ui.screens.overview.components.UpdatesStatsSheet
 import com.tecknobit.pandoro.ui.screens.overview.data.Overview
 import com.tecknobit.pandoro.ui.screens.overview.presentation.OverviewScreenViewModel
+import com.tecknobit.pandoro.ui.theme.AppTypography
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -49,6 +48,7 @@ import pandoro.composeapp.generated.resources.average_development_days
 import pandoro.composeapp.generated.resources.development_days
 import pandoro.composeapp.generated.resources.general
 import pandoro.composeapp.generated.resources.no_data_available
+import pandoro.composeapp.generated.resources.no_overview_data
 import pandoro.composeapp.generated.resources.overview
 import pandoro.composeapp.generated.resources.projects
 import pandoro.composeapp.generated.resources.retry_to_reconnect
@@ -66,7 +66,7 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
 ) {
 
     /**
-     * **overview** -> state flow holds the overview data
+     * `overview` -> state flow holds the overview data
      */
     private lateinit var overview: State<Overview?>
 
@@ -76,11 +76,11 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
     @Composable
     override fun ArrangeScreenContent() {
         ManagedContent(
-            viewModel = viewModel!!,
+            viewModel = viewModel,
             content = {
                 Scaffold (
                     containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel!!.snackbarHostState!!) },
+                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
                     bottomBar = { AdaptBottomBarToNavigationMode() }
                 ) {
                     AdaptContentToNavigationMode(
@@ -93,8 +93,8 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
                     }
                 }
             },
-            serverOfflineRetryText = stringResource(Res.string.retry_to_reconnect),
-            serverOfflineRetryAction = { viewModel!!.retrieveOverview() }
+            serverOfflineRetryText = Res.string.retry_to_reconnect,
+            serverOfflineRetryAction = { viewModel.retrieveOverview() }
         )
     }
 
@@ -104,13 +104,16 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
     @Composable
     @NonRestartableComposable
     private fun NoOverviewDataAvailable() {
-        EmptyListUI(
-            icon = ChartLine,
-            subText = Res.string.no_data_available,
-            textStyle = TextStyle(
-                fontFamily = bodyFontFamily
+        EmptyState(
+            resource = Res.drawable.no_overview_data,
+            resourceSize = responsiveAssignment(
+                onExpandedSizeClass = { 325.dp },
+                onMediumSizeClass = { 275.dp },
+                onCompactSizeClass = { 250.dp }
             ),
-            themeColor = MaterialTheme.colorScheme.inversePrimary
+            contentDescription = "No data available",
+            title = stringResource(Res.string.no_data_available),
+            titleStyle = AppTypography.bodyLarge
         )
     }
 
@@ -120,30 +123,18 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
     @Composable
     @NonRestartableComposable
     private fun OverviewData() {
-        val windowSizeClass = getCurrentSizeClass()
-        val widthClass = windowSizeClass.widthSizeClass
-        val heightClass = windowSizeClass.heightSizeClass
-        when {
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Expanded -> {
-                DashboardOverview()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Medium -> {
-                OverviewColumned()
-            }
-            widthClass == Expanded && heightClass == WindowHeightSizeClass.Medium -> {
-                DashboardOverview()
-            }
-            widthClass == WindowWidthSizeClass.Medium && heightClass == WindowHeightSizeClass.Expanded -> {
-                OverviewColumned()
-            }
-            else -> OverviewColumned()
-        }
+        ResponsiveContent(
+            onExpandedSizeClass = { DashboardOverview() },
+            onMediumSizeClass = { OverviewColumned() },
+            onCompactSizeClass = { OverviewColumned() }
+        )
     }
 
     /**
      * The overview data displayed as dashboard
      */
     @Composable
+    @ExpandedClassComponent
     @NonRestartableComposable
     private fun DashboardOverview() {
         Column (
@@ -211,6 +202,9 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
      */
     @Composable
     @NonRestartableComposable
+    @ResponsiveClassComponent(
+        classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
+    )
     private fun OverviewColumned() {
         Column(
             modifier = Modifier
@@ -311,7 +305,7 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
      * Method invoked when the [ShowContent] composable has been created
      */
     override fun onCreate() {
-        viewModel!!.setActiveContext(HomeScreen::class.java)
+        viewModel.setActiveContext(HomeScreen::class)
     }
 
     /**
@@ -320,9 +314,9 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
     @Composable
     override fun CollectStates() {
         SideEffect {
-            viewModel!!.retrieveOverview()
+            viewModel.retrieveOverview()
         }
-        overview = viewModel!!.overview.collectAsState()
+        overview = viewModel.overview.collectAsState()
     }
 
 }
