@@ -36,7 +36,6 @@ import com.tecknobit.pandoro.ui.components.ChangeMemberRole
 import com.tecknobit.pandoro.ui.components.DeleteGroup
 import com.tecknobit.pandoro.ui.components.LeaveGroup
 import com.tecknobit.pandoro.ui.components.Thumbnail
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.group.components.GroupActions
 import com.tecknobit.pandoro.ui.screens.group.components.MembersTable
 import com.tecknobit.pandoro.ui.screens.group.presentation.GroupScreenViewModel
@@ -47,6 +46,7 @@ import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.color
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.shared.screens.ItemScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandorocore.enums.InvitationStatus.PENDING
 
 /**
@@ -346,7 +346,9 @@ class GroupScreen(
     @Composable
     override fun CollectStates() {
         item = viewModel.group.collectAsState()
-        candidatesAvailable = viewModel.candidatesMemberAvailable.collectAsState()
+        candidatesAvailable = viewModel.candidatesMemberAvailable.collectAsState(
+            initial = false
+        )
     }
 
 }

@@ -4,18 +4,18 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcore.annotations.Structure
-import com.tecknobit.equinoxcore.json.treatsAsLong
 import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
 import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseArrayData
-import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
+import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseContent
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -35,10 +35,10 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
      * `_candidatesMemberAvailable` -> state flow holds the the availability of the members candidate
      * to join in the group
      */
-    private val _candidatesMemberAvailable = MutableStateFlow(
-        value = false
+    private val _candidatesMemberAvailable = MutableSharedFlow<Boolean>(
+        replay = 1
     )
-    var candidatesMemberAvailable: StateFlow<Boolean> = _candidatesMemberAvailable
+    var candidatesMemberAvailable = _candidatesMemberAvailable.asSharedFlow()
 
     /**
      * `candidateProjects` -> the list of the candidates projects to share in the group
@@ -77,14 +77,18 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
      * Method to set the no-availability of the candidates member
      */
     fun noCandidatesAvailable() {
-        _candidatesMemberAvailable.value = false
+        viewModelScope.launch {
+            _candidatesMemberAvailable.emit(false)
+        }
     }
 
     /**
      * Method to set the availability of the candidates member
      */
     fun candidatesAvailable() {
-        _candidatesMemberAvailable.value = true
+        viewModelScope.launch {
+            _candidatesMemberAvailable.emit(true)
+        }
     }
 
     /**
@@ -161,10 +165,17 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
                     )
                 },
                 onSuccess = { response ->
-                    val count = response.toResponseData().treatsAsLong()
-                    _candidatesMemberAvailable.value = count > 0
+                    val count = response.toResponseContent().toLong()
+                    viewModelScope.launch {
+                        delay(100)
+                        _candidatesMemberAvailable.emit(count > 0)
+                    }
                 },
-                onFailure = { _candidatesMemberAvailable.value = false }
+                onFailure = {
+                    viewModelScope.launch {
+                        _candidatesMemberAvailable.emit(false)
+                    }
+                }
             )
         }
     }

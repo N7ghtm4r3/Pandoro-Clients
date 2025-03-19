@@ -29,6 +29,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -90,6 +91,11 @@ class CreateGroupScreen(
         groupId = groupId
     )
 ) {
+
+    /**
+     * `candidatesAvailable` -> whether there are any candidates available to be added in the group
+     */
+    private lateinit var candidatesAvailable: State<Boolean>
 
     /**
      * Method to arrange the content of the screen to display
@@ -191,7 +197,7 @@ class CreateGroupScreen(
                                     .weight(1f)
                             )
                         }
-                        if(viewModel.candidatesMemberAvailable.value) {
+                        if(candidatesAvailable.value) {
                             GroupMembers(
                                 modifier = Modifier
                                     .weight(1.3f),
@@ -462,6 +468,9 @@ class CreateGroupScreen(
         item = viewModel.group.collectAsState()
         viewModel.groupNameError = remember { mutableStateOf(false) }
         viewModel.groupDescriptionError = remember { mutableStateOf(false) }
+        candidatesAvailable = viewModel.candidatesMemberAvailable.collectAsState(
+            initial = false
+        )
     }
 
 }
