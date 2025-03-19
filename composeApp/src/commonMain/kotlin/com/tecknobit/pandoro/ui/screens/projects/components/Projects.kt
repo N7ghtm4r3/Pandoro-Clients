@@ -33,8 +33,11 @@ import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.no_projects
 import pandoro.composeapp.generated.resources.no_projects_available
 
-// TODO: TO COMMENT
-
+/**
+ * Custom layout used to display the current projects of the [com.tecknobit.pandoro.localUser]
+ *
+ * @param viewModel The support viewmodel for the screen
+ */
 @Composable
 @NonRestartableComposable
 fun Projects(
@@ -59,6 +62,11 @@ fun Projects(
     )
 }
 
+/**
+ * Custom [PaginatedLazyVerticalGrid] used to display the current projects of the [com.tecknobit.pandoro.localUser]
+ *
+ * @param viewModel The support viewmodel for the screen
+ */
 @Composable
 @NonRestartableComposable
 @ResponsiveClassComponent(
@@ -100,6 +108,11 @@ private fun ProjectsGrid(
     }
 }
 
+/**
+ * Custom [PaginatedLazyColumn] used to display the current projects of the [com.tecknobit.pandoro.localUser]
+ *
+ * @param viewModel The support viewmodel for the screen
+ */
 @Composable
 @CompactClassComponent
 @NonRestartableComposable
@@ -135,6 +148,9 @@ private fun ProjectsList(
     }
 }
 
+/**
+ * Empty state layout displayed when there are no projects available
+ */
 @Composable
 @NonRestartableComposable
 private fun NoProjectsAvailable() {

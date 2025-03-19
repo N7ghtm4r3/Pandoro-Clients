@@ -1,8 +1,7 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMultiplatform::class)
 
 package com.tecknobit.pandoro.ui.screens.project.presenter
 
-import CalendarPlus
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
@@ -45,10 +44,9 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tecknobit.equinoxcompose.components.EmptyListUI
+import com.tecknobit.equinoxcompose.components.EmptyState
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
 import com.tecknobit.equinoxcompose.utilities.ExpandedClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.COMPACT_CONTENT
@@ -56,12 +54,11 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
+import com.tecknobit.equinoxcompose.utilities.responsiveAssignment
 import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.SCHEDULE_UPDATE_SCREEN
-import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.group.components.GroupLogos
 import com.tecknobit.pandoro.ui.screens.project.components.ModalProjectStats
 import com.tecknobit.pandoro.ui.screens.project.components.ProjectsStats
@@ -73,13 +70,17 @@ import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.as
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.toColor
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.shared.screens.ItemScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
+import com.tecknobit.pandoro.ui.theme.AppTypography
 import com.tecknobit.pandorocore.enums.RepositoryPlatform
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.github
 import pandoro.composeapp.generated.resources.gitlab
+import pandoro.composeapp.generated.resources.no_updates
 import pandoro.composeapp.generated.resources.no_updates_scheduled
 import pandoro.composeapp.generated.resources.stats
 import pandoro.composeapp.generated.resources.updates
@@ -335,13 +336,16 @@ class ProjectScreen(
                     }
                 }
             } else {
-                EmptyListUI(
-                    icon = CalendarPlus,
-                    subText = Res.string.no_updates_scheduled,
-                    textStyle = TextStyle(
-                        fontFamily = bodyFontFamily
+                EmptyState(
+                    resource = Res.drawable.no_updates,
+                    resourceSize = responsiveAssignment(
+                        onExpandedSizeClass = { 350.dp },
+                        onMediumSizeClass = { 300.dp },
+                        onCompactSizeClass = { 275.dp }
                     ),
-                    themeColor = MaterialTheme.colorScheme.inversePrimary
+                    contentDescription = "No updates scheduled",
+                    title = stringResource(Res.string.no_updates_scheduled),
+                    titleStyle = AppTypography.bodyLarge
                 )
             }
         }

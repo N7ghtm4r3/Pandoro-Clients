@@ -32,8 +32,11 @@ import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.no_groups
 import pandoro.composeapp.generated.resources.no_groups_available
 
-// TODO: TO COMMENT
-
+/**
+ * Custom layout used to display the current groups of the [com.tecknobit.pandoro.localUser]
+ *
+ * @param viewModel The support viewmodel for the screen
+ */
 @Composable
 @NonRestartableComposable
 fun Groups(
@@ -58,6 +61,11 @@ fun Groups(
     )
 }
 
+/**
+ * Custom [PaginatedLazyVerticalGrid] used to display the current groups of the [com.tecknobit.pandoro.localUser]
+ *
+ * @param viewModel The support viewmodel for the screen
+ */
 @Composable
 @NonRestartableComposable
 @ResponsiveClassComponent(
@@ -96,6 +104,11 @@ private fun GroupsGrid(
     }
 }
 
+/**
+ * Custom [PaginatedLazyColumn] used to display the current groups of the [com.tecknobit.pandoro.localUser]
+ *
+ * @param viewModel The support viewmodel for the screen
+ */
 @Composable
 @CompactClassComponent
 @NonRestartableComposable
@@ -128,6 +141,9 @@ private fun GroupsList(
     }
 }
 
+/**
+ * Empty state layout displayed when there are no groups available
+ */
 @Composable
 @NonRestartableComposable
 private fun NoGroupsAvailable() {

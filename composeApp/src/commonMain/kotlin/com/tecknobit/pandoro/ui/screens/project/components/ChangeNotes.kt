@@ -19,15 +19,20 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen.Companion.FORM_CARD_HEIGHT
 import com.tecknobit.pandoro.ui.screens.notes.components.ChangeNoteCard
 import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen.Companion.FORM_CARD_HEIGHT
 import com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT
 
-// TODO: TO COMMENT
-
+/**
+ * Custom layout used to display the change notes of an [update]
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param project The project owner of the update
+ * @param update The update to display
+ */
 @Composable
 @NonRestartableComposable
 fun ChangeNotes(
@@ -60,6 +65,13 @@ fun ChangeNotes(
     )
 }
 
+/**
+ * Custom [LazyVerticalGrid] used to display the change notes of an [update]
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param project The project owner of the update
+ * @param update The update to display
+ */
 @Composable
 @CompactClassComponent
 @ResponsiveClassComponent(
@@ -102,6 +114,13 @@ private fun ChangeNotesGrid(
     }
 }
 
+/**
+ * Custom [LazyColumn] used to display the change notes of an [update]
+ *
+ * @param viewModel The support viewmodel for the screen
+ * @param project The project owner of the update
+ * @param update The update to display
+ */
 @Composable
 @CompactClassComponent
 @NonRestartableComposable

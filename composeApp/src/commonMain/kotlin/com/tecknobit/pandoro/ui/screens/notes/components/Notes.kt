@@ -32,6 +32,11 @@ import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.no_notes
 import pandoro.composeapp.generated.resources.no_notes_available
 
+/**
+ * Custom layout used to display the current notes of the [com.tecknobit.pandoro.localUser]
+ *
+ * @param viewModel The support viewmodel for the screen
+ */
 @Composable
 @NonRestartableComposable
 fun Notes(
@@ -56,6 +61,11 @@ fun Notes(
     )
 }
 
+/**
+ * Custom [PaginatedLazyVerticalGrid] used to display the current notes of the [com.tecknobit.pandoro.localUser]
+ *
+ * @param viewModel The support viewmodel for the screen
+ */
 @Composable
 @NonRestartableComposable
 @ResponsiveClassComponent(
@@ -97,6 +107,11 @@ private fun NotesGrid(
     }
 }
 
+/**
+ * Custom [PaginatedLazyColumn] used to display the current notes of the [com.tecknobit.pandoro.localUser]
+ *
+ * @param viewModel The support viewmodel for the screen
+ */
 @Composable
 @CompactClassComponent
 @NonRestartableComposable
@@ -131,6 +146,9 @@ private fun NotesList(
     }
 }
 
+/**
+ * Empty state layout displayed when there are no notes available
+ */
 @Composable
 @NonRestartableComposable
 private fun NoNotesAvailable() {
