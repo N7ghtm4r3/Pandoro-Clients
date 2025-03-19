@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.2"
+ametistaEngine = "1.0.2"
 android-compileSdk = "35"
 android-minSdk = "26"
 android-targetSdk = "35"
@@ -28,6 +29,7 @@ review = "2.0.2"
 dokka = "2.0.0"
 
 [libraries]
+ametista-engine = { module = "io.github.n7ghtm4r3:Ametista-Engine", version.ref = "ametistaEngine" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "ktor" }
 compose-charts = { module = "io.github.ehsannarmani:compose-charts", version.ref = "composeCharts" }

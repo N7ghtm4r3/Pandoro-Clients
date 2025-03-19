@@ -17,6 +17,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.dokka)
     kotlin("plugin.serialization") version "2.0.20"
+    id("com.github.gmazzo.buildconfig") version "5.5.1"
 }
 
 kotlin {
@@ -101,6 +102,7 @@ kotlin {
             implementation(libs.filekit.compose)
             implementation(libs.jetlime)
             implementation (libs.compose.charts)
+            implementation(libs.ametista.engine)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -192,4 +194,25 @@ tasks.withType<DokkaTask>().configureEach {
         customAssets = listOf(file("../docs/logo-icon.svg"))
         footerMessage = "(c) 2025 Tecknobit"
     }
+}
+
+buildConfig {
+    className("AmetistaConfig")
+    packageName("com.tecknobit.pandoro")
+    buildConfigField<String>(
+        name = "HOST",
+        value = project.findProperty("host").toString()
+    )
+    buildConfigField<String?>(
+        name = "SERVER_SECRET",
+        value = project.findProperty("server_secret").toString()
+    )
+    buildConfigField<String?>(
+        name = "APPLICATION_IDENTIFIER",
+        value = project.findProperty("application_id").toString()
+    )
+    buildConfigField<Boolean>(
+        name = "BYPASS_SSL_VALIDATION",
+        value = project.findProperty("bypass_ssl_validation").toString().toBoolean()
+    )
 }

@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.helpers
 
+import com.tecknobit.ametistaengine.AmetistaEngine.Companion.ametistaEngine
 import com.tecknobit.equinoxcompose.network.EquinoxRequester
 import com.tecknobit.equinoxcore.annotations.RequestPath
 import com.tecknobit.equinoxcore.annotations.Wrapper
@@ -88,6 +89,12 @@ open class PandoroRequester(
     connectionErrorMessage = "Server is temporarily unavailable",
     debugMode = debugMode
 ) {
+
+    init {
+        attachInterceptorOnRequest {
+            ametistaEngine.notifyNetworkRequest()
+        }
+    }
 
     /**
      * Method to execute the request to get the projects list of the user where him/her is the author

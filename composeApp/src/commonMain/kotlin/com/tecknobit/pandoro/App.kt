@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package com.tecknobit.pandoro
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.text.font.FontFamily
 import coil3.ImageLoader
@@ -8,6 +11,8 @@ import coil3.compose.LocalPlatformContext
 import coil3.network.ktor3.KtorNetworkFetcherFactory
 import coil3.request.CachePolicy
 import coil3.request.addLastModifiedToFileCacheKey
+import com.tecknobit.ametistaengine.AmetistaEngine
+import com.tecknobit.ametistaengine.AmetistaEngine.Companion.FILES_AMETISTA_CONFIG_PATHNAME
 import com.tecknobit.equinoxcompose.session.EquinoxLocalUser
 import com.tecknobit.equinoxcore.helpers.NAME_KEY
 import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
@@ -38,6 +43,7 @@ import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import pandoro.composeapp.generated.resources.Res
@@ -133,6 +139,7 @@ val localUser = EquinoxLocalUser("Pandoro")
 fun App() {
     bodyFontFamily = FontFamily(Font(Res.font.robotomono))
     displayFontFamily = FontFamily(Font(Res.font.oswald))
+    InitAmetista()
     imageLoader = ImageLoader.Builder(LocalPlatformContext.current)
         .components {
             add(
@@ -248,6 +255,24 @@ fun App() {
 }
 
 /**
+ * Method used to initialize the Ametista system
+ */
+@Composable
+private fun InitAmetista() {
+    LaunchedEffect(Unit) {
+        val ametistaEngine = AmetistaEngine.ametistaEngine
+        ametistaEngine.fireUp(
+            configData = Res.readBytes(FILES_AMETISTA_CONFIG_PATHNAME),
+            host = AmetistaConfig.HOST,
+            serverSecret = AmetistaConfig.SERVER_SECRET!!,
+            applicationId = AmetistaConfig.APPLICATION_IDENTIFIER!!,
+            bypassSslValidation = AmetistaConfig.BYPASS_SSL_VALIDATION,
+            debugMode = false
+        )
+    }
+}
+
+/**
  * Method to check whether are available any updates for each platform and then launch the application
  * which the correct first screen to display
  *
@@ -264,8 +289,7 @@ fun startSession() {
     requester = PandoroRequester(
         host = localUser.hostAddress,
         userId = localUser.userId,
-        userToken = localUser.userToken,
-        debugMode = true // TODO: TO REMOVE
+        userToken = localUser.userToken
     )
     val route = if (localUser.isAuthenticated) {
         MainScope().launch {

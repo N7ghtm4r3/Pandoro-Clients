@@ -96,7 +96,7 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
      */
     protected lateinit var fullScreenFormType: MutableState<Boolean>
 
-    // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE REAL COMPONENT
+    // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE awaitNullItemLoaded METHOD
     @Composable
     @NonRestartableComposable
     protected fun LoadAwareContent(

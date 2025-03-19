@@ -55,8 +55,8 @@ import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.ui.components.Thumbnail
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -97,7 +97,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
         LoadAwareContent()
     }
 
-    // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE REAL COMPONENT
+    // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE awaitNullItemLoaded METHOD
     @Composable
     @NonRestartableComposable
     private fun LoadAwareContent() {
