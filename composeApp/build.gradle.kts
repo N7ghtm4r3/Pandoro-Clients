@@ -35,7 +35,7 @@ kotlin {
         }
     }
 
-   /* listOf(
+    listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
@@ -44,7 +44,7 @@ kotlin {
             baseName = "Pandoro"
             isStatic = true
         }
-    }*/
+    }
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
