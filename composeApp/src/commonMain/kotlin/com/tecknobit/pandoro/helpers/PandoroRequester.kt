@@ -64,8 +64,10 @@ import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import io.ktor.http.content.PartData
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.add
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
+import kotlinx.serialization.json.putJsonArray
 
 /**
  * The **PandoroRequester** class is useful to communicate with the Pandoro's backend
@@ -326,7 +328,11 @@ open class PandoroRequester(
     ): JsonObject {
         val payload = buildJsonObject {
             put(UPDATE_TARGET_VERSION_KEY, targetVersion)
-            put(UPDATE_CHANGE_NOTES_KEY, updateChangeNotes.joinToString())
+            putJsonArray(UPDATE_CHANGE_NOTES_KEY) {
+                updateChangeNotes.forEach { changeNote ->
+                    add(changeNote)
+                }
+            }
         }
         return execPost(
             endpoint = createUpdatesEndpoint(
