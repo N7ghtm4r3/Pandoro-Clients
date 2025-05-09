@@ -47,7 +47,7 @@ data class Note(
     fun completionDays() : Int {
         return creationDate.daysUntil(
             untilDate = markAsDoneDate
-        )
+        ) + 1
     }
 
 }

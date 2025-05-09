@@ -112,7 +112,7 @@ data class ProjectUpdate(
                 publishDate
             else
                 Clock.System.now().toEpochMilliseconds()
-        )
+        ) + 1
     }
 
 }
