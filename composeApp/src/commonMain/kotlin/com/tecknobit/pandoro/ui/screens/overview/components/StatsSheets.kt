@@ -42,7 +42,6 @@ import pandoro.composeapp.generated.resources.updates_status
  * @param overview The overview details to represent
  */
 @Composable
-@NonRestartableComposable
 fun ProjectsStatsSheet(
     state: SheetState,
     scope: CoroutineScope,
@@ -115,7 +114,6 @@ fun ProjectsStatsSheet(
  * @param worstProject The worst performance project
  */
 @Composable
-@NonRestartableComposable
 private fun StatsSection(
     modifier: Modifier = Modifier,
     header: StringResource,

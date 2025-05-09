@@ -91,7 +91,6 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
      * Method to dynamically adapt the bottom bar based on the current navigation mode
      */
     @Composable
-    @NonRestartableComposable
     protected fun AdaptBottomBarToNavigationMode() {
         if(isBottomNavigationMode.value)
             BottomAppBar {  }
@@ -105,7 +104,6 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
      * @param content The content of the screen
      */
     @Composable
-    @NonRestartableComposable
     protected fun AdaptContentToNavigationMode(
         navBackAction: (() -> Unit)? = null,
         screenTitle: StringResource? = null,
@@ -135,7 +133,6 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
      * @param content The content of the screen
      */
     @Composable
-    @NonRestartableComposable
     protected fun PlaceContent(
         paddingValues: PaddingValues = PaddingValues(
             top = 20.dp,
@@ -327,7 +324,6 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
      * @param content The content of the section
      */
     @Composable
-    @NonRestartableComposable
     protected fun Section(
         modifier: Modifier = Modifier,
         header: StringResource,

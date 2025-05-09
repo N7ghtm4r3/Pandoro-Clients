@@ -43,7 +43,6 @@ import pandoro.composeapp.generated.resources.updates
  * @param isTheBest Whether the [project] is the best in terms of performance
  */
 @Composable
-@NonRestartableComposable
 fun ProjectPerformanceCard(
     modifier: Modifier = Modifier,
     project: ProjectPerformanceStats,
@@ -150,7 +149,6 @@ private fun StatInfo(
  * @param info The info value of the statistic
  */
 @Composable
-@NonRestartableComposable
 private fun StatInfo(
     modifier: Modifier = Modifier,
     header: StringResource,

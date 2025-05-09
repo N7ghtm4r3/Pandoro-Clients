@@ -24,7 +24,6 @@ import pandoro.composeapp.generated.resources.retrieving_data
  * The custom progress indicator visible when the first page of the items requested has been loading
  */
 @Composable
-@NonRestartableComposable
 fun FirstPageProgressIndicator(
     modifier: Modifier = Modifier
 ) {

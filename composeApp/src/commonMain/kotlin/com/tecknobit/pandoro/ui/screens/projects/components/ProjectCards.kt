@@ -129,7 +129,6 @@ fun InDevelopmentProjectCard(
  * @param updateCompleted Whether the update is ready to be published
  */
 @Composable
-@NonRestartableComposable
 private fun UpdateStatusIcon(
     update: ProjectUpdate,
     updateCompleted: Boolean
@@ -188,7 +187,6 @@ private fun UpdateStatusIcon(
  * @param project The project to display
  */
 @Composable
-@NonRestartableComposable
 fun ProjectCard(
     viewModel: ProjectsScreenViewModel,
     modifier: Modifier,

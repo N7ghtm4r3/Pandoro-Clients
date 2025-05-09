@@ -5,6 +5,7 @@ package com.tecknobit.pandoro.ui.screens.groups.components
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -67,7 +68,6 @@ fun Groups(
  * @param viewModel The support viewmodel for the screen
  */
 @Composable
-@NonRestartableComposable
 @ResponsiveClassComponent(
     classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
 )
@@ -148,6 +148,8 @@ private fun GroupsList(
 @NonRestartableComposable
 private fun NoGroupsAvailable() {
     EmptyState(
+        containerModifier = Modifier
+            .fillMaxSize(),
         resource = Res.drawable.no_groups,
         resourceSize = responsiveAssignment(
             onExpandedSizeClass = { 350.dp },

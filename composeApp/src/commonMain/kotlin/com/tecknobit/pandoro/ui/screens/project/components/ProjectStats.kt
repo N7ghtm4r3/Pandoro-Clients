@@ -27,7 +27,6 @@ import androidx.compose.material3.TooltipDefaults.rememberPlainTooltipPositionPr
 import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -73,19 +72,19 @@ import pandoro.composeapp.generated.resources.total_development_days
 import kotlin.math.round
 
 /**
- * `axisProperties** custom axis properties for the [ModalProjectStats]
+ * `axisProperties` custom axis properties for the [ModalProjectStats]
  */
 private val axisProperties = GridProperties.AxisProperties(
     enabled = false
 )
 
 /**
- * `contentBuilder** custom content builder to format the content of the popups of the points in the
+ * `contentBuilder` custom content builder to format the content of the popups of the points in the
  * charts
  */
-private val contentBuilder: (Double) -> String = {
+private val contentBuilder: (Int, Int, Double) -> String = { _, _, value ->
     val factor = 100
-    "${round(it * factor) / factor}"
+    "${round(value * factor) / factor}"
 }
 
 /**
@@ -97,7 +96,6 @@ private val contentBuilder: (Double) -> String = {
  * @param publishedUpdates The list of the published updates
  */
 @Composable
-@NonRestartableComposable
 fun ModalProjectStats(
     state: SheetState,
     scope: CoroutineScope,
@@ -147,7 +145,6 @@ fun ModalProjectStats(
  * @param publishedUpdates The list of the published updates
  */
 @Composable
-@NonRestartableComposable
 fun ProjectsStats(
     project: Project,
     publishedUpdates: List<ProjectUpdate>
@@ -183,7 +180,6 @@ fun ProjectsStats(
  * @param publishedUpdates The list of the published updates
  */
 @Composable
-@NonRestartableComposable
 private fun DevelopmentDays(
     project: Project,
     publishedUpdates: List<ProjectUpdate>
@@ -328,7 +324,6 @@ private fun getTotalDevelopmentDaysData(
  * @param publishedUpdates The list of the published updates
  */
 @Composable
-@NonRestartableComposable
 private fun AverageDaysPerUpdate(
     modifier: Modifier = Modifier,
     project: Project,
@@ -364,7 +359,10 @@ private fun AverageDaysPerUpdate(
                             backgroundColor = MaterialTheme.colorScheme.surfaceContainer
                         )
                     ),
-                    contentBuilder = contentBuilder
+                    contentBuilder = { value ->
+                        val factor = 100
+                        "${round(value * factor) / factor}"
+                    }
                 ),
                 popupProperties = PopupProperties(
                     textStyle = TextStyle(
@@ -432,7 +430,6 @@ private fun getAverageDaysPerUpdateData(
  * @param chart The chart related to the section
  */
 @Composable
-@NonRestartableComposable
 private fun StatsSection(
     modifier: Modifier = Modifier,
     header: StringResource,

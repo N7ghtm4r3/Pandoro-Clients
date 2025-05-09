@@ -95,7 +95,6 @@ import pandoro.composeapp.generated.resources.update_completed_info
  * @param viewChangeNotesFlag The flag used to control the flow to display or not the changes notes
  */
 @Composable
-@NonRestartableComposable
 fun UpdateCard(
     modifier: Modifier = Modifier,
     viewModel: ProjectScreenViewModel,
@@ -132,7 +131,6 @@ fun UpdateCard(
  * @param update The update to display
  */
 @Composable
-@NonRestartableComposable
 private fun CardHeader(
     viewModel: ProjectScreenViewModel,
     viewChangeNotes: MutableState<Boolean>,
@@ -214,7 +212,6 @@ private fun CardHeader(
  * @param update The update to display
  */
 @Composable
-@NonRestartableComposable
 private fun UpdateActions(
     viewModel: ProjectScreenViewModel,
     viewChangeNotes: MutableState<Boolean>,
@@ -308,7 +305,6 @@ private fun UpdateActions(
  * @param update The update to display
  */
 @Composable
-@NonRestartableComposable
 private fun ViewTimeline(
     state: SheetState,
     scope: CoroutineScope,
@@ -361,7 +357,6 @@ private fun formatNotesAsMarkdown(update: ProjectUpdate): String {
  * @param update The update to display
  */
 @Composable
-@NonRestartableComposable
 private fun UpdateStatus.Content(
     viewModel: ProjectScreenViewModel,
     viewChangeNotes: MutableState<Boolean>,
@@ -503,7 +498,6 @@ private fun UpdateStatus.Content(
  * @param text The text of the button
  */
 @Composable
-@NonRestartableComposable
 private fun ColumnScope.ActionButton(
     color: Color,
     action: () -> Unit,
@@ -535,7 +529,6 @@ private fun ColumnScope.ActionButton(
  * @param update The update to display
  */
 @Composable
-@NonRestartableComposable
 private fun ViewChangeNotes(
     viewChangeNotes: MutableState<Boolean>,
     viewModel: ProjectScreenViewModel,

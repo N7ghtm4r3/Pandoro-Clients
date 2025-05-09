@@ -32,7 +32,6 @@ import pandoro.composeapp.generated.resources.logo
  * @param onClick The action to execute when the thumbnail has been clicked
  */
 @Composable
-@NonRestartableComposable
 fun Thumbnail(
     modifier: Modifier = Modifier,
     size: Dp = 35.dp,

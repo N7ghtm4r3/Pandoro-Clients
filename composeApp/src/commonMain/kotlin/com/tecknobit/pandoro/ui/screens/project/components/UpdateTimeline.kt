@@ -48,7 +48,6 @@ import pandoro.composeapp.generated.resources.update_started_myself
  * @param update The update from fetch the related events
  */
 @Composable
-@NonRestartableComposable
 fun UpdateTimeline(
     update: ProjectUpdate
 ) {
@@ -176,7 +175,6 @@ fun SharedUpdateTimeline(
  * @param eventDate The date of the event
  */
 @Composable
-@NonRestartableComposable
 private fun SharedTimelineEvent(
     position: EventPosition,
     eventAuthor: GroupMember?,
@@ -224,7 +222,6 @@ private fun SharedTimelineEvent(
  * @param eventDate The date of the event
  */
 @Composable
-@NonRestartableComposable
 private fun EventDateInfo(
     modifier: Modifier = Modifier,
     eventMessage: StringResource,
@@ -254,7 +251,6 @@ private fun EventDateInfo(
  * @param content The content to display the timeline
  */
 @Composable
-@NonRestartableComposable
 private fun UpdateTimelineContainer(
     update: ProjectUpdate,
     content: @Composable (Int, Long, EventPosition, Boolean)-> Unit

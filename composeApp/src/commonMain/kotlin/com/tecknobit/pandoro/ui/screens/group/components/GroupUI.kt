@@ -56,7 +56,6 @@ private const val LIMIT_GROUPS_DISPLAYED = 5
  * @param project The project from fetch its groups
  */
 @Composable
-@NonRestartableComposable
 fun GroupLogos(
     modifier: Modifier = Modifier,
     project: Project,
@@ -90,7 +89,6 @@ fun GroupLogos(
  * @param groups The list of the groups to display
  */
 @Composable
-@NonRestartableComposable
 fun GroupExpandedList(
     state: SheetState,
     scope: CoroutineScope,
@@ -191,7 +189,6 @@ fun GroupLogos(
  * @param trailingContent The trailing content
  */
 @Composable
-@NonRestartableComposable
 fun GroupsProjectCandidate(
     state: SheetState,
     scope: CoroutineScope,

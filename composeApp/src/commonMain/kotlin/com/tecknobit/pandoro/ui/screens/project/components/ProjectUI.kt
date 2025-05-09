@@ -45,7 +45,6 @@ import kotlinx.coroutines.launch
  * @param group The group from fetch the projects
  */
 @Composable
-@NonRestartableComposable
 fun ProjectIcons(
     modifier: Modifier = Modifier,
     group: Group
@@ -194,7 +193,6 @@ fun GroupProjectsCandidate(
  * @param trailingContent The content at the end of the layout
  */
 @Composable
-@NonRestartableComposable
 private fun ProjectsListExpanded(
     state: SheetState,
     scope: CoroutineScope,

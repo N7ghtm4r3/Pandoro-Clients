@@ -5,6 +5,7 @@ package com.tecknobit.pandoro.ui.screens.projects.components
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -68,7 +69,6 @@ fun Projects(
  * @param viewModel The support viewmodel for the screen
  */
 @Composable
-@NonRestartableComposable
 @ResponsiveClassComponent(
     classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
 )
@@ -152,9 +152,10 @@ private fun ProjectsList(
  * Empty state layout displayed when there are no projects available
  */
 @Composable
-@NonRestartableComposable
 private fun NoProjectsAvailable() {
     EmptyState(
+        containerModifier = Modifier
+            .fillMaxSize(),
         resource = Res.drawable.no_projects,
         resourceSize = responsiveAssignment(
             onExpandedSizeClass = { 325.dp },

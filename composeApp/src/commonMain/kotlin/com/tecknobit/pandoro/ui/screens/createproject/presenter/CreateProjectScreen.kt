@@ -155,7 +155,6 @@ class CreateProjectScreen(
      * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
      */
     @Composable
-    @NonRestartableComposable
     override fun FabAction() {
         val modalBottomSheetState = rememberModalBottomSheetState()
         val scope = rememberCoroutineScope()

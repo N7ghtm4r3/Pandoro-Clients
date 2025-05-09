@@ -53,7 +53,6 @@ import pandoro.composeapp.generated.resources.members_number
  * @param group The group to display
  */
 @Composable
-@NonRestartableComposable
 fun MyGroupCard(
     viewModel: GroupsScreenViewModel,
     group: Group
@@ -270,7 +269,6 @@ private fun CardFooter(
  * @param group The group to display
  */
 @Composable
-@NonRestartableComposable
 private fun DeleteGroupButton(
     viewModel: GroupsScreenViewModel,
     group: Group

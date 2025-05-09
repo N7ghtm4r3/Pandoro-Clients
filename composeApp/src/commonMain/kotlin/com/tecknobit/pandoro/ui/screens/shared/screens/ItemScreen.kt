@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.annotations.ScreenCoordinator
+import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.components.ChameleonText
 import com.tecknobit.equinoxcompose.resources.loading_data
 import com.tecknobit.equinoxcompose.session.ManagedContent
@@ -142,9 +143,10 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
     }
 
     @Composable
-    @NonRestartableComposable
     protected fun ItemLoadedContent() {
         ManagedContent(
+            modifier = Modifier
+                .fillMaxSize(),
             viewModel = viewModel,
             content = {
                 Scaffold(
@@ -172,6 +174,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * The section of the title of the screen
      */
     @Composable
+    @ScreenSection
     @NonRestartableComposable
     private fun ItemScreenTitle() {
         Column(
@@ -190,14 +193,12 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * The title of the screen
      */
     @Composable
-    @NonRestartableComposable
     protected abstract fun ItemTitle()
 
     /**
      * The item base information to display
      */
     @Composable
-    @NonRestartableComposable
     protected fun ItemInformation() {
         ListItem(
             modifier = Modifier
@@ -259,7 +260,6 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * The related items of the [item] such groups or projects
      */
     @Composable
-    @NonRestartableComposable
     protected abstract fun ItemRelationshipItems()
 
     /**
@@ -269,7 +269,6 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
      */
     @Composable
-    @NonRestartableComposable
     private fun ItemDescription(
         state: SheetState,
         scope: CoroutineScope
@@ -318,7 +317,6 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * The available action can be executed on the [item] such editing or deleting it
      */
     @Composable
-    @NonRestartableComposable
     private fun ActionButtons() {
         Row (
             horizontalArrangement = Arrangement.spacedBy(5.dp)
@@ -376,7 +374,6 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * @param delete Whether the warn alert about the deletion is shown
      */
     @Composable
-    @NonRestartableComposable
     protected abstract fun DeleteItemAction(
         delete: MutableState<Boolean>
     )
@@ -425,21 +422,18 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * leaving from a group
      */
     @Composable
-    @NonRestartableComposable
     protected open fun ExtraAction() {}
 
     /**
      * The related content of the screen
      */
     @Composable
-    @NonRestartableComposable
     protected abstract fun ScreenContent()
 
     /**
      * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
      */
     @Composable
-    @NonRestartableComposable
     protected abstract fun FabAction()
 
 }

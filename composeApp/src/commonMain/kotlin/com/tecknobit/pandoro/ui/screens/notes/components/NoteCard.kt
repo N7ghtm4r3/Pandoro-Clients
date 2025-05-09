@@ -125,7 +125,6 @@ fun NoteCard(
  * @param allowedToChangeStatus Whether the status of the change note can be edited
  */
 @Composable
-@NonRestartableComposable
 fun ChangeNoteCard(
     modifier: Modifier,
     viewModel: ProjectScreenViewModel,
@@ -172,7 +171,6 @@ fun ChangeNoteCard(
  * @param onDelete The action to execute when the note has been deleted
  */
 @Composable
-@NonRestartableComposable
 private fun NoteCardContent(
     modifier: Modifier,
     colors: CardColors = CardDefaults.cardColors(),
@@ -266,7 +264,6 @@ private fun NoteCardContent(
  * @param allowDeletion Whether the note can be deleted
  */
 @Composable
-@NonRestartableComposable
 private fun NoteActions(
     viewModel: EquinoxViewModel,
     update: ProjectUpdate?,
@@ -354,7 +351,6 @@ private fun NoteActions(
  * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
  */
 @Composable
-@NonRestartableComposable
 private fun NoteDetails(
     noteShared: Boolean = false,
     note: Note,
@@ -388,7 +384,6 @@ private fun NoteDetails(
  * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
  */
 @Composable
-@NonRestartableComposable
 fun NoteDetails(
     note: String,
     state: SheetState,
@@ -416,7 +411,6 @@ fun NoteDetails(
  * @param note The note to display
  */
 @Composable
-@NonRestartableComposable
 private fun NoteTimeline(
     noteShared: Boolean = false,
     note: Note
@@ -488,7 +482,6 @@ private fun NoteTimeline(
  * @param date The date of the event to display
  */
 @Composable
-@NonRestartableComposable
 private fun NoteTimelineEvent(
     position: EventPosition,
     noteCompleted: Boolean,
@@ -536,7 +529,6 @@ private fun NoteTimelineEvent(
  * @param date The date of the event to display
  */
 @Composable
-@NonRestartableComposable
 private fun SharedNoteTimelineEvent(
     position: EventPosition,
     noteCompleted: Boolean,

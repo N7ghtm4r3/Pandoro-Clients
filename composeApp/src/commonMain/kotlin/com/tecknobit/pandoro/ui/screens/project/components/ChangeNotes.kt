@@ -73,7 +73,6 @@ fun ChangeNotes(
  * @param update The update to display
  */
 @Composable
-@CompactClassComponent
 @ResponsiveClassComponent(
     classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
 )
@@ -123,7 +122,6 @@ private fun ChangeNotesGrid(
  */
 @Composable
 @CompactClassComponent
-@NonRestartableComposable
 private fun ChangeNotesList(
     viewModel: ProjectScreenViewModel,
     project: Project,

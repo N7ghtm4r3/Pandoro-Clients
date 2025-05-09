@@ -133,7 +133,6 @@ fun MembersTable(
  * @param currentUserIsMaintainer Whether the [localUser] is a maintainer
  */
 @Composable
-@NonRestartableComposable
 private fun TableHeader(
     currentUserIsMaintainer: Boolean
 ) {
@@ -430,7 +429,6 @@ private fun RowScope.Actions(
  * @param member The member to change his/her role
  */
 @Composable
-@NonRestartableComposable
 private fun ChangeMemberRole(
     expanded: MutableState<Boolean>,
     viewModel: GroupScreenViewModel,

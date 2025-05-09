@@ -210,7 +210,6 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
      * The sidebar used to manage the navigation
      */
     @Composable
-    @NonRestartableComposable
     @ResponsiveClassComponent(
         classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
     )
@@ -276,8 +275,6 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
      * @param modifier The modifier to apply to the navigation bar
      */
     @Composable
-    @CompactClassComponent
-    @NonRestartableComposable
     private fun BottomNavigationBar(
         modifier: Modifier = Modifier
     ) {
@@ -328,7 +325,6 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
      * @param onClick The action to execute when the profile picture is clicked
      */
     @Composable
-    @NonRestartableComposable
     private fun ProfilePic(
         modifier: Modifier = Modifier,
         size: Dp = 35.dp,

@@ -81,7 +81,6 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
      * [com.tecknobit.pandoro.localUser]
      */
     @Composable
-    @NonRestartableComposable
     override fun ItemsInRow() {
         var groupsAvailable by remember { mutableStateOf(false) }
         if(groupsAvailable || viewModel.myGroupsStateFilters.value.isNotEmpty()) {

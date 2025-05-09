@@ -5,6 +5,7 @@ package com.tecknobit.pandoro.ui.screens.notes.components
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -67,7 +68,6 @@ fun Notes(
  * @param viewModel The support viewmodel for the screen
  */
 @Composable
-@NonRestartableComposable
 @ResponsiveClassComponent(
     classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
 )
@@ -150,9 +150,10 @@ private fun NotesList(
  * Empty state layout displayed when there are no notes available
  */
 @Composable
-@NonRestartableComposable
 private fun NoNotesAvailable() {
     EmptyState(
+        containerModifier = Modifier
+            .fillMaxSize(),
         resource = Res.drawable.no_notes,
         resourceSize = responsiveAssignment(
             onExpandedSizeClass = { 350.dp },

@@ -27,6 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.tecknobit.equinoxcompose.annotations.ScreenSection
+import com.tecknobit.equinoxcompose.utilities.LayoutCoordinator
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
@@ -77,7 +79,7 @@ class GroupScreen(
      * The title of the screen
      */
     @Composable
-    @NonRestartableComposable
+    @ScreenSection
     override fun ItemTitle() {
         ScreenTitle(
             navBackAction = { navigator.goBack() },
@@ -98,7 +100,6 @@ class GroupScreen(
      * The related items of the [item] such groups or projects
      */
     @Composable
-    @NonRestartableComposable
     override fun ItemRelationshipItems() {
         ProjectIcons(
             modifier = Modifier
@@ -160,7 +161,6 @@ class GroupScreen(
      * leaving from a group
      */
     @Composable
-    @NonRestartableComposable
     override fun ExtraAction() {
         if(!iAmTheAuthor()) {
             val leaveGroup = remember { mutableStateOf(false) }
@@ -185,7 +185,7 @@ class GroupScreen(
      * The related content of the screen
      */
     @Composable
-    @NonRestartableComposable
+    @LayoutCoordinator
     override fun ScreenContent() {
         ResponsiveContent(
             onExpandedSizeClass = {
@@ -203,7 +203,6 @@ class GroupScreen(
      * The members displayed in a [LazyColumn] format for the mobile devices for example
      */
     @Composable
-    @NonRestartableComposable
     @ResponsiveClassComponent(
         classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
     )
@@ -231,7 +230,6 @@ class GroupScreen(
      * @param member The member to display
      */
     @Composable
-    @NonRestartableComposable
     private fun Member(
         member: GroupMember
     ) {
@@ -319,7 +317,6 @@ class GroupScreen(
      * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
      */
     @Composable
-    @NonRestartableComposable
     override fun FabAction() {
         GroupActions(
             viewModel = viewModel,

@@ -66,7 +66,6 @@ import pandoro.composeapp.generated.resources.total
  * @param overviewStats The stats to display
  */
 @Composable
-@NonRestartableComposable
 fun UpdateOverviewCard(
     modifier: Modifier = Modifier,
     overviewStats: OverviewFullStatsItem
@@ -121,7 +120,6 @@ fun UpdateOverviewCard(
  * @param overviewStats The stats to display
  */
 @Composable
-@NonRestartableComposable
 fun OverviewCard(
     modifier: Modifier = Modifier,
     pieSize: Dp = 150.dp,
@@ -207,6 +205,7 @@ private fun OverviewCardContent(
     if(total == 0) {
         EmptyListUI(
             containerModifier = Modifier
+                .fillMaxSize()
                 .padding(
                     bottom = 16.dp
                 ),
@@ -277,7 +276,6 @@ private fun OverviewCardContent(
  * @param stats The stats to display on the chart
  */
 @Composable
-@NonRestartableComposable
 private fun PieOverview(
     modifier: Modifier = Modifier,
     pieSize: Dp = 150.dp,
@@ -346,7 +344,6 @@ private fun getStatsChartData(
  * @param percentages The percentages values of the pie chart
  */
 @Composable
-@NonRestartableComposable
 private fun PieLegend(
     pieChartColors: List<Color>,
     values: List<Int>,

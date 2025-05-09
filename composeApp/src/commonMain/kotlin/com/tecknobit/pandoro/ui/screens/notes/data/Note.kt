@@ -1,9 +1,9 @@
 package com.tecknobit.pandoro.ui.screens.notes.data
 
+import com.tecknobit.equinoxcore.helpers.CREATION_DATE_KEY
 import com.tecknobit.equinoxcore.time.TimeFormatter.daysUntil
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandorocore.CONTENT_NOTE_KEY
-import com.tecknobit.pandorocore.CREATION_DATE_KEY
 import com.tecknobit.pandorocore.MARKED_AS_DONE_BY_KEY
 import com.tecknobit.pandorocore.MARKED_AS_DONE_DATE_KEY
 import com.tecknobit.pandorocore.MARKED_AS_DONE_KEY
