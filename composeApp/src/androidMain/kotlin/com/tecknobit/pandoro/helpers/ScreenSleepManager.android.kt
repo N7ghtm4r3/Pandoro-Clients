@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.ui.screens.project.components
+package com.tecknobit.pandoro.helpers
 
 import android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
 import com.tecknobit.equinoxcore.utilities.ContextActivityProvider

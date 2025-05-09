@@ -38,7 +38,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -52,6 +51,8 @@ import com.tecknobit.equinoxcompose.utilities.copyOnClipboard
 import com.tecknobit.equinoxcompose.utilities.responsiveAssignment
 import com.tecknobit.pandoro.CREATE_CHANGE_NOTE_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
+import com.tecknobit.pandoro.helpers.allowsScreenSleep
+import com.tecknobit.pandoro.helpers.preventScreenSleep
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteUpdate
 import com.tecknobit.pandoro.ui.components.NotAllChangeNotesCompleted
@@ -565,13 +566,3 @@ private fun ViewChangeNotes(
         }
     }
 }
-
-/**
- * Method to prevent the screen sleeps when reading the change notes of an update
- */
-expect fun preventScreenSleep()
-
-/**
- * Method to allow the screen sleeps when finished reading the change notes of an update
- */
-expect fun allowsScreenSleep()

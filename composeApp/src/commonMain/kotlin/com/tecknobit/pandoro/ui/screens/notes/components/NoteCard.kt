@@ -60,6 +60,8 @@ import com.tecknobit.equinoxcore.time.TimeFormatter.toDateString
 import com.tecknobit.pandoro.CREATE_CHANGE_NOTE_SCREEN
 import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
+import com.tecknobit.pandoro.helpers.allowsScreenSleep
+import com.tecknobit.pandoro.helpers.preventScreenSleep
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteNote
 import com.tecknobit.pandoro.ui.components.Thumbnail
@@ -358,10 +360,12 @@ private fun NoteDetails(
     scope: CoroutineScope
 ) {
     if(state.isVisible) {
+        preventScreenSleep()
         ModalBottomSheet(
             onDismissRequest = {
                 scope.launch {
                     state.hide()
+                    allowsScreenSleep()
                 }
             }
         ) {
@@ -390,10 +394,12 @@ fun NoteDetails(
     scope: CoroutineScope
 ) {
     if(state.isVisible) {
+        preventScreenSleep()
         ModalBottomSheet(
             onDismissRequest = {
                 scope.launch {
                     state.hide()
+                    allowsScreenSleep()
                 }
             }
         ) {
