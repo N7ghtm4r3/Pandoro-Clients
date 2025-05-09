@@ -4,7 +4,6 @@ package com.tecknobit.pandoro
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.text.font.FontFamily
 import coil3.ImageLoader
 import coil3.compose.LocalPlatformContext
@@ -15,8 +14,8 @@ import com.tecknobit.ametistaengine.AmetistaEngine
 import com.tecknobit.ametistaengine.AmetistaEngine.Companion.FILES_AMETISTA_CONFIG_PATHNAME
 import com.tecknobit.equinoxcompose.session.EquinoxLocalUser
 import com.tecknobit.equinoxcore.helpers.NAME_KEY
-import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
+import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.pandoro.helpers.PandoroRequester
 import com.tecknobit.pandoro.helpers.customHttpClient
 import com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen
@@ -267,7 +266,7 @@ private fun InitAmetista() {
             serverSecret = AmetistaConfig.SERVER_SECRET!!,
             applicationId = AmetistaConfig.APPLICATION_IDENTIFIER!!,
             bypassSslValidation = AmetistaConfig.BYPASS_SSL_VALIDATION,
-            debugMode = false
+            debugMode = true // TODO: TO SET ON FALSE
         )
     }
 }
@@ -300,14 +299,14 @@ fun startSession() {
                     localUser.updateDynamicAccountData(
                         dynamicData = response.toResponseData()
                     )
+                    setUserLanguage()
                 },
-                onFailure = {}
+                onFailure = { setUserLanguage() }
             )
         }
         HOME_SCREEN
     } else
         AUTH_SCREEN
-    setUserLanguage()
     navigator.navigate(route)
 }
 
