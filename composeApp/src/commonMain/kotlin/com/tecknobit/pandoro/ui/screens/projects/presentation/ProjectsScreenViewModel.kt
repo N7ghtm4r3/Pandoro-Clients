@@ -145,14 +145,11 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                 serializer = Project.serializer(),
                 onSuccess = { paginatedResponse ->
                     setServerOfflineValue(false)
-                    val projects = paginatedResponse.data
-                    if(projectsState.notContains(projects)) {
-                        projectsState.appendPage(
-                            items = paginatedResponse.data,
-                            nextPageKey = paginatedResponse.nextPage,
-                            isLastPage = paginatedResponse.isLastPage
-                        )
-                    }
+                    projectsState.appendPage(
+                        items = paginatedResponse.data,
+                        nextPageKey = paginatedResponse.nextPage,
+                        isLastPage = paginatedResponse.isLastPage
+                    )
                 },
                 onFailure = { setHasBeenDisconnectedValue(true) },
                 onConnectionError = {
@@ -161,18 +158,6 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                 }
             )
         }
-    }
-
-    // FIXME: CHECK TO REMOVE WHEN THE projectsState IS USED JUST BY GRID
-    @Deprecated(
-        message = "WILL BE REMOVED WHEN calculateWindowSizeClass API for DESKTOP PLATFORM WILL BE STABLE",
-        level = DeprecationLevel.WARNING
-    )
-    private fun <KEY, T> PaginationState<KEY, T>.notContains(
-        data: List<T>
-    ) : Boolean {
-        val allItems = this.allItems
-        return allItems.isNullOrEmpty() || !allItems.containsAll(data)
     }
 
     /**
