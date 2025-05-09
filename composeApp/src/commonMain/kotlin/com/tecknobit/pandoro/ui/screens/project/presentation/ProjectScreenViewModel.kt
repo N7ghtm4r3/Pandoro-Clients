@@ -3,7 +3,7 @@ package com.tecknobit.pandoro.ui.screens.project.presentation
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.session.setServerOfflineValue
-import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.equinoxcore.toggle
 import com.tecknobit.pandoro.helpers.KReviewer

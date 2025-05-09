@@ -3,8 +3,8 @@ package com.tecknobit.pandoro.ui.screens.overview.presentation
 import androidx.compose.material3.SnackbarHostState
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
-import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
 import com.tecknobit.equinoxcore.network.Requester.Companion.toNullableResponseData
+import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.overview.data.Overview
 import kotlinx.coroutines.flow.MutableStateFlow

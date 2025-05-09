@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.equinoxcompose.annotations.ScreenCoordinator
 import com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
@@ -41,6 +42,7 @@ import org.jetbrains.compose.resources.stringResource
  * @see EquinoxScreen
  */
 @Structure
+@ScreenCoordinator
 abstract class PandoroScreen<V : EquinoxViewModel>(
     viewModel: V
 ) : EquinoxScreen<V>(

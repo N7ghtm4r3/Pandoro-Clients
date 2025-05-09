@@ -2,7 +2,7 @@ package com.tecknobit.pandoro.ui.screens.creategroup.presentation
 
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.requester

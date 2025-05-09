@@ -4,7 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.session.setHasBeenDisconnectedValue
 import com.tecknobit.equinoxcompose.session.setServerOfflineValue
-import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
+import com.tecknobit.equinoxcore.network.sendPaginatedRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
@@ -163,6 +163,7 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
         }
     }
 
+    // FIXME: CHECK TO REMOVE WHEN THE projectsState IS USED JUST BY GRID
     @Deprecated(
         message = "WILL BE REMOVED WHEN calculateWindowSizeClass API for DESKTOP PLATFORM WILL BE STABLE",
         level = DeprecationLevel.WARNING

@@ -47,6 +47,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.equinoxcompose.annotations.ScreenCoordinator
 import com.tecknobit.equinoxcompose.components.ChameleonText
 import com.tecknobit.equinoxcompose.resources.loading_data
 import com.tecknobit.equinoxcompose.session.ManagedContent
@@ -77,6 +78,7 @@ import pandoro.composeapp.generated.resources.edit
  * @see PandoroScreen
  */
 @Structure
+@ScreenCoordinator
 abstract class ItemScreen<I, V: EquinoxViewModel>(
     viewModel: V,
     private val bottomPadding: Dp = 16.dp
@@ -97,9 +99,10 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
         LoadAwareContent()
     }
 
-    // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE awaitNullItemLoaded METHOD
+    /**
+     * Container component to safely display the content of the screen when the [item] is not null
+     */
     @Composable
-    @NonRestartableComposable
     private fun LoadAwareContent() {
         PandoroTheme {
             AnimatedVisibility(
