@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcore.annotations.Structure
-import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
-import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.equinoxcore.network.sendPaginatedRequest
+import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseArrayData
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseContent
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE

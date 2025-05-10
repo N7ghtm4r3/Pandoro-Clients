@@ -68,7 +68,6 @@ import pandoro.composeapp.generated.resources.remove
  * @param userCanAddMembers Whether the user can add new members to the group
  */
 @Composable
-@NonRestartableComposable
 fun GroupActions(
     viewModel: GroupManagerViewModel,
     projectsOnDismissAction: (() -> Unit)? = null,
@@ -120,7 +119,6 @@ fun GroupActions(
  * @param projectsOnDismissAction The action to execute when the sharing of the projects ends
  */
 @Composable
-@NonRestartableComposable
 private fun AttachProjectsButton(
     viewModel: GroupManagerViewModel,
     projectsOnDismissAction: (() -> Unit)? = null,
@@ -157,7 +155,6 @@ private fun AttachProjectsButton(
  * @param projectsOnDismissAction The action to execute when the sharing of the projects ends
  */
 @Composable
-@NonRestartableComposable
 private fun GroupProjects(
     state: SheetState,
     scope: CoroutineScope,
@@ -197,7 +194,6 @@ private fun GroupProjects(
  * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
  */
 @Composable
-@NonRestartableComposable
 private fun ManageGroupMembers(
     viewModel: GroupManagerViewModel,
     extraOnDismissAction: (() -> Unit)?,
@@ -227,7 +223,6 @@ private fun ManageGroupMembers(
  * @param viewModel The support viewmodel of the screen
  */
 @Composable
-@NonRestartableComposable
 fun GroupMembers(
     modifier: Modifier = Modifier,
     viewModel: GroupManagerViewModel

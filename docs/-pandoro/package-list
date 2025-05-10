@@ -5,16 +5,10 @@ $dokka.location://CalendarPlus/#/PointingToDeclaration/-pandoro/[root]/-calenda
 $dokka.location://ChartLine/#/PointingToDeclaration/-pandoro/[root]/-chart-line.html
 $dokka.location://CircleDashedCheck/#/PointingToDeclaration/-pandoro/[root]/-circle-dashed-check.html
 $dokka.location://ReservedLine/#/PointingToDeclaration/-pandoro/[root]/-reserved-line.html
-$dokka.location:com.tecknobit.equinoxcompose.utilities.context////PointingToDeclaration/-pandoro/com.tecknobit.equinoxcompose.utilities.context/index.html
-$dokka.location:com.tecknobit.equinoxcompose.utilities.context/AppContext///PointingToDeclaration/-pandoro/com.tecknobit.equinoxcompose.utilities.context/-app-context/index.html
-$dokka.location:com.tecknobit.equinoxcompose.utilities.context/AppContext/get/#/PointingToDeclaration/-pandoro/com.tecknobit.equinoxcompose.utilities.context/-app-context/get.html
-$dokka.location:com.tecknobit.equinoxcompose.utilities.context/AppContext/setUp/#android.content.Context/PointingToDeclaration/-pandoro/com.tecknobit.equinoxcompose.utilities.context/-app-context/set-up.html
-$dokka.location:com.tecknobit.equinoxcompose.utilities.context/AppContextInitializer///PointingToDeclaration/-pandoro/com.tecknobit.equinoxcompose.utilities.context/-app-context-initializer/index.html
-$dokka.location:com.tecknobit.equinoxcompose.utilities.context/AppContextInitializer/AppContextInitializer/#/PointingToDeclaration/-pandoro/com.tecknobit.equinoxcompose.utilities.context/-app-context-initializer/-app-context-initializer.html
-$dokka.location:com.tecknobit.equinoxcompose.utilities.context/AppContextInitializer/create/#android.content.Context/PointingToDeclaration/-pandoro/com.tecknobit.equinoxcompose.utilities.context/-app-context-initializer/create.html
-$dokka.location:com.tecknobit.equinoxcompose.utilities.context/AppContextInitializer/dependencies/#/PointingToDeclaration/-pandoro/com.tecknobit.equinoxcompose.utilities.context/-app-context-initializer/dependencies.html
 $dokka.location:com.tecknobit.pandoro.helpers////PointingToDeclaration/-pandoro/com.tecknobit.pandoro.helpers/index.html
+$dokka.location:com.tecknobit.pandoro.helpers//allowsScreenSleep/#/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.helpers/allows-screen-sleep.html
 $dokka.location:com.tecknobit.pandoro.helpers//customHttpClient/#/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.helpers/custom-http-client.html
+$dokka.location:com.tecknobit.pandoro.helpers//preventScreenSleep/#/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.helpers/prevent-screen-sleep.html
 $dokka.location:com.tecknobit.pandoro.helpers/KReviewer///PointingToDeclaration/-pandoro/com.tecknobit.pandoro.helpers/-k-reviewer/index.html
 $dokka.location:com.tecknobit.pandoro.helpers/KReviewer/KReviewer/#/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.helpers/-k-reviewer/-k-reviewer.html
 $dokka.location:com.tecknobit.pandoro.helpers/KReviewer/reviewInApp/#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.helpers/-k-reviewer/review-in-app.html
@@ -343,8 +337,6 @@ $dokka.location:com.tecknobit.pandoro.ui.screens.project.components//ProjectsSta
 $dokka.location:com.tecknobit.pandoro.ui.screens.project.components//SharedUpdateTimeline/#com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.ui.screens.project.components/-shared-update-timeline.html
 $dokka.location:com.tecknobit.pandoro.ui.screens.project.components//UpdateCard/#androidx.compose.ui.Modifier#com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel#com.tecknobit.pandoro.ui.screens.projects.data.Project#com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate#kotlin.Boolean/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.ui.screens.project.components/-update-card.html
 $dokka.location:com.tecknobit.pandoro.ui.screens.project.components//UpdateTimeline/#com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.ui.screens.project.components/-update-timeline.html
-$dokka.location:com.tecknobit.pandoro.ui.screens.project.components//allowsScreenSleep/#/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.ui.screens.project.components/allows-screen-sleep.html
-$dokka.location:com.tecknobit.pandoro.ui.screens.project.components//preventScreenSleep/#/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.ui.screens.project.components/prevent-screen-sleep.html
 $dokka.location:com.tecknobit.pandoro.ui.screens.project.presentation////PointingToDeclaration/-pandoro/com.tecknobit.pandoro.ui.screens.project.presentation/index.html
 $dokka.location:com.tecknobit.pandoro.ui.screens.project.presentation/ProjectScreenViewModel///PointingToDeclaration/-pandoro/com.tecknobit.pandoro.ui.screens.project.presentation/-project-screen-view-model/index.html
 $dokka.location:com.tecknobit.pandoro.ui.screens.project.presentation/ProjectScreenViewModel/ProjectScreenViewModel/#kotlin.String/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.ui.screens.project.presentation/-project-screen-view-model/-project-screen-view-model.html
@@ -368,7 +360,6 @@ $dokka.location:com.tecknobit.pandoro.ui.screens.projects.components//FilterProj
 $dokka.location:com.tecknobit.pandoro.ui.screens.projects.components//InDevelopmentProjectCard/#com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.ui.screens.projects.components/-in-development-project-card.html
 $dokka.location:com.tecknobit.pandoro.ui.screens.projects.components//ProjectCard/#com.tecknobit.pandoro.ui.screens.projects.presentation.ProjectsScreenViewModel#androidx.compose.ui.Modifier#com.tecknobit.pandoro.ui.screens.projects.data.Project/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.ui.screens.projects.components/-project-card.html
 $dokka.location:com.tecknobit.pandoro.ui.screens.projects.components//Projects/#com.tecknobit.pandoro.ui.screens.projects.presentation.ProjectsScreenViewModel/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.ui.screens.projects.components/-projects.html
-$dokka.location:com.tecknobit.pandoro.ui.screens.projects.components//UpdateProgressesIndicator/#androidx.compose.ui.Modifier#com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.ui.screens.projects.components/-update-progresses-indicator.html
 $dokka.location:com.tecknobit.pandoro.ui.screens.projects.data////PointingToDeclaration/-pandoro/com.tecknobit.pandoro.ui.screens.projects.data/index.html
 $dokka.location:com.tecknobit.pandoro.ui.screens.projects.data/InDevelopmentProject///PointingToDeclaration/-pandoro/com.tecknobit.pandoro.ui.screens.projects.data/-in-development-project/index.html
 $dokka.location:com.tecknobit.pandoro.ui.screens.projects.data/InDevelopmentProject/InDevelopmentProject/#com.tecknobit.pandoro.ui.screens.projects.data.Project#com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate/PointingToDeclaration/-pandoro/com.tecknobit.pandoro.ui.screens.projects.data/-in-development-project/-in-development-project.html
@@ -788,7 +779,6 @@ $dokka.location:com.tecknobit.pandoro/MainActivity.Companion/appUpdateManager/#/
 $dokka.location:com.tecknobit.pandoro/MainActivity.Companion/launcher/#/PointingToDeclaration/-pandoro/com.tecknobit.pandoro/-main-activity/-companion/launcher.html
 $dokka.location:com.tecknobit.pandoro/MainActivity///PointingToDeclaration/-pandoro/com.tecknobit.pandoro/-main-activity/index.html
 $dokka.location:com.tecknobit.pandoro/MainActivity/MainActivity/#/PointingToDeclaration/-pandoro/com.tecknobit.pandoro/-main-activity/-main-activity.html
-com.tecknobit.equinoxcompose.utilities.context
 com.tecknobit.pandoro
 com.tecknobit.pandoro.helpers
 com.tecknobit.pandoro.ui.components

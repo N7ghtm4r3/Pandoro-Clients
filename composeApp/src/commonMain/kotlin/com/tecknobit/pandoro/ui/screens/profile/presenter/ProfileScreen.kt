@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
@@ -39,7 +40,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -59,6 +59,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
+import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.components.ChameleonText
 import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
@@ -68,6 +69,7 @@ import com.tecknobit.equinoxcompose.components.stepper.StepContent
 import com.tecknobit.equinoxcompose.components.stepper.Stepper
 import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme
 import com.tecknobit.equinoxcompose.session.ManagedContent
+import com.tecknobit.equinoxcompose.utilities.EXPANDED_CONTAINER
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.LANGUAGES_SUPPORTED
@@ -125,6 +127,8 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     @Composable
     override fun ArrangeScreenContent() {
         ManagedContent(
+            modifier = Modifier
+                .fillMaxSize(),
             viewModel = viewModel,
             content = {
                 Scaffold (
@@ -139,7 +143,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .widthIn(
-                                    max = MAX_CONTAINER_WIDTH
+                                    max = EXPANDED_CONTAINER
                                 ),
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
@@ -156,7 +160,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
      * The details of the [localUser]
      */
     @Composable
-    @NonRestartableComposable
+    @ScreenSection
     @ResponsiveClassComponent(
         classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
     )
@@ -192,7 +196,6 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
      * The profile picker to allow the [localUser] to change his/her profile picture
      */
     @Composable
-    @NonRestartableComposable
     private fun ProfilePicker() {
         val launcher = rememberFilePickerLauncher(
             type = PickerType.Image,
@@ -225,7 +228,6 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
      * The actions can be execute on the [localUser] account such logout and delete account
      */
     @Composable
-    @NonRestartableComposable
     private fun ActionButtons() {
         Row (
             horizontalArrangement = Arrangement.spacedBy(5.dp)
@@ -280,7 +282,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
      * The settings section to customize the [localUser] experience
      */
     @Composable
-    @NonRestartableComposable
+    @ScreenSection
     private fun Settings() {
         val steps = remember {
             arrayOf(
@@ -291,7 +293,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     dismissAction = { visible -> visible.value = false },
                     confirmAction = { visible ->
                         viewModel.changeEmail(
-                            onSuccess = {
+                            onChange = {
                                 visible.value = false
                             }
                         )
@@ -304,7 +306,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     dismissAction = { visible -> visible.value = false },
                     confirmAction = { visible ->
                         viewModel.changePassword(
-                            onSuccess = {
+                            onChange = {
                                 visible.value = false
                             }
                         )
@@ -317,7 +319,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     dismissAction = { visible -> visible.value = false },
                     confirmAction = { visible ->
                         viewModel.changeLanguage(
-                            onSuccess = {
+                            onChange = {
                                 visible.value = false
                                 navigator.navigate(SPLASHSCREEN)
                             }
@@ -357,7 +359,6 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         number = 1
     )
     @Composable
-    @NonRestartableComposable
     private fun ChangeEmail() {
         val focusRequester = remember { FocusRequester() }
         LaunchedEffect(Unit) {
@@ -403,7 +404,6 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         number = 2
     )
     @Composable
-    @NonRestartableComposable
     private fun ChangePassword() {
         val focusRequester = remember { FocusRequester() }
         LaunchedEffect(Unit) {
@@ -466,7 +466,6 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         number = 3
     )
     @Composable
-    @NonRestartableComposable
     private fun ChangeLanguage() {
         Column(
             modifier = Modifier
@@ -495,7 +494,6 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         number = 4
     )
     @Composable
-    @NonRestartableComposable
     private fun ChangeTheme() {
         Column(
             modifier = Modifier
@@ -524,7 +522,6 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         number = 5
     )
     @Composable
-    @NonRestartableComposable
     private fun Changelogs() {
         PaginatedLazyColumn(
             modifier = Modifier
@@ -536,6 +533,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
             firstPageEmptyIndicator = {
                 EmptyListUI(
                     containerModifier = Modifier
+                        .fillMaxSize()
                         .padding(
                             bottom = 10.dp
                         ),

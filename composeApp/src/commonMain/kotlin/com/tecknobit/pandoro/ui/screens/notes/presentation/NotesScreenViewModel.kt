@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.session.setHasBeenDisconnectedValue
 import com.tecknobit.equinoxcompose.session.setServerOfflineValue
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
-import com.tecknobit.equinoxcore.network.Requester.Companion.sendPaginatedRequest
-import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.equinoxcore.network.sendPaginatedRequest
+import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.notes.data.Note

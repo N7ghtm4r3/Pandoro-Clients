@@ -39,7 +39,6 @@ import pandoro.composeapp.generated.resources.join
  * @param changelog The changelog to display
  */
 @Composable
-@NonRestartableComposable
 fun ChangelogItem(
     viewModel: ProfileScreenViewModel,
     changelog: Changelog

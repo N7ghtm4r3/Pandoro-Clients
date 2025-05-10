@@ -1,6 +1,6 @@
 [versions]
-agp = "8.5.2"
-ametistaEngine = "1.0.2"
+agp = "8.6.1"
+ametistaEngine = "1.0.4"
 android-compileSdk = "35"
 android-minSdk = "26"
 android-targetSdk = "35"
@@ -8,21 +8,20 @@ androidx-activityCompose = "1.10.1"
 androidx-lifecycle = "2.8.4"
 coilCompose = "3.1.0"
 compose-multiplatform = "1.7.3"
-composeCharts = "0.1.0"
-equinoxCompose = "1.0.9"
-equinoxCore = "1.0.9"
+composeCharts = "0.1.7"
+equinox = "1.1.1"
 filekitCore = "0.8.8"
 filekitCompose = "0.8.8"
 jetlime = "3.0.1"
-kotlin = "2.1.0"
-kotlinx-coroutines = "1.10.1"
-kotlinxDatetime = "0.6.1"
-kotlinxSerializationJson = "1.8.0"
-octocatkdu = "1.0.5"
-pandorocore = "1.0.6"
+kotlin = "2.1.20"
+kotlinx-coroutines = "1.10.2"
+kotlinxDatetime = "0.6.2"
+kotlinxSerializationJson = "1.8.1"
+octocatkdu = "1.0.6"
+pandorocore = "1.0.7"
 precompose = "1.7.0-alpha03"
-ktor = "3.0.3"
-lazy-pagination-compose = "1.4.0"
+ktor = "3.1.0"
+lazy-pagination-compose = "1.5.1"
 startupRuntime = "1.2.0"
 appUpdate = "2.1.0"
 review = "2.0.2"
@@ -38,8 +37,8 @@ filekit-core = { module = "io.github.vinceglb:filekit-core", version.ref = "file
 jetlime = { module = "io.github.pushpalroy:jetlime", version.ref = "jetlime" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
-equinox-compose = { module = "io.github.n7ghtm4r3:equinox-compose", version.ref = "equinoxCompose" }
-equinox-core = { module = "io.github.n7ghtm4r3:equinox-core", version.ref = "equinoxCore" }
+equinox-compose = { module = "io.github.n7ghtm4r3:equinox-compose", version.ref = "equinox" }
+equinox-core = { module = "io.github.n7ghtm4r3:equinox-core", version.ref = "equinox" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }

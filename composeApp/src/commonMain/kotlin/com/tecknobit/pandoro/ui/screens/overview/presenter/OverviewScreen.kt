@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EmptyState
 import com.tecknobit.equinoxcompose.session.ManagedContent
 import com.tecknobit.equinoxcompose.utilities.ExpandedClassComponent
+import com.tecknobit.equinoxcompose.utilities.LayoutCoordinator
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
@@ -76,6 +77,8 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
     @Composable
     override fun ArrangeScreenContent() {
         ManagedContent(
+            modifier = Modifier
+                .fillMaxSize(),
             viewModel = viewModel,
             content = {
                 Scaffold (
@@ -102,9 +105,10 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
      * The UI to display when no overview data are available to be displayed
      */
     @Composable
-    @NonRestartableComposable
     private fun NoOverviewDataAvailable() {
         EmptyState(
+            containerModifier = Modifier
+                .fillMaxSize(),
             resource = Res.drawable.no_overview_data,
             resourceSize = responsiveAssignment(
                 onExpandedSizeClass = { 325.dp },
@@ -121,7 +125,7 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
      * Method to display dynamically based on the screen size the content of the overview
      */
     @Composable
-    @NonRestartableComposable
+    @LayoutCoordinator
     private fun OverviewData() {
         ResponsiveContent(
             onExpandedSizeClass = { DashboardOverview() },
@@ -135,7 +139,6 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
      */
     @Composable
     @ExpandedClassComponent
-    @NonRestartableComposable
     private fun DashboardOverview() {
         Column (
             modifier = Modifier
@@ -201,7 +204,6 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
      * The overview data displayed in column for the mobile devices for example
      */
     @Composable
-    @NonRestartableComposable
     @ResponsiveClassComponent(
         classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
     )
@@ -234,7 +236,6 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
      * @param pieStroke The stroke to apply to the pie chart
      */
     @Composable
-    @NonRestartableComposable
     private fun ProjectsStats(
         modifier: Modifier = Modifier,
         pieSize: Dp = 150.dp,
@@ -272,7 +273,6 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
      * @param pieStroke The stroke to apply to the pie chart
      */
     @Composable
-    @NonRestartableComposable
     private fun UpdatesStats(
         modifier: Modifier = Modifier,
         pieSize: Dp = 150.dp,

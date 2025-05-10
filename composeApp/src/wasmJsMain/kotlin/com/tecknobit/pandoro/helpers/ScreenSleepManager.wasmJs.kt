@@ -1,10 +1,9 @@
-package com.tecknobit.pandoro.ui.screens.project.components
+package com.tecknobit.pandoro.helpers
 
 /**
  * Method to prevent the screen sleeps when reading the change notes of an update
  */
 actual fun preventScreenSleep() {
-
 }
 
 /**

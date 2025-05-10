@@ -73,7 +73,6 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
      * [com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT]
      */
     @Composable
-    @NonRestartableComposable
     override fun ItemsInRow() {
         var projectsAvailable by remember { mutableStateOf(false) }
         if(projectsAvailable || viewModel.inDevelopmentProjectsFilter.value.isNotEmpty()) {

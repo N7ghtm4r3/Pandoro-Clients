@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.ui.screens.shared.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,22 +17,17 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tecknobit.equinoxcompose.components.EmptyListUI
 import com.tecknobit.equinoxcompose.session.ManagedContent
 import com.tecknobit.equinoxcore.annotations.Structure
-import com.tecknobit.pandoro.bodyFontFamily
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.MultipleListViewModel
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -62,6 +58,8 @@ abstract class ListsScreen<V: MultipleListViewModel>(
     @Composable
     override fun ArrangeScreenContent() {
         ManagedContent(
+            modifier = Modifier
+                .fillMaxSize(),
             viewModel = viewModel,
             content = {
                 Scaffold(
@@ -87,14 +85,12 @@ abstract class ListsScreen<V: MultipleListViewModel>(
      * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
      */
     @Composable
-    @NonRestartableComposable
     abstract fun FabAction()
 
     /**
      * The horizontal list to display the items in row format
      */
     @Composable
-    @NonRestartableComposable
     abstract fun ItemsInRow()
 
     /**
@@ -103,7 +99,6 @@ abstract class ListsScreen<V: MultipleListViewModel>(
      * @param info The info text to warn about the result of the filtering action
      */
     @Composable
-    @NonRestartableComposable
     fun EmptyResultWithFilters(
         info: StringResource
     ) {
@@ -121,30 +116,7 @@ abstract class ListsScreen<V: MultipleListViewModel>(
      * The column or grid list dynamically adapted based on the screen size
      */
     @Composable
-    @NonRestartableComposable
     abstract fun ItemsAdaptedSize()
-
-    /**
-     * The UI to display when no data are available to be displayed
-     *
-     * @param icon The representative icon to use
-     * @param subText The representative text to warn about the no-availability of the data
-     */
-    @Composable
-    @NonRestartableComposable
-    protected fun NoDataAvailable(
-        icon: ImageVector,
-        subText: StringResource
-    ) {
-        EmptyListUI(
-            icon = icon,
-            subText = subText,
-            textStyle = TextStyle(
-                fontFamily = bodyFontFamily
-            ),
-            themeColor = MaterialTheme.colorScheme.inversePrimary
-        )
-    }
 
     /**
      * The header of a section
@@ -153,7 +125,6 @@ abstract class ListsScreen<V: MultipleListViewModel>(
      * @param isAllItemsFiltering Whether the filter is about the [ItemsAdaptedSize] list
      */
     @Composable
-    @NonRestartableComposable
     protected fun SectionHeader(
         header: StringResource,
         isAllItemsFiltering: Boolean
@@ -209,7 +180,6 @@ abstract class ListsScreen<V: MultipleListViewModel>(
      * @param show Whether the dialog is shown
      */
     @Composable
-    @NonRestartableComposable
     abstract fun FilterRowItemsUi(
         show: MutableState<Boolean>
     )
@@ -220,7 +190,6 @@ abstract class ListsScreen<V: MultipleListViewModel>(
      * @param show Whether the dialog is shown
      */
     @Composable
-    @NonRestartableComposable
     abstract fun FilterAllItemsUi(
         show: MutableState<Boolean>
     )

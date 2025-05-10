@@ -38,7 +38,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -52,6 +51,8 @@ import com.tecknobit.equinoxcompose.utilities.copyOnClipboard
 import com.tecknobit.equinoxcompose.utilities.responsiveAssignment
 import com.tecknobit.pandoro.CREATE_CHANGE_NOTE_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
+import com.tecknobit.pandoro.helpers.allowsScreenSleep
+import com.tecknobit.pandoro.helpers.preventScreenSleep
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteUpdate
 import com.tecknobit.pandoro.ui.components.NotAllChangeNotesCompleted
@@ -95,7 +96,6 @@ import pandoro.composeapp.generated.resources.update_completed_info
  * @param viewChangeNotesFlag The flag used to control the flow to display or not the changes notes
  */
 @Composable
-@NonRestartableComposable
 fun UpdateCard(
     modifier: Modifier = Modifier,
     viewModel: ProjectScreenViewModel,
@@ -132,7 +132,6 @@ fun UpdateCard(
  * @param update The update to display
  */
 @Composable
-@NonRestartableComposable
 private fun CardHeader(
     viewModel: ProjectScreenViewModel,
     viewChangeNotes: MutableState<Boolean>,
@@ -214,7 +213,6 @@ private fun CardHeader(
  * @param update The update to display
  */
 @Composable
-@NonRestartableComposable
 private fun UpdateActions(
     viewModel: ProjectScreenViewModel,
     viewChangeNotes: MutableState<Boolean>,
@@ -308,7 +306,6 @@ private fun UpdateActions(
  * @param update The update to display
  */
 @Composable
-@NonRestartableComposable
 private fun ViewTimeline(
     state: SheetState,
     scope: CoroutineScope,
@@ -361,7 +358,6 @@ private fun formatNotesAsMarkdown(update: ProjectUpdate): String {
  * @param update The update to display
  */
 @Composable
-@NonRestartableComposable
 private fun UpdateStatus.Content(
     viewModel: ProjectScreenViewModel,
     viewChangeNotes: MutableState<Boolean>,
@@ -503,7 +499,6 @@ private fun UpdateStatus.Content(
  * @param text The text of the button
  */
 @Composable
-@NonRestartableComposable
 private fun ColumnScope.ActionButton(
     color: Color,
     action: () -> Unit,
@@ -535,7 +530,6 @@ private fun ColumnScope.ActionButton(
  * @param update The update to display
  */
 @Composable
-@NonRestartableComposable
 private fun ViewChangeNotes(
     viewChangeNotes: MutableState<Boolean>,
     viewModel: ProjectScreenViewModel,
@@ -572,13 +566,3 @@ private fun ViewChangeNotes(
         }
     }
 }
-
-/**
- * Method to prevent the screen sleeps when reading the change notes of an update
- */
-expect fun preventScreenSleep()
-
-/**
- * Method to allow the screen sleeps when finished reading the change notes of an update
- */
-expect fun allowsScreenSleep()

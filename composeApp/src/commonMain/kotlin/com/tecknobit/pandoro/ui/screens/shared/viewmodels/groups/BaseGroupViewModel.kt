@@ -3,7 +3,7 @@ package com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups
 import androidx.compose.material3.SnackbarHostState
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
-import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import kotlinx.coroutines.CoroutineScope

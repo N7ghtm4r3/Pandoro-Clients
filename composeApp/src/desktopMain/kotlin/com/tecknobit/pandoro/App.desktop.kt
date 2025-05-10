@@ -1,13 +1,13 @@
 package com.tecknobit.pandoro
 
-import OctocatKDUConfig
-import UpdaterDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.tecknobit.octocatkdu.OctocatKDUConfig
+import com.tecknobit.octocatkdu.UpdaterDialog
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -21,7 +21,6 @@ import java.util.Locale
  *
  */
 @Composable
-@NonRestartableComposable
 actual fun CheckForUpdatesAndLaunch() {
     PandoroTheme {
         var launchApp by remember { mutableStateOf(true) }
@@ -43,8 +42,8 @@ actual fun CheckForUpdatesAndLaunch() {
  * Method to manage correctly the back navigation from the current screen
  *
  */
-@NonRestartableComposable
 @Composable
+@NonRestartableComposable
 actual fun CloseApplicationOnNavBack() {
 }
 

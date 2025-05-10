@@ -137,7 +137,6 @@ class CreateGroupScreen(
      * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
      */
     @Composable
-    @NonRestartableComposable
     override fun FabAction() {
         if(fullScreenFormType.value) {
             GroupActions(
@@ -151,7 +150,6 @@ class CreateGroupScreen(
      */
     @Composable
     @RequiresSuperCall
-    @NonRestartableComposable
     @ResponsiveClassComponent(
         classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
     )
@@ -215,7 +213,6 @@ class CreateGroupScreen(
      * The actions available in the [CardForm] to manage the create or edit operation
      */
     @Composable
-    @NonRestartableComposable
     private fun GroupCardFormActions() {
         Row (
             modifier = Modifier
@@ -240,7 +237,6 @@ class CreateGroupScreen(
      * Dedicated layout to manage the projects shared in the group
      */
     @Composable
-    @NonRestartableComposable
     private fun ManageGroupProjects() {
         if(viewModel.userProjects.isNotEmpty()) {
             val sheetState = rememberModalBottomSheetState()
@@ -290,7 +286,6 @@ class CreateGroupScreen(
      * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
      */
     @Composable
-    @NonRestartableComposable
     private fun GroupProjects(
         state: SheetState,
         scope: CoroutineScope
@@ -331,7 +326,6 @@ class CreateGroupScreen(
     @Composable
     @RequiresSuperCall
     @CompactClassComponent
-    @NonRestartableComposable
     override fun FullScreenForm() {
         super.FullScreenForm()
         Box {
@@ -391,7 +385,6 @@ class CreateGroupScreen(
      * description can be typed
      */
     @Composable
-    @NonRestartableComposable
     private fun GroupDetails(
         descriptionModifier: Modifier = Modifier
     ) {
@@ -429,7 +422,6 @@ class CreateGroupScreen(
      * @param pickerSize The size of the picker
      */
     @Composable
-    @NonRestartableComposable
     private fun LogoPicker(
         modifier: Modifier = Modifier,
         pickerSize: Dp

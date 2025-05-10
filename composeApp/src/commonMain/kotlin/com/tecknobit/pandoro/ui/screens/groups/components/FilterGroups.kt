@@ -30,7 +30,6 @@ import pandoro.composeapp.generated.resources.wrong_filters_text
  * @param onDismissAction The action to execute when the dialog is dismissed
  */
 @Composable
-@NonRestartableComposable
 fun FilterGroups(
     show: MutableState<Boolean>,
     isAllProjectsFiltering: Boolean,

@@ -4,7 +4,7 @@ import androidx.compose.material3.SnackbarHostState
 import com.tecknobit.equinoxcompose.session.setHasBeenDisconnectedValue
 import com.tecknobit.equinoxcompose.session.setServerOfflineValue
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
-import com.tecknobit.equinoxcore.network.Requester.Companion.sendRequest
+import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseContent
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen

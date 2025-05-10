@@ -80,7 +80,6 @@ val titleStyle = TextStyle(
  * @param deleteRequest The request to delete the project
  */
 @Composable
-@NonRestartableComposable
 fun DeleteProject(
     viewModel: EquinoxViewModel,
     project: Project,
@@ -115,7 +114,6 @@ fun DeleteProject(
  * @param onDelete The action to execute when the update has been deleted
  */
 @Composable
-@NonRestartableComposable
 fun DeleteUpdate(
     viewModel: ProjectScreenViewModel,
     update: ProjectUpdate,
@@ -154,7 +152,6 @@ fun DeleteUpdate(
  * @param onDelete The action to execute when the note has been deleted
  */
 @Composable
-@NonRestartableComposable
 fun DeleteNote(
     viewModel: EquinoxViewModel,
     update: ProjectUpdate? = null,
@@ -194,7 +191,6 @@ fun DeleteNote(
  * @param onDelete The action to execute when the group has been deleted
  */
 @Composable
-@NonRestartableComposable
 fun DeleteGroup(
     viewModel: EquinoxViewModel,
     group: Group,
@@ -231,7 +227,6 @@ fun DeleteGroup(
  * @param show Whether the alert is shown
  */
 @Composable
-@NonRestartableComposable
 fun Logout(
     viewModel: ProfileScreenViewModel,
     show: MutableState<Boolean>
@@ -262,7 +257,6 @@ fun Logout(
  * @param show Whether the alert is shown
  */
 @Composable
-@NonRestartableComposable
 fun DeleteAccount(
     viewModel: ProfileScreenViewModel,
     show: MutableState<Boolean>
@@ -294,7 +288,6 @@ fun DeleteAccount(
  * @param update The update owner
  */
 @Composable
-@NonRestartableComposable
 fun NotAllChangeNotesCompleted(
     viewModel: ProjectScreenViewModel,
     show: MutableState<Boolean>,
@@ -328,7 +321,6 @@ fun NotAllChangeNotesCompleted(
  * @param show Whether the alert is shown
  */
 @Composable
-@NonRestartableComposable
 fun LeaveGroup(
     viewModel: GroupScreenViewModel,
     group: Group,
@@ -361,7 +353,6 @@ fun LeaveGroup(
  * @param member The member to change his/her role
  */
 @Composable
-@NonRestartableComposable
 fun ChangeMemberRole(
     viewModel: GroupScreenViewModel,
     show: MutableState<Boolean>,

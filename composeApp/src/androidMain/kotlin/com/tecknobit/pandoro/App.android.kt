@@ -41,7 +41,6 @@ actual fun CheckForUpdatesAndLaunch() {
  * Method to manage correctly the back navigation from the current screen
  *
  */
-@NonRestartableComposable
 @Composable
 actual fun CloseApplicationOnNavBack() {
     val activity = LocalActivity.current

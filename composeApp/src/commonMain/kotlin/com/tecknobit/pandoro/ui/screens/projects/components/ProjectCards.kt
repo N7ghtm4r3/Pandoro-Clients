@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
+    ExperimentalComposeUiApi::class
+)
 
 package com.tecknobit.pandoro.ui.screens.projects.components
 
@@ -8,7 +10,6 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -35,10 +36,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.equinoxcompose.components.HorizontalProgressBar
 import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.PROJECT_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
@@ -112,11 +115,17 @@ fun InDevelopmentProjectCard(
                 ),
                 fontSize = 12.sp
             )
-            UpdateProgressesIndicator(
+            Column (
                 modifier = Modifier
-                    .fillMaxHeight(),
-                update = update
-            )
+                    .weight(1f),
+                verticalArrangement = Arrangement.Bottom
+            ) {
+                HorizontalProgressBar(
+                    completionWidth = 230.dp,
+                    currentProgress = update.notes.filter { note -> note.markedAsDone }.size,
+                    total = update.notes.size,
+                )
+            }
         }
     }
 }
@@ -129,7 +138,6 @@ fun InDevelopmentProjectCard(
  * @param updateCompleted Whether the update is ready to be published
  */
 @Composable
-@NonRestartableComposable
 private fun UpdateStatusIcon(
     update: ProjectUpdate,
     updateCompleted: Boolean
@@ -188,7 +196,6 @@ private fun UpdateStatusIcon(
  * @param project The project to display
  */
 @Composable
-@NonRestartableComposable
 fun ProjectCard(
     viewModel: ProjectsScreenViewModel,
     modifier: Modifier,

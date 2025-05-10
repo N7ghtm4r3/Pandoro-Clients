@@ -25,7 +25,6 @@ import pandoro.composeapp.generated.resources.wrong_filters_text
  * @param viewModel The support viewmodel for the screen
  */
 @Composable
-@NonRestartableComposable
 fun FilterProjects(
     show: MutableState<Boolean>,
     isAllProjectsFiltering: Boolean,

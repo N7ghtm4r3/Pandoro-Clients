@@ -48,7 +48,7 @@ kotlin {
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        moduleName = "composeApp"
+        outputModuleName = "composeApp"
         browser {
             val rootDirPath = project.rootDir.path
             val projectDirPath = project.projectDir.path
@@ -121,8 +121,8 @@ android {
         applicationId = "com.tecknobit.pandoro"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 17
-        versionName = "1.1.1"
+        versionCode = 18
+        versionName = "1.1.2"
     }
     packaging {
         resources {
@@ -154,8 +154,8 @@ compose.desktop {
                 "java.scripting", "java.security.jgss", "java.sql.rowset", "jdk.jfr", "jdk.unsupported", "jdk.security.auth"
             )
             packageName = "Pandoro"
-            packageVersion = "1.1.1"
-            version = "1.1.1"
+            packageVersion = "1.1.2"
+            version = "1.1.2"
             description = "Pandoro, open source management software"
             copyright = "© 2025 Tecknobit"
             vendor = "Tecknobit"
@@ -172,9 +172,9 @@ compose.desktop {
                 iconFile.set(project.file("src/desktopMain/resources/logo.png"))
                 packageName = "com-tecknobit-pandoro"
                 debMaintainer = "infotecknobitcompany@gmail.com"
-                appRelease = "1.1.1"
+                appRelease = "1.1.2"
                 appCategory = "PERSONALIZATION"
-                rpmLicenseType = "MIT"
+                rpmLicenseType = "APACHE2"
             }
         }
         buildTypes.release.proguard {

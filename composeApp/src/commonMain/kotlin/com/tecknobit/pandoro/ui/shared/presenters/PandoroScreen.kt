@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.equinoxcompose.annotations.ScreenCoordinator
 import com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
@@ -41,6 +42,7 @@ import org.jetbrains.compose.resources.stringResource
  * @see EquinoxScreen
  */
 @Structure
+@ScreenCoordinator
 abstract class PandoroScreen<V : EquinoxViewModel>(
     viewModel: V
 ) : EquinoxScreen<V>(
@@ -89,7 +91,6 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
      * Method to dynamically adapt the bottom bar based on the current navigation mode
      */
     @Composable
-    @NonRestartableComposable
     protected fun AdaptBottomBarToNavigationMode() {
         if(isBottomNavigationMode.value)
             BottomAppBar {  }
@@ -103,7 +104,6 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
      * @param content The content of the screen
      */
     @Composable
-    @NonRestartableComposable
     protected fun AdaptContentToNavigationMode(
         navBackAction: (() -> Unit)? = null,
         screenTitle: StringResource? = null,
@@ -133,7 +133,6 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
      * @param content The content of the screen
      */
     @Composable
-    @NonRestartableComposable
     protected fun PlaceContent(
         paddingValues: PaddingValues = PaddingValues(
             top = 20.dp,
@@ -325,7 +324,6 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
      * @param content The content of the section
      */
     @Composable
-    @NonRestartableComposable
     protected fun Section(
         modifier: Modifier = Modifier,
         header: StringResource,

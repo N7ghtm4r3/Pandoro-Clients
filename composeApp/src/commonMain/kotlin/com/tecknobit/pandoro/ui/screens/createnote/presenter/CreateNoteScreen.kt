@@ -186,7 +186,6 @@ class CreateNoteScreen(
      * [EquinoxTextField] used to insert the content of the note to save
      */
     @Composable
-    @NonRestartableComposable
     private fun ContentInput() {
         val focusRequester = remember { FocusRequester() }
         LaunchedEffect(Unit) {

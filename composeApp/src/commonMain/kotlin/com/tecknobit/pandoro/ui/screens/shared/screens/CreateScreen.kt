@@ -40,8 +40,11 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.tecknobit.equinoxcompose.annotations.ScreenCoordinator
+import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.resources.loading_data
 import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
+import com.tecknobit.equinoxcompose.utilities.LayoutCoordinator
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
@@ -74,6 +77,7 @@ import pandoro.composeapp.generated.resources.save
  * @see PandoroScreen
  */
 @Structure
+@ScreenCoordinator
 abstract class CreateScreen<I, V : EquinoxViewModel>(
     itemId: String?,
     viewModel: V
@@ -96,9 +100,15 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
      */
     protected lateinit var fullScreenFormType: MutableState<Boolean>
 
-    // FIXME: (DEPRECATED TO TRIGGER SEARCH) REPLACE WITH THE awaitNullItemLoaded METHOD
+    /**
+     * Container component to safely display the content of the screen when the [item] is not null
+     *
+     * @param creationTitle The title of the screen when creating an item
+     * @param editingTitle The tile of the screen when editing an item
+     * @param subTitle Custom subtitle
+     * @param initializationProcedure The procedure to initialize the [item]
+     */
     @Composable
-    @NonRestartableComposable
     protected fun LoadAwareContent(
         creationTitle: StringResource,
         editingTitle: StringResource,
@@ -150,7 +160,6 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
     }
 
     @Composable
-    @NonRestartableComposable
     private fun ItemLoadedContent(
         creationTitle: StringResource,
         editingTitle: StringResource,
@@ -186,14 +195,14 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
      * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
      */
     @Composable
-    @NonRestartableComposable
     protected abstract fun FabAction()
 
     /**
      * Form to allow the creation or the editing of the [item]
      */
     @Composable
-    @NonRestartableComposable
+    @ScreenSection
+    @LayoutCoordinator
     protected fun Form() {
         ResponsiveContent(
             onExpandedSizeClass = { CardForm() },
@@ -245,7 +254,6 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
      * @param onImagePicked The action to execute when the image has been picked
      */
     @Composable
-    @NonRestartableComposable
     protected fun ImagePicker(
         modifier: Modifier = Modifier,
         pickerSize: Dp,
@@ -297,7 +305,6 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
      * @param onClick The action to execute when the button has been clicked
      */
     @Composable
-    @NonRestartableComposable
     protected fun SaveButton(
         modifier: Modifier = Modifier,
         textStyle: TextStyle = TextStyle.Default,

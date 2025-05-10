@@ -46,9 +46,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.components.EmptyState
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
 import com.tecknobit.equinoxcompose.utilities.ExpandedClassComponent
+import com.tecknobit.equinoxcompose.utilities.LayoutCoordinator
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.COMPACT_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
@@ -109,7 +111,6 @@ class ProjectScreen(
      * The title of the screen
      */
     @Composable
-    @NonRestartableComposable
     override fun ItemTitle() {
         Row (
             modifier = Modifier
@@ -168,7 +169,6 @@ class ProjectScreen(
      * The related items of the [item] such groups or projects
      */
     @Composable
-    @NonRestartableComposable
     override fun ItemRelationshipItems() {
         Column {
             GroupLogos(
@@ -243,7 +243,7 @@ class ProjectScreen(
      * The related content of the screen
      */
     @Composable
-    @NonRestartableComposable
+    @LayoutCoordinator
     override fun ScreenContent() {
         ResponsiveContent(
             onExpandedSizeClass = { UpdatesStatsSection() },
@@ -257,7 +257,6 @@ class ProjectScreen(
      */
     @Composable
     @ExpandedClassComponent
-    @NonRestartableComposable
     private fun UpdatesStatsSection() {
         Row (
             verticalAlignment = Alignment.CenterVertically,
@@ -299,7 +298,6 @@ class ProjectScreen(
      * The updates of the project displayed in the related section where can be displayed and managed
      */
     @Composable
-    @NonRestartableComposable
     @ResponsiveClassComponent(
         classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
     )
@@ -337,6 +335,8 @@ class ProjectScreen(
                 }
             } else {
                 EmptyState(
+                    containerModifier = Modifier
+                        .fillMaxSize(),
                     resource = Res.drawable.no_updates,
                     resourceSize = responsiveAssignment(
                         onExpandedSizeClass = { 350.dp },
@@ -355,7 +355,7 @@ class ProjectScreen(
      * Section to allowing the user to filters the [ProjectUpdatesSection]
      */
     @Composable
-    @NonRestartableComposable
+    @ScreenSection
     private fun Filters() {
         var menuOpened by remember { mutableStateOf(false) }
         val areFiltersSet = viewModel.areFiltersSet()
@@ -433,7 +433,7 @@ class ProjectScreen(
      * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
      */
     @Composable
-    @NonRestartableComposable
+    @LayoutCoordinator
     override fun FabAction() {
         ResponsiveContent(
             onExpandedSizeClass = { ScheduleButton() },
@@ -463,7 +463,6 @@ class ProjectScreen(
      * Custom [SmallFloatingActionButton] to view the statistic about the project
      */
     @Composable
-    @NonRestartableComposable
     private fun ViewStatsButton() {
         val publishedUpdates = item.value!!.getPublishedUpdates()
         AnimatedVisibility(
