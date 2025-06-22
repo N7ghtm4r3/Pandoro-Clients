@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -223,23 +225,31 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
         classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
     )
     private fun OverviewColumned() {
-        Column(
+        LazyColumn (
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
+                .navigationBarsPadding(),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            ProjectsStats()
-            UpdatesStats()
-            OverviewCard(
-                title = Res.string.development_days,
-                overviewStats = overview.value!!.developmentDays
-            )
-            OverviewCard(
-                title = Res.string.average_development_days,
-                totalHeader = Res.string.general,
-                overviewStats = overview.value!!.averageDevelopmentDays
-            )
+            item {
+                ProjectsStats()
+            }
+            item {
+                UpdatesStats()
+            }
+            item {
+                OverviewCard(
+                    title = Res.string.development_days,
+                    overviewStats = overview.value!!.developmentDays
+                )
+            }
+            item {
+                OverviewCard(
+                    title = Res.string.average_development_days,
+                    totalHeader = Res.string.general,
+                    overviewStats = overview.value!!.averageDevelopmentDays
+                )
+            }
         }
     }
 

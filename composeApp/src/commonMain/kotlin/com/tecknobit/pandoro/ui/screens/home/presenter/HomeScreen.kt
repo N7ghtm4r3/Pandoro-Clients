@@ -215,6 +215,11 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
             this.toString()
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        viewModel.setActiveContext(this::class)
+    }
+
     /**
      * Method invoked when the [ShowContent] composable has been started
      */

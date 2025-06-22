@@ -1,9 +1,13 @@
+@file:OptIn(ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.group.presentation
 
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.lifecycle.viewModelScope
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcompose.session.setServerOfflineValue
-import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
+import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen
@@ -37,6 +41,8 @@ class GroupScreenViewModel(
      * `requestsScope` coroutine used to send the requests to the backend
      */
     override val requestsScope: CoroutineScope = MainScope()
+
+    lateinit var sessionFlowState: SessionFlowState
 
     /**
      * Method to retrieve the data of a [Group]

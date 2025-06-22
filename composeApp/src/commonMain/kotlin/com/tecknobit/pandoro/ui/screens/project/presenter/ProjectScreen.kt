@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMultiplatform::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMultiplatform::class,
+    ExperimentalComposeApi::class
+)
 
 package com.tecknobit.pandoro.ui.screens.project.presenter
 
@@ -32,6 +34,7 @@ import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.collectAsState
@@ -48,6 +51,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.components.EmptyState
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
+import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
 import com.tecknobit.equinoxcompose.utilities.ExpandedClassComponent
 import com.tecknobit.equinoxcompose.utilities.LayoutCoordinator
@@ -106,6 +111,10 @@ class ProjectScreen(
         projectId = projectId
     )
 ) {
+
+    override fun sessionFlowState(): SessionFlowState {
+        return viewModel.sessionFlowState
+    }
 
     @Composable
     override fun ItemContent() {
@@ -526,6 +535,7 @@ class ProjectScreen(
      */
     @Composable
     override fun CollectStates() {
+        viewModel.sessionFlowState = rememberSessionFlowState()
         item = viewModel.project.collectAsState()
         viewModel.updateStatusesFilters = remember { UpdateStatus.entries.toMutableStateList() }
     }

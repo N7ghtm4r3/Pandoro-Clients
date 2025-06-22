@@ -102,7 +102,8 @@ class ScheduleUpdateScreen(
             modifier = Modifier
                 .padding(
                     start = 16.dp,
-                    bottom = 16.dp
+                    end = 16.dp,
+                    bottom = 10.dp
                 ),
             text = stringResource(
                 resource = Res.string.schedule_update_subtext,

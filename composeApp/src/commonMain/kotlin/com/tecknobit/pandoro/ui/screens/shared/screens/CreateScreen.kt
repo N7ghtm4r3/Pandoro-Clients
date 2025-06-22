@@ -4,7 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -99,7 +101,16 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
     @Composable
     override fun ColumnScope.ScreenContent() {
         SessionFlowContainer(
+            modifier = Modifier
+                .fillMaxSize(),
             state = rememberSessionFlowState(),
+            initialLoadingRoutineDelay = 1000L,
+            loadingRoutine = if(isEditing) {
+                {
+                    item.value != null
+                }
+            } else
+                null,
             content = {
                 CollectStatesAfterLoading()
                 Scaffold(
@@ -117,7 +128,11 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
     override fun TitleSection() {
         ScreenTitle(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.primary)
+                .padding(
+                    top = 16.dp
+                ),
             navBackAction = { navigator.goBack() },
             title = if(isEditing)
                 editingTitle

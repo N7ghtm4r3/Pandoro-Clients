@@ -4,10 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
@@ -68,12 +66,10 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
     @Composable
     override fun ArrangeScreenContent() {
         PandoroTheme {
-            Column(
-                /*modifier = Modifier
-                    .padding(
-                        paddingValues = paddingValues
-                    )
-                    .navigationBarsPadding(),*/
+            Column (
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.primary)
             ) {
                 TitleSection()
                 SubTitleSection()
@@ -100,41 +96,6 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
      */
     @Composable
     protected abstract fun ColumnScope.ScreenContent()
-
-    /**
-     * Method to dynamically place the content based on the current navigation mode
-     *
-     * @param paddingValues The values of the padding to apply to the [content]
-     * @param screenTitle The title of the screen
-     * @param subTitle The subtle of the screen
-     * @param content The content of the screen
-     */
-    @Composable
-    @NonRestartableComposable
-    protected fun PlaceContent(
-        paddingValues: PaddingValues = PaddingValues(
-            top = 20.dp,
-            start = 16.dp,
-            end = 16.dp,
-            bottom = 16.dp
-        ),
-        screenTitle: @Composable (() -> Unit)? = null,
-        subTitle: @Composable (() -> Unit)? = null,
-        content: @Composable ColumnScope.() -> Unit
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(
-                    paddingValues = paddingValues
-                )
-                .navigationBarsPadding(),
-            content = {
-                screenTitle?.invoke()
-                subTitle?.invoke()
-                content.invoke(this)
-            }
-        )
-    }
 
     /**
      * Custom navigation-back button
@@ -196,8 +157,7 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
     ) {
         if(navBackAction != null) {
             Row (
-                modifier = modifier
-                    .background(MaterialTheme.colorScheme.primary),
+                modifier = modifier,
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {

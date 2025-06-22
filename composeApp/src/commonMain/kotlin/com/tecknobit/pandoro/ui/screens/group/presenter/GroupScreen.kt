@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.group.presenter
 
 import androidx.compose.foundation.clickable
@@ -17,6 +19,7 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.State
@@ -28,6 +31,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.annotations.ScreenSection
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
+import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.LayoutCoordinator
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
@@ -74,6 +79,10 @@ class GroupScreen(
      * `candidatesAvailable` whether there are any candidates available to be added in the group
      */
     private lateinit var candidatesAvailable: State<Boolean>
+
+    override fun sessionFlowState(): SessionFlowState {
+        return viewModel.sessionFlowState
+    }
 
     /**
      * The title of the screen
@@ -342,6 +351,7 @@ class GroupScreen(
      */
     @Composable
     override fun CollectStates() {
+        viewModel.sessionFlowState = rememberSessionFlowState()
         item = viewModel.group.collectAsState()
         candidatesAvailable = viewModel.candidatesMemberAvailable.collectAsState(
             initial = false

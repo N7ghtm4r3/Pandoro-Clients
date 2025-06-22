@@ -1,10 +1,7 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeApi::class)
 
 package com.tecknobit.pandoro.ui.screens.shared.screens
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -12,14 +9,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
@@ -29,19 +24,19 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -50,8 +45,8 @@ import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.annotations.ScreenCoordinator
 import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.components.ChameleonText
-import com.tecknobit.equinoxcompose.resources.loading_data
-import com.tecknobit.equinoxcompose.session.ManagedContent
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowContainer
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.displayFontFamily
@@ -59,7 +54,6 @@ import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
-import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -94,67 +88,33 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
 
     @Composable
     override fun ColumnScope.ScreenContent() {
-        Scaffold(
-            snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
-            floatingActionButton = { FabAction() }
-        ) {
-            ItemContent()
-        }
-    }
-
-    /**
-     * Container component to safely display the content of the screen when the [item] is not null
-     */
-    @Composable
-    private fun LoadAwareContent() {
-        PandoroTheme {
-            AnimatedVisibility(
-                visible = item.value != null,
-                enter = fadeIn(),
-                exit = fadeOut(),
-                content = { ItemLoadedContent() }
-            )
-            AnimatedVisibility(
-                visible = item.value == null,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                Surface {
+        SessionFlowContainer(
+            modifier = Modifier
+                .fillMaxSize(),
+            initialLoadingRoutineDelay = 1000L,
+            loadingRoutine = { item.value != null },
+            state = sessionFlowState(),
+            content = {
+                Scaffold(
+                    containerColor = Color.Transparent,
+                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
+                    floatingActionButton = { FabAction() }
+                ) {
                     Column (
                         modifier = Modifier
-                            .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
+                            .padding(
+                                top = 16.dp
+                            )
                     ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .size(85.dp),
-                            strokeWidth = 8.dp
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(
-                                    top = 16.dp
-                                ),
-                            text = stringResource(com.tecknobit.equinoxcompose.resources.Res.string.loading_data)
-                        )
+                        ItemScreenTitle()
+                        ItemContent()
                     }
                 }
             }
-        }
-    }
-
-    @Composable
-    protected fun ItemLoadedContent() {
-        ManagedContent(
-            modifier = Modifier
-                .fillMaxSize(),
-            viewModel = viewModel,
-            content = {
-
-            }
         )
     }
+
+    protected abstract fun sessionFlowState() : SessionFlowState
 
     /**
      * The section of the title of the screen
