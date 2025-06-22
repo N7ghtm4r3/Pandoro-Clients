@@ -105,6 +105,7 @@ import pandoro.composeapp.generated.resources.logout
 import pandoro.composeapp.generated.resources.new_email
 import pandoro.composeapp.generated.resources.new_password
 import pandoro.composeapp.generated.resources.no_changelogs_available
+import pandoro.composeapp.generated.resources.profile
 import pandoro.composeapp.generated.resources.wrong_email
 import pandoro.composeapp.generated.resources.wrong_password
 
@@ -142,6 +143,13 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         )
     }
 
+    @Composable
+    override fun TitleSection() {
+        ScreenTitle(
+            title = Res.string.profile
+        )
+    }
+
     /**
      * The details of the [localUser]
      */
@@ -166,12 +174,14 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     text = localUser.completeName,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
                 Text(
                     text = viewModel.email.value,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    fontSize = 12.sp
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
                 ActionButtons()
             }

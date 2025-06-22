@@ -1,11 +1,12 @@
+@file:OptIn(ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.groups.presentation
 
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.session.setHasBeenDisconnectedValue
-import com.tecknobit.equinoxcompose.session.setServerOfflineValue
 import com.tecknobit.equinoxcore.network.sendPaginatedRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
 import com.tecknobit.pandoro.requester
@@ -70,16 +71,16 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
                 },
                 serializer = Group.serializer(),
                 onSuccess = { paginatedResponse ->
-                    setServerOfflineValue(false)
+                    sessionFlowState.notifyOperational()
                     myGroupsState.appendPage(
                         items = paginatedResponse.data,
                         nextPageKey = paginatedResponse.nextPage,
                         isLastPage = paginatedResponse.isLastPage
                     )
                 },
-                onFailure = { setHasBeenDisconnectedValue(true) },
+                onFailure = { sessionFlowState.notifyUserDisconnected() },
                 onConnectionError = {
-                    setServerOfflineValue(true)
+                    sessionFlowState.notifyServerOffline()
                     myGroupsState.setError(Exception())
                 }
             )
@@ -128,16 +129,16 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
                 },
                 serializer = Group.serializer(),
                 onSuccess = { paginatedResponse ->
-                    setServerOfflineValue(false)
+                    sessionFlowState.notifyOperational()
                     allGroupsState.appendPage(
                         items = paginatedResponse.data,
                         nextPageKey = paginatedResponse.nextPage,
                         isLastPage = paginatedResponse.isLastPage
                     )
                 },
-                onFailure = { setHasBeenDisconnectedValue(true) },
+                onFailure = { sessionFlowState.notifyUserDisconnected() },
                 onConnectionError = {
-                    setServerOfflineValue(true)
+                    sessionFlowState.notifyServerOffline()
                     allGroupsState.setError(Exception())
                 }
             )

@@ -1,9 +1,10 @@
+@file:OptIn(ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.projects.presentation
 
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.session.setHasBeenDisconnectedValue
-import com.tecknobit.equinoxcompose.session.setServerOfflineValue
 import com.tecknobit.equinoxcore.network.sendPaginatedRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
 import com.tecknobit.pandoro.requester
@@ -69,16 +70,16 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                 },
                 serializer = Project.serializer(),
                 onSuccess = { paginatedResponse ->
-                    setServerOfflineValue(false)
+                    sessionFlowState.notifyOperational()
                     inDevelopmentProjectsState.appendPage(
                         items = paginatedResponse.data.toDevelopmentProjects(),
                         nextPageKey = paginatedResponse.nextPage,
                         isLastPage = paginatedResponse.isLastPage
                     )
                 },
-                onFailure = { setHasBeenDisconnectedValue(true) },
+                onFailure = { sessionFlowState.notifyUserDisconnected() },
                 onConnectionError = {
-                    setServerOfflineValue(true)
+                    sessionFlowState.notifyServerOffline()
                     inDevelopmentProjectsState.setError(Exception())
                 }
             )
@@ -144,16 +145,16 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
                 },
                 serializer = Project.serializer(),
                 onSuccess = { paginatedResponse ->
-                    setServerOfflineValue(false)
+                    sessionFlowState.notifyOperational()
                     projectsState.appendPage(
                         items = paginatedResponse.data,
                         nextPageKey = paginatedResponse.nextPage,
                         isLastPage = paginatedResponse.isLastPage
                     )
                 },
-                onFailure = { setHasBeenDisconnectedValue(true) },
+                onFailure = { sessionFlowState.notifyUserDisconnected() },
                 onConnectionError = {
-                    setServerOfflineValue(true)
+                    sessionFlowState.notifyServerOffline()
                     projectsState.setError(Exception())
                 }
             )

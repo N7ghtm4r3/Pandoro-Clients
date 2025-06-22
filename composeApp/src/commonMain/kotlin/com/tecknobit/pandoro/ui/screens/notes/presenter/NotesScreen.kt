@@ -86,10 +86,12 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                         }
                     }
                 ) {
-                    Filters()
-                    Notes(
-                        viewModel = viewModel
-                    )
+                    Column {
+                        Filters()
+                        Notes(
+                            viewModel = viewModel
+                        )
+                    }
                 }
             },
             onServerOffline = {

@@ -174,9 +174,6 @@ fun App() {
                 route = "$CREATE_PROJECT_SCREEN/{$PROJECT_IDENTIFIER_KEY}?"
             ) { backstackEntry ->
                 val projectId: String? = backstackEntry.path<String>(PROJECT_IDENTIFIER_KEY)
-                /*HomeScreen.setCurrentScreenDisplayed(
-                    screen = PROJECTS_SCREEN
-                )*/
                 CreateProjectScreen(
                     projectId = projectId
                 ).ShowContent()
@@ -185,9 +182,6 @@ fun App() {
                 route = "$CREATE_NOTE_SCREEN/{$NOTE_IDENTIFIER_KEY}?"
             ) { backstackEntry ->
                 val noteId: String? = backstackEntry.path<String>(NOTE_IDENTIFIER_KEY)
-                /*HomeScreen.setCurrentScreenDisplayed(
-                    screen = NOTES_SCREEN
-                )*/
                 CreateNoteScreen(
                     noteId = noteId
                 ).ShowContent()
@@ -221,9 +215,6 @@ fun App() {
                 route = "$CREATE_GROUP_SCREEN/{$GROUP_IDENTIFIER_KEY}?"
             ) { backstackEntry ->
                 val groupId: String? = backstackEntry.path<String>(GROUP_IDENTIFIER_KEY)
-                /*HomeScreen.setCurrentScreenDisplayed(
-                    screen = GROUPS_SCREEN
-                )*/
                 CreateGroupScreen(
                     groupId = groupId
                 ).ShowContent()

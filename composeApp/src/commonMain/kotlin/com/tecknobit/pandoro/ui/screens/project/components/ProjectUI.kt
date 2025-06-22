@@ -102,9 +102,6 @@ private fun ProjectsListExpanded(
         trailingContent = { project ->
             IconButton(
                 onClick = {
-                    /*HomeScreen.setCurrentScreenDisplayed(
-                        screen = GROUPS_SCREEN
-                    )*/
                     navigator.navigate("$PROJECT_SCREEN/${project.id}")
                 }
             ) {

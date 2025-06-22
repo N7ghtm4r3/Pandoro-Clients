@@ -58,9 +58,6 @@ fun ProjectPerformanceCard(
                 shape = CardDefaults.shape
             ),
         onClick = {
-            /*HomeScreen.setCurrentScreenDisplayed(
-                screen = OVERVIEW_SCREEN
-            )*/
             navigator.navigate("$PROJECT_SCREEN/${project.id}")
         }
     ) {

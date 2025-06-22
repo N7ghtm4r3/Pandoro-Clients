@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMultiplatform::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMultiplatform::class,
+    ExperimentalComposeApi::class
+)
 
 package com.tecknobit.pandoro.ui.screens.overview.presenter
 
@@ -54,6 +56,7 @@ import pandoro.composeapp.generated.resources.development_days
 import pandoro.composeapp.generated.resources.general
 import pandoro.composeapp.generated.resources.no_data_available
 import pandoro.composeapp.generated.resources.no_overview_data
+import pandoro.composeapp.generated.resources.overview
 import pandoro.composeapp.generated.resources.projects
 import pandoro.composeapp.generated.resources.retry_to_reconnect
 import pandoro.composeapp.generated.resources.updates
@@ -80,7 +83,7 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
         SessionFlowContainer(
             modifier = Modifier
                 .fillMaxSize(),
-            state = rememberSessionFlowState(),
+            state = viewModel.sessionFlowState,
             content = {
                 Scaffold (
                     containerColor = MaterialTheme.colorScheme.primary,
@@ -103,6 +106,13 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
                     )
                 }
             }
+        )
+    }
+
+    @Composable
+    override fun TitleSection() {
+        ScreenTitle(
+            title = Res.string.overview
         )
     }
 
@@ -322,6 +332,7 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
             viewModel.retrieveOverview()
         }
         overview = viewModel.overview.collectAsState()
+        viewModel.sessionFlowState = rememberSessionFlowState()
     }
 
 }

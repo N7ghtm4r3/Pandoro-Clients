@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.ui.shared.presenters
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -12,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
@@ -26,6 +28,7 @@ import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -64,16 +67,18 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
 
     @Composable
     override fun ArrangeScreenContent() {
-        Column(
-            /*modifier = Modifier
-                .padding(
-                    paddingValues = paddingValues
-                )
-                .navigationBarsPadding(),*/
-        ) {
-            TitleSection()
-            SubTitleSection()
-            ScreenContent()
+        PandoroTheme {
+            Column(
+                /*modifier = Modifier
+                    .padding(
+                        paddingValues = paddingValues
+                    )
+                    .navigationBarsPadding(),*/
+            ) {
+                TitleSection()
+                SubTitleSection()
+                ScreenContent()
+            }
         }
     }
 
@@ -148,7 +153,8 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
         ) {
             Icon(
                 imageVector = Icons.Default.ArrowBackIosNew,
-                contentDescription = null
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimary
             )
         }
     }
@@ -190,7 +196,8 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
     ) {
         if(navBackAction != null) {
             Row (
-                modifier = modifier,
+                modifier = modifier
+                    .background(MaterialTheme.colorScheme.primary),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
@@ -224,7 +231,8 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
             modifier = modifier,
             text = title,
             fontFamily = displayFontFamily,
-            fontSize = 35.sp
+            fontSize = 35.sp,
+            color = MaterialTheme.colorScheme.onPrimary
         )
     }
 

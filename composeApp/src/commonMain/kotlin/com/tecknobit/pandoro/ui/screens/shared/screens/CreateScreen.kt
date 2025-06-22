@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -118,10 +117,7 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
     override fun TitleSection() {
         ScreenTitle(
             modifier = Modifier
-                .padding(
-                    top = 16.dp,
-                    start = 16.dp
-                ),
+                .fillMaxWidth(),
             navBackAction = { navigator.goBack() },
             title = if(isEditing)
                 editingTitle
@@ -129,95 +125,6 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
                 creationTitle
         )
     }
-
-    /**
-     * Container component to safely display the content of the screen when the [item] is not null
-     *
-     * @param creationTitle The title of the screen when creating an item
-     * @param editingTitle The tile of the screen when editing an item
-     * @param subTitle Custom subtitle
-     * @param initializationProcedure The procedure to initialize the [item]
-     */
-    /*@Composable
-    protected fun LoadAwareContent(
-        creationTitle: StringResource,
-        editingTitle: StringResource,
-        subTitle: @Composable (() -> Unit)? = null,
-        initializationProcedure: @Composable () -> Unit
-    ) {
-        PandoroTheme {
-            AnimatedVisibility(
-                visible = (isEditing && item.value != null) || !isEditing,
-                enter = fadeIn(),
-                exit = fadeOut(),
-                content = {
-                    initializationProcedure.invoke()
-                    ItemLoadedContent(
-                        creationTitle = creationTitle,
-                        editingTitle = editingTitle,
-                        subTitle = subTitle
-                    )
-                }
-            )
-            AnimatedVisibility(
-                visible = isEditing && item.value == null,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                Surface {
-                    Column (
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .size(85.dp),
-                            strokeWidth = 8.dp
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(
-                                    top = 16.dp
-                                ),
-                            text = stringResource(com.tecknobit.equinoxcompose.resources.Res.string.loading_data)
-                        )
-                    }
-                }
-            }
-        }
-    }*/
-
-    /*
-    @Composable
-    private fun ItemLoadedContent(
-    ) {
-        Scaffold(
-            containerColor = MaterialTheme.colorScheme.primary,
-            snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
-            floatingActionButton = { FabAction() }
-        ) {
-            PlaceContent(
-                paddingValues = PaddingValues(
-                    all = 0.dp
-                ),
-                titleModifier = Modifier
-                    .padding(
-                        top = 16.dp,
-                        start = 16.dp
-                    ),
-                navBackAction = { navigator.goBack() },
-                screenTitle = if(isEditing)
-                    editingTitle
-                else
-                    creationTitle,
-                subTitle = subTitle
-            ) {
-                Form()
-            }
-        }
-    }*/
 
     /**
      * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked

@@ -81,9 +81,6 @@ fun InDevelopmentProjectCard(
                 height = 150.dp
             ),
         onClick = {
-            /*HomeScreen.setCurrentScreenDisplayed(
-                screen = PROJECTS_SCREEN
-            )*/
             navigator.navigate("$PROJECT_SCREEN/${project.id}/${update.id}")
         }
     ) {
@@ -205,9 +202,6 @@ fun ProjectCard(
         modifier = modifier
             .combinedClickable(
                 onClick = {
-                    /*HomeScreen.setCurrentScreenDisplayed(
-                        screen = PROJECTS_SCREEN
-                    )*/
                     navigator.navigate("$PROJECT_SCREEN/${project.id}")
                 },
                 onLongClick = if(amITheProjectAuthor) {

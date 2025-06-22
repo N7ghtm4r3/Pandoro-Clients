@@ -3,6 +3,7 @@
 package com.tecknobit.pandoro.ui.screens.shared.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -68,8 +69,10 @@ abstract class ListsScreen<V: MultipleListViewModel>(
                     snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
                     floatingActionButton = { FabAction() }
                 ) {
-                    ItemsInRow()
-                    ItemsAdaptedSize()
+                    Column {
+                        ItemsInRow()
+                        ItemsAdaptedSize()
+                    }
                 }
             },
             onServerOffline = {
@@ -111,7 +114,7 @@ abstract class ListsScreen<V: MultipleListViewModel>(
      * @param info The info text to warn about the result of the filtering action
      */
     @Composable
-    fun EmptyResultWithFilters(
+    protected fun EmptyResultWithFilters(
         info: StringResource
     ) {
         Text(

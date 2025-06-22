@@ -120,9 +120,6 @@ fun GroupExpandedList(
                 trailingContent = { group ->
                     IconButton(
                         onClick = {
-                            /*HomeScreen.setCurrentScreenDisplayed(
-                                screen = PROJECTS_SCREEN
-                            )*/
                             navigator.navigate("$GROUP_SCREEN/${group.id}")
                         }
                     ) {

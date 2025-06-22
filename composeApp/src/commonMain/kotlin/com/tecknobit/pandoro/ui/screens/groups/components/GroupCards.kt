@@ -319,8 +319,5 @@ private fun navToEditGroup(
 private fun navToGroup(
     group: Group
 ) {
-    /*HomeScreen.setCurrentScreenDisplayed(
-        screen = GROUPS_SCREEN
-    )*/
     navigator.navigate("$GROUP_SCREEN/${group.id}")
 }
