@@ -57,7 +57,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'com.tecknobit.pandorocore:pandorocore:1.0.7'
+  implementation 'com.tecknobit.pandorocore:pandorocore:1.0.8'
 }
 ```
 
@@ -70,7 +70,7 @@ repositories {
 }
 
 dependencies {
-  implementation("com.tecknobit.pandorocore:pandorocore:1.0.7")
+  implementation("com.tecknobit.pandorocore:pandorocore:1.0.8")
 }
 ```
 
@@ -139,4 +139,3 @@ ensuring a seamless and
 efficient service.
 
 Copyright © 2025 Tecknobit
-

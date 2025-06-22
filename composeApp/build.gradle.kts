@@ -7,6 +7,7 @@ import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import java.util.UUID
 
@@ -109,6 +110,11 @@ kotlin {
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.octocatkdu)
+        }
+
+        wasmJsMain.dependencies {
+            implementation(npm("brace-expansion", "2.0.2"))
+            implementation(npm("http-proxy-middleware", "2.0.9"))
         }
     }
 }
@@ -216,3 +222,5 @@ buildConfig {
         value = project.findProperty("bypass_ssl_validation").toString().toBoolean()
     )
 }
+
+rootProject.the<NodeJsRootExtension>().versions.webpackDevServer.version = "5.2.2"

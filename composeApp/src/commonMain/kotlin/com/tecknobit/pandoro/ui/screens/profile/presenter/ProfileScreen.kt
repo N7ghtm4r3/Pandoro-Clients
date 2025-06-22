@@ -72,7 +72,7 @@ import com.tecknobit.equinoxcompose.session.ManagedContent
 import com.tecknobit.equinoxcompose.utilities.EXPANDED_CONTAINER
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
-import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.LANGUAGES_SUPPORTED
+import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.SUPPORTED_LANGUAGES
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isEmailValid
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isPasswordValid
 import com.tecknobit.pandoro.SPLASHSCREEN
@@ -471,7 +471,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
             modifier = Modifier
                 .selectableGroup()
         ) {
-            LANGUAGES_SUPPORTED.entries.forEach { entry ->
+            SUPPORTED_LANGUAGES.entries.forEach { entry ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
