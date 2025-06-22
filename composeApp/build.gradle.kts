@@ -121,8 +121,8 @@ android {
         applicationId = "com.tecknobit.pandoro"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 18
-        versionName = "1.1.2"
+        versionCode = 19
+        versionName = "1.1.3"
     }
     packaging {
         resources {
@@ -154,8 +154,8 @@ compose.desktop {
                 "java.scripting", "java.security.jgss", "java.sql.rowset", "jdk.jfr", "jdk.unsupported", "jdk.security.auth"
             )
             packageName = "Pandoro"
-            packageVersion = "1.1.2"
-            version = "1.1.2"
+            packageVersion = "1.1.3"
+            version = "1.1.3"
             description = "Pandoro, open source management software"
             copyright = "© 2025 Tecknobit"
             vendor = "Tecknobit"
@@ -172,7 +172,7 @@ compose.desktop {
                 iconFile.set(project.file("src/desktopMain/resources/logo.png"))
                 packageName = "com-tecknobit-pandoro"
                 debMaintainer = "infotecknobitcompany@gmail.com"
-                appRelease = "1.1.2"
+                appRelease = "1.1.3"
                 appCategory = "PERSONALIZATION"
                 rpmLicenseType = "APACHE2"
             }
