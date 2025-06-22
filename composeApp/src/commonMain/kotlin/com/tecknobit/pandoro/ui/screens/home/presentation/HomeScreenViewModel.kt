@@ -25,7 +25,7 @@ class HomeScreenViewModel : EquinoxViewModel(
 ) {
 
     /**
-     * `_unreadChangelog` -> the current number of the unread changelogs of the
+     * `_unreadChangelog` the current number of the unread changelogs of the
      * [com.tecknobit.pandoro.localUser]
      */
     private val _unreadChangelog = MutableStateFlow(

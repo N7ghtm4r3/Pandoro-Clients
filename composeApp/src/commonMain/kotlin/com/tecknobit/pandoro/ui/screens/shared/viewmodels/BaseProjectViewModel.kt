@@ -24,7 +24,7 @@ abstract class BaseProjectViewModel : EquinoxViewModel(
 ) {
 
     /**
-     * `_project` -> state flow holds the project data
+     * `_project` state flow holds the project data
      */
     protected val _project = MutableStateFlow<Project?>(
         value = null
@@ -44,7 +44,7 @@ abstract class BaseProjectViewModel : EquinoxViewModel(
     interface ProjectDeleter {
 
         /**
-         * `requestsScope` -> coroutine used to send the requests to the backend
+         * `requestsScope` coroutine used to send the requests to the backend
          */
         val requestsScope: CoroutineScope
 

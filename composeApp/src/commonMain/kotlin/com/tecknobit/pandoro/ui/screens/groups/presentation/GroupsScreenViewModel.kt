@@ -30,17 +30,17 @@ import kotlinx.coroutines.launch
 class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
 
     /**
-     * `requestsScope` -> coroutine used to send the requests to the backend
+     * `requestsScope` coroutine used to send the requests to the backend
      */
     override val requestsScope: CoroutineScope = MainScope()
 
     /**
-     * `myGroupsStateFilters` -> the filters to apply to the [myGroupsState] list
+     * `myGroupsStateFilters` the filters to apply to the [myGroupsState] list
      */
     lateinit var myGroupsStateFilters: MutableState<String>
 
     /**
-     * `myGroupsState` -> the state used to manage the pagination for the
+     * `myGroupsState` the state used to manage the pagination for the
      * [retrieveMyGroups] method
      */
     val myGroupsState = PaginationState<Int, Group>(
@@ -87,17 +87,17 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
     }
 
     /**
-     * `allGroupsStateFilters` -> the filters to apply to the [allGroupsState] list
+     * `allGroupsStateFilters` the filters to apply to the [allGroupsState] list
      */
     lateinit var allGroupsStateFilters: MutableState<String>
 
     /**
-     * `roleFilters` -> the roles used as filters to apply to the [allGroupsState] list
+     * `roleFilters` the roles used as filters to apply to the [allGroupsState] list
      */
     val roleFilters: SnapshotStateList<Role> = Role.entries.toMutableStateList()
 
     /**
-     * `allGroupsState` -> the state used to manage the pagination for the
+     * `allGroupsState` the state used to manage the pagination for the
      * [retrieveAllGroups] method
      */
     val allGroupsState = PaginationState<Int, Group>(

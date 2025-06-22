@@ -34,27 +34,27 @@ class ScheduleUpdateScreenViewModel(
 ) {
 
     /**
-     * `targetVersion` -> the value of the target version
+     * `targetVersion` the value of the target version
      */
     lateinit var targetVersion: MutableState<String>
 
     /**
-     * `targetVersionError` -> whether the [targetVersion] field is not valid
+     * `targetVersionError` whether the [targetVersion] field is not valid
      */
     lateinit var targetVersionError: MutableState<Boolean>
 
     /**
-     * `changeNoteContent` -> the content of the change note
+     * `changeNoteContent` the content of the change note
      */
     lateinit var changeNoteContent: MutableState<String>
 
     /**
-     * `changeNoteContentError` -> whether the [changeNoteContent] field is not valid
+     * `changeNoteContentError` whether the [changeNoteContent] field is not valid
      */
     lateinit var changeNoteContentError: MutableState<Boolean>
 
     /**
-     * `changeNotes` -> the list of the change notes of the update
+     * `changeNotes` the list of the change notes of the update
      */
     val changeNotes: SnapshotStateList<String> = mutableStateListOf()
 

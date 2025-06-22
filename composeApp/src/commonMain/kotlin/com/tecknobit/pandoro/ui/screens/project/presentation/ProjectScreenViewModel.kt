@@ -39,12 +39,12 @@ class ProjectScreenViewModel(
 ) : BaseProjectViewModel(), ProjectDeleter, NotesManager {
 
     /**
-     * `requestsScope` -> coroutine used to send the requests to the backend
+     * `requestsScope` coroutine used to send the requests to the backend
      */
     override val requestsScope: CoroutineScope = MainScope()
 
     /**
-     * `updateStatusesFilters` -> the statuses of The update to use as filters
+     * `updateStatusesFilters` the statuses of The update to use as filters
      */
     lateinit var updateStatusesFilters: SnapshotStateList<UpdateStatus>
 

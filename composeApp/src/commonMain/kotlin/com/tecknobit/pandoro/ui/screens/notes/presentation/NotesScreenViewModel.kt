@@ -1,10 +1,10 @@
 package com.tecknobit.pandoro.ui.screens.notes.presentation
 
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.session.setHasBeenDisconnectedValue
-import com.tecknobit.equinoxcompose.session.setServerOfflineValue
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.network.sendPaginatedRequest
 import com.tecknobit.equinoxcore.network.sendRequest
@@ -27,22 +27,25 @@ import kotlinx.coroutines.launch
  * @see EquinoxViewModel
  * @see NotesManager
  */
+@OptIn(ExperimentalComposeApi::class)
 class NotesScreenViewModel: EquinoxViewModel(
     snackbarHostState = SnackbarHostState()
 ), NotesManager {
 
     /**
-     * `selectToDoNotes` -> whether select the to-do notes
+     * `selectToDoNotes` whether select the to-do notes
      */
     lateinit var selectToDoNotes: MutableState<Boolean>
 
     /**
-     * `selectCompletedNotes` -> whether select the completed notes
+     * `selectCompletedNotes` whether select the completed notes
      */
     lateinit var selectCompletedNotes: MutableState<Boolean>
 
+    lateinit var sessionFlowState: SessionFlowState
+
     /**
-     * `notesState` -> the state used to manage the pagination for the
+     * `notesState` the state used to manage the pagination for the
      * [retrieveNotes] method
      */
     val notesState = PaginationState<Int, Note>(
@@ -73,16 +76,16 @@ class NotesScreenViewModel: EquinoxViewModel(
                     )
                 },
                 onSuccess = { paginatedResponse ->
-                    setServerOfflineValue(false)
+                    sessionFlowState.notifyOperational()
                     notesState.appendPage(
                         items = paginatedResponse.data,
                         nextPageKey = paginatedResponse.nextPage,
                         isLastPage = paginatedResponse.isLastPage
                     )
                 },
-                onFailure = { setHasBeenDisconnectedValue(true) },
+                onFailure = { sessionFlowState.notifyUserDisconnected() },
                 onConnectionError = {
-                    setServerOfflineValue(true)
+                    sessionFlowState.notifyServerOffline()
                     notesState.setError(Exception())
                 }
             )

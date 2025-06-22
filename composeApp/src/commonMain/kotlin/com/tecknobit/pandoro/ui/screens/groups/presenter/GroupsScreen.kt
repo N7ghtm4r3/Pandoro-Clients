@@ -25,17 +25,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.NewHorizontalPageProgressIndicator
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.groups.components.FilterGroups
 import com.tecknobit.pandoro.ui.screens.groups.components.Groups
 import com.tecknobit.pandoro.ui.screens.groups.components.MyGroupCard
 import com.tecknobit.pandoro.ui.screens.groups.presentation.GroupsScreenViewModel
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
 import com.tecknobit.pandoro.ui.screens.shared.screens.ListsScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandorocore.enums.Role
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyRow
 import org.jetbrains.compose.resources.stringResource
@@ -216,7 +217,9 @@ class GroupsScreen : ListsScreen<GroupsScreenViewModel>(
      * Method to collect or instantiate the states of the screen
      */
     @Composable
+    @RequiresSuperCall
     override fun CollectStates() {
+        super.CollectStates()
         viewModel.myGroupsStateFilters = remember { mutableStateOf("") }
         viewModel.allGroupsStateFilters = remember { mutableStateOf("") }
     }

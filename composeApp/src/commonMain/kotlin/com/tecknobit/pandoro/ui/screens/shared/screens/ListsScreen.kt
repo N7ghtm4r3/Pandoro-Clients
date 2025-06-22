@@ -1,8 +1,10 @@
+@file:OptIn(ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.shared.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -15,7 +17,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,7 +27,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tecknobit.equinoxcompose.session.ManagedContent
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowContainer
+import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
+import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.MultipleListViewModel
@@ -52,32 +58,38 @@ abstract class ListsScreen<V: MultipleListViewModel>(
     viewModel = viewModel
 ) {
 
-    /**
-     * Method to arrange the content of the screen to display
-     */
     @Composable
-    override fun ArrangeScreenContent() {
-        ManagedContent(
-            modifier = Modifier
-                .fillMaxSize(),
-            viewModel = viewModel,
+    override fun ColumnScope.ScreenContent() {
+        SessionFlowContainer(
+            state = viewModel.sessionFlowState,
             content = {
                 Scaffold(
                     containerColor = MaterialTheme.colorScheme.primary,
                     snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
-                    floatingActionButton = { FabAction() },
-                    bottomBar = { AdaptBottomBarToNavigationMode() }
+                    floatingActionButton = { FabAction() }
                 ) {
-                    AdaptContentToNavigationMode(
-                        screenTitle = screenTitle
-                    ) {
-                        ItemsInRow()
-                        ItemsAdaptedSize()
-                    }
+                    ItemsInRow()
+                    ItemsAdaptedSize()
                 }
             },
-            serverOfflineRetryText = Res.string.retry_to_reconnect,
-            serverOfflineRetryAction = { viewModel.retryRetrieveLists() }
+            onServerOffline = {
+                TextButton(
+                    onClick = {
+                        viewModel.retryRetrieveLists()
+                    }
+                ) {
+                    Text(
+                        text = stringResource(Res.string.retry_to_reconnect)
+                    )
+                }
+            }
+        )
+    }
+
+    @Composable
+    override fun TitleSection() {
+        ScreenTitle(
+            title = screenTitle
         )
     }
 
@@ -203,6 +215,12 @@ abstract class ListsScreen<V: MultipleListViewModel>(
      */
     override fun onCreate() {
         viewModel.setActiveContext(HomeScreen::class)
+    }
+
+    @Composable
+    @RequiresSuperCall
+    override fun CollectStates() {
+        viewModel.sessionFlowState = rememberSessionFlowState()
     }
 
 }

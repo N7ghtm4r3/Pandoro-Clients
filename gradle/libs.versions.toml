@@ -10,6 +10,7 @@ coilCompose = "3.1.0"
 compose-multiplatform = "1.8.1"
 composeCharts = "0.1.7"
 equinox = "1.1.3"
+equinox-navigation = "1.0.2"
 filekitCore = "0.8.8"
 filekitCompose = "0.8.8"
 jetlime = "3.0.1"
@@ -54,6 +55,7 @@ review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "rev
 app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdate" }
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdate" }
 dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
+equinox-navigation = { module = "io.github.n7ghtm4r3:equinox-navigation", version.ref = "equinox-navigation" }
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }

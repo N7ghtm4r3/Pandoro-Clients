@@ -30,7 +30,7 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
 ) {
 
     /**
-     * `changelogsState` -> the state used to manage the pagination for the
+     * `changelogsState` the state used to manage the pagination for the
      * [retrieveChangelogs] method
      */
     val changelogsState = PaginationState<Int, Changelog>(

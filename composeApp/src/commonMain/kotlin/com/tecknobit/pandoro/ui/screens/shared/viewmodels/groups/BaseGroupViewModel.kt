@@ -24,7 +24,7 @@ abstract class BaseGroupViewModel : EquinoxViewModel(
 ) {
 
     /**
-     * `_group` -> state flow holds the group data
+     * `_group` state flow holds the group data
      */
     protected val _group = MutableStateFlow<Group?>(
         value = null
@@ -44,7 +44,7 @@ abstract class BaseGroupViewModel : EquinoxViewModel(
     interface GroupDeleter {
 
         /**
-         * `requestsScope` -> coroutine used to send the requests to the backend
+         * `requestsScope` coroutine used to send the requests to the backend
          */
         val requestsScope: CoroutineScope
 

@@ -36,11 +36,11 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.createnote.presentation.CreateNoteScreenViewModel
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
 import com.tecknobit.pandoro.ui.screens.shared.screens.CreateScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.add_change_note_for_update
@@ -69,6 +69,8 @@ class CreateNoteScreen(
     noteId: String?
 ) : CreateScreen<Note, CreateNoteScreenViewModel>(
     itemId = noteId,
+    creationTitle = Res.string.create_note,
+    editingTitle = Res.string.edit_note,
     viewModel = CreateNoteScreenViewModel(
         projectId = projectId,
         updateId = updateId,
@@ -76,43 +78,24 @@ class CreateNoteScreen(
     )
 ) {
 
-    /**
-     * Method to arrange the content of the screen to display
-     */
     @Composable
-    override fun ArrangeScreenContent() {
-        LoadAwareContent(
-            creationTitle = Res.string.create_note,
-            editingTitle = Res.string.edit_note,
-            subTitle = if(updateId != null) {
-                {
-                    Text(
-                        modifier = Modifier
-                            .padding(
-                                start = 16.dp,
-                                bottom = 16.dp
-                            ),
-                        text = stringResource(
-                            resource = if(isEditing)
-                                Res.string.edit_change_note_of_update
-                            else
-                                Res.string.add_change_note_for_update,
-                            targetVersion!!.asVersionText()
-                        ),
-                        fontSize = 14.sp
-                    )
-                }
-            } else
-                null
-        ) {
-            viewModel.content = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.content
+    override fun SubTitleSection() {
+        if(updateId != null) {
+            Text(
+                modifier = Modifier
+                    .padding(
+                        start = 16.dp,
+                        bottom = 16.dp
+                    ),
+                text = stringResource(
+                    resource = if(isEditing)
+                        Res.string.edit_change_note_of_update
                     else
-                        ""
-                )
-            }
+                        Res.string.add_change_note_for_update,
+                    targetVersion!!.asVersionText()
+                ),
+                fontSize = 14.sp
+            )
         }
     }
 
@@ -231,6 +214,18 @@ class CreateNoteScreen(
     override fun CollectStates() {
         super.CollectStates()
         item = viewModel.note.collectAsState()
+    }
+
+    @Composable
+    override fun CollectStatesAfterLoading() {
+        viewModel.content = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.content
+                else
+                    ""
+            )
+        }
     }
 
 }

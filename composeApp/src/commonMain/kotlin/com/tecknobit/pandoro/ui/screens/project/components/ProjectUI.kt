@@ -31,8 +31,6 @@ import com.tecknobit.pandoro.PROJECT_SCREEN
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
-import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
-import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.GROUPS_SCREEN
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
 import kotlinx.coroutines.CoroutineScope
@@ -104,9 +102,9 @@ private fun ProjectsListExpanded(
         trailingContent = { project ->
             IconButton(
                 onClick = {
-                    HomeScreen.setCurrentScreenDisplayed(
+                    /*HomeScreen.setCurrentScreenDisplayed(
                         screen = GROUPS_SCREEN
-                    )
+                    )*/
                     navigator.navigate("$PROJECT_SCREEN/${project.id}")
                 }
             ) {

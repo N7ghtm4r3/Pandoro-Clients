@@ -20,8 +20,6 @@ import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
 import com.tecknobit.pandoro.PROJECT_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.navigator
-import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
-import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.OVERVIEW_SCREEN
 import com.tecknobit.pandoro.ui.screens.overview.data.ProjectPerformanceStats
 import com.tecknobit.pandoro.ui.theme.Green
 import ir.ehsannarmani.compose_charts.extensions.format
@@ -60,9 +58,9 @@ fun ProjectPerformanceCard(
                 shape = CardDefaults.shape
             ),
         onClick = {
-            HomeScreen.setCurrentScreenDisplayed(
+            /*HomeScreen.setCurrentScreenDisplayed(
                 screen = OVERVIEW_SCREEN
-            )
+            )*/
             navigator.navigate("$PROJECT_SCREEN/${project.id}")
         }
     ) {

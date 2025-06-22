@@ -71,7 +71,7 @@ class GroupScreen(
 ) {
 
     /**
-     * `candidatesAvailable` -> whether there are any candidates available to be added in the group
+     * `candidatesAvailable` whether there are any candidates available to be added in the group
      */
     private lateinit var candidatesAvailable: State<Boolean>
 
@@ -186,7 +186,7 @@ class GroupScreen(
      */
     @Composable
     @LayoutCoordinator
-    override fun ScreenContent() {
+    override fun ItemContent() {
         ResponsiveContent(
             onExpandedSizeClass = {
                 MembersTable(

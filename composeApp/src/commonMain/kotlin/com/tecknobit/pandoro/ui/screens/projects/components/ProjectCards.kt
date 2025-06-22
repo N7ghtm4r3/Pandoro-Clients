@@ -49,8 +49,6 @@ import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.group.components.GroupLogos
-import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
-import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.PROJECTS_SCREEN
 import com.tecknobit.pandoro.ui.screens.projects.data.InDevelopmentProject
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
@@ -83,9 +81,9 @@ fun InDevelopmentProjectCard(
                 height = 150.dp
             ),
         onClick = {
-            HomeScreen.setCurrentScreenDisplayed(
+            /*HomeScreen.setCurrentScreenDisplayed(
                 screen = PROJECTS_SCREEN
-            )
+            )*/
             navigator.navigate("$PROJECT_SCREEN/${project.id}/${update.id}")
         }
     ) {
@@ -207,9 +205,9 @@ fun ProjectCard(
         modifier = modifier
             .combinedClickable(
                 onClick = {
-                    HomeScreen.setCurrentScreenDisplayed(
+                    /*HomeScreen.setCurrentScreenDisplayed(
                         screen = PROJECTS_SCREEN
-                    )
+                    )*/
                     navigator.navigate("$PROJECT_SCREEN/${project.id}")
                 },
                 onLongClick = if(amITheProjectAuthor) {

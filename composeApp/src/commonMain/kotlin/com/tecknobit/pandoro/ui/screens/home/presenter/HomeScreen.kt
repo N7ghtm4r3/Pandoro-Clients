@@ -3,13 +3,13 @@ package com.tecknobit.pandoro.ui.screens.home.presenter
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Notes
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.Groups3
 import androidx.compose.material3.Badge
@@ -22,24 +22,23 @@ import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
-import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
+import com.tecknobit.equinoxcompose.session.screens.EquinoxNoModelScreen
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
-import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
+import com.tecknobit.equinoxnavigation.I18nNavigationTab
+import com.tecknobit.equinoxnavigation.NavigatorScreen
 import com.tecknobit.pandoro.CloseApplicationOnNavBack
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.localUser
@@ -67,89 +66,67 @@ import pandoro.composeapp.generated.resources.projects
  * navigation in app
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxNoModelScreen
+ *
  */
-class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
-    viewModel = HomeScreenViewModel()
-) {
+@OptIn(ExperimentalComposeApi::class)
+class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
 
     companion object {
 
         /**
-         * `MAX_CHANGELOGS_DISPLAYABLE_VALUE` -> the max value displayable in the unread changelogs badge
+         * `MAX_CHANGELOGS_DISPLAYABLE_VALUE` the max value displayable in the unread changelogs badge
          */
         private const val MAX_CHANGELOGS_DISPLAYABLE_VALUE = 99
 
         /**
-         * `PROJECTS_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.projects.presenter.ProjectsScreen]
+         * `PROJECTS_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.projects.presenter.ProjectsScreen]
          */
         const val PROJECTS_SCREEN = "ProjectsScreen"
 
         /**
-         * `NOTES_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.notes.presenter.NotesScreen]
+         * `NOTES_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.notes.presenter.NotesScreen]
          */
         const val NOTES_SCREEN = "NotesScreen"
 
         /**
-         * `OVERVIEW_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.overview.presenter.OverviewScreen]
+         * `OVERVIEW_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.overview.presenter.OverviewScreen]
          */
         const val OVERVIEW_SCREEN = "OverviewScreen"
 
         /**
-         * `GROUPS_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.groups.presenter.GroupsScreen]
+         * `GROUPS_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.groups.presenter.GroupsScreen]
          */
         const val GROUPS_SCREEN = "GroupsScreen"
 
         /**
-         * `PROFILE_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.profile.presenter.ProfileScreen]
+         * `PROFILE_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.profile.presenter.ProfileScreen]
          */
         const val PROFILE_SCREEN = "ProfileScreen"
 
         /**
-         * `destinations` -> the list of the destination reachable by the navigation
+         * `destinations` the list of the destination reachable by the navigation
          */
-        private val destinations = listOf(
-            NavigationTab(
-                tabIdentifier = PROJECTS_SCREEN,
-                icon = Icons.Default.Folder,
-                title = Res.string.projects
-            ),
-            NavigationTab(
-                tabIdentifier = NOTES_SCREEN,
-                icon = Icons.AutoMirrored.Filled.Notes,
-                title = Res.string.notes
-            ),
-            NavigationTab(
-                tabIdentifier = OVERVIEW_SCREEN,
-                icon = Activity,
-                title = Res.string.overview
-            ),
-            NavigationTab(
-                tabIdentifier = GROUPS_SCREEN,
-                icon = Icons.Default.Groups3,
-                title = Res.string.groups
-            ),
-            NavigationTab(
-                tabIdentifier = PROFILE_SCREEN,
-                title = Res.string.profile
-            )
+        private val destinations = listOf<NavigationTab>(
+
         )
 
         /**
-         * `currentScreenDisplayed` -> the index number of the current [destinations] displayed
+         * `currentScreenDisplayed` the index number of the current [destinations] displayed
          */
         private var currentScreenDisplayed: Int = 0
 
         /**
-         * `isBottomNavigationMode` -> whether the navigation mode is the side or bottom one
+         * `isBottomNavigationMode` whether the navigation mode is the side or bottom one
          */
-        lateinit var isBottomNavigationMode: MutableState<Boolean>
+        //lateinit var isBottomNavigationMode: MutableState<Boolean>
 
         /**
          * Method to set the current screen displayed before navigating in other one
          *
          * @param screen The current screen displayed
          */
+        @Deprecated(level = DeprecationLevel.ERROR, message = "")
         fun setCurrentScreenDisplayed(
             screen: String
         ) {
@@ -164,13 +141,15 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
 
     }
 
+    private val viewModel = HomeScreenViewModel()
+
     /**
-     * `unreadChangelogs` -> the state of the unread changelogs number
+     * `unreadChangelogs` the state of the unread changelogs number
      */
     private lateinit var unreadChangelogs: State<Int>
 
     /**
-     * `currentDestination` -> the current destination displayed
+     * `currentDestination` the current destination displayed
      */
     private lateinit var currentDestination: MutableState<NavigationTab>
 
@@ -180,7 +159,13 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
     @Composable
     override fun ArrangeScreenContent() {
         CloseApplicationOnNavBack()
-        Box (
+        PandoroTheme {
+            NavigationContent(
+                backgroundTab = MaterialTheme.colorScheme.primary
+            )
+        }
+
+        /*Box (
             modifier = Modifier
                 .fillMaxSize()
         ) {
@@ -203,7 +188,7 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
                     )
                 }
             )
-        }
+        }*/
     }
 
     /**
@@ -214,7 +199,6 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
         classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
     )
     private fun SideNavigationBar() {
-        isBottomNavigationMode.value = false
         NavigationRail(
             modifier = Modifier
                 .width(125.dp),
@@ -278,7 +262,6 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
     private fun BottomNavigationBar(
         modifier: Modifier = Modifier
     ) {
-        isBottomNavigationMode.value = true
         BottomAppBar(
             modifier = modifier
         ) {
@@ -382,13 +365,64 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
     }
 
     /**
+     * Method used to instantiate the related screen based on the current [activeNavigationTabIndex]
+     *
+     * @return the screen as [EquinoxNoModelScreen]
+     */
+    override fun Int.tabContent(): EquinoxNoModelScreen {
+        return when(this) {
+            0 -> { ProjectsScreen() }
+            1 -> { NotesScreen() }
+            2 -> { OverviewScreen() }
+            3 -> { GroupsScreen() }
+            else -> { ProfileScreen() }
+        }
+    }
+
+    /**
      * Method to collect or instantiate the states of the screen
      */
     @Composable
     override fun CollectStates() {
-        currentDestination = remember { mutableStateOf(destinations[currentScreenDisplayed]) }
-        isBottomNavigationMode = remember { mutableStateOf(false) }
+        super.CollectStates()
+       // currentDestination = remember { mutableStateOf(destinations[currentScreenDisplayed]) }
+        // isBottomNavigationMode = remember { mutableStateOf(false) }
         unreadChangelogs = viewModel.unreadChangelog.collectAsState()
+    }
+
+    /**
+     * Method used to retrieve the tabs to assign to the [tabs] array
+     *
+     * @return the tabs used by the [NavigatorScreen] as [Array] of [I18nNavigationTab]
+     */
+    override fun navigationTabs(): Array<I18nNavigationTab> {
+        return arrayOf(
+            I18nNavigationTab(
+                icon = Icons.Default.Folder,
+                title = Res.string.projects,
+                contentDescription = "Projects"
+            ),
+            I18nNavigationTab(
+                icon = Icons.AutoMirrored.Filled.Notes,
+                title = Res.string.notes,
+                contentDescription = "notes"
+            ),
+            I18nNavigationTab(
+                icon = Activity,
+                title = Res.string.overview,
+                contentDescription = "overview"
+            ),
+            I18nNavigationTab(
+                icon = Icons.Default.Groups3,
+                title = Res.string.groups,
+                contentDescription = "groups"
+            ),
+            I18nNavigationTab(
+                icon = Icons.Default.AccountBox,
+                title = Res.string.profile,
+                contentDescription = "profile"
+            )
+        )
     }
 
     /**

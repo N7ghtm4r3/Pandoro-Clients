@@ -94,6 +94,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.equinox.core)
             implementation(libs.equinox.compose)
+            implementation(libs.equinox.navigation)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
             implementation(libs.pandorocore)

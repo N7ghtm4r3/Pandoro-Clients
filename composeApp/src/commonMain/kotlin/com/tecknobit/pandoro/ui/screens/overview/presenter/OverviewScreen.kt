@@ -4,6 +4,7 @@ package com.tecknobit.pandoro.ui.screens.overview.presenter
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.sizeIn
@@ -15,9 +16,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
@@ -27,20 +30,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EmptyState
-import com.tecknobit.equinoxcompose.session.ManagedContent
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowContainer
+import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.ExpandedClassComponent
 import com.tecknobit.equinoxcompose.utilities.LayoutCoordinator
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.equinoxcompose.utilities.responsiveAssignment
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.overview.components.OverviewCard
 import com.tecknobit.pandoro.ui.screens.overview.components.ProjectsStatsSheet
 import com.tecknobit.pandoro.ui.screens.overview.components.UpdatesStatsSheet
 import com.tecknobit.pandoro.ui.screens.overview.data.Overview
 import com.tecknobit.pandoro.ui.screens.overview.presentation.OverviewScreenViewModel
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.theme.AppTypography
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -50,7 +54,6 @@ import pandoro.composeapp.generated.resources.development_days
 import pandoro.composeapp.generated.resources.general
 import pandoro.composeapp.generated.resources.no_data_available
 import pandoro.composeapp.generated.resources.no_overview_data
-import pandoro.composeapp.generated.resources.overview
 import pandoro.composeapp.generated.resources.projects
 import pandoro.composeapp.generated.resources.retry_to_reconnect
 import pandoro.composeapp.generated.resources.updates
@@ -67,37 +70,39 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
 ) {
 
     /**
-     * `overview` -> state flow holds the overview data
+     * `overview` state flow holds the overview data
      */
     private lateinit var overview: State<Overview?>
 
-    /**
-     * Method to arrange the content of the screen to display
-     */
+    @OptIn(ExperimentalComposeApi::class)
     @Composable
-    override fun ArrangeScreenContent() {
-        ManagedContent(
+    override fun ColumnScope.ScreenContent() {
+        SessionFlowContainer(
             modifier = Modifier
                 .fillMaxSize(),
-            viewModel = viewModel,
+            state = rememberSessionFlowState(),
             content = {
                 Scaffold (
                     containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
-                    bottomBar = { AdaptBottomBarToNavigationMode() }
+                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) }
                 ) {
-                    AdaptContentToNavigationMode(
-                        screenTitle = Res.string.overview
-                    ) {
-                        if(overview.value == null)
-                            NoOverviewDataAvailable()
-                        else
-                            OverviewData()
-                    }
+                    if(overview.value == null)
+                        NoOverviewDataAvailable()
+                    else
+                        OverviewData()
                 }
             },
-            serverOfflineRetryText = Res.string.retry_to_reconnect,
-            serverOfflineRetryAction = { viewModel.retrieveOverview() }
+            onServerOffline = {
+                TextButton(
+                    onClick = {
+                        viewModel.retrieveOverview()
+                    }
+                ) {
+                    Text(
+                        text = stringResource(Res.string.retry_to_reconnect)
+                    )
+                }
+            }
         )
     }
 

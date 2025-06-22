@@ -25,7 +25,7 @@ class OverviewScreenViewModel: EquinoxViewModel(
 ) {
 
     /**
-     * `_overview` -> state flow holds the overview data
+     * `_overview` state flow holds the overview data
      */
     private val _overview = MutableStateFlow<Overview?>(
         value = null

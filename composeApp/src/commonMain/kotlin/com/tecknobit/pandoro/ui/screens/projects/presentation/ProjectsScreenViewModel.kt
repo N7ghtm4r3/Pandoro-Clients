@@ -28,17 +28,17 @@ import kotlinx.coroutines.launch
 class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
 
     /**
-     * `requestsScope` -> coroutine used to send the requests to the backend
+     * `requestsScope` coroutine used to send the requests to the backend
      */
     override val requestsScope: CoroutineScope = MainScope()
 
     /**
-     * `inDevelopmentProjectsFilter` -> the filters to apply to the [inDevelopmentProjectsState] list
+     * `inDevelopmentProjectsFilter` the filters to apply to the [inDevelopmentProjectsState] list
      */
     lateinit var inDevelopmentProjectsFilter: MutableState<String>
 
     /**
-     * `inDevelopmentProjectsState` -> the state used to manage the pagination for the
+     * `inDevelopmentProjectsState` the state used to manage the pagination for the
      * [retrieveInDevelopmentProjects] method
      */
     val inDevelopmentProjectsState = PaginationState<Int, InDevelopmentProject>(
@@ -109,12 +109,12 @@ class ProjectsScreenViewModel : MultipleListViewModel(), ProjectDeleter {
     }
 
     /**
-     * `projectsFilter` -> the filters to apply to the [projectsState] list
+     * `projectsFilter` the filters to apply to the [projectsState] list
      */
     lateinit var projectsFilter: MutableState<String>
 
     /**
-     * `projectsState` -> the state used to manage the pagination for the
+     * `projectsState` the state used to manage the pagination for the
      * [retrieveProjects] method
      */
     val projectsState = PaginationState<Int, Project>(

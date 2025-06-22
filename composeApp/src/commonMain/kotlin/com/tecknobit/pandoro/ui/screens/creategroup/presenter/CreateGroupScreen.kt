@@ -28,7 +28,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -87,51 +86,17 @@ class CreateGroupScreen(
     groupId: String?
 ): CreateScreen<Group, CreateGroupScreenViewModel>(
     itemId = groupId,
+    creationTitle = Res.string.create_group,
+    editingTitle = Res.string.edit_group,
     viewModel = CreateGroupScreenViewModel(
         groupId = groupId
     )
 ) {
 
     /**
-     * `candidatesAvailable` -> whether there are any candidates available to be added in the group
+     * `candidatesAvailable` whether there are any candidates available to be added in the group
      */
     private lateinit var candidatesAvailable: State<Boolean>
-
-    /**
-     * Method to arrange the content of the screen to display
-     */
-    @Composable
-    override fun ArrangeScreenContent() {
-        LoadAwareContent(
-            creationTitle = Res.string.create_group,
-            editingTitle = Res.string.edit_group
-        ) {
-            viewModel.groupLogo = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.logo
-                    else
-                        ""
-                )
-            }
-            viewModel.groupName = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.name
-                    else
-                        ""
-                )
-            }
-            viewModel.groupDescription = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.description
-                    else
-                        ""
-                )
-            }
-        }
-    }
 
     /**
      * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
@@ -463,6 +428,34 @@ class CreateGroupScreen(
         candidatesAvailable = viewModel.candidatesMemberAvailable.collectAsState(
             initial = false
         )
+    }
+
+    @Composable
+    override fun CollectStatesAfterLoading() {
+        viewModel.groupLogo = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.logo
+                else
+                    ""
+            )
+        }
+        viewModel.groupName = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.name
+                else
+                    ""
+            )
+        }
+        viewModel.groupDescription = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.description
+                else
+                    ""
+            )
+        }
     }
 
 }

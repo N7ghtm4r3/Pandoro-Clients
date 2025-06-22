@@ -94,62 +94,12 @@ class CreateProjectScreen(
     projectId: String?
 ) : CreateScreen<Project, CreateProjectScreenViewModel>(
     itemId = projectId,
+    creationTitle = Res.string.create_project,
+    editingTitle = Res.string.edit_project,
     viewModel = CreateProjectScreenViewModel(
         projectId = projectId
     )
 ) {
-
-    /**
-     * Method to arrange the content of the screen to display
-     */
-    @Composable
-    override fun ArrangeScreenContent() {
-        LoadAwareContent(
-            creationTitle = Res.string.create_project,
-            editingTitle = Res.string.edit_project
-        ) {
-            viewModel.projectIcon = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.icon
-                    else
-                        ""
-                )
-            }
-            viewModel.projectName = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.name
-                    else
-                        ""
-                )
-            }
-            viewModel.projectVersion = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.version
-                    else
-                        ""
-                )
-            }
-            viewModel.projectRepository = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.projectRepo
-                    else
-                        ""
-                )
-            }
-            viewModel.projectDescription = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.description
-                    else
-                        ""
-                )
-            }
-        }
-    }
 
     /**
      * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
@@ -557,6 +507,50 @@ class CreateProjectScreen(
         viewModel.projectVersionError = remember { mutableStateOf(false) }
         viewModel.projectRepositoryError = remember { mutableStateOf(false) }
         viewModel.projectDescriptionError = remember { mutableStateOf(false) }
+    }
+
+    @Composable
+    override fun CollectStatesAfterLoading() {
+        viewModel.projectIcon = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.icon
+                else
+                    ""
+            )
+        }
+        viewModel.projectName = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.name
+                else
+                    ""
+            )
+        }
+        viewModel.projectVersion = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.version
+                else
+                    ""
+            )
+        }
+        viewModel.projectRepository = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.projectRepo
+                else
+                    ""
+            )
+        }
+        viewModel.projectDescription = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.description
+                else
+                    ""
+            )
+        }
     }
 
 }

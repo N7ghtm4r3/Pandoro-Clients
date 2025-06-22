@@ -6,6 +6,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -33,8 +34,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -68,7 +67,8 @@ import com.tecknobit.equinoxcompose.components.stepper.Step
 import com.tecknobit.equinoxcompose.components.stepper.StepContent
 import com.tecknobit.equinoxcompose.components.stepper.Stepper
 import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme
-import com.tecknobit.equinoxcompose.session.ManagedContent
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowContainer
+import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.EXPANDED_CONTAINER
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
@@ -105,7 +105,6 @@ import pandoro.composeapp.generated.resources.logout
 import pandoro.composeapp.generated.resources.new_email
 import pandoro.composeapp.generated.resources.new_password
 import pandoro.composeapp.generated.resources.no_changelogs_available
-import pandoro.composeapp.generated.resources.profile
 import pandoro.composeapp.generated.resources.wrong_email
 import pandoro.composeapp.generated.resources.wrong_password
 
@@ -121,36 +120,23 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     viewModel = ProfileScreenViewModel()
 ) {
 
-    /**
-     * Method to arrange the content of the screen to display
-     */
     @Composable
-    override fun ArrangeScreenContent() {
-        ManagedContent(
+    override fun ColumnScope.ScreenContent() {
+        SessionFlowContainer(
             modifier = Modifier
                 .fillMaxSize(),
-            viewModel = viewModel,
+            state = rememberSessionFlowState(),
             content = {
-                Scaffold (
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
-                    bottomBar = { AdaptBottomBarToNavigationMode() }
+                Column (
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .widthIn(
+                            max = EXPANDED_CONTAINER
+                        ),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    AdaptContentToNavigationMode(
-                        screenTitle = Res.string.profile
-                    ) {
-                        Column (
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .widthIn(
-                                    max = EXPANDED_CONTAINER
-                                ),
-                            verticalArrangement = Arrangement.spacedBy(10.dp)
-                        ) {
-                            UserDetails()
-                            Settings()
-                        }
-                    }
+                    UserDetails()
+                    Settings()
                 }
             }
         )

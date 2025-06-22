@@ -107,10 +107,20 @@ class ProjectScreen(
     )
 ) {
 
+    @Composable
+    override fun ItemContent() {
+        ResponsiveContent(
+            onExpandedSizeClass = { UpdatesStatsSection() },
+            onMediumSizeClass = { ProjectUpdatesSection() },
+            onCompactSizeClass = { ProjectUpdatesSection() }
+        )
+    }
+
     /**
      * The title of the screen
      */
     @Composable
+    @ScreenSection
     override fun ItemTitle() {
         Row (
             modifier = Modifier
@@ -237,19 +247,6 @@ class ProjectScreen(
      */
     override fun getItemAuthor(): PandoroUser {
         return item.value!!.author
-    }
-
-    /**
-     * The related content of the screen
-     */
-    @Composable
-    @LayoutCoordinator
-    override fun ScreenContent() {
-        ResponsiveContent(
-            onExpandedSizeClass = { UpdatesStatsSection() },
-            onMediumSizeClass = { ProjectUpdatesSection() },
-            onCompactSizeClass = { ProjectUpdatesSection() }
-        )
     }
 
     /**

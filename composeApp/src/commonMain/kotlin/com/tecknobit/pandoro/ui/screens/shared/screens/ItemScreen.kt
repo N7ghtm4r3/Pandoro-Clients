@@ -7,7 +7,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -88,16 +88,18 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
 ) {
 
     /**
-     * `item` -> state flow holds the item data
+     * `item` state flow holds the item data
      */
     protected lateinit var item: State<I?>
 
-    /**
-     * Method to arrange the content of the screen to display
-     */
     @Composable
-    override fun ArrangeScreenContent() {
-        LoadAwareContent()
+    override fun ColumnScope.ScreenContent() {
+        Scaffold(
+            snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
+            floatingActionButton = { FabAction() }
+        ) {
+            ItemContent()
+        }
     }
 
     /**
@@ -149,23 +151,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
                 .fillMaxSize(),
             viewModel = viewModel,
             content = {
-                Scaffold(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
-                    floatingActionButton = { FabAction() }
-                ) {
-                    PlaceContent(
-                        paddingValues = PaddingValues(
-                            top = 16.dp,
-                            start = 0.dp,
-                            end = 0.dp,
-                            bottom = bottomPadding
-                        ),
-                        screenTitle = { ItemScreenTitle() },
-                    ) {
-                        ScreenContent()
-                    }
-                }
+
             }
         )
     }
@@ -193,12 +179,14 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * The title of the screen
      */
     @Composable
+    @ScreenSection
     protected abstract fun ItemTitle()
 
     /**
      * The item base information to display
      */
     @Composable
+    @ScreenSection
     protected fun ItemInformation() {
         ListItem(
             modifier = Modifier
@@ -260,6 +248,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * The related items of the [item] such groups or projects
      */
     @Composable
+    @ScreenSection
     protected abstract fun ItemRelationshipItems()
 
     /**
@@ -269,6 +258,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
      */
     @Composable
+    @ScreenSection
     private fun ItemDescription(
         state: SheetState,
         scope: CoroutineScope
@@ -382,6 +372,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * The section to display the information of the [item] author
      */
     @Composable
+    @ScreenSection
     @NonRestartableComposable
     private fun ItemAuthor() {
         Column {
@@ -428,7 +419,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * The related content of the screen
      */
     @Composable
-    protected abstract fun ScreenContent()
+    protected abstract fun ItemContent()
 
     /**
      * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked

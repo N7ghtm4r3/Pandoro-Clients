@@ -5,12 +5,12 @@ import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.displayFontFamily
 
 /**
- * `baseline` -> baseline of the application
+ * `baseline` baseline of the application
  */
 val baseline = Typography()
 
 /**
- * `Typography` -> the Pandoro's Typography
+ * `Typography` the Pandoro's Typography
  */
 val AppTypography = Typography(
     displayLarge = baseline.displayLarge.copy(fontFamily = displayFontFamily),

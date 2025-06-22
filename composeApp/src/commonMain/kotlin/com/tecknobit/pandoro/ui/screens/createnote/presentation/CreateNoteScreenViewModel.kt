@@ -35,7 +35,7 @@ class CreateNoteScreenViewModel(
 ) {
 
     /**
-     * `_note` -> state flow holds the note data
+     * `_note` state flow holds the note data
      */
     private val _note = MutableStateFlow<Note?>(
         value = null
@@ -43,7 +43,7 @@ class CreateNoteScreenViewModel(
     val note: StateFlow<Note?> = _note
 
     /**
-     * `content` -> state holds the content of the note
+     * `content` state holds the content of the note
      */
     lateinit var content: MutableState<String>
 

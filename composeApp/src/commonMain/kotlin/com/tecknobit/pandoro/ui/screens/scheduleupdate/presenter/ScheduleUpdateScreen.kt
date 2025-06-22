@@ -47,6 +47,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
 import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
@@ -87,36 +88,28 @@ class ScheduleUpdateScreen(
     private val projectName: String
 ) : CreateScreen<ProjectUpdate, ScheduleUpdateScreenViewModel>(
     itemId = null,
+    creationTitle = Res.string.schedule_update,
+    editingTitle = Res.string.edit,
     viewModel = ScheduleUpdateScreenViewModel(
         projectId = projectId
     )
 ) {
 
-    /**
-     * Method to arrange the content of the screen to display
-     */
     @Composable
-    override fun ArrangeScreenContent() {
-        LoadAwareContent(
-            creationTitle = Res.string.schedule_update,
-            editingTitle = Res.string.edit, //
-            subTitle = {
-                Text(
-                    modifier = Modifier
-                        .padding(
-                            start = 16.dp,
-                            bottom = 16.dp
-                        ),
-                    text = stringResource(
-                        resource = Res.string.schedule_update_subtext,
-                        projectName
-                    ),
-                    fontSize = 14.sp
-                )
-            }
-        ) {
-
-        }
+    @ScreenSection
+    override fun SubTitleSection() {
+        Text(
+            modifier = Modifier
+                .padding(
+                    start = 16.dp,
+                    bottom = 16.dp
+                ),
+            text = stringResource(
+                resource = Res.string.schedule_update_subtext,
+                projectName
+            ),
+            fontSize = 14.sp
+        )
     }
 
     /**

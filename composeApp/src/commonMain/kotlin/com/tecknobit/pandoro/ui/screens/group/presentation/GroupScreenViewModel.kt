@@ -34,7 +34,7 @@ class GroupScreenViewModel(
 ) : GroupManagerViewModel(), GroupDeleter {
 
     /**
-     * `requestsScope` -> coroutine used to send the requests to the backend
+     * `requestsScope` coroutine used to send the requests to the backend
      */
     override val requestsScope: CoroutineScope = MainScope()
 

@@ -32,7 +32,7 @@ import kotlinx.serialization.json.decodeFromJsonElement
 abstract class GroupManagerViewModel : BaseGroupViewModel() {
 
     /**
-     * `_candidatesMemberAvailable` -> state flow holds the the availability of the members candidate
+     * `_candidatesMemberAvailable` state flow holds the the availability of the members candidate
      * to join in the group
      */
     private val _candidatesMemberAvailable = MutableSharedFlow<Boolean>(
@@ -41,22 +41,22 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
     var candidatesMemberAvailable = _candidatesMemberAvailable.asSharedFlow()
 
     /**
-     * `candidateProjects` -> the list of the candidates projects to share in the group
+     * `candidateProjects` the list of the candidates projects to share in the group
      */
     val candidateProjects: SnapshotStateList<String> = mutableStateListOf()
 
     /**
-     * `groupProjects` -> the list of the current projects shared in the group
+     * `groupProjects` the list of the current projects shared in the group
      */
     val groupProjects: SnapshotStateList<Project> = mutableStateListOf()
 
     /**
-     * `userProjects` -> the list of the projects owned by the [com.tecknobit.pandoro.localUser]
+     * `userProjects` the list of the projects owned by the [com.tecknobit.pandoro.localUser]
      */
     val userProjects: MutableList<Project> = mutableListOf()
 
     /**
-     * `candidateMembersState` -> the state used to manage the pagination for the
+     * `candidateMembersState` the state used to manage the pagination for the
      * [loadCandidateMembers] method
      */
     val candidateMembersState = PaginationState<Int, GroupMember>(
@@ -69,7 +69,7 @@ abstract class GroupManagerViewModel : BaseGroupViewModel() {
     )
 
     /**
-     * `groupMembers` -> the list of the current members in the group
+     * `groupMembers` the list of the current members in the group
      */
     val groupMembers: SnapshotStateList<GroupMember> = mutableStateListOf()
 
