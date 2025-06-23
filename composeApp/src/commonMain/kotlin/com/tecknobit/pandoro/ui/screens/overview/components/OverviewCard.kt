@@ -42,8 +42,8 @@ import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.ui.screens.overview.data.OverviewFullStatsItem
 import com.tecknobit.pandoro.ui.screens.overview.data.OverviewStatsItem
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.asText
-import com.tecknobit.pandoro.ui.theme.Green
-import com.tecknobit.pandoro.ui.theme.Yellow
+import com.tecknobit.pandoro.ui.theme.green
+import com.tecknobit.pandoro.ui.theme.yellow
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import ir.ehsannarmani.compose_charts.PieChart
 import ir.ehsannarmani.compose_charts.extensions.format
@@ -220,7 +220,7 @@ private fun OverviewCardContent(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            val pieColors = listOf(MaterialTheme.colorScheme.primary, Green())
+            val pieColors = listOf(MaterialTheme.colorScheme.primary, green())
             Column (
                 modifier = Modifier
                     .weight(1f)
@@ -354,7 +354,7 @@ private fun PieLegend(
         val color = if(existsOnPie)
             pieChartColors[index]
         else
-            Yellow()
+            yellow()
         Column (
             modifier = Modifier
                 .padding(

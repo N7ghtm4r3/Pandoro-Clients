@@ -33,12 +33,13 @@ import org.jetbrains.compose.resources.stringResource
 /**
  * The [PandoroScreen] class is useful to provides the basic behavior of a Pandoro's UI screen
  *
+ * @param onNavBack The callback to invoke when the user request to navigate back
  * @param viewModel The support viewmodel for the screen
  *
  * @property V generic type of the viewmodel of the screen
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  */
 @Structure
 @ScreenCoordinator
@@ -63,6 +64,9 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
 
     }
 
+    /**
+     * Method used to arrange the content of the screen to display
+     */
     @Composable
     override fun ArrangeScreenContent() {
         PandoroTheme {
@@ -72,22 +76,28 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
                     .background(MaterialTheme.colorScheme.primary)
             ) {
                 TitleSection()
-                SubTitleSection()
+                SubtitleSection()
                 ScreenContent()
             }
         }
     }
 
+    /**
+     * The section where is displayed the title of the current screen
+     */
     @Composable
     @ScreenSection
     @NonRestartableComposable
     protected open fun TitleSection() {
     }
 
+    /**
+     * The section where is displayed the subtitle of the current screen
+     */
     @Composable
     @ScreenSection
     @NonRestartableComposable
-    protected open fun SubTitleSection() {
+    protected open fun SubtitleSection() {
 
     }
 

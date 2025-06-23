@@ -20,6 +20,9 @@ abstract class MultipleListViewModel : EquinoxViewModel(
     snackbarHostState = SnackbarHostState()
 ) {
 
+    /**
+     * `sessionFlowState` the state used to manage the session lifecycle in the screen
+     */
     @OptIn(ExperimentalComposeApi::class)
     lateinit var sessionFlowState: SessionFlowState
 

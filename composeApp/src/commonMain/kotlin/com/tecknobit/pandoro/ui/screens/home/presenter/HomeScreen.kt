@@ -30,6 +30,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.session.screens.EquinoxNoModelScreen
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.COMPACT_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_EXPANDED_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxnavigation.I18nNavigationTab
 import com.tecknobit.equinoxnavigation.NavigatorScreen
 import com.tecknobit.pandoro.CloseApplicationOnNavBack
@@ -59,6 +64,7 @@ import pandoro.composeapp.generated.resources.projects
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see com.tecknobit.equinoxcompose.session.screens.EquinoxNoModelScreen
+ * @see NavigatorScreen
  *
  */
 @OptIn(ExperimentalComposeApi::class)
@@ -71,10 +77,16 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
          */
         private const val MAX_CHANGELOGS_DISPLAYABLE_VALUE = 99
 
+        /**
+         * `PROFILE_TAB_INDEX` the index of the [ProfileScreen]'s tab
+         */
         private const val PROFILE_TAB_INDEX = 4
 
     }
 
+    /**
+     * `viewModel` The support viewmodel for the screen
+     */
     private val viewModel = HomeScreenViewModel()
 
     /**
@@ -95,7 +107,13 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
         }
     }
 
+    /**
+     * Custom header content to display on the [SideNavigationArrangement] bar
+     */
     @Composable
+    @ResponsiveClassComponent(
+        classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
+    )
     override fun ColumnScope.SideNavigationHeaderContent() {
         ProfilePic(
             modifier = Modifier
@@ -107,7 +125,13 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
         )
     }
 
+    /**
+     * Custom footer content to display on the [SideNavigationArrangement] bar
+     */
     @Composable
+    @ResponsiveClassComponent(
+        classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
+    )
     override fun ColumnScope.SideNavigationFooterContent() {
         Text(
             modifier = Modifier
@@ -119,7 +143,16 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
         )
     }
 
+    /**
+     * The navigation item of the [SideNavigationArrangement] bar
+     *
+     * @param index The index related to the item in the [tabs] array
+     * @param tab The related tab of the [index]
+     */
     @Composable
+    @ResponsiveClassComponent(
+        classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
+    )
     override fun SideNavigationItem(
         index: Int,
         tab: I18nNavigationTab,
@@ -128,7 +161,16 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
             super.SideNavigationItem(index, tab)
     }
 
+    /**
+     * The navigation item of the [BottomNavigationItem] bar
+     *
+     * @param index The index related to the item in the [tabs] array
+     * @param tab The related tab of the [index]
+     */
     @Composable
+    @ResponsiveClassComponent(
+        classes = [MEDIUM_EXPANDED_CONTENT, COMPACT_CONTENT]
+    )
     override fun RowScope.BottomNavigationItem(
         index: Int,
         tab: I18nNavigationTab,
@@ -215,6 +257,12 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
             this.toString()
     }
 
+    /**
+     * Method invoked when the [ShowContent] composable has been created.
+     *
+     * Will be set the [com.tecknobit.equinoxcompose.session.Retriever.currentContext] as the current screen displayed
+     *
+     */
     override fun onCreate() {
         super.onCreate()
         viewModel.setActiveContext(this::class)
@@ -226,6 +274,57 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
     override fun onStart() {
         super.onStart()
         viewModel.countUnreadChangelogs()
+    }
+
+    /**
+     * Method invoked when the [ShowContent] composable has been resumed.
+     *
+     * Will be restarted the [com.tecknobit.equinoxcompose.session.Retriever.retrieverScope]
+     *
+     */
+    override fun onResume() {
+        super.onResume()
+        viewModel.restartRetriever()
+    }
+
+    /**
+     * Method invoked when the [ShowContent] composable has been paused.
+     *
+     * Will be suspended the [com.tecknobit.equinoxcompose.session.Retriever.retrieverScope]
+     */
+    override fun onPause() {
+        super.onPause()
+        viewModel.suspendRetriever()
+    }
+
+    /**
+     * Method invoked when the [ShowContent] composable has been stopped.
+     *
+     * Will be suspended the [com.tecknobit.equinoxcompose.session.Retriever.retrieverScope]
+     */
+    override fun onStop() {
+        super.onStop()
+        viewModel.suspendRetriever()
+    }
+
+    /**
+     * Method invoked when the [ShowContent] composable has been destroyed.
+     *
+     * Will be suspended the [com.tecknobit.equinoxcompose.session.Retriever.retrieverScope]
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.suspendRetriever()
+    }
+
+    /**
+     * Method invoked when the [ShowContent] composable has been disposed.
+     *
+     * Will be suspended the [com.tecknobit.equinoxcompose.session.Retriever.retrieverScope]
+     */
+    override fun onDispose() {
+        super.onDispose()
+        viewModel.suspendRetriever()
     }
 
     /**

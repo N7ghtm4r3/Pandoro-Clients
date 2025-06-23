@@ -40,10 +40,10 @@ import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.annotations.ScreenCoordinator
 import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowContainer
-import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
 import com.tecknobit.equinoxcompose.utilities.LayoutCoordinator
-import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
@@ -52,6 +52,7 @@ import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
+import com.tecknobit.pandoro.ui.shared.presenters.SessionFlowStateConsumer
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
@@ -73,6 +74,7 @@ import pandoro.composeapp.generated.resources.save
  * @author N7ghtm4r3 - Tecknobit
  * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
+ * @see SessionFlowStateConsumer
  */
 @Structure
 @ScreenCoordinator
@@ -83,7 +85,7 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
     viewModel: V
 ) : PandoroScreen<V>(
     viewModel = viewModel
-) {
+), SessionFlowStateConsumer {
 
     /**
      * `isEditing` whether the user is creating or editing an item
@@ -100,13 +102,16 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
      */
     protected lateinit var fullScreenFormType: MutableState<Boolean>
 
+    /**
+     * Method used to arrange the content of the screen to display
+     */
     @Composable
     override fun ArrangeScreenContent() {
         PandoroTheme {
             SessionFlowContainer(
                 modifier = Modifier
                     .fillMaxSize(),
-                state = rememberSessionFlowState(),
+                state = sessionFlowState(),
                 initialLoadingRoutineDelay = 1000L,
                 loadingRoutine = if(isEditing) {
                     {
@@ -122,7 +127,7 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
                             .background(MaterialTheme.colorScheme.primary)
                     ) {
                         TitleSection()
-                        SubTitleSection()
+                        SubtitleSection()
                         ScreenContent()
                     }
                 }
@@ -130,18 +135,11 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
         }
     }
 
+    /**
+     * The section where is displayed the title of the current screen
+     */
     @Composable
-    override fun ColumnScope.ScreenContent() {
-        Scaffold(
-            containerColor = MaterialTheme.colorScheme.primary,
-            snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
-            floatingActionButton = { FabAction() }
-        ) {
-            Form()
-        }
-    }
-
-    @Composable
+    @ScreenSection
     override fun TitleSection() {
         ScreenTitle(
             modifier = Modifier
@@ -156,6 +154,20 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
             else
                 creationTitle
         )
+    }
+
+    /**
+     * The custom content of the screen
+     */
+    @Composable
+    override fun ColumnScope.ScreenContent() {
+        Scaffold(
+            containerColor = MaterialTheme.colorScheme.primary,
+            snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
+            floatingActionButton = { FabAction() }
+        ) {
+            Form()
+        }
     }
 
     /**

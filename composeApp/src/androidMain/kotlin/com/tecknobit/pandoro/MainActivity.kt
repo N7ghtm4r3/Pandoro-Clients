@@ -14,7 +14,6 @@ import androidx.compose.runtime.NonRestartableComposable
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.tecknobit.ametistaengine.AmetistaEngine
-import com.tecknobit.equinoxcompose.session.setUpSession
 import com.tecknobit.equinoxcore.utilities.ContextActivityProvider
 import io.github.vinceglb.filekit.core.FileKit
 
@@ -77,16 +76,6 @@ class MainActivity : ComponentActivity() {
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
         appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
-        setUpSession(
-            hasBeenDisconnectedAction = {
-                localUser.clear()
-                requester.setUserCredentials(
-                    userId = null,
-                    userToken = null
-                )
-                navigator.navigate(AUTH_SCREEN)
-            }
-        )
     }
 
 }

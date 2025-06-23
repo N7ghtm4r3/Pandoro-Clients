@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.createnote.presenter
 
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.collectAsState
@@ -30,7 +33,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
+import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
@@ -78,8 +84,22 @@ class CreateNoteScreen(
     )
 ) {
 
+    /**
+     * Method used to retrieve a [SessionFlowState] instance used by the inheritors screens
+     *
+     * @return the state instance as [SessionFlowState]
+     */
+    @OptIn(ExperimentalComposeApi::class)
+    override fun sessionFlowState(): SessionFlowState {
+        return viewModel.sessionFlowState
+    }
+
+    /**
+     * The section where is displayed the subtitle of the current screen
+     */
     @Composable
-    override fun SubTitleSection() {
+    @ScreenSection
+    override fun SubtitleSection() {
         if(updateId != null) {
             Text(
                 modifier = Modifier
@@ -217,6 +237,7 @@ class CreateNoteScreen(
     override fun CollectStates() {
         super.CollectStates()
         item = viewModel.note.collectAsState()
+        viewModel.sessionFlowState = rememberSessionFlowState()
     }
 
     @Composable

@@ -44,8 +44,8 @@ import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
-import com.tecknobit.pandoro.ui.theme.Green
-import com.tecknobit.pandoro.ui.theme.PieChartColors
+import com.tecknobit.pandoro.ui.theme.green
+import com.tecknobit.pandoro.ui.theme.pieChartColors
 import ir.ehsannarmani.compose_charts.LineChart
 import ir.ehsannarmani.compose_charts.PieChart
 import ir.ehsannarmani.compose_charts.extensions.format
@@ -196,7 +196,7 @@ private fun DevelopmentDays(
             totalDevelopmentDays
         ),
         chart = {
-            val colors = PieChartColors()
+            val colors = pieChartColors()
             var data by rememberSaveable {
                 mutableStateOf(
                     getTotalDevelopmentDaysData(
@@ -339,7 +339,7 @@ private fun AverageDaysPerUpdate(
             averageDaysPerUpdate
         ),
         chart = {
-            val lineColor = Green()
+            val lineColor = green()
             LineChart(
                 modifier = Modifier
                     .padding(

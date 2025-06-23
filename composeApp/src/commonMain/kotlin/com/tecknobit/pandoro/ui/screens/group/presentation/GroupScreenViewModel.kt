@@ -5,7 +5,6 @@ package com.tecknobit.pandoro.ui.screens.group.presentation
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
-import com.tecknobit.equinoxcompose.session.setServerOfflineValue
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.pandoro.navigator
@@ -42,6 +41,9 @@ class GroupScreenViewModel(
      */
     override val requestsScope: CoroutineScope = MainScope()
 
+    /**
+     * `sessionFlowState` the state used to manage the session lifecycle in the screen
+     */
     lateinit var sessionFlowState: SessionFlowState
 
     /**
@@ -58,11 +60,11 @@ class GroupScreenViewModel(
                         )
                     },
                     onSuccess = {
-                        setServerOfflineValue(false)
+                        sessionFlowState.notifyOperational()
                         _group.value = Json.decodeFromJsonElement(it.toResponseData())
                     },
                     onFailure = {},
-                    onConnectionError = { setServerOfflineValue(true) }
+                    onConnectionError = { sessionFlowState.notifyServerOffline() }
                 )
             }
         )

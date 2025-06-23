@@ -1,9 +1,11 @@
 package com.tecknobit.pandoro.ui.screens.creategroup.presentation
 
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcore.network.sendRequest
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
+import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
@@ -61,6 +63,12 @@ class CreateGroupScreenViewModel(
      * `groupDescriptionError` whether the [groupDescription] field is not valid
      */
     lateinit var groupDescriptionError: MutableState<Boolean>
+
+    /**
+     * `sessionFlowState` the state used to manage the session lifecycle in the screen
+     */
+    @OptIn(ExperimentalComposeApi::class)
+    lateinit var sessionFlowState: SessionFlowState
 
     /**
      * Method to retrieve the data of a [Group] if needed

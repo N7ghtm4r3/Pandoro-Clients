@@ -34,9 +34,11 @@ import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.LayoutCoordinator
-import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.COMPACT_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
+import com.tecknobit.equinoxcore.annotations.Returner
 import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.ChangeMemberRole
@@ -80,6 +82,12 @@ class GroupScreen(
      */
     private lateinit var candidatesAvailable: State<Boolean>
 
+    /**
+     * Method used to retrieve a [SessionFlowState] instance used by the inheritors screens
+     *
+     * @return the state instance as [SessionFlowState]
+     */
+    @Returner
     override fun sessionFlowState(): SessionFlowState {
         return viewModel.sessionFlowState
     }

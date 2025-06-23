@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeApi::class)
 
 package com.tecknobit.pandoro.ui.screens.creategroup.presenter
 
@@ -27,6 +27,7 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
@@ -44,6 +45,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
+import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
@@ -97,6 +100,16 @@ class CreateGroupScreen(
      * `candidatesAvailable` whether there are any candidates available to be added in the group
      */
     private lateinit var candidatesAvailable: State<Boolean>
+
+    /**
+     * Method used to retrieve a [SessionFlowState] instance used by the inheritors screens
+     *
+     * @return the state instance as [SessionFlowState]
+     */
+    @OptIn(ExperimentalComposeApi::class)
+    override fun sessionFlowState(): SessionFlowState {
+        return viewModel.sessionFlowState
+    }
 
     /**
      * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked
@@ -428,6 +441,7 @@ class CreateGroupScreen(
         candidatesAvailable = viewModel.candidatesMemberAvailable.collectAsState(
             initial = false
         )
+        viewModel.sessionFlowState = rememberSessionFlowState()
     }
 
     @Composable

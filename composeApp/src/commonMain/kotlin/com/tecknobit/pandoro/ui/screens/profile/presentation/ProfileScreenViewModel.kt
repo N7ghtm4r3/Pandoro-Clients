@@ -1,7 +1,9 @@
 package com.tecknobit.pandoro.ui.screens.profile.presentation
 
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.lifecycle.viewModelScope
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxProfileViewModel
 import com.tecknobit.equinoxcore.network.sendPaginatedRequest
 import com.tecknobit.equinoxcore.network.sendRequest
@@ -19,7 +21,7 @@ import kotlinx.coroutines.launch
  * @author N7ghtm4r3 - Tecknobit
  * @see androidx.lifecycle.ViewModel
 
- * @see Retriever.RetrieverWrapper
+ * @see com.tecknobit.equinoxcompose.session.Retriever.RetrieverWrapper
  * @see EquinoxViewModel
  * @see EquinoxProfileViewModel
  */
@@ -28,6 +30,12 @@ class ProfileScreenViewModel: EquinoxProfileViewModel(
     requester = requester,
     localUser = localUser
 ) {
+
+    /**
+     * `sessionFlowState` the state used to manage the session lifecycle in the screen
+     */
+    @OptIn(ExperimentalComposeApi::class)
+    lateinit var sessionFlowState: SessionFlowState
 
     /**
      * `changelogsState` the state used to manage the pagination for the

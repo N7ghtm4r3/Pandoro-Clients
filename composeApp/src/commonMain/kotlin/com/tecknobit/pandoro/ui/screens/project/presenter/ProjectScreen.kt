@@ -63,6 +63,7 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
 import com.tecknobit.equinoxcompose.utilities.responsiveAssignment
+import com.tecknobit.equinoxcore.annotations.Returner
 import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.SCHEDULE_UPDATE_SCREEN
 import com.tecknobit.pandoro.navigator
@@ -113,11 +114,21 @@ class ProjectScreen(
     )
 ) {
 
+    /**
+     * Method used to retrieve a [SessionFlowState] instance used by the inheritors screens
+     *
+     * @return the state instance as [SessionFlowState]
+     */
+    @Returner
     override fun sessionFlowState(): SessionFlowState {
         return viewModel.sessionFlowState
     }
 
+    /**
+     * The related content of the screen
+     */
     @Composable
+    @LayoutCoordinator
     override fun ItemContent() {
         ResponsiveContent(
             onExpandedSizeClass = { UpdatesStatsSection() },

@@ -17,7 +17,6 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
@@ -26,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.profile.data.Changelog
 import com.tecknobit.pandoro.ui.screens.profile.presentation.ProfileScreenViewModel
-import com.tecknobit.pandoro.ui.theme.Green
+import com.tecknobit.pandoro.ui.theme.green
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.decline
@@ -78,7 +77,7 @@ fun ChangelogItem(
                         modifier = Modifier
                             .height(35.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Green()
+                            containerColor = green()
                         ),
                         shape = RoundedCornerShape(
                             size = 5.dp

@@ -70,7 +70,8 @@ import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme
 import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowContainer
 import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.EXPANDED_CONTAINER
-import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.COMPACT_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.SUPPORTED_LANGUAGES
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isEmailValid
@@ -88,6 +89,7 @@ import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.profile.components.ChangelogItem
 import com.tecknobit.pandoro.ui.screens.profile.presentation.ProfileScreenViewModel
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
+import com.tecknobit.pandoro.ui.theme.fallbackColor
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
@@ -114,19 +116,24 @@ import pandoro.composeapp.generated.resources.wrong_password
  * allow to customize the preferences and settings
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  */
 class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     viewModel = ProfileScreenViewModel()
 ) {
 
+    /**
+     * The custom content of the screen
+     */
     @Composable
     override fun ColumnScope.ScreenContent() {
         SessionFlowContainer(
             modifier = Modifier
                 .fillMaxSize(),
-            state = rememberSessionFlowState(),
+            state = viewModel.sessionFlowState,
+            statusContainerColor = MaterialTheme.colorScheme.primary,
+            fallbackContentColor = fallbackColor(),
             content = {
                 Column (
                     modifier = Modifier
@@ -143,7 +150,11 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         )
     }
 
+    /**
+     * The section where is displayed the title of the current screen
+     */
     @Composable
+    @ScreenSection
     override fun TitleSection() {
         ScreenTitle(
             title = Res.string.profile
@@ -579,6 +590,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         viewModel.password = remember { mutableStateOf(localUser.password) }
         viewModel.language = remember { mutableStateOf(localUser.language) }
         viewModel.theme = remember { mutableStateOf(localUser.theme) }
+        viewModel.sessionFlowState = rememberSessionFlowState()
     }
 
 }

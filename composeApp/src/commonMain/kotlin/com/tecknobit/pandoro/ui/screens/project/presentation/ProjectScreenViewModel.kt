@@ -6,7 +6,6 @@ import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
-import com.tecknobit.equinoxcompose.session.setServerOfflineValue
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.equinoxcore.toggle
@@ -52,6 +51,9 @@ class ProjectScreenViewModel(
      */
     lateinit var updateStatusesFilters: SnapshotStateList<UpdateStatus>
 
+    /**
+     * `sessionFlowState` the state used to manage the session lifecycle in the screen
+     */
     lateinit var sessionFlowState: SessionFlowState
 
     /**
@@ -68,11 +70,11 @@ class ProjectScreenViewModel(
                         )
                     },
                     onSuccess = {
-                        setServerOfflineValue(false)
+                        sessionFlowState.notifyOperational()
                         _project.value = Json.decodeFromJsonElement(it.toResponseData())
                     },
                     onFailure = {},
-                    onConnectionError = { setServerOfflineValue(true) }
+                    onConnectionError = { sessionFlowState.notifyServerOffline() }
                 )
             }
         )

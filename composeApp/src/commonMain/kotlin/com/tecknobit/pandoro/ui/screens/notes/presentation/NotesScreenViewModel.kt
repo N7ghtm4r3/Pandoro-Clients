@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
  * @author N7ghtm4r3 - Tecknobit
  * @see androidx.lifecycle.ViewModel
 
- * @see Retriever.RetrieverWrapper
+ * @see com.tecknobit.equinoxcompose.session.Retriever.RetrieverWrapper
  * @see EquinoxViewModel
  * @see NotesManager
  */
@@ -42,6 +42,9 @@ class NotesScreenViewModel: EquinoxViewModel(
      */
     lateinit var selectCompletedNotes: MutableState<Boolean>
 
+    /**
+     * `sessionFlowState` the state used to manage the session lifecycle in the screen
+     */
     lateinit var sessionFlowState: SessionFlowState
 
     /**

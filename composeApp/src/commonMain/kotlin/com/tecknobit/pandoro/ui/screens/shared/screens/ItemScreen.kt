@@ -46,7 +46,6 @@ import com.tecknobit.equinoxcompose.annotations.ScreenCoordinator
 import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.components.ChameleonText
 import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowContainer
-import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.displayFontFamily
@@ -54,6 +53,7 @@ import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
+import com.tecknobit.pandoro.ui.shared.presenters.SessionFlowStateConsumer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -71,6 +71,7 @@ import pandoro.composeapp.generated.resources.edit
  * @author N7ghtm4r3 - Tecknobit
  * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
+ * @see SessionFlowStateConsumer
  */
 @Structure
 @ScreenCoordinator
@@ -79,13 +80,16 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
     private val bottomPadding: Dp = 16.dp
 ) : PandoroScreen<V>(
     viewModel = viewModel
-) {
+), SessionFlowStateConsumer {
 
     /**
      * `item` state flow holds the item data
      */
     protected lateinit var item: State<I?>
 
+    /**
+     * The custom content of the screen
+     */
     @Composable
     override fun ColumnScope.ScreenContent() {
         SessionFlowContainer(
@@ -108,8 +112,6 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
             }
         )
     }
-
-    protected abstract fun sessionFlowState() : SessionFlowState
 
     /**
      * The section of the title of the screen

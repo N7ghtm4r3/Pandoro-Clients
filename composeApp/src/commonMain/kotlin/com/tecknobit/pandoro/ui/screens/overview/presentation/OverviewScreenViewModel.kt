@@ -36,6 +36,9 @@ class OverviewScreenViewModel: EquinoxViewModel(
     )
     val overview: StateFlow<Overview?> = _overview
 
+    /**
+     * `sessionFlowState` the state used to manage the session lifecycle in the screen
+     */
     lateinit var sessionFlowState: SessionFlowState
 
     /**

@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeApi::class)
 
 package com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter
 
@@ -35,6 +35,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +51,8 @@ import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
+import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
@@ -81,7 +84,7 @@ import pandoro.composeapp.generated.resources.wrong_target_version
  * @param projectName The name of the project
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  */
 class ScheduleUpdateScreen(
     projectId: String,
@@ -95,9 +98,22 @@ class ScheduleUpdateScreen(
     )
 ) {
 
+    /**
+     * Method used to retrieve a [SessionFlowState] instance used by the inheritors screens
+     *
+     * @return the state instance as [SessionFlowState]
+     */
+    @OptIn(ExperimentalComposeApi::class)
+    override fun sessionFlowState(): SessionFlowState {
+        return viewModel.sessionFlowState
+    }
+
+    /**
+     * The section where is displayed the subtitle of the current screen
+     */
     @Composable
     @ScreenSection
-    override fun SubTitleSection() {
+    override fun SubtitleSection() {
         Text(
             modifier = Modifier
                 .padding(
@@ -383,6 +399,7 @@ class ScheduleUpdateScreen(
         viewModel.targetVersionError = remember { mutableStateOf(false) }
         viewModel.changeNoteContent = remember { mutableStateOf("") }
         viewModel.changeNoteContentError = remember { mutableStateOf(false) }
+        viewModel.sessionFlowState = rememberSessionFlowState()
     }
 
 }

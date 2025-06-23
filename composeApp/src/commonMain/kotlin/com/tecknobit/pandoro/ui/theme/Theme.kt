@@ -261,7 +261,7 @@ private val highContrastDarkColorScheme = darkColorScheme(
  * @return custom green as [Color]
  */
 @Composable
-fun Green(): Color {
+fun green(): Color {
     return if(isDarkThemeSelected())
         darkGreen
     else
@@ -274,11 +274,24 @@ fun Green(): Color {
  * @return custom yellow as [Color]
  */
 @Composable
-fun Yellow(): Color {
+fun yellow(): Color {
     return if(isDarkThemeSelected())
         darkYellow
     else
         lightYellow
+}
+
+/**
+ * Method to get the color to apply to a fallback content
+ *
+ * @return fallback color content as [Color]
+ */
+@Composable
+fun fallbackColor(): Color {
+    return if(isDarkThemeSelected())
+        MaterialTheme.colorScheme.error
+    else
+        MaterialTheme.colorScheme.errorContainer
 }
 
 /**
@@ -288,7 +301,7 @@ fun Yellow(): Color {
  * @return custom background as [Color]
  */
 @Composable
-fun ChangeNoteBackground() : Color {
+fun changeNoteBackground() : Color {
     return if(isDarkThemeSelected())
         darkChangeNoteCardBackground
     else
@@ -302,7 +315,7 @@ fun ChangeNoteBackground() : Color {
  * @return list of colors as [Array] of [Color]
  */
 @Composable
-fun PieChartColors() : Array<Color> {
+fun pieChartColors() : Array<Color> {
     return if(isDarkThemeSelected())
         pieChartDarkColors
     else
