@@ -1,8 +1,11 @@
+@file:OptIn(ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.notes.presenter
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +26,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,19 +35,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.tecknobit.equinoxcompose.session.ManagedContent
+import com.tecknobit.equinoxcompose.annotations.ScreenSection
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowContainer
+import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
 import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.ui.components.RetryButton
 import com.tecknobit.pandoro.ui.icons.AddNotes
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.notes.components.Notes
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
+import com.tecknobit.pandoro.ui.theme.fallbackColor
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.completed
 import pandoro.composeapp.generated.resources.notes
-import pandoro.composeapp.generated.resources.retry_to_reconnect
 import pandoro.composeapp.generated.resources.status
 import pandoro.composeapp.generated.resources.to_do
 
@@ -52,7 +58,7 @@ import pandoro.composeapp.generated.resources.to_do
  * The [NotesScreen] display the list of the notes owned by the [com.tecknobit.pandoro.localUser]
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  */
 class NotesScreen: PandoroScreen<NotesScreenViewModel>(
@@ -60,14 +66,16 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
 ) {
 
     /**
-     * Method to arrange the content of the screen to display
+     * The custom content of the screen
      */
     @Composable
-    override fun ArrangeScreenContent() {
-        ManagedContent(
+    override fun ColumnScope.ScreenContent() {
+        SessionFlowContainer(
             modifier = Modifier
                 .fillMaxSize(),
-            viewModel = viewModel,
+            state = viewModel.sessionFlowState,
+            statusContainerColor = MaterialTheme.colorScheme.primary,
+            fallbackContentColor = fallbackColor(),
             content = {
                 Scaffold (
                     containerColor = MaterialTheme.colorScheme.primary,
@@ -81,12 +89,9 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                                 contentDescription = null
                             )
                         }
-                    },
-                    bottomBar = { AdaptBottomBarToNavigationMode() }
+                    }
                 ) {
-                    AdaptContentToNavigationMode(
-                        screenTitle = Res.string.notes
-                    ) {
+                    Column {
                         Filters()
                         Notes(
                             viewModel = viewModel
@@ -94,8 +99,24 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                     }
                 }
             },
-            serverOfflineRetryText = Res.string.retry_to_reconnect,
-            serverOfflineRetryAction = { viewModel.notesState.retryLastFailedRequest() }
+            retryFailedFlowContent = {
+                RetryButton(
+                    onRetry = {
+                        viewModel.notesState.retryLastFailedRequest()
+                    }
+                )
+            }
+        )
+    }
+
+    /**
+     * The section where is displayed the title of the current screen
+     */
+    @Composable
+    @ScreenSection
+    override fun TitleSection() {
+        ScreenTitle(
+            title = Res.string.notes
         )
     }
 
@@ -103,6 +124,7 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
      * The filters applicable to the notes list
      */
     @Composable
+    @ScreenSection
     private fun Filters() {
         Row (
             modifier = Modifier
@@ -201,6 +223,7 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
     override fun CollectStates() {
         viewModel.selectToDoNotes = remember { mutableStateOf(true) }
         viewModel.selectCompletedNotes = remember { mutableStateOf(true) }
+        viewModel.sessionFlowState = rememberSessionFlowState()
     }
 
 }

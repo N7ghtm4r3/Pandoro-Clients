@@ -9,8 +9,8 @@ import com.tecknobit.equinoxcore.helpers.IDENTIFIER_KEY
 import com.tecknobit.equinoxcore.helpers.NAME_KEY
 import com.tecknobit.equinoxcore.helpers.PROFILE_PIC_KEY
 import com.tecknobit.equinoxcore.helpers.SURNAME_KEY
-import com.tecknobit.pandoro.ui.theme.Green
-import com.tecknobit.pandoro.ui.theme.Yellow
+import com.tecknobit.pandoro.ui.theme.green
+import com.tecknobit.pandoro.ui.theme.yellow
 import com.tecknobit.pandorocore.INVITATION_STATUS_KEY
 import com.tecknobit.pandorocore.MEMBER_ROLE_KEY
 import com.tecknobit.pandorocore.enums.InvitationStatus
@@ -94,9 +94,9 @@ data class GroupMember(
         @Composable
         fun InvitationStatus.color() : Color {
             return if(this == PENDING)
-                Yellow()
+                yellow()
             else
-                Green()
+                green()
         }
 
     }

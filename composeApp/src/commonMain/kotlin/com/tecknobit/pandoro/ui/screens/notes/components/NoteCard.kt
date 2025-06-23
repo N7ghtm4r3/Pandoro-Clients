@@ -73,8 +73,8 @@ import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewMo
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
-import com.tecknobit.pandoro.ui.theme.ChangeNoteBackground
-import com.tecknobit.pandoro.ui.theme.Green
+import com.tecknobit.pandoro.ui.theme.changeNoteBackground
+import com.tecknobit.pandoro.ui.theme.green
 import com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -138,7 +138,7 @@ fun ChangeNoteCard(
     NoteCardContent(
         modifier = modifier,
         colors = CardDefaults.cardColors(
-            containerColor = ChangeNoteBackground()
+            containerColor = changeNoteBackground()
         ),
         viewModel = viewModel,
         noteShared = project.isSharedWithGroups(),
@@ -202,7 +202,7 @@ private fun NoteCardContent(
                 if (note.markedAsDone) {
                     Modifier.colorOneSideBorder(
                         borderToColor = BorderToColor.END,
-                        color = Green(),
+                        color = green(),
                         width = 8.dp,
                         shape = CardDefaults.shape
                     )

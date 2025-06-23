@@ -6,8 +6,8 @@ import androidx.compose.ui.graphics.Color
 import com.tecknobit.equinoxcore.time.TimeFormatter.daysUntil
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
-import com.tecknobit.pandoro.ui.theme.Green
-import com.tecknobit.pandoro.ui.theme.Yellow
+import com.tecknobit.pandoro.ui.theme.green
+import com.tecknobit.pandoro.ui.theme.yellow
 import com.tecknobit.pandorocore.UPDATE_CREATE_DATE_KEY
 import com.tecknobit.pandorocore.UPDATE_PUBLISHED_BY_KEY
 import com.tecknobit.pandorocore.UPDATE_PUBLISH_DATE_KEY
@@ -67,8 +67,8 @@ data class ProjectUpdate(
         fun UpdateStatus.toColor(): Color {
             return when(this) {
                 UpdateStatus.SCHEDULED -> MaterialTheme.colorScheme.error
-                UpdateStatus.IN_DEVELOPMENT -> Yellow()
-                PUBLISHED -> Green()
+                UpdateStatus.IN_DEVELOPMENT -> yellow()
+                PUBLISHED -> green()
             }
         }
 

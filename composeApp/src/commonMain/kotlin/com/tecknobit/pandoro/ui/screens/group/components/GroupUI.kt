@@ -35,8 +35,6 @@ import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
-import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
-import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.PROJECTS_SCREEN
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -122,9 +120,6 @@ fun GroupExpandedList(
                 trailingContent = { group ->
                     IconButton(
                         onClick = {
-                            HomeScreen.setCurrentScreenDisplayed(
-                                screen = PROJECTS_SCREEN
-                            )
                             navigator.navigate("$GROUP_SCREEN/${group.id}")
                         }
                     ) {

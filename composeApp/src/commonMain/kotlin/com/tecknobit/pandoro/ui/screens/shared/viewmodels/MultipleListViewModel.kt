@@ -1,7 +1,9 @@
 package com.tecknobit.pandoro.ui.screens.shared.viewmodels
 
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
 
@@ -17,6 +19,12 @@ import com.tecknobit.equinoxcore.annotations.Structure
 abstract class MultipleListViewModel : EquinoxViewModel(
     snackbarHostState = SnackbarHostState()
 ) {
+
+    /**
+     * `sessionFlowState` the state used to manage the session lifecycle in the screen
+     */
+    @OptIn(ExperimentalComposeApi::class)
+    lateinit var sessionFlowState: SessionFlowState
 
     /**
      * Method to retry the retrieving of the lists data

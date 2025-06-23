@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeApi::class)
 
 package com.tecknobit.pandoro.ui.screens.createproject.presenter
 
@@ -31,6 +31,7 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.collectAsState
@@ -48,6 +49,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
+import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
@@ -86,7 +89,7 @@ import pandoro.composeapp.generated.resources.wrong_repository_url
  * @param projectId The identifier of the project to edit
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  * @see CreateScreen
  */
@@ -94,61 +97,21 @@ class CreateProjectScreen(
     projectId: String?
 ) : CreateScreen<Project, CreateProjectScreenViewModel>(
     itemId = projectId,
+    creationTitle = Res.string.create_project,
+    editingTitle = Res.string.edit_project,
     viewModel = CreateProjectScreenViewModel(
         projectId = projectId
     )
 ) {
 
     /**
-     * Method to arrange the content of the screen to display
+     * Method used to retrieve a [SessionFlowState] instance used by the inheritors screens
+     *
+     * @return the state instance as [SessionFlowState]
      */
-    @Composable
-    override fun ArrangeScreenContent() {
-        LoadAwareContent(
-            creationTitle = Res.string.create_project,
-            editingTitle = Res.string.edit_project
-        ) {
-            viewModel.projectIcon = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.icon
-                    else
-                        ""
-                )
-            }
-            viewModel.projectName = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.name
-                    else
-                        ""
-                )
-            }
-            viewModel.projectVersion = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.version
-                    else
-                        ""
-                )
-            }
-            viewModel.projectRepository = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.projectRepo
-                    else
-                        ""
-                )
-            }
-            viewModel.projectDescription = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.description
-                    else
-                        ""
-                )
-            }
-        }
+    @OptIn(ExperimentalComposeApi::class)
+    override fun sessionFlowState(): SessionFlowState {
+        return viewModel.sessionFlowState
     }
 
     /**
@@ -557,6 +520,51 @@ class CreateProjectScreen(
         viewModel.projectVersionError = remember { mutableStateOf(false) }
         viewModel.projectRepositoryError = remember { mutableStateOf(false) }
         viewModel.projectDescriptionError = remember { mutableStateOf(false) }
+        viewModel.sessionFlowState = rememberSessionFlowState()
+    }
+
+    @Composable
+    override fun CollectStatesAfterLoading() {
+        viewModel.projectIcon = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.icon
+                else
+                    ""
+            )
+        }
+        viewModel.projectName = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.name
+                else
+                    ""
+            )
+        }
+        viewModel.projectVersion = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.version
+                else
+                    ""
+            )
+        }
+        viewModel.projectRepository = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.projectRepo
+                else
+                    ""
+            )
+        }
+        viewModel.projectDescription = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.description
+                else
+                    ""
+            )
+        }
     }
 
 }

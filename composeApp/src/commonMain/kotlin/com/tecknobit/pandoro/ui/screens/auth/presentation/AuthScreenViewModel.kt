@@ -15,7 +15,7 @@ import kotlinx.serialization.json.JsonObject
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see androidx.lifecycle.ViewModel
- * @see Retriever.RetrieverWrapper
+ * @see com.tecknobit.equinoxcompose.session.Retriever.RetrieverWrapper
  * @see EquinoxViewModel
  * @see EquinoxAuthViewModel
  */

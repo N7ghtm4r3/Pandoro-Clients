@@ -24,9 +24,6 @@ import com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen
 import com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
-import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.GROUPS_SCREEN
-import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.NOTES_SCREEN
-import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.PROJECTS_SCREEN
 import com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen
 import com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter.ScheduleUpdateScreen
 import com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen
@@ -50,82 +47,82 @@ import pandoro.composeapp.generated.resources.oswald
 import pandoro.composeapp.generated.resources.robotomono
 
 /**
- * `bodyFontFamily` -> the Pandoro's body font family
+ * `bodyFontFamily` the Pandoro's body font family
  */
 lateinit var bodyFontFamily: FontFamily
 
 /**
- * `displayFontFamily` -> the Pandoro's font family
+ * `displayFontFamily` the Pandoro's font family
  */
 lateinit var displayFontFamily: FontFamily
 
 /**
- * `navigator` -> the navigator instance is useful to manage the navigation between the screens of the application
+ * `navigator` the navigator instance is useful to manage the navigation between the screens of the application
  */
 lateinit var navigator: Navigator
 
 /**
- * `SPLASHSCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen]
+ * `SPLASHSCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen]
  */
 const val SPLASHSCREEN = "Splashscreen"
 
 /**
- * `AUTH_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen]
+ * `AUTH_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen]
  */
 const val AUTH_SCREEN = "AuthScreen"
 
 /**
- * `HOME_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen]
+ * `HOME_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen]
  */
 const val HOME_SCREEN = "HomeScreen"
 
 /**
- * `CREATE_PROJECT_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen]
+ * `CREATE_PROJECT_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen]
  */
 const val CREATE_PROJECT_SCREEN = "CreateProject"
 
 /**
- * `CREATE_NOTE_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen]
+ * `CREATE_NOTE_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen]
  */
 const val CREATE_NOTE_SCREEN = "CreateNote"
 
 /**
- * `CREATE_CHANGE_NOTE_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen]
+ * `CREATE_CHANGE_NOTE_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen]
  */
 const val CREATE_CHANGE_NOTE_SCREEN = "CreateChangeNote"
 
 /**
- * `SCHEDULE_UPDATE_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter.ScheduleUpdateScreen]
+ * `SCHEDULE_UPDATE_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter.ScheduleUpdateScreen]
  */
 const val SCHEDULE_UPDATE_SCREEN = "ScheduleUpdate"
 
 /**
- * `CREATE_GROUP_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen]
+ * `CREATE_GROUP_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen]
  */
 const val CREATE_GROUP_SCREEN = "CreateGroup"
 
 /**
- * `PROJECT_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen]
+ * `PROJECT_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen]
  */
 const val PROJECT_SCREEN = "ProjectScreen"
 
 /**
- * `GROUP_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen]
+ * `GROUP_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen]
  */
 const val GROUP_SCREEN = "GroupScreen"
 
 /**
- * `imageLoader` -> the image loader used by coil library to load the image and by-passing the https self-signed certificates
+ * `imageLoader` the image loader used by coil library to load the image and by-passing the https self-signed certificates
  */
 lateinit var imageLoader: ImageLoader
 
 /**
- * `requester` -> the instance to manage the requests with the backend
+ * `requester` the instance to manage the requests with the backend
  */
 lateinit var requester: PandoroRequester
 
 /**
- * `localUser` -> the helper to manage the local sessions stored locally in
+ * `localUser` the helper to manage the local sessions stored locally in
  * the device
  */
 val localUser = EquinoxLocalUser("Pandoro")
@@ -177,9 +174,6 @@ fun App() {
                 route = "$CREATE_PROJECT_SCREEN/{$PROJECT_IDENTIFIER_KEY}?"
             ) { backstackEntry ->
                 val projectId: String? = backstackEntry.path<String>(PROJECT_IDENTIFIER_KEY)
-                HomeScreen.setCurrentScreenDisplayed(
-                    screen = PROJECTS_SCREEN
-                )
                 CreateProjectScreen(
                     projectId = projectId
                 ).ShowContent()
@@ -188,9 +182,6 @@ fun App() {
                 route = "$CREATE_NOTE_SCREEN/{$NOTE_IDENTIFIER_KEY}?"
             ) { backstackEntry ->
                 val noteId: String? = backstackEntry.path<String>(NOTE_IDENTIFIER_KEY)
-                HomeScreen.setCurrentScreenDisplayed(
-                    screen = NOTES_SCREEN
-                )
                 CreateNoteScreen(
                     noteId = noteId
                 ).ShowContent()
@@ -224,9 +215,6 @@ fun App() {
                 route = "$CREATE_GROUP_SCREEN/{$GROUP_IDENTIFIER_KEY}?"
             ) { backstackEntry ->
                 val groupId: String? = backstackEntry.path<String>(GROUP_IDENTIFIER_KEY)
-                HomeScreen.setCurrentScreenDisplayed(
-                    screen = GROUPS_SCREEN
-                )
                 CreateGroupScreen(
                     groupId = groupId
                 ).ShowContent()

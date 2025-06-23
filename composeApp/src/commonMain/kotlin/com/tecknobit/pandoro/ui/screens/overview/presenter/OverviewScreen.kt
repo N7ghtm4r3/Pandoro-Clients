@@ -1,12 +1,17 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMultiplatform::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMultiplatform::class,
+    ExperimentalComposeApi::class
+)
 
 package com.tecknobit.pandoro.ui.screens.overview.presenter
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -17,7 +22,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
@@ -26,22 +31,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.components.EmptyState
-import com.tecknobit.equinoxcompose.session.ManagedContent
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowContainer
+import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.ExpandedClassComponent
 import com.tecknobit.equinoxcompose.utilities.LayoutCoordinator
-import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.COMPACT_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.equinoxcompose.utilities.responsiveAssignment
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
+import com.tecknobit.pandoro.ui.components.RetryButton
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.overview.components.OverviewCard
 import com.tecknobit.pandoro.ui.screens.overview.components.ProjectsStatsSheet
 import com.tecknobit.pandoro.ui.screens.overview.components.UpdatesStatsSheet
 import com.tecknobit.pandoro.ui.screens.overview.data.Overview
 import com.tecknobit.pandoro.ui.screens.overview.presentation.OverviewScreenViewModel
-import com.tecknobit.pandoro.ui.theme.AppTypography
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
+import com.tecknobit.pandoro.ui.theme.EmptyStateTitleStyle
+import com.tecknobit.pandoro.ui.theme.fallbackColor
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -52,14 +62,13 @@ import pandoro.composeapp.generated.resources.no_data_available
 import pandoro.composeapp.generated.resources.no_overview_data
 import pandoro.composeapp.generated.resources.overview
 import pandoro.composeapp.generated.resources.projects
-import pandoro.composeapp.generated.resources.retry_to_reconnect
 import pandoro.composeapp.generated.resources.updates
 
 /**
  * The [OverviewScreen] displays the details of an overview
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  */
 class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
@@ -67,37 +76,51 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
 ) {
 
     /**
-     * `overview` -> state flow holds the overview data
+     * `overview` state flow holds the overview data
      */
     private lateinit var overview: State<Overview?>
 
     /**
-     * Method to arrange the content of the screen to display
+     * The custom content of the screen
      */
     @Composable
-    override fun ArrangeScreenContent() {
-        ManagedContent(
+    @OptIn(ExperimentalComposeApi::class)
+    override fun ColumnScope.ScreenContent() {
+        SessionFlowContainer(
             modifier = Modifier
                 .fillMaxSize(),
-            viewModel = viewModel,
+            state = viewModel.sessionFlowState,
+            statusContainerColor = MaterialTheme.colorScheme.primary,
+            fallbackContentColor = fallbackColor(),
             content = {
                 Scaffold (
                     containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
-                    bottomBar = { AdaptBottomBarToNavigationMode() }
+                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) }
                 ) {
-                    AdaptContentToNavigationMode(
-                        screenTitle = Res.string.overview
-                    ) {
-                        if(overview.value == null)
-                            NoOverviewDataAvailable()
-                        else
-                            OverviewData()
-                    }
+                    if(overview.value == null)
+                        NoOverviewDataAvailable()
+                    else
+                        OverviewData()
                 }
             },
-            serverOfflineRetryText = Res.string.retry_to_reconnect,
-            serverOfflineRetryAction = { viewModel.retrieveOverview() }
+            retryFailedFlowContent = {
+                RetryButton(
+                    onRetry = {
+                        viewModel.retrieveOverview()
+                    }
+                )
+            }
+        )
+    }
+
+    /**
+     * The section where is displayed the title of the current screen
+     */
+    @Composable
+    @ScreenSection
+    override fun TitleSection() {
+        ScreenTitle(
+            title = Res.string.overview
         )
     }
 
@@ -117,7 +140,7 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
             ),
             contentDescription = "No data available",
             title = stringResource(Res.string.no_data_available),
-            titleStyle = AppTypography.bodyLarge
+            titleStyle = EmptyStateTitleStyle
         )
     }
 
@@ -208,23 +231,31 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
         classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
     )
     private fun OverviewColumned() {
-        Column(
+        LazyColumn (
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
+                .navigationBarsPadding(),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            ProjectsStats()
-            UpdatesStats()
-            OverviewCard(
-                title = Res.string.development_days,
-                overviewStats = overview.value!!.developmentDays
-            )
-            OverviewCard(
-                title = Res.string.average_development_days,
-                totalHeader = Res.string.general,
-                overviewStats = overview.value!!.averageDevelopmentDays
-            )
+            item {
+                ProjectsStats()
+            }
+            item {
+                UpdatesStats()
+            }
+            item {
+                OverviewCard(
+                    title = Res.string.development_days,
+                    overviewStats = overview.value!!.developmentDays
+                )
+            }
+            item {
+                OverviewCard(
+                    title = Res.string.average_development_days,
+                    totalHeader = Res.string.general,
+                    overviewStats = overview.value!!.averageDevelopmentDays
+                )
+            }
         }
     }
 
@@ -317,6 +348,7 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
             viewModel.retrieveOverview()
         }
         overview = viewModel.overview.collectAsState()
+        viewModel.sessionFlowState = rememberSessionFlowState()
     }
 
 }

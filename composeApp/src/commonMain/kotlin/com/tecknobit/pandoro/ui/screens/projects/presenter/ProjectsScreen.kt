@@ -20,17 +20,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.NewHorizontalPageProgressIndicator
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.projects.components.FilterProjects
 import com.tecknobit.pandoro.ui.screens.projects.components.InDevelopmentProjectCard
 import com.tecknobit.pandoro.ui.screens.projects.components.Projects
 import com.tecknobit.pandoro.ui.screens.projects.presentation.ProjectsScreenViewModel
 import com.tecknobit.pandoro.ui.screens.shared.screens.ListsScreen
+import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyRow
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.all
@@ -43,7 +44,7 @@ import pandoro.composeapp.generated.resources.projects
  * projects in development and the complete projects list
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  * @see ListsScreen
  */
@@ -176,7 +177,9 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
      * Method to collect or instantiate the states of the screen
      */
     @Composable
+    @RequiresSuperCall
     override fun CollectStates() {
+        super.CollectStates()
         viewModel.inDevelopmentProjectsFilter = remember { mutableStateOf("") }
         viewModel.projectsFilter = remember { mutableStateOf("") }
     }

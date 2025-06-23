@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeApi::class)
 
 package com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter
 
@@ -35,6 +35,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,8 +48,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
 import com.tecknobit.equinoxcompose.components.EquinoxTextField
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
+import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
@@ -80,43 +84,50 @@ import pandoro.composeapp.generated.resources.wrong_target_version
  * @param projectName The name of the project
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  */
 class ScheduleUpdateScreen(
     projectId: String,
     private val projectName: String
 ) : CreateScreen<ProjectUpdate, ScheduleUpdateScreenViewModel>(
     itemId = null,
+    creationTitle = Res.string.schedule_update,
+    editingTitle = Res.string.edit,
     viewModel = ScheduleUpdateScreenViewModel(
         projectId = projectId
     )
 ) {
 
     /**
-     * Method to arrange the content of the screen to display
+     * Method used to retrieve a [SessionFlowState] instance used by the inheritors screens
+     *
+     * @return the state instance as [SessionFlowState]
+     */
+    @OptIn(ExperimentalComposeApi::class)
+    override fun sessionFlowState(): SessionFlowState {
+        return viewModel.sessionFlowState
+    }
+
+    /**
+     * The section where is displayed the subtitle of the current screen
      */
     @Composable
-    override fun ArrangeScreenContent() {
-        LoadAwareContent(
-            creationTitle = Res.string.schedule_update,
-            editingTitle = Res.string.edit, //
-            subTitle = {
-                Text(
-                    modifier = Modifier
-                        .padding(
-                            start = 16.dp,
-                            bottom = 16.dp
-                        ),
-                    text = stringResource(
-                        resource = Res.string.schedule_update_subtext,
-                        projectName
-                    ),
-                    fontSize = 14.sp
-                )
-            }
-        ) {
-
-        }
+    @ScreenSection
+    override fun SubtitleSection() {
+        Text(
+            modifier = Modifier
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 10.dp
+                ),
+            text = stringResource(
+                resource = Res.string.schedule_update_subtext,
+                projectName
+            ),
+            fontSize = 14.sp,
+            color = MaterialTheme.colorScheme.onPrimary
+        )
     }
 
     /**
@@ -388,6 +399,7 @@ class ScheduleUpdateScreen(
         viewModel.targetVersionError = remember { mutableStateOf(false) }
         viewModel.changeNoteContent = remember { mutableStateOf("") }
         viewModel.changeNoteContentError = remember { mutableStateOf(false) }
+        viewModel.sessionFlowState = rememberSessionFlowState()
     }
 
 }

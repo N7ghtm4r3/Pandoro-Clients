@@ -20,10 +20,8 @@ import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
 import com.tecknobit.pandoro.PROJECT_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.navigator
-import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
-import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen.Companion.OVERVIEW_SCREEN
 import com.tecknobit.pandoro.ui.screens.overview.data.ProjectPerformanceStats
-import com.tecknobit.pandoro.ui.theme.Green
+import com.tecknobit.pandoro.ui.theme.green
 import ir.ehsannarmani.compose_charts.extensions.format
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
@@ -53,16 +51,13 @@ fun ProjectPerformanceCard(
             .colorOneSideBorder(
                 borderToColor = BorderToColor.END,
                 color = if(isTheBest)
-                    Green()
+                    green()
                 else
                     MaterialTheme.colorScheme.error,
                 width = 8.dp,
                 shape = CardDefaults.shape
             ),
         onClick = {
-            HomeScreen.setCurrentScreenDisplayed(
-                screen = OVERVIEW_SCREEN
-            )
             navigator.navigate("$PROJECT_SCREEN/${project.id}")
         }
     ) {

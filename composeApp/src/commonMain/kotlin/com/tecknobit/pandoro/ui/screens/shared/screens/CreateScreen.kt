@@ -1,13 +1,11 @@
+@file:OptIn(ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.shared.screens
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,15 +15,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.State
@@ -42,10 +39,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.annotations.ScreenCoordinator
 import com.tecknobit.equinoxcompose.annotations.ScreenSection
-import com.tecknobit.equinoxcompose.resources.loading_data
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowContainer
 import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
 import com.tecknobit.equinoxcompose.utilities.LayoutCoordinator
-import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
@@ -54,6 +52,7 @@ import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
+import com.tecknobit.pandoro.ui.shared.presenters.SessionFlowStateConsumer
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
@@ -73,121 +72,101 @@ import pandoro.composeapp.generated.resources.save
  * @param viewModel The support viewmodel of the screen
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
+ * @see SessionFlowStateConsumer
  */
 @Structure
 @ScreenCoordinator
 abstract class CreateScreen<I, V : EquinoxViewModel>(
     itemId: String?,
+    private val creationTitle: StringResource,
+    private val editingTitle: StringResource,
     viewModel: V
 ) : PandoroScreen<V>(
     viewModel = viewModel
-) {
+), SessionFlowStateConsumer {
 
     /**
-     * `isEditing` -> whether the user is creating or editing an item
+     * `isEditing` whether the user is creating or editing an item
      */
     protected val isEditing: Boolean = itemId != null
 
     /**
-     * `item` -> state flow holds the item data if [isEditing] is true
+     * `item` state flow holds the item data if [isEditing] is true
      */
     protected lateinit var item: State<I?>
 
     /**
-     * `fullScreenFormType` -> state holds the type of the form to use to create or edit the [item]
+     * `fullScreenFormType` state holds the type of the form to use to create or edit the [item]
      */
     protected lateinit var fullScreenFormType: MutableState<Boolean>
 
     /**
-     * Container component to safely display the content of the screen when the [item] is not null
-     *
-     * @param creationTitle The title of the screen when creating an item
-     * @param editingTitle The tile of the screen when editing an item
-     * @param subTitle Custom subtitle
-     * @param initializationProcedure The procedure to initialize the [item]
+     * Method used to arrange the content of the screen to display
      */
     @Composable
-    protected fun LoadAwareContent(
-        creationTitle: StringResource,
-        editingTitle: StringResource,
-        subTitle: @Composable (() -> Unit)? = null,
-        initializationProcedure: @Composable () -> Unit
-    ) {
+    override fun ArrangeScreenContent() {
         PandoroTheme {
-            AnimatedVisibility(
-                visible = (isEditing && item.value != null) || !isEditing,
-                enter = fadeIn(),
-                exit = fadeOut(),
+            SessionFlowContainer(
+                modifier = Modifier
+                    .fillMaxSize(),
+                state = sessionFlowState(),
+                initialLoadingRoutineDelay = 1000L,
+                loadingRoutine = if(isEditing) {
+                    {
+                        item.value != null
+                    }
+                } else
+                    null,
                 content = {
-                    initializationProcedure.invoke()
-                    ItemLoadedContent(
-                        creationTitle = creationTitle,
-                        editingTitle = editingTitle,
-                        subTitle = subTitle
-                    )
-                }
-            )
-            AnimatedVisibility(
-                visible = isEditing && item.value == null,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                Surface {
+                    CollectStatesAfterLoading()
                     Column (
                         modifier = Modifier
-                            .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.primary)
                     ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .size(85.dp),
-                            strokeWidth = 8.dp
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(
-                                    top = 16.dp
-                                ),
-                            text = stringResource(com.tecknobit.equinoxcompose.resources.Res.string.loading_data)
-                        )
+                        TitleSection()
+                        SubtitleSection()
+                        ScreenContent()
                     }
                 }
-            }
+            )
         }
     }
 
+    /**
+     * The section where is displayed the title of the current screen
+     */
     @Composable
-    private fun ItemLoadedContent(
-        creationTitle: StringResource,
-        editingTitle: StringResource,
-        subTitle: @Composable (() -> Unit)? = null
-    ) {
+    @ScreenSection
+    override fun TitleSection() {
+        ScreenTitle(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.primary)
+                .padding(
+                    top = 16.dp
+                ),
+            navBackAction = { navigator.goBack() },
+            title = if(isEditing)
+                editingTitle
+            else
+                creationTitle
+        )
+    }
+
+    /**
+     * The custom content of the screen
+     */
+    @Composable
+    override fun ColumnScope.ScreenContent() {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.primary,
             snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
             floatingActionButton = { FabAction() }
         ) {
-            PlaceContent(
-                paddingValues = PaddingValues(
-                    all = 0.dp
-                ),
-                titleModifier = Modifier
-                    .padding(
-                        top = 16.dp,
-                        start = 16.dp
-                    ),
-                navBackAction = { navigator.goBack() },
-                screenTitle = if(isEditing)
-                    editingTitle
-                else
-                    creationTitle,
-                subTitle = subTitle
-            ) {
-                Form()
-            }
+            Form()
         }
     }
 

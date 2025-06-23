@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.group.presenter
 
 import androidx.compose.foundation.clickable
@@ -17,6 +19,7 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.State
@@ -28,10 +31,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.annotations.ScreenSection
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
+import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.LayoutCoordinator
-import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.COMPACT_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
+import com.tecknobit.equinoxcore.annotations.Returner
 import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.ChangeMemberRole
@@ -57,7 +64,7 @@ import com.tecknobit.pandorocore.enums.InvitationStatus.PENDING
  * @param groupId The identifier of the group to display
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  * @see ItemScreen
  */
@@ -71,9 +78,19 @@ class GroupScreen(
 ) {
 
     /**
-     * `candidatesAvailable` -> whether there are any candidates available to be added in the group
+     * `candidatesAvailable` whether there are any candidates available to be added in the group
      */
     private lateinit var candidatesAvailable: State<Boolean>
+
+    /**
+     * Method used to retrieve a [SessionFlowState] instance used by the inheritors screens
+     *
+     * @return the state instance as [SessionFlowState]
+     */
+    @Returner
+    override fun sessionFlowState(): SessionFlowState {
+        return viewModel.sessionFlowState
+    }
 
     /**
      * The title of the screen
@@ -186,7 +203,7 @@ class GroupScreen(
      */
     @Composable
     @LayoutCoordinator
-    override fun ScreenContent() {
+    override fun ItemContent() {
         ResponsiveContent(
             onExpandedSizeClass = {
                 MembersTable(
@@ -342,6 +359,7 @@ class GroupScreen(
      */
     @Composable
     override fun CollectStates() {
+        viewModel.sessionFlowState = rememberSessionFlowState()
         item = viewModel.group.collectAsState()
         candidatesAvailable = viewModel.candidatesMemberAvailable.collectAsState(
             initial = false

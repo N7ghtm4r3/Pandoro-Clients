@@ -1,7 +1,11 @@
+@file:OptIn(ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.overview.presentation
 
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.lifecycle.viewModelScope
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.network.Requester.Companion.toNullableResponseData
 import com.tecknobit.equinoxcore.network.sendRequest
@@ -25,12 +29,17 @@ class OverviewScreenViewModel: EquinoxViewModel(
 ) {
 
     /**
-     * `_overview` -> state flow holds the overview data
+     * `_overview` state flow holds the overview data
      */
     private val _overview = MutableStateFlow<Overview?>(
         value = null
     )
     val overview: StateFlow<Overview?> = _overview
+
+    /**
+     * `sessionFlowState` the state used to manage the session lifecycle in the screen
+     */
+    lateinit var sessionFlowState: SessionFlowState
 
     /**
      * Method to retrieve the data of an [Overview]
@@ -40,12 +49,16 @@ class OverviewScreenViewModel: EquinoxViewModel(
             requester.sendRequest(
                 request = { getOverview() },
                 onSuccess = { response ->
+                    sessionFlowState.notifyOperational()
                     val overview = response.toNullableResponseData()
                     overview?.let {
                         _overview.value = Json.decodeFromJsonElement(it)
                     }
                 },
-                onFailure = { showSnackbarMessage(it) }
+                onFailure = { sessionFlowState.notifyUserDisconnected() },
+                onConnectionError = {
+                    sessionFlowState.notifyServerOffline()
+                }
             )
         }
     }

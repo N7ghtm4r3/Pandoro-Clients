@@ -1,9 +1,11 @@
 package com.tecknobit.pandoro.ui.screens.creategroup.presentation
 
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcore.network.sendRequest
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
+import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
@@ -33,34 +35,40 @@ class CreateGroupScreenViewModel(
 ) : GroupManagerViewModel() {
 
     /**
-     * `groupLogo` -> the value of the logo of the group
+     * `groupLogo` the value of the logo of the group
      */
     lateinit var groupLogo: MutableState<String?>
 
     /**
-     * `groupLogoPayload` -> the payload of the group logo to set
+     * `groupLogoPayload` the payload of the group logo to set
      */
     var groupLogoPayload: PlatformFile? = null
 
     /**
-     * `groupName` -> the value of the name of the group
+     * `groupName` the value of the name of the group
      */
     lateinit var groupName: MutableState<String>
 
     /**
-     * `groupNameError` -> whether the [groupName] field is not valid
+     * `groupNameError` whether the [groupName] field is not valid
      */
     lateinit var groupNameError: MutableState<Boolean>
 
     /**
-     * `groupDescription` -> the value of the description of the group
+     * `groupDescription` the value of the description of the group
      */
     lateinit var groupDescription: MutableState<String>
 
     /**
-     * `groupDescriptionError` -> whether the [groupDescription] field is not valid
+     * `groupDescriptionError` whether the [groupDescription] field is not valid
      */
     lateinit var groupDescriptionError: MutableState<Boolean>
+
+    /**
+     * `sessionFlowState` the state used to manage the session lifecycle in the screen
+     */
+    @OptIn(ExperimentalComposeApi::class)
+    lateinit var sessionFlowState: SessionFlowState
 
     /**
      * Method to retrieve the data of a [Group] if needed

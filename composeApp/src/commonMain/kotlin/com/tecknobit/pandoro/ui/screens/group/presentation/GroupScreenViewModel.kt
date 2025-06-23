@@ -1,9 +1,12 @@
+@file:OptIn(ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.group.presentation
 
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.session.setServerOfflineValue
-import com.tecknobit.equinoxcore.network.sendRequest
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
+import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen
@@ -34,9 +37,14 @@ class GroupScreenViewModel(
 ) : GroupManagerViewModel(), GroupDeleter {
 
     /**
-     * `requestsScope` -> coroutine used to send the requests to the backend
+     * `requestsScope` coroutine used to send the requests to the backend
      */
     override val requestsScope: CoroutineScope = MainScope()
+
+    /**
+     * `sessionFlowState` the state used to manage the session lifecycle in the screen
+     */
+    lateinit var sessionFlowState: SessionFlowState
 
     /**
      * Method to retrieve the data of a [Group]
@@ -52,11 +60,11 @@ class GroupScreenViewModel(
                         )
                     },
                     onSuccess = {
-                        setServerOfflineValue(false)
+                        sessionFlowState.notifyOperational()
                         _group.value = Json.decodeFromJsonElement(it.toResponseData())
                     },
                     onFailure = {},
-                    onConnectionError = { setServerOfflineValue(true) }
+                    onConnectionError = { sessionFlowState.notifyServerOffline() }
                 )
             }
         )

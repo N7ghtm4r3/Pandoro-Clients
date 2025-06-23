@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeApi::class)
 
 package com.tecknobit.pandoro.ui.screens.creategroup.presenter
 
@@ -27,8 +27,8 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -45,6 +45,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxOutlinedTextField
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
+import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
@@ -79,7 +81,7 @@ import pandoro.composeapp.generated.resources.wrong_name
  * @param groupId The identifier of the group to edit
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  * @see CreateScreen
  */
@@ -87,50 +89,26 @@ class CreateGroupScreen(
     groupId: String?
 ): CreateScreen<Group, CreateGroupScreenViewModel>(
     itemId = groupId,
+    creationTitle = Res.string.create_group,
+    editingTitle = Res.string.edit_group,
     viewModel = CreateGroupScreenViewModel(
         groupId = groupId
     )
 ) {
 
     /**
-     * `candidatesAvailable` -> whether there are any candidates available to be added in the group
+     * `candidatesAvailable` whether there are any candidates available to be added in the group
      */
     private lateinit var candidatesAvailable: State<Boolean>
 
     /**
-     * Method to arrange the content of the screen to display
+     * Method used to retrieve a [SessionFlowState] instance used by the inheritors screens
+     *
+     * @return the state instance as [SessionFlowState]
      */
-    @Composable
-    override fun ArrangeScreenContent() {
-        LoadAwareContent(
-            creationTitle = Res.string.create_group,
-            editingTitle = Res.string.edit_group
-        ) {
-            viewModel.groupLogo = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.logo
-                    else
-                        ""
-                )
-            }
-            viewModel.groupName = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.name
-                    else
-                        ""
-                )
-            }
-            viewModel.groupDescription = remember {
-                mutableStateOf(
-                    if(isEditing)
-                        item.value!!.description
-                    else
-                        ""
-                )
-            }
-        }
+    @OptIn(ExperimentalComposeApi::class)
+    override fun sessionFlowState(): SessionFlowState {
+        return viewModel.sessionFlowState
     }
 
     /**
@@ -463,6 +441,35 @@ class CreateGroupScreen(
         candidatesAvailable = viewModel.candidatesMemberAvailable.collectAsState(
             initial = false
         )
+        viewModel.sessionFlowState = rememberSessionFlowState()
+    }
+
+    @Composable
+    override fun CollectStatesAfterLoading() {
+        viewModel.groupLogo = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.logo
+                else
+                    ""
+            )
+        }
+        viewModel.groupName = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.name
+                else
+                    ""
+            )
+        }
+        viewModel.groupDescription = remember {
+            mutableStateOf(
+                if(isEditing)
+                    item.value!!.description
+                else
+                    ""
+            )
+        }
     }
 
 }

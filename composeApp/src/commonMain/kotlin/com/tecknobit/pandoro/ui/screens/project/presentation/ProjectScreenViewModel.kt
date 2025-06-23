@@ -1,10 +1,13 @@
+@file:OptIn(ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.project.presentation
 
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.session.setServerOfflineValue
-import com.tecknobit.equinoxcore.network.sendRequest
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
+import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.equinoxcore.toggle
 import com.tecknobit.pandoro.helpers.KReviewer
 import com.tecknobit.pandoro.requester
@@ -39,14 +42,19 @@ class ProjectScreenViewModel(
 ) : BaseProjectViewModel(), ProjectDeleter, NotesManager {
 
     /**
-     * `requestsScope` -> coroutine used to send the requests to the backend
+     * `requestsScope` coroutine used to send the requests to the backend
      */
     override val requestsScope: CoroutineScope = MainScope()
 
     /**
-     * `updateStatusesFilters` -> the statuses of The update to use as filters
+     * `updateStatusesFilters` the statuses of The update to use as filters
      */
     lateinit var updateStatusesFilters: SnapshotStateList<UpdateStatus>
+
+    /**
+     * `sessionFlowState` the state used to manage the session lifecycle in the screen
+     */
+    lateinit var sessionFlowState: SessionFlowState
 
     /**
      * Method to retrieve the data of a [Project]
@@ -62,11 +70,11 @@ class ProjectScreenViewModel(
                         )
                     },
                     onSuccess = {
-                        setServerOfflineValue(false)
+                        sessionFlowState.notifyOperational()
                         _project.value = Json.decodeFromJsonElement(it.toResponseData())
                     },
                     onFailure = {},
-                    onConnectionError = { setServerOfflineValue(true) }
+                    onConnectionError = { sessionFlowState.notifyServerOffline() }
                 )
             }
         )

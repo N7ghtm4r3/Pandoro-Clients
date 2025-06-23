@@ -49,7 +49,7 @@ import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.color
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.GroupManagerViewModel
-import com.tecknobit.pandoro.ui.theme.Green
+import com.tecknobit.pandoro.ui.theme.green
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -316,7 +316,7 @@ private fun GroupMember(
                     modifier = Modifier
                         .height(35.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Green()
+                        containerColor = green()
                     ),
                     shape = RoundedCornerShape(
                         size = 5.dp

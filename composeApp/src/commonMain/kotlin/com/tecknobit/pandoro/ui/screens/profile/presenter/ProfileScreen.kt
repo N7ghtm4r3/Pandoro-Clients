@@ -6,6 +6,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -33,8 +34,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -68,11 +67,13 @@ import com.tecknobit.equinoxcompose.components.stepper.Step
 import com.tecknobit.equinoxcompose.components.stepper.StepContent
 import com.tecknobit.equinoxcompose.components.stepper.Stepper
 import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme
-import com.tecknobit.equinoxcompose.session.ManagedContent
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowContainer
+import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
 import com.tecknobit.equinoxcompose.utilities.EXPANDED_CONTAINER
-import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.*
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.COMPACT_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
-import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.LANGUAGES_SUPPORTED
+import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.SUPPORTED_LANGUAGES
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isEmailValid
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isPasswordValid
 import com.tecknobit.pandoro.SPLASHSCREEN
@@ -88,6 +89,7 @@ import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.profile.components.ChangelogItem
 import com.tecknobit.pandoro.ui.screens.profile.presentation.ProfileScreenViewModel
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
+import com.tecknobit.pandoro.ui.theme.fallbackColor
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
@@ -114,7 +116,7 @@ import pandoro.composeapp.generated.resources.wrong_password
  * allow to customize the preferences and settings
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  */
 class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
@@ -122,37 +124,40 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
 ) {
 
     /**
-     * Method to arrange the content of the screen to display
+     * The custom content of the screen
      */
     @Composable
-    override fun ArrangeScreenContent() {
-        ManagedContent(
+    override fun ColumnScope.ScreenContent() {
+        SessionFlowContainer(
             modifier = Modifier
                 .fillMaxSize(),
-            viewModel = viewModel,
+            state = viewModel.sessionFlowState,
+            statusContainerColor = MaterialTheme.colorScheme.primary,
+            fallbackContentColor = fallbackColor(),
             content = {
-                Scaffold (
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
-                    bottomBar = { AdaptBottomBarToNavigationMode() }
+                Column (
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .widthIn(
+                            max = EXPANDED_CONTAINER
+                        ),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    AdaptContentToNavigationMode(
-                        screenTitle = Res.string.profile
-                    ) {
-                        Column (
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .widthIn(
-                                    max = EXPANDED_CONTAINER
-                                ),
-                            verticalArrangement = Arrangement.spacedBy(10.dp)
-                        ) {
-                            UserDetails()
-                            Settings()
-                        }
-                    }
+                    UserDetails()
+                    Settings()
                 }
             }
+        )
+    }
+
+    /**
+     * The section where is displayed the title of the current screen
+     */
+    @Composable
+    @ScreenSection
+    override fun TitleSection() {
+        ScreenTitle(
+            title = Res.string.profile
         )
     }
 
@@ -180,12 +185,14 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                     text = localUser.completeName,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
                 Text(
                     text = viewModel.email.value,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    fontSize = 12.sp
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
                 ActionButtons()
             }
@@ -471,7 +478,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
             modifier = Modifier
                 .selectableGroup()
         ) {
-            LANGUAGES_SUPPORTED.entries.forEach { entry ->
+            SUPPORTED_LANGUAGES.entries.forEach { entry ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -583,6 +590,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
         viewModel.password = remember { mutableStateOf(localUser.password) }
         viewModel.language = remember { mutableStateOf(localUser.language) }
         viewModel.theme = remember { mutableStateOf(localUser.theme) }
+        viewModel.sessionFlowState = rememberSessionFlowState()
     }
 
 }

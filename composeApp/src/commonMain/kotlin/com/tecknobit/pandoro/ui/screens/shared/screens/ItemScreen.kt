@@ -1,25 +1,20 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeApi::class)
 
 package com.tecknobit.pandoro.ui.screens.shared.screens
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
@@ -29,19 +24,19 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -50,8 +45,7 @@ import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.annotations.ScreenCoordinator
 import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.components.ChameleonText
-import com.tecknobit.equinoxcompose.resources.loading_data
-import com.tecknobit.equinoxcompose.session.ManagedContent
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowContainer
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.displayFontFamily
@@ -59,7 +53,7 @@ import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
-import com.tecknobit.pandoro.ui.theme.PandoroTheme
+import com.tecknobit.pandoro.ui.shared.presenters.SessionFlowStateConsumer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -75,8 +69,9 @@ import pandoro.composeapp.generated.resources.edit
  * @param bottomPadding The value of the bottom padding to use
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
+ * @see SessionFlowStateConsumer
  */
 @Structure
 @ScreenCoordinator
@@ -85,85 +80,33 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
     private val bottomPadding: Dp = 16.dp
 ) : PandoroScreen<V>(
     viewModel = viewModel
-) {
+), SessionFlowStateConsumer {
 
     /**
-     * `item` -> state flow holds the item data
+     * `item` state flow holds the item data
      */
     protected lateinit var item: State<I?>
 
     /**
-     * Method to arrange the content of the screen to display
+     * The custom content of the screen
      */
     @Composable
-    override fun ArrangeScreenContent() {
-        LoadAwareContent()
-    }
-
-    /**
-     * Container component to safely display the content of the screen when the [item] is not null
-     */
-    @Composable
-    private fun LoadAwareContent() {
-        PandoroTheme {
-            AnimatedVisibility(
-                visible = item.value != null,
-                enter = fadeIn(),
-                exit = fadeOut(),
-                content = { ItemLoadedContent() }
-            )
-            AnimatedVisibility(
-                visible = item.value == null,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                Surface {
-                    Column (
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .size(85.dp),
-                            strokeWidth = 8.dp
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(
-                                    top = 16.dp
-                                ),
-                            text = stringResource(com.tecknobit.equinoxcompose.resources.Res.string.loading_data)
-                        )
-                    }
-                }
-            }
-        }
-    }
-
-    @Composable
-    protected fun ItemLoadedContent() {
-        ManagedContent(
+    override fun ColumnScope.ScreenContent() {
+        SessionFlowContainer(
             modifier = Modifier
                 .fillMaxSize(),
-            viewModel = viewModel,
+            initialLoadingRoutineDelay = 1000L,
+            loadingRoutine = { item.value != null },
+            state = sessionFlowState(),
             content = {
                 Scaffold(
-                    containerColor = MaterialTheme.colorScheme.primary,
+                    containerColor = Color.Transparent,
                     snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
                     floatingActionButton = { FabAction() }
                 ) {
-                    PlaceContent(
-                        paddingValues = PaddingValues(
-                            top = 16.dp,
-                            start = 0.dp,
-                            end = 0.dp,
-                            bottom = bottomPadding
-                        ),
-                        screenTitle = { ItemScreenTitle() },
-                    ) {
-                        ScreenContent()
+                    Column {
+                        ItemScreenTitle()
+                        ItemContent()
                     }
                 }
             }
@@ -179,6 +122,9 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
     private fun ItemScreenTitle() {
         Column(
             modifier = Modifier
+                .padding(
+                    top = 16.dp
+                )
                 .widthIn(
                     max = FORM_CARD_WIDTH
                 )
@@ -193,12 +139,14 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * The title of the screen
      */
     @Composable
+    @ScreenSection
     protected abstract fun ItemTitle()
 
     /**
      * The item base information to display
      */
     @Composable
+    @ScreenSection
     protected fun ItemInformation() {
         ListItem(
             modifier = Modifier
@@ -260,6 +208,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * The related items of the [item] such groups or projects
      */
     @Composable
+    @ScreenSection
     protected abstract fun ItemRelationshipItems()
 
     /**
@@ -269,6 +218,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * @param scope The coroutine useful to manage the visibility of the [ModalBottomSheet]
      */
     @Composable
+    @ScreenSection
     private fun ItemDescription(
         state: SheetState,
         scope: CoroutineScope
@@ -382,6 +332,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * The section to display the information of the [item] author
      */
     @Composable
+    @ScreenSection
     @NonRestartableComposable
     private fun ItemAuthor() {
         Column {
@@ -428,7 +379,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
      * The related content of the screen
      */
     @Composable
-    protected abstract fun ScreenContent()
+    protected abstract fun ItemContent()
 
     /**
      * Custom action to execute when the [androidx.compose.material3.FloatingActionButton] is clicked

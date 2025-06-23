@@ -1,10 +1,12 @@
 package com.tecknobit.pandoro.ui.screens.scheduleupdate.presentation
 
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.pandoro.helpers.KReviewer
@@ -24,7 +26,7 @@ import pandoro.composeapp.generated.resources.wrong_change_notes_list
  * @param projectId The identifier of the project where the update must be attached
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see androidx.lifecycle.ViewModel * @see Retriever.RetrieverWrapper
+ * @see androidx.lifecycle.ViewModel * @see com.tecknobit.equinoxcompose.session.Retriever.RetrieverWrapper
  * @see EquinoxViewModel
  */
 class ScheduleUpdateScreenViewModel(
@@ -34,29 +36,35 @@ class ScheduleUpdateScreenViewModel(
 ) {
 
     /**
-     * `targetVersion` -> the value of the target version
+     * `targetVersion` the value of the target version
      */
     lateinit var targetVersion: MutableState<String>
 
     /**
-     * `targetVersionError` -> whether the [targetVersion] field is not valid
+     * `targetVersionError` whether the [targetVersion] field is not valid
      */
     lateinit var targetVersionError: MutableState<Boolean>
 
     /**
-     * `changeNoteContent` -> the content of the change note
+     * `changeNoteContent` the content of the change note
      */
     lateinit var changeNoteContent: MutableState<String>
 
     /**
-     * `changeNoteContentError` -> whether the [changeNoteContent] field is not valid
+     * `changeNoteContentError` whether the [changeNoteContent] field is not valid
      */
     lateinit var changeNoteContentError: MutableState<Boolean>
 
     /**
-     * `changeNotes` -> the list of the change notes of the update
+     * `changeNotes` the list of the change notes of the update
      */
     val changeNotes: SnapshotStateList<String> = mutableStateListOf()
+
+    /**
+     * `sessionFlowState` the state used to manage the session lifecycle in the screen
+     */
+    @OptIn(ExperimentalComposeApi::class)
+    lateinit var sessionFlowState: SessionFlowState
 
     /**
      * Method to add a change note to the [changeNotes] list

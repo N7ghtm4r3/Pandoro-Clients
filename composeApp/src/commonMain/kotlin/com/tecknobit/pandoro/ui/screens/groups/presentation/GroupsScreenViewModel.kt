@@ -1,11 +1,12 @@
+@file:OptIn(ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.groups.presentation
 
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.viewModelScope
-import com.tecknobit.equinoxcompose.session.setHasBeenDisconnectedValue
-import com.tecknobit.equinoxcompose.session.setServerOfflineValue
 import com.tecknobit.equinoxcore.network.sendPaginatedRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
 import com.tecknobit.pandoro.requester
@@ -30,17 +31,17 @@ import kotlinx.coroutines.launch
 class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
 
     /**
-     * `requestsScope` -> coroutine used to send the requests to the backend
+     * `requestsScope` coroutine used to send the requests to the backend
      */
     override val requestsScope: CoroutineScope = MainScope()
 
     /**
-     * `myGroupsStateFilters` -> the filters to apply to the [myGroupsState] list
+     * `myGroupsStateFilters` the filters to apply to the [myGroupsState] list
      */
     lateinit var myGroupsStateFilters: MutableState<String>
 
     /**
-     * `myGroupsState` -> the state used to manage the pagination for the
+     * `myGroupsState` the state used to manage the pagination for the
      * [retrieveMyGroups] method
      */
     val myGroupsState = PaginationState<Int, Group>(
@@ -70,16 +71,16 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
                 },
                 serializer = Group.serializer(),
                 onSuccess = { paginatedResponse ->
-                    setServerOfflineValue(false)
+                    sessionFlowState.notifyOperational()
                     myGroupsState.appendPage(
                         items = paginatedResponse.data,
                         nextPageKey = paginatedResponse.nextPage,
                         isLastPage = paginatedResponse.isLastPage
                     )
                 },
-                onFailure = { setHasBeenDisconnectedValue(true) },
+                onFailure = { sessionFlowState.notifyUserDisconnected() },
                 onConnectionError = {
-                    setServerOfflineValue(true)
+                    sessionFlowState.notifyServerOffline()
                     myGroupsState.setError(Exception())
                 }
             )
@@ -87,17 +88,17 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
     }
 
     /**
-     * `allGroupsStateFilters` -> the filters to apply to the [allGroupsState] list
+     * `allGroupsStateFilters` the filters to apply to the [allGroupsState] list
      */
     lateinit var allGroupsStateFilters: MutableState<String>
 
     /**
-     * `roleFilters` -> the roles used as filters to apply to the [allGroupsState] list
+     * `roleFilters` the roles used as filters to apply to the [allGroupsState] list
      */
     val roleFilters: SnapshotStateList<Role> = Role.entries.toMutableStateList()
 
     /**
-     * `allGroupsState` -> the state used to manage the pagination for the
+     * `allGroupsState` the state used to manage the pagination for the
      * [retrieveAllGroups] method
      */
     val allGroupsState = PaginationState<Int, Group>(
@@ -128,16 +129,16 @@ class GroupsScreenViewModel : MultipleListViewModel(), GroupDeleter {
                 },
                 serializer = Group.serializer(),
                 onSuccess = { paginatedResponse ->
-                    setServerOfflineValue(false)
+                    sessionFlowState.notifyOperational()
                     allGroupsState.appendPage(
                         items = paginatedResponse.data,
                         nextPageKey = paginatedResponse.nextPage,
                         isLastPage = paginatedResponse.isLastPage
                     )
                 },
-                onFailure = { setHasBeenDisconnectedValue(true) },
+                onFailure = { sessionFlowState.notifyUserDisconnected() },
                 onConnectionError = {
-                    setServerOfflineValue(true)
+                    sessionFlowState.notifyServerOffline()
                     allGroupsState.setError(Exception())
                 }
             )

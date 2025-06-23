@@ -1,45 +1,42 @@
 package com.tecknobit.pandoro.ui.screens.home.presenter
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Notes
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.Groups3
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationRail
-import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
-import com.tecknobit.equinoxcompose.utilities.CompactClassComponent
+import com.tecknobit.equinoxcompose.session.screens.EquinoxNoModelScreen
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.COMPACT_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.EXPANDED_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
+import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_EXPANDED_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
-import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
+import com.tecknobit.equinoxnavigation.I18nNavigationTab
+import com.tecknobit.equinoxnavigation.NavigatorScreen
 import com.tecknobit.pandoro.CloseApplicationOnNavBack
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.localUser
@@ -52,7 +49,6 @@ import com.tecknobit.pandoro.ui.screens.overview.presenter.OverviewScreen
 import com.tecknobit.pandoro.ui.screens.profile.presenter.ProfileScreen
 import com.tecknobit.pandoro.ui.screens.projects.presenter.ProjectsScreen
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
-import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.app_version
@@ -67,112 +63,36 @@ import pandoro.composeapp.generated.resources.projects
  * navigation in app
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxNoModelScreen
+ * @see NavigatorScreen
+ *
  */
-class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
-    viewModel = HomeScreenViewModel()
-) {
+@OptIn(ExperimentalComposeApi::class)
+class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
 
     companion object {
 
         /**
-         * `MAX_CHANGELOGS_DISPLAYABLE_VALUE` -> the max value displayable in the unread changelogs badge
+         * `MAX_CHANGELOGS_DISPLAYABLE_VALUE` the max value displayable in the unread changelogs badge
          */
         private const val MAX_CHANGELOGS_DISPLAYABLE_VALUE = 99
 
         /**
-         * `PROJECTS_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.projects.presenter.ProjectsScreen]
+         * `PROFILE_TAB_INDEX` the index of the [ProfileScreen]'s tab
          */
-        const val PROJECTS_SCREEN = "ProjectsScreen"
-
-        /**
-         * `NOTES_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.notes.presenter.NotesScreen]
-         */
-        const val NOTES_SCREEN = "NotesScreen"
-
-        /**
-         * `OVERVIEW_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.overview.presenter.OverviewScreen]
-         */
-        const val OVERVIEW_SCREEN = "OverviewScreen"
-
-        /**
-         * `GROUPS_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.groups.presenter.GroupsScreen]
-         */
-        const val GROUPS_SCREEN = "GroupsScreen"
-
-        /**
-         * `PROFILE_SCREEN` -> route to navigate to the [com.tecknobit.pandoro.ui.screens.profile.presenter.ProfileScreen]
-         */
-        const val PROFILE_SCREEN = "ProfileScreen"
-
-        /**
-         * `destinations` -> the list of the destination reachable by the navigation
-         */
-        private val destinations = listOf(
-            NavigationTab(
-                tabIdentifier = PROJECTS_SCREEN,
-                icon = Icons.Default.Folder,
-                title = Res.string.projects
-            ),
-            NavigationTab(
-                tabIdentifier = NOTES_SCREEN,
-                icon = Icons.AutoMirrored.Filled.Notes,
-                title = Res.string.notes
-            ),
-            NavigationTab(
-                tabIdentifier = OVERVIEW_SCREEN,
-                icon = Activity,
-                title = Res.string.overview
-            ),
-            NavigationTab(
-                tabIdentifier = GROUPS_SCREEN,
-                icon = Icons.Default.Groups3,
-                title = Res.string.groups
-            ),
-            NavigationTab(
-                tabIdentifier = PROFILE_SCREEN,
-                title = Res.string.profile
-            )
-        )
-
-        /**
-         * `currentScreenDisplayed` -> the index number of the current [destinations] displayed
-         */
-        private var currentScreenDisplayed: Int = 0
-
-        /**
-         * `isBottomNavigationMode` -> whether the navigation mode is the side or bottom one
-         */
-        lateinit var isBottomNavigationMode: MutableState<Boolean>
-
-        /**
-         * Method to set the current screen displayed before navigating in other one
-         *
-         * @param screen The current screen displayed
-         */
-        fun setCurrentScreenDisplayed(
-            screen: String
-        ) {
-            currentScreenDisplayed = when(screen) {
-                NOTES_SCREEN -> 1
-                OVERVIEW_SCREEN -> 2
-                GROUPS_SCREEN -> 3
-                PROFILE_SCREEN -> 4
-                else -> 0
-            }
-        }
+        private const val PROFILE_TAB_INDEX = 4
 
     }
 
     /**
-     * `unreadChangelogs` -> the state of the unread changelogs number
+     * `viewModel` The support viewmodel for the screen
      */
-    private lateinit var unreadChangelogs: State<Int>
+    private val viewModel = HomeScreenViewModel()
 
     /**
-     * `currentDestination` -> the current destination displayed
+     * `unreadChangelogs` the state of the unread changelogs number
      */
-    private lateinit var currentDestination: MutableState<NavigationTab>
+    private lateinit var unreadChangelogs: State<Int>
 
     /**
      * Method to arrange the content of the screen to display
@@ -180,141 +100,105 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
     @Composable
     override fun ArrangeScreenContent() {
         CloseApplicationOnNavBack()
-        Box (
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            PandoroTheme {
-                when(currentDestination.value.tabIdentifier) {
-                    PROJECTS_SCREEN -> { ProjectsScreen().ShowContent() }
-                    NOTES_SCREEN -> { NotesScreen().ShowContent() }
-                    OVERVIEW_SCREEN -> { OverviewScreen().ShowContent() }
-                    GROUPS_SCREEN -> { GroupsScreen().ShowContent() }
-                    PROFILE_SCREEN -> { ProfileScreen().ShowContent() }
-                }
-            }
-            ResponsiveContent(
-                onExpandedSizeClass = { SideNavigationBar() },
-                onMediumSizeClass = { SideNavigationBar() },
-                onCompactSizeClass = {
-                    BottomNavigationBar(
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                    )
-                }
+        PandoroTheme {
+            NavigationContent(
+                backgroundTab = MaterialTheme.colorScheme.primary
             )
         }
     }
 
     /**
-     * The sidebar used to manage the navigation
+     * Custom header content to display on the [SideNavigationArrangement] bar
      */
     @Composable
     @ResponsiveClassComponent(
         classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
     )
-    private fun SideNavigationBar() {
-        isBottomNavigationMode.value = false
-        NavigationRail(
+    override fun ColumnScope.SideNavigationHeaderContent() {
+        ProfilePic(
             modifier = Modifier
-                .width(125.dp),
-            containerColor = MaterialTheme.colorScheme.surfaceContainer,
-            header = {
-                ProfilePic(
-                    modifier = Modifier
-                        .padding(
-                            top = 16.dp
-                        ),
-                    size = 75.dp,
-                    onClick = { currentDestination.value = destinations.last() }
-                )
-            }
-        ) {
-            destinations.forEach { destination ->
-                if(destination.tabIdentifier != PROFILE_SCREEN) {
-                    NavigationRailItem(
-                        selected = destination == currentDestination.value,
-                        icon = {
-                            Icon(
-                                imageVector = destination.icon!!,
-                                contentDescription = null
-                            )
-                        },
-                        label = {
-                            Text(
-                                text = stringResource(destination.title),
-                                fontFamily = displayFontFamily
-                            )
-                        },
-                        alwaysShowLabel = false,
-                        onClick = { currentDestination.value = destination }
+                .padding(
+                    top = 16.dp
+                ),
+            size = 100.dp,
+            onClick = { activeNavigationTabIndex.value = PROFILE_TAB_INDEX }
+        )
+    }
+
+    /**
+     * Custom footer content to display on the [SideNavigationArrangement] bar
+     */
+    @Composable
+    @ResponsiveClassComponent(
+        classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
+    )
+    override fun ColumnScope.SideNavigationFooterContent() {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth(),
+            text = "v" + stringResource(Res.string.app_version),
+            fontFamily = displayFontFamily,
+            fontSize = 14.sp,
+            textAlign = TextAlign.Center
+        )
+    }
+
+    /**
+     * The navigation item of the [SideNavigationArrangement] bar
+     *
+     * @param index The index related to the item in the [tabs] array
+     * @param tab The related tab of the [index]
+     */
+    @Composable
+    @ResponsiveClassComponent(
+        classes = [EXPANDED_CONTENT, MEDIUM_CONTENT]
+    )
+    override fun SideNavigationItem(
+        index: Int,
+        tab: I18nNavigationTab,
+    ) {
+        if(index != PROFILE_TAB_INDEX)
+            super.SideNavigationItem(index, tab)
+    }
+
+    /**
+     * The navigation item of the [BottomNavigationItem] bar
+     *
+     * @param index The index related to the item in the [tabs] array
+     * @param tab The related tab of the [index]
+     */
+    @Composable
+    @ResponsiveClassComponent(
+        classes = [MEDIUM_EXPANDED_CONTENT, COMPACT_CONTENT]
+    )
+    override fun RowScope.BottomNavigationItem(
+        index: Int,
+        tab: I18nNavigationTab,
+    ) {
+        NavigationBarItem(
+            selected = index == activeNavigationTabIndex.value,
+            onClick = { activeNavigationTabIndex.value = index },
+            icon = {
+                if(index != PROFILE_TAB_INDEX) {
+                    Icon(
+                        imageVector = tab.icon,
+                        contentDescription = tab.contentDescription
+                    )
+                } else
+                    ProfilePic()
+            },
+            alwaysShowLabel = false,
+            colors = bottomNavigationItemColors(),
+            label = {
+                if(index != PROFILE_TAB_INDEX) {
+                    Text(
+                        text = tab.prepareTitle(),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             }
-            Column (
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(
-                        bottom = 16.dp
-                    ),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Bottom
-            ) {
-                Text(
-                    text = "v" + stringResource(Res.string.app_version),
-                    fontFamily = displayFontFamily,
-                    fontSize = 14.sp
-                )
-            }
-        }
-    }
-
-    /**
-     * The bottom bar used to manage the navigation
-     *
-     * @param modifier The modifier to apply to the navigation bar
-     */
-    @Composable
-    private fun BottomNavigationBar(
-        modifier: Modifier = Modifier
-    ) {
-        isBottomNavigationMode.value = true
-        BottomAppBar(
-            modifier = modifier
-        ) {
-            destinations.forEach { destination ->
-                NavigationBarItem(
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically),
-                    selected = destination == currentDestination.value,
-                    icon = { destination.TabIcon() },
-                    label = {
-                        Text(
-                            text = stringResource(destination.title),
-                            fontFamily = displayFontFamily
-                        )
-                    },
-                    alwaysShowLabel = false,
-                    onClick = { currentDestination.value = destination }
-                )
-            }
-        }
-    }
-
-    /**
-     * The icon to use in each tab of the navigation bars
-     */
-    @Composable
-    @NonRestartableComposable
-    private fun NavigationTab.TabIcon() {
-        val icon = this.icon
-        if(icon != null) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null
-            )
-        } else
-            ProfilePic()
+        )
     }
 
     /**
@@ -333,7 +217,7 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
         BadgedBox(
             modifier = modifier,
             badge = {
-                androidx.compose.animation.AnimatedVisibility(
+                AnimatedVisibility(
                     visible = unreadChangelogs.value > 0,
                     enter = fadeIn(),
                     exit = fadeOut()
@@ -374,6 +258,17 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
     }
 
     /**
+     * Method invoked when the [ShowContent] composable has been created.
+     *
+     * Will be set the [com.tecknobit.equinoxcompose.session.Retriever.currentContext] as the current screen displayed
+     *
+     */
+    override fun onCreate() {
+        super.onCreate()
+        viewModel.setActiveContext(this::class)
+    }
+
+    /**
      * Method invoked when the [ShowContent] composable has been started
      */
     override fun onStart() {
@@ -382,28 +277,113 @@ class HomeScreen: EquinoxScreen<HomeScreenViewModel>(
     }
 
     /**
+     * Method invoked when the [ShowContent] composable has been resumed.
+     *
+     * Will be restarted the [com.tecknobit.equinoxcompose.session.Retriever.retrieverScope]
+     *
+     */
+    override fun onResume() {
+        super.onResume()
+        viewModel.restartRetriever()
+    }
+
+    /**
+     * Method invoked when the [ShowContent] composable has been paused.
+     *
+     * Will be suspended the [com.tecknobit.equinoxcompose.session.Retriever.retrieverScope]
+     */
+    override fun onPause() {
+        super.onPause()
+        viewModel.suspendRetriever()
+    }
+
+    /**
+     * Method invoked when the [ShowContent] composable has been stopped.
+     *
+     * Will be suspended the [com.tecknobit.equinoxcompose.session.Retriever.retrieverScope]
+     */
+    override fun onStop() {
+        super.onStop()
+        viewModel.suspendRetriever()
+    }
+
+    /**
+     * Method invoked when the [ShowContent] composable has been destroyed.
+     *
+     * Will be suspended the [com.tecknobit.equinoxcompose.session.Retriever.retrieverScope]
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.suspendRetriever()
+    }
+
+    /**
+     * Method invoked when the [ShowContent] composable has been disposed.
+     *
+     * Will be suspended the [com.tecknobit.equinoxcompose.session.Retriever.retrieverScope]
+     */
+    override fun onDispose() {
+        super.onDispose()
+        viewModel.suspendRetriever()
+    }
+
+    /**
+     * Method used to instantiate the related screen based on the current [activeNavigationTabIndex]
+     *
+     * @return the screen as [EquinoxNoModelScreen]
+     */
+    override fun Int.tabContent(): EquinoxNoModelScreen {
+        return when(this) {
+            0 -> { ProjectsScreen() }
+            1 -> { NotesScreen() }
+            2 -> { OverviewScreen() }
+            3 -> { GroupsScreen() }
+            else -> { ProfileScreen() }
+        }
+    }
+
+    /**
      * Method to collect or instantiate the states of the screen
      */
     @Composable
     override fun CollectStates() {
-        currentDestination = remember { mutableStateOf(destinations[currentScreenDisplayed]) }
-        isBottomNavigationMode = remember { mutableStateOf(false) }
+        super.CollectStates()
         unreadChangelogs = viewModel.unreadChangelog.collectAsState()
     }
 
     /**
-     * The [NavigationTab] data class allow to represent a navigation tab
+     * Method used to retrieve the tabs to assign to the [tabs] array
      *
-     * @property tabIdentifier The identifier of the tab
-     * @property icon The representative icon of the tab
-     * @property title The title of the tab
-     *
-     * @author N7ghtm4r3 - Tecknobit
+     * @return the tabs used by the [NavigatorScreen] as [Array] of [I18nNavigationTab]
      */
-    private data class NavigationTab(
-        val tabIdentifier: String,
-        val icon: ImageVector? = null,
-        val title: StringResource
-    )
+    override fun navigationTabs(): Array<I18nNavigationTab> {
+        return arrayOf(
+            I18nNavigationTab(
+                icon = Icons.Default.Folder,
+                title = Res.string.projects,
+                contentDescription = "Projects"
+            ),
+            I18nNavigationTab(
+                icon = Icons.AutoMirrored.Filled.Notes,
+                title = Res.string.notes,
+                contentDescription = "notes"
+            ),
+            I18nNavigationTab(
+                icon = Activity,
+                title = Res.string.overview,
+                contentDescription = "overview"
+            ),
+            I18nNavigationTab(
+                icon = Icons.Default.Groups3,
+                title = Res.string.groups,
+                contentDescription = "groups"
+            ),
+            I18nNavigationTab(
+                icon = Icons.Default.AccountBox,
+                title = Res.string.profile,
+                contentDescription = "profile"
+            )
+        )
+    }
 
 }

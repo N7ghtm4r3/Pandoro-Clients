@@ -64,7 +64,7 @@ import pandoro.composeapp.generated.resources.logout_warn_text
 import pandoro.composeapp.generated.resources.not_all_the_change_notes_are_done
 
 /**
- * `titleStyle` -> the style to apply to the title of the [EquinoxAlertDialog]
+ * `titleStyle` the style to apply to the title of the [EquinoxAlertDialog]
  */
 val titleStyle = TextStyle(
     fontFamily = displayFontFamily,

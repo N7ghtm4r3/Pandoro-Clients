@@ -66,8 +66,8 @@ import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersio
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.asText
 import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.toColor
-import com.tecknobit.pandoro.ui.theme.Green
-import com.tecknobit.pandoro.ui.theme.Yellow
+import com.tecknobit.pandoro.ui.theme.green
+import com.tecknobit.pandoro.ui.theme.yellow
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT
 import com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED
@@ -457,7 +457,7 @@ private fun UpdateStatus.Content(
         when(this@Content) {
             SCHEDULED -> {
                 ActionButton(
-                    color = Yellow(),
+                    color = yellow(),
                     action = {
                         viewModel.startUpdate(
                             update = update
@@ -469,7 +469,7 @@ private fun UpdateStatus.Content(
             IN_DEVELOPMENT -> {
                 val showWarningMessage = remember { mutableStateOf(false) }
                 ActionButton(
-                    color = Green(),
+                    color = green(),
                     action = {
                         if(update.allChangeNotesCompleted()) {
                             viewModel.publishUpdate(

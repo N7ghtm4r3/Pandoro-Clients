@@ -1,11 +1,9 @@
 package com.tecknobit.pandoro.ui.screens.home.presentation
 
 import androidx.compose.material3.SnackbarHostState
-import com.tecknobit.equinoxcompose.session.setHasBeenDisconnectedValue
-import com.tecknobit.equinoxcompose.session.setServerOfflineValue
 import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
-import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseContent
+import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
  * @author N7ghtm4r3 - Tecknobit
  * @see androidx.lifecycle.ViewModel
 
- * @see Retriever.RetrieverWrapper
+ * @see com.tecknobit.equinoxcompose.session.Retriever.RetrieverWrapper
  * @see EquinoxViewModel
  */
 class HomeScreenViewModel : EquinoxViewModel(
@@ -25,7 +23,7 @@ class HomeScreenViewModel : EquinoxViewModel(
 ) {
 
     /**
-     * `_unreadChangelog` -> the current number of the unread changelogs of the
+     * `_unreadChangelog` the current number of the unread changelogs of the
      * [com.tecknobit.pandoro.localUser]
      */
     private val _unreadChangelog = MutableStateFlow(
@@ -43,12 +41,10 @@ class HomeScreenViewModel : EquinoxViewModel(
             routine = {
                 requester.sendRequest(
                     request = { getUnreadChangelogsCount() },
-                    onSuccess = {
-                        setServerOfflineValue(false)
+                    onSuccess = { 
                         _unreadChangelog.value = it.toResponseContent().toInt()
                     },
-                    onFailure = { setHasBeenDisconnectedValue(true) },
-                    onConnectionError = { setServerOfflineValue(true) }
+                    onFailure = { showSnackbarMessage(it) }
                 )
             },
             refreshDelay = 5000L
