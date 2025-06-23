@@ -50,6 +50,7 @@ import com.tecknobit.pandoro.ui.screens.overview.data.Overview
 import com.tecknobit.pandoro.ui.screens.overview.presentation.OverviewScreenViewModel
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.theme.AppTypography
+import com.tecknobit.pandoro.ui.theme.EmptyStateTitleStyle
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -67,7 +68,7 @@ import pandoro.composeapp.generated.resources.updates
  * The [OverviewScreen] displays the details of an overview
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  */
 class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
@@ -134,7 +135,7 @@ class OverviewScreen : PandoroScreen<OverviewScreenViewModel>(
             ),
             contentDescription = "No data available",
             title = stringResource(Res.string.no_data_available),
-            titleStyle = AppTypography.bodyLarge
+            titleStyle = EmptyStateTitleStyle
         )
     }
 

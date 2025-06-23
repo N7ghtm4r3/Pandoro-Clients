@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.shared.screens
 
 import androidx.compose.foundation.background
@@ -50,6 +52,7 @@ import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
+import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
 import io.github.vinceglb.filekit.core.PickerType
@@ -68,7 +71,7 @@ import pandoro.composeapp.generated.resources.save
  * @param viewModel The support viewmodel of the screen
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  */
 @Structure
@@ -97,31 +100,45 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
      */
     protected lateinit var fullScreenFormType: MutableState<Boolean>
 
-    @OptIn(ExperimentalComposeApi::class)
+    @Composable
+    override fun ArrangeScreenContent() {
+        PandoroTheme {
+            SessionFlowContainer(
+                modifier = Modifier
+                    .fillMaxSize(),
+                state = rememberSessionFlowState(),
+                initialLoadingRoutineDelay = 1000L,
+                loadingRoutine = if(isEditing) {
+                    {
+                        item.value != null
+                    }
+                } else
+                    null,
+                content = {
+                    CollectStatesAfterLoading()
+                    Column (
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.primary)
+                    ) {
+                        TitleSection()
+                        SubTitleSection()
+                        ScreenContent()
+                    }
+                }
+            )
+        }
+    }
+
     @Composable
     override fun ColumnScope.ScreenContent() {
-        SessionFlowContainer(
-            modifier = Modifier
-                .fillMaxSize(),
-            state = rememberSessionFlowState(),
-            initialLoadingRoutineDelay = 1000L,
-            loadingRoutine = if(isEditing) {
-                {
-                    item.value != null
-                }
-            } else
-                null,
-            content = {
-                CollectStatesAfterLoading()
-                Scaffold(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
-                    floatingActionButton = { FabAction() }
-                ) {
-                    Form()
-                }
-            }
-        )
+        Scaffold(
+            containerColor = MaterialTheme.colorScheme.primary,
+            snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
+            floatingActionButton = { FabAction() }
+        ) {
+            Form()
+        }
     }
 
     @Composable

@@ -44,7 +44,7 @@ import pandoro.composeapp.generated.resources.projects
  * projects in development and the complete projects list
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  * @see ListsScreen
  */

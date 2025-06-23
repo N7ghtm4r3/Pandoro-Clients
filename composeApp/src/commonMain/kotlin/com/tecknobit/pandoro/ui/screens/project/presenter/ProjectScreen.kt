@@ -8,6 +8,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -78,7 +79,7 @@ import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.to
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.shared.screens.ItemScreen
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
-import com.tecknobit.pandoro.ui.theme.AppTypography
+import com.tecknobit.pandoro.ui.theme.EmptyStateTitleStyle
 import com.tecknobit.pandorocore.enums.RepositoryPlatform
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import kotlinx.coroutines.launch
@@ -99,7 +100,7 @@ import pandoro.composeapp.generated.resources.updates
  * @param updateToExpandId If not null will expand the related change notes of the update requested
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  * @see ItemScreen
  */
@@ -325,6 +326,9 @@ class ProjectScreen(
                 LazyColumn (
                     modifier = Modifier
                         .animateContentSize(),
+                    contentPadding = PaddingValues(
+                        bottom = 16.dp
+                    ),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     items(
@@ -351,7 +355,7 @@ class ProjectScreen(
                     ),
                     contentDescription = "No updates scheduled",
                     title = stringResource(Res.string.no_updates_scheduled),
-                    titleStyle = AppTypography.bodyLarge
+                    titleStyle = EmptyStateTitleStyle
                 )
             }
         }
@@ -380,7 +384,8 @@ class ProjectScreen(
                     Icons.Default.FilterListOff
                 else
                     Icons.Default.FilterList,
-                contentDescription = null
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimary
             )
         }
         DropdownMenu(

@@ -223,7 +223,8 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
                 Text(
                     text = stringResource(header),
                     fontFamily = displayFontFamily,
-                    fontSize = 22.sp
+                    fontSize = 22.sp,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
                 filtersContent.invoke()
             }

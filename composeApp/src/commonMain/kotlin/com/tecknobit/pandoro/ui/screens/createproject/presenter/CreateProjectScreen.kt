@@ -86,7 +86,7 @@ import pandoro.composeapp.generated.resources.wrong_repository_url
  * @param projectId The identifier of the project to edit
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  * @see CreateScreen
  */

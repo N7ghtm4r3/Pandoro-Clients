@@ -109,7 +109,8 @@ class ScheduleUpdateScreen(
                 resource = Res.string.schedule_update_subtext,
                 projectName
             ),
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            color = MaterialTheme.colorScheme.onPrimary
         )
     }
 

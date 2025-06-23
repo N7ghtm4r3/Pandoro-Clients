@@ -19,6 +19,7 @@ import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.NewHorizontalPageProgressIndicator
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
 import com.tecknobit.pandoro.ui.theme.AppTypography
+import com.tecknobit.pandoro.ui.theme.EmptyStateTitleStyle
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyVerticalGrid
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -81,6 +82,6 @@ private fun NoNotesAvailable() {
         ),
         contentDescription = "No notes available",
         title = stringResource(Res.string.no_notes_available),
-        titleStyle = AppTypography.bodyLarge
+        titleStyle = EmptyStateTitleStyle
     )
 }

@@ -58,7 +58,7 @@ import pandoro.composeapp.generated.resources.edit_note
  * @param noteId The identifier of the note to edit
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  * @see CreateScreen
  */
@@ -159,6 +159,9 @@ class CreateNoteScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(
+                    top = 16.dp
+                )
                 .imePadding()
         ) {
             ContentInput()

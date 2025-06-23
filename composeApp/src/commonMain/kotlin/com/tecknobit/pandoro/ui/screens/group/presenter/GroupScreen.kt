@@ -62,7 +62,7 @@ import com.tecknobit.pandorocore.enums.InvitationStatus.PENDING
  * @param groupId The identifier of the group to display
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  * @see ItemScreen
  */

@@ -48,7 +48,7 @@ import pandoro.composeapp.generated.resources.retry_to_reconnect
  * @param screenTitle The title of the screen
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  */
 @Structure

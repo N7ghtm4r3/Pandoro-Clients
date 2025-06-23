@@ -69,7 +69,7 @@ import pandoro.composeapp.generated.resources.edit
  * @param bottomPadding The value of the bottom padding to use
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxcompose.helpers.session.EquinoxScreen
+ * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
  */
 @Structure
@@ -100,12 +100,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
                     snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
                     floatingActionButton = { FabAction() }
                 ) {
-                    Column (
-                        modifier = Modifier
-                            .padding(
-                                top = 16.dp
-                            )
-                    ) {
+                    Column {
                         ItemScreenTitle()
                         ItemContent()
                     }
@@ -125,6 +120,9 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
     private fun ItemScreenTitle() {
         Column(
             modifier = Modifier
+                .padding(
+                    top = 16.dp
+                )
                 .widthIn(
                     max = FORM_CARD_WIDTH
                 )
