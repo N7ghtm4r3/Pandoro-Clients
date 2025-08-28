@@ -8,7 +8,7 @@ import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcompose.session.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.equinoxcore.network.sendRequest
-import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.helpers.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -90,7 +90,7 @@ class CreateNoteScreenViewModel(
                         contentNote = content.value
                     )
                 },
-                onSuccess = { navigator.goBack() },
+                onSuccess = { navigator.popBackStack() },
                 onFailure = { showSnackbarMessage(it) }
             )
         }

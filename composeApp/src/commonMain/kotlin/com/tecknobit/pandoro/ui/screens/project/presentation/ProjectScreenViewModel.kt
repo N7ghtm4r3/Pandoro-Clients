@@ -14,7 +14,7 @@ import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
-import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
+import com.tecknobit.pandoro.ui.screens.projects.data.Update
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseProjectViewModel
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.BaseProjectViewModel.ProjectDeleter
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
@@ -117,9 +117,9 @@ class ProjectScreenViewModel(
     /**
      * Method to arrange The updates list applying the filters
      * 
-     * @return The updates list filtered as [List] of [ProjectUpdate]
+     * @return The updates list filtered as [List] of [Update]
      */
-    fun arrangeUpdatesList() : List<ProjectUpdate> {
+    fun arrangeUpdatesList() : List<Update> {
         return _project.value!!.updates
             .filter { update -> updateStatusesFilters.contains(update.status) }
     }
@@ -130,7 +130,7 @@ class ProjectScreenViewModel(
      * @param update The update to start
      */
     fun startUpdate(
-        update: ProjectUpdate
+        update: Update
     ) {
         viewModelScope.launch {
             requester.sendRequest(
@@ -153,7 +153,7 @@ class ProjectScreenViewModel(
      * @param note The note to manage
      */
     override fun manageNoteStatus(
-        update: ProjectUpdate?,
+        update: Update?,
         note: Note
     ) {
         viewModelScope.launch {
@@ -180,7 +180,7 @@ class ProjectScreenViewModel(
      * @param onDelete The action to execute when the note has been deleted
      */
     override fun deleteNote(
-        update: ProjectUpdate?,
+        update: Update?,
         note: Note,
         onDelete: () -> Unit
     ) {
@@ -205,7 +205,7 @@ class ProjectScreenViewModel(
      * @param update The update to start
      */
     fun publishUpdate(
-        update: ProjectUpdate
+        update: Update
     ) {
         viewModelScope.launch {
             requester.sendRequest(
@@ -231,7 +231,7 @@ class ProjectScreenViewModel(
      * @param onDelete The action to execute when the update has been deleted
      */
     fun deleteUpdate(
-        update: ProjectUpdate,
+        update: Update,
         onDelete: () -> Unit
     ) {
         viewModelScope.launch {

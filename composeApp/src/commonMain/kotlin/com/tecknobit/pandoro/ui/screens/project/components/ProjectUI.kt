@@ -27,8 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.tecknobit.pandoro.PROJECT_SCREEN
-import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.helpers.PROJECT_SCREEN
+import com.tecknobit.pandoro.helpers.navigator
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.Project

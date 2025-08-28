@@ -21,7 +21,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * The [ProjectUpdate] data class allow to represent a update data
+ * The [Update] data class allow to represent a update data
  *
  * @property id The identifier of the update
  * @property author The author of update project
@@ -37,7 +37,7 @@ import kotlinx.serialization.Serializable
  * @author N7ghtm4r3 - Tecknobit
  */
 @Serializable
-data class ProjectUpdate(
+data class Update(
     val id: String,
     val author: GroupMember,
     @SerialName(UPDATE_CREATE_DATE_KEY)

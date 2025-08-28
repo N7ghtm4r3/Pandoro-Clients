@@ -10,7 +10,7 @@ import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcompose.session.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.pandoro.helpers.KReviewer
-import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.helpers.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isContentNoteValid
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidVersion
@@ -119,7 +119,7 @@ class ScheduleUpdateScreenViewModel(
                 onSuccess = {
                     val kReviewer = KReviewer()
                     kReviewer.reviewInApp {
-                        navigator.goBack()
+                        navigator.popBackStack()
                     }
                 },
                 onFailure = { showSnackbarMessage(it) }

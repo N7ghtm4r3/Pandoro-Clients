@@ -26,7 +26,7 @@ import com.tecknobit.equinoxcore.time.TimeFormatter.H24_HOURS_MINUTES_PATTERN
 import com.tecknobit.equinoxcore.time.TimeFormatter.toDateString
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.ui.components.Thumbnail
-import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
+import com.tecknobit.pandoro.ui.screens.projects.data.Update
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT
@@ -49,7 +49,7 @@ import pandoro.composeapp.generated.resources.update_started_myself
  */
 @Composable
 fun UpdateTimeline(
-    update: ProjectUpdate
+    update: Update
 ) {
     UpdateTimelineContainer(
         update = update,
@@ -123,7 +123,7 @@ private fun TimelineEvent(
 @Composable
 @NonRestartableComposable
 fun SharedUpdateTimeline(
-    update: ProjectUpdate
+    update: Update
 ) {
     UpdateTimelineContainer(
         update = update,
@@ -252,7 +252,7 @@ private fun EventDateInfo(
  */
 @Composable
 private fun UpdateTimelineContainer(
-    update: ProjectUpdate,
+    update: Update,
     content: @Composable (Int, Long, EventPosition, Boolean)-> Unit
 ) {
     val updatePublished = update.status == UpdateStatus.PUBLISHED

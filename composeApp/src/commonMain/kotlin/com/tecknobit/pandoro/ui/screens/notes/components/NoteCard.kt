@@ -52,17 +52,16 @@ import com.pushpal.jetlime.JetLimeColumn
 import com.pushpal.jetlime.JetLimeDefaults
 import com.pushpal.jetlime.JetLimeEvent
 import com.pushpal.jetlime.JetLimeEventDefaults
+import com.tecknobit.equinoxcompose.session.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
 import com.tecknobit.equinoxcompose.utilities.copyOnClipboard
-import com.tecknobit.equinoxcompose.session.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.time.TimeFormatter.toDateString
-import com.tecknobit.pandoro.CREATE_CHANGE_NOTE_SCREEN
-import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.helpers.allowsScreenSleep
+import com.tecknobit.pandoro.helpers.navToCreateChangeNoteScreen
+import com.tecknobit.pandoro.helpers.navToCreateNoteScreen
 import com.tecknobit.pandoro.helpers.preventScreenSleep
-import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteNote
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.icons.ClockLoader20
@@ -71,7 +70,7 @@ import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
 import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
-import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
+import com.tecknobit.pandoro.ui.screens.projects.data.Update
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
 import com.tecknobit.pandoro.ui.theme.changeNoteBackground
 import com.tecknobit.pandoro.ui.theme.green
@@ -111,7 +110,11 @@ fun NoteCard(
         modifier = modifier,
         viewModel = viewModel,
         note = note,
-        onDoubleClick = { navigator.navigate("$CREATE_NOTE_SCREEN/${note.id}") },
+        onDoubleClick = {
+            navToCreateNoteScreen(
+                noteId = note.id
+            )
+        },
         onDelete = { viewModel.notesState.refresh() }
     )
 }
@@ -131,7 +134,7 @@ fun ChangeNoteCard(
     modifier: Modifier,
     viewModel: ProjectScreenViewModel,
     project: Project,
-    update: ProjectUpdate,
+    update: Update,
     note: Note,
     allowedToChangeStatus: Boolean
 ) {
@@ -148,9 +151,10 @@ fun ChangeNoteCard(
         note = note,
         onDoubleClick = if(!note.markedAsDone) {
             {
-                navigator.navigate(
-                    route = "$CREATE_CHANGE_NOTE_SCREEN/${project.id}/${update.id}" +
-                            "/${update.targetVersion}/${note.id}"
+                navToCreateChangeNoteScreen(
+                    projectId = project.id,
+                    update = update,
+                    noteId = note.id
                 )
             }
         } else
@@ -179,7 +183,7 @@ private fun NoteCardContent(
     viewModel: EquinoxViewModel,
     noteShared: Boolean = false,
     allowDeletion: Boolean = true,
-    update: ProjectUpdate? = null,
+    update: Update? = null,
     note: Note,
     allowedToChangeStatus: Boolean = true,
     onDoubleClick: (() -> Unit)?,
@@ -268,7 +272,7 @@ private fun NoteCardContent(
 @Composable
 private fun NoteActions(
     viewModel: EquinoxViewModel,
-    update: ProjectUpdate?,
+    update: Update?,
     note: Note,
     allowedToChangeStatus: Boolean,
     onDelete: () -> Unit,

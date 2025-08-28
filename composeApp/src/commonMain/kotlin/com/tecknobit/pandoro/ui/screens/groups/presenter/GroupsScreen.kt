@@ -26,8 +26,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
-import com.tecknobit.pandoro.CREATE_GROUP_SCREEN
-import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.helpers.CREATE_GROUP_SCREEN
+import com.tecknobit.pandoro.helpers.navigator
 import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.NewHorizontalPageProgressIndicator
 import com.tecknobit.pandoro.ui.screens.groups.components.FilterGroups

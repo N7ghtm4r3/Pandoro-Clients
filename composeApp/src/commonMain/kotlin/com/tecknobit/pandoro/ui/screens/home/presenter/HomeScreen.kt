@@ -100,11 +100,9 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
     @Composable
     override fun ArrangeScreenContent() {
         CloseApplicationOnNavBack()
-        PandoroTheme {
-            NavigationContent(
-                backgroundTab = MaterialTheme.colorScheme.primary
-            )
-        }
+        NavigationContent(
+            backgroundTab = MaterialTheme.colorScheme.primary
+        )
     }
 
     /**

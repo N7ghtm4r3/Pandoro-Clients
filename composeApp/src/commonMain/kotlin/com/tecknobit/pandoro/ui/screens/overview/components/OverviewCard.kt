@@ -41,7 +41,7 @@ import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.ui.screens.overview.data.OverviewFullStatsItem
 import com.tecknobit.pandoro.ui.screens.overview.data.OverviewStatsItem
-import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.asText
+import com.tecknobit.pandoro.ui.screens.projects.data.Update.Companion.asText
 import com.tecknobit.pandoro.ui.theme.green
 import com.tecknobit.pandoro.ui.theme.yellow
 import com.tecknobit.pandorocore.enums.UpdateStatus
@@ -60,7 +60,7 @@ import pandoro.composeapp.generated.resources.started_by_me_info_text
 import pandoro.composeapp.generated.resources.total
 
 /**
- * The card to display the overview data stats about an [com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate]
+ * The card to display the overview data stats about an [com.tecknobit.pandoro.ui.screens.projects.data.Update]
  *
  * @param modifier The modifier to apply to the card
  * @param overviewStats The stats to display

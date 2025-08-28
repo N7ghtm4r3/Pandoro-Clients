@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.ui.screens.shared.viewmodels
 
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
-import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
+import com.tecknobit.pandoro.ui.screens.projects.data.Update
 
 /**
  * The [NotesManager] interface allows to manage the [Note] data
@@ -17,7 +17,7 @@ interface NotesManager {
      * @param note The note to manage
      */
     fun manageNoteStatus(
-        update: ProjectUpdate? = null,
+        update: Update? = null,
         note: Note
     )
 
@@ -29,7 +29,7 @@ interface NotesManager {
      * @param onDelete The action to execute when the note has been deleted
      */
     fun deleteNote(
-        update: ProjectUpdate? = null,
+        update: Update? = null,
         note: Note,
         onDelete: () -> Unit
     )

@@ -21,8 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
-import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
-import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.helpers.navToCreateProjectScreen
 import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.NewHorizontalPageProgressIndicator
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
@@ -60,7 +59,7 @@ class ProjectsScreen: ListsScreen<ProjectsScreenViewModel>(
     @NonRestartableComposable
     override fun FabAction() {
         FloatingActionButton(
-            onClick = { navigator.navigate(CREATE_PROJECT_SCREEN) }
+            onClick = { navToCreateProjectScreen() }
         ) {
             Icon(
                 imageVector = Icons.Default.Add,

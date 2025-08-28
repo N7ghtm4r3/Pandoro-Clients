@@ -76,10 +76,9 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.SUPPORTED_LANGUAGES
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isEmailValid
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isPasswordValid
-import com.tecknobit.pandoro.SPLASHSCREEN
 import com.tecknobit.pandoro.bodyFontFamily
+import com.tecknobit.pandoro.helpers.navToSplashscreen
 import com.tecknobit.pandoro.localUser
-import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteAccount
 import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.Logout
@@ -330,7 +329,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                         viewModel.changeLanguage(
                             onChange = {
                                 visible.value = false
-                                navigator.navigate(SPLASHSCREEN)
+                                navToSplashscreen()
                             }
                         )
                     }
@@ -344,7 +343,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                         viewModel.changeTheme(
                             onChange = {
                                 visible.value = false
-                                navigator.navigate(SPLASHSCREEN)
+                                navToSplashscreen()
                             }
                         )
                     }

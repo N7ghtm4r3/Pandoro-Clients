@@ -17,9 +17,9 @@ kotlin = "2.2.10"
 kotlinx-coroutines = "1.10.2"
 kotlinxDatetime = "0.7.1"
 kotlinxSerializationJson = "1.9.0"
+navigationCompose = "2.9.0-beta05"
 octocatkdu = "1.0.6"
 pandorocore = "1.2.0"
-precompose = "1.7.0-alpha03"
 ktor = "3.1.0"
 lazy-pagination-compose = "1.7.0"
 startupRuntime = "1.2.0"
@@ -44,9 +44,9 @@ androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", nam
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 octocatkdu = { module = "io.github.n7ghtm4r3:octocatkdu", version.ref = "octocatkdu" }
 pandorocore = { module = "com.tecknobit.pandorocore:pandorocore", version.ref = "pandorocore" }
-precompose = { module = "moe.tlaster:precompose", version.ref = "precompose" }
 lazyPaginationCompose = { module = "io.github.ahmad-hamwi:lazy-pagination-compose", version.ref = "lazy-pagination-compose" }
 androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "startupRuntime" }
 review = { module = "com.google.android.play:review", version.ref = "review" }

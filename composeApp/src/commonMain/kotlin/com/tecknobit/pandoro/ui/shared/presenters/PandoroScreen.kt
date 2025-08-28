@@ -25,7 +25,7 @@ import com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
 import com.tecknobit.equinoxcompose.session.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.helpers.navigator
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
@@ -115,7 +115,7 @@ abstract class PandoroScreen<V : EquinoxViewModel>(
     @Composable
     @NonRestartableComposable
     protected fun NabBackButton(
-        navBackAction: () -> Unit = { navigator.goBack() }
+        navBackAction: () -> Unit = { navigator.popBackStack() }
     ) {
         IconButton(
             modifier = Modifier

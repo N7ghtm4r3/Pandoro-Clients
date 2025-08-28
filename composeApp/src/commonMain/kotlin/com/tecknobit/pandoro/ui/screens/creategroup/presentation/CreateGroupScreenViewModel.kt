@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.equinoxcore.network.sendRequest
-import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.helpers.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.BaseGroupViewModel
@@ -118,7 +118,7 @@ class CreateGroupScreenViewModel(
                         projects = candidateProjects
                     )
                 },
-                onSuccess = { navigator.goBack() },
+                onSuccess = { navigator.popBackStack() },
                 onFailure = { showSnackbarMessage(it)}
             )
         }

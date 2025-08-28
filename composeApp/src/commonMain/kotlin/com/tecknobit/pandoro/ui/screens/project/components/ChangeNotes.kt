@@ -22,7 +22,7 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.pandoro.ui.screens.notes.components.ChangeNoteCard
 import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
-import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
+import com.tecknobit.pandoro.ui.screens.projects.data.Update
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen.Companion.FORM_CARD_HEIGHT
 import com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT
 
@@ -38,7 +38,7 @@ import com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT
 fun ChangeNotes(
     viewModel: ProjectScreenViewModel,
     project: Project,
-    update: ProjectUpdate
+    update: Update
 ) {
     ResponsiveContent(
         onExpandedSizeClass = {
@@ -79,7 +79,7 @@ fun ChangeNotes(
 private fun ChangeNotesGrid(
     viewModel: ProjectScreenViewModel,
     project: Project,
-    update: ProjectUpdate
+    update: Update
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -125,7 +125,7 @@ private fun ChangeNotesGrid(
 private fun ChangeNotesList(
     viewModel: ProjectScreenViewModel,
     project: Project,
-    update: ProjectUpdate
+    update: Update
 ) {
     LazyColumn(
         modifier = Modifier

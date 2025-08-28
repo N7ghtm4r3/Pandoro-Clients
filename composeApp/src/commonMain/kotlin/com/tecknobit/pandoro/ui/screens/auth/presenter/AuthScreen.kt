@@ -28,7 +28,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,7 +55,6 @@ import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isSurnameVali
 import com.tecknobit.pandoro.CloseApplicationOnNavBack
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.ui.screens.auth.presentation.AuthScreenViewModel
-import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -97,17 +95,15 @@ class AuthScreen : EquinoxScreen<AuthScreenViewModel>(
     @Composable
     override fun ArrangeScreenContent() {
         CloseApplicationOnNavBack()
-        PandoroTheme {
-            Scaffold(
-                snackbarHost = { SnackbarHost(hostState = viewModel.snackbarHostState!!) },
+        Scaffold(
+            snackbarHost = { SnackbarHost(hostState = viewModel.snackbarHostState!!) },
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    HeaderSection()
-                    FormSection()
-                }
+                HeaderSection()
+                FormSection()
             }
         }
     }

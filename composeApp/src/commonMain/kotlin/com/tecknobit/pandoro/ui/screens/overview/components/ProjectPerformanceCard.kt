@@ -17,9 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
-import com.tecknobit.pandoro.PROJECT_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.helpers.navToProjectScreen
 import com.tecknobit.pandoro.ui.screens.overview.data.ProjectPerformanceStats
 import com.tecknobit.pandoro.ui.theme.green
 import ir.ehsannarmani.compose_charts.extensions.format
@@ -58,7 +57,9 @@ fun ProjectPerformanceCard(
                 shape = CardDefaults.shape
             ),
         onClick = {
-            navigator.navigate("$PROJECT_SCREEN/${project.id}")
+            navToProjectScreen(
+                projectId = project.id
+            )
         }
     ) {
         Text(

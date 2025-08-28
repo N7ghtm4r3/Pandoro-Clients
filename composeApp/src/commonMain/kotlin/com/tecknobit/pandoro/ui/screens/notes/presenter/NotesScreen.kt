@@ -38,8 +38,7 @@ import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.annotations.ScreenSection
 import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowContainer
 import com.tecknobit.equinoxcompose.session.sessionflow.rememberSessionFlowState
-import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
-import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.helpers.navToCreateNoteScreen
 import com.tecknobit.pandoro.ui.components.RetryButton
 import com.tecknobit.pandoro.ui.icons.AddNotes
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
@@ -82,7 +81,7 @@ class NotesScreen: PandoroScreen<NotesScreenViewModel>(
                     snackbarHost = { SnackbarHost(viewModel.snackbarHostState!!) },
                     floatingActionButton = {
                         FloatingActionButton(
-                            onClick = { navigator.navigate(CREATE_NOTE_SCREEN) }
+                            onClick = { navToCreateNoteScreen() }
                         ) {
                             Icon(
                                 imageVector = AddNotes,

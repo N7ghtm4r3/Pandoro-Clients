@@ -49,11 +49,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.utilities.copyOnClipboard
 import com.tecknobit.equinoxcompose.utilities.responsiveAssignment
-import com.tecknobit.pandoro.CREATE_CHANGE_NOTE_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.helpers.allowsScreenSleep
+import com.tecknobit.pandoro.helpers.navToCreateChangeNoteScreen
 import com.tecknobit.pandoro.helpers.preventScreenSleep
-import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteUpdate
 import com.tecknobit.pandoro.ui.components.NotAllChangeNotesCompleted
 import com.tecknobit.pandoro.ui.icons.AddNotes
@@ -63,9 +62,9 @@ import com.tecknobit.pandoro.ui.icons.ExportNotes
 import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
-import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
-import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.asText
-import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.toColor
+import com.tecknobit.pandoro.ui.screens.projects.data.Update
+import com.tecknobit.pandoro.ui.screens.projects.data.Update.Companion.asText
+import com.tecknobit.pandoro.ui.screens.projects.data.Update.Companion.toColor
 import com.tecknobit.pandoro.ui.theme.green
 import com.tecknobit.pandoro.ui.theme.yellow
 import com.tecknobit.pandorocore.enums.UpdateStatus
@@ -100,7 +99,7 @@ fun UpdateCard(
     modifier: Modifier = Modifier,
     viewModel: ProjectScreenViewModel,
     project: Project,
-    update: ProjectUpdate,
+    update: Update,
     viewChangeNotesFlag: Boolean
 ) {
     Card(
@@ -136,7 +135,7 @@ private fun CardHeader(
     viewModel: ProjectScreenViewModel,
     viewChangeNotes: MutableState<Boolean>,
     project: Project,
-    update: ProjectUpdate
+    update: Update
 ) {
     Row(
         modifier = Modifier
@@ -217,7 +216,7 @@ private fun UpdateActions(
     viewModel: ProjectScreenViewModel,
     viewChangeNotes: MutableState<Boolean>,
     project: Project,
-    update: ProjectUpdate
+    update: Update
 ) {
     IconButton(
         onClick = {
@@ -310,7 +309,7 @@ private fun ViewTimeline(
     state: SheetState,
     scope: CoroutineScope,
     project: Project,
-    update: ProjectUpdate
+    update: Update
 ) {
     if(state.isVisible) {
         ModalBottomSheet(
@@ -341,7 +340,7 @@ private fun ViewTimeline(
  *
  * @return the notes of an update formatted as markdown as [String]
  */
-private fun formatNotesAsMarkdown(update: ProjectUpdate): String {
+private fun formatNotesAsMarkdown(update: Update): String {
     val builder = StringBuilder()
     update.notes.forEach { note ->
         builder.append("- ").append(note.content).append("\n")
@@ -362,7 +361,7 @@ private fun UpdateStatus.Content(
     viewModel: ProjectScreenViewModel,
     viewChangeNotes: MutableState<Boolean>,
     project: Project,
-    update: ProjectUpdate
+    update: Update
 ) {
     Column(
         modifier = Modifier
@@ -534,7 +533,7 @@ private fun ViewChangeNotes(
     viewChangeNotes: MutableState<Boolean>,
     viewModel: ProjectScreenViewModel,
     project: Project,
-    update: ProjectUpdate
+    update: Update
 ) {
     AnimatedVisibility(
         visible = viewChangeNotes.value
@@ -551,9 +550,9 @@ private fun ViewChangeNotes(
                         .align(Alignment.End),
                     containerColor = MaterialTheme.colorScheme.primary,
                     onClick = {
-                        navigator.navigate(
-                            route = "$CREATE_CHANGE_NOTE_SCREEN/${project.id}/${update.id}" +
-                                    "/${update.targetVersion}"
+                        navToCreateChangeNoteScreen(
+                            projectId = project.id,
+                            update = update
                         )
                     }
                 ) {

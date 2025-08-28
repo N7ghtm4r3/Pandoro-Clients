@@ -8,7 +8,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.tecknobit.octocatkdu.OctocatKDUConfig
 import com.tecknobit.octocatkdu.UpdaterDialog
-import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.app_name
@@ -22,20 +21,18 @@ import java.util.Locale
  */
 @Composable
 actual fun CheckForUpdatesAndLaunch() {
-    PandoroTheme {
-        var launchApp by remember { mutableStateOf(true) }
-        UpdaterDialog(
-            config = OctocatKDUConfig(
-                locale = Locale.getDefault(),
-                appName = stringResource(Res.string.app_name),
-                currentVersion = stringResource(Res.string.app_version),
-                onUpdateAvailable = { launchApp = false },
-                dismissAction = { launchApp = true }
-            )
+    var launchApp by remember { mutableStateOf(true) }
+    UpdaterDialog(
+        config = OctocatKDUConfig(
+            locale = Locale.getDefault(),
+            appName = stringResource(Res.string.app_name),
+            currentVersion = stringResource(Res.string.app_version),
+            onUpdateAvailable = { launchApp = false },
+            dismissAction = { launchApp = true }
         )
-        if (launchApp)
-            startSession()
-    }
+    )
+    if (launchApp)
+        startSession()
 }
 
 /**

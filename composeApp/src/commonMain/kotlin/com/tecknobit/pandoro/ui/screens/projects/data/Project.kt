@@ -47,7 +47,7 @@ data class Project(
     @SerialName(GROUPS_KEY)
     val groups: List<Group> = emptyList(),
     @SerialName(UPDATES_KEY)
-    val updates: List<ProjectUpdate> = emptyList(),
+    val updates: List<Update> = emptyList(),
     @SerialName(PROJECT_REPOSITORY_KEY)
     val projectRepo: String = ""
 ) {
@@ -132,9 +132,9 @@ data class Project(
     /**
      * Method to extract from the [updates] list that updates that are [PUBLISHED]
      *
-     * @return the filtered list of the updates as [List] of [ProjectUpdate]
+     * @return the filtered list of the updates as [List] of [Update]
      */
-    fun getPublishedUpdates(): List<ProjectUpdate> {
+    fun getPublishedUpdates(): List<Update> {
         return updates.filter { update -> update.status == PUBLISHED }
     }
 

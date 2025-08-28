@@ -49,7 +49,7 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.equinoxcore.annotations.Structure
-import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.helpers.navigator
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.shared.presenters.SessionFlowStateScreenConsumer
@@ -148,7 +148,7 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
                 .padding(
                     top = 16.dp
                 ),
-            navBackAction = { navigator.goBack() },
+            navBackAction = { navigator.popBackStack() },
             title = if(isEditing)
                 editingTitle
             else

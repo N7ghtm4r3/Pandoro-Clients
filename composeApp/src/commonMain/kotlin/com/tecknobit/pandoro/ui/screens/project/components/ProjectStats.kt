@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
-import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
+import com.tecknobit.pandoro.ui.screens.projects.data.Update
 import com.tecknobit.pandoro.ui.theme.green
 import com.tecknobit.pandoro.ui.theme.pieChartColors
 import ir.ehsannarmani.compose_charts.LineChart
@@ -100,7 +100,7 @@ fun ModalProjectStats(
     state: SheetState,
     scope: CoroutineScope,
     project: Project,
-    publishedUpdates: List<ProjectUpdate>
+    publishedUpdates: List<Update>
 ) {
     if(state.isVisible) {
         ModalBottomSheet(
@@ -147,7 +147,7 @@ fun ModalProjectStats(
 @Composable
 fun ProjectsStats(
     project: Project,
-    publishedUpdates: List<ProjectUpdate>
+    publishedUpdates: List<Update>
 ) {
     Column (
         modifier = Modifier
@@ -182,7 +182,7 @@ fun ProjectsStats(
 @Composable
 private fun DevelopmentDays(
     project: Project,
-    publishedUpdates: List<ProjectUpdate>
+    publishedUpdates: List<Update>
 ) {
     val totalDevelopmentDays = project.calculateTotalDevelopmentDays()
     StatsSection(
@@ -294,7 +294,7 @@ private fun DevelopmentDays(
  */
 private fun getTotalDevelopmentDaysData(
     pieChartColors: Array<Color>,
-    publishedUpdates: List<ProjectUpdate>
+    publishedUpdates: List<Update>
 ) : List<Pie> {
     val pies = arrayListOf<Pie>()
     val colors = pieChartColors.size
@@ -327,7 +327,7 @@ private fun getTotalDevelopmentDaysData(
 private fun AverageDaysPerUpdate(
     modifier: Modifier = Modifier,
     project: Project,
-    publishedUpdates: List<ProjectUpdate>
+    publishedUpdates: List<Update>
 ) {
     val averageDaysPerUpdate = project.calculateAverageDaysPerUpdate()
     StatsSection(
@@ -400,7 +400,7 @@ private fun AverageDaysPerUpdate(
  */
 private fun getAverageDaysPerUpdateData(
     lineColor: Color,
-    publishedUpdates: List<ProjectUpdate>
+    publishedUpdates: List<Update>
 ) : List<Line> {
     val chartData = arrayListOf<Double>()
     publishedUpdates.forEach { update ->

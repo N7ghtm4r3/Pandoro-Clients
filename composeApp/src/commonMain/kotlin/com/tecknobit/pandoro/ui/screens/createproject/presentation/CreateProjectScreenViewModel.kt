@@ -10,7 +10,7 @@ import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.equinoxcore.network.sendPaginatedRequest
 import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.pandoro.helpers.KReviewer
-import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.helpers.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
@@ -199,7 +199,7 @@ class CreateProjectScreenViewModel(
                 onSuccess = {
                     val reviewer = KReviewer()
                     reviewer.reviewInApp {
-                        navigator.goBack()
+                        navigator.popBackStack()
                     }
                 },
                 onFailure = { showSnackbarMessage(it) }

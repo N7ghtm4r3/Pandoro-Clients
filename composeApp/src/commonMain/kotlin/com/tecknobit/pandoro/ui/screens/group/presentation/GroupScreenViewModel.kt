@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.equinoxcore.network.sendRequest
-import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.helpers.navigator
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
@@ -192,7 +192,7 @@ class GroupScreenViewModel(
                         groupId = groupId,
                     )
                 },
-                onSuccess = { navigator.goBack() },
+                onSuccess = { navigator.popBackStack() },
                 onFailure = { showSnackbarMessage(it)}
             )
         }

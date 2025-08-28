@@ -64,9 +64,10 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
 import com.tecknobit.equinoxcompose.utilities.responsiveAssignment
 import com.tecknobit.equinoxcore.annotations.Returner
-import com.tecknobit.pandoro.CREATE_PROJECT_SCREEN
-import com.tecknobit.pandoro.SCHEDULE_UPDATE_SCREEN
-import com.tecknobit.pandoro.navigator
+import com.tecknobit.pandoro.helpers.SCHEDULE_UPDATE_SCREEN
+import com.tecknobit.pandoro.helpers.navToCreateProjectScreen
+import com.tecknobit.pandoro.helpers.navToScheduleUpdateScreen
+import com.tecknobit.pandoro.helpers.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.screens.group.components.GroupLogos
 import com.tecknobit.pandoro.ui.screens.project.components.ModalProjectStats
@@ -75,8 +76,8 @@ import com.tecknobit.pandoro.ui.screens.project.components.UpdateCard
 import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
-import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.asText
-import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate.Companion.toColor
+import com.tecknobit.pandoro.ui.screens.projects.data.Update.Companion.asText
+import com.tecknobit.pandoro.ui.screens.projects.data.Update.Companion.toColor
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.shared.screens.ItemScreen
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
@@ -150,7 +151,7 @@ class ProjectScreen(
             horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             ScreenTitle(
-                navBackAction = { navigator.goBack() },
+                navBackAction = { navigator.popBackStack() },
                 title = item.value!!.name
             )
             item.value!!.getRepositoryPlatform()?.let { platform ->
@@ -229,7 +230,9 @@ class ProjectScreen(
      * The action to execute when the [item] has been edited
      */
     override fun onEdit() {
-        navigator.navigate("$CREATE_PROJECT_SCREEN/${item.value!!.id}")
+        navToCreateProjectScreen(
+            projectId = item.value!!.id
+        )
     }
 
     /**
@@ -251,7 +254,7 @@ class ProjectScreen(
                     project = project,
                     onDelete = {
                         delete.value = false
-                        navigator.goBack()
+                        navigator.popBackStack()
                     },
                     onFailure = {
                         viewModel.showSnackbarMessage(it)
@@ -526,8 +529,8 @@ class ProjectScreen(
     private fun ScheduleButton() {
         FloatingActionButton(
             onClick = {
-                navigator.navigate(
-                    route = "$SCHEDULE_UPDATE_SCREEN/${item.value!!.id}/${item.value!!.name}"
+                navToScheduleUpdateScreen(
+                    project = item.value!!
                 )
             }
         ) {
