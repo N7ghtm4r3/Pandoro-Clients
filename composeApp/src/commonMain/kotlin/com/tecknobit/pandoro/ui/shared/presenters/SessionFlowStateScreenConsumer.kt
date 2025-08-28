@@ -5,7 +5,7 @@ import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcore.annotations.Returner
 
 /**
- * The [SessionFlowStateConsumer] interface provides a way to consume a [SessionFlowState] instance
+ * The [SessionFlowStateScreenConsumer] interface provides a way to consume a [SessionFlowState] instance
  * by [PandoroScreen] leveraging the template method pattern
  *
  *
@@ -15,7 +15,7 @@ import com.tecknobit.equinoxcore.annotations.Returner
  *
  * @since 1.1.3
  */
-interface SessionFlowStateConsumer {
+interface SessionFlowStateScreenConsumer {
 
     /**
      * Method used to retrieve a [SessionFlowState] instance used by the inheritors screens

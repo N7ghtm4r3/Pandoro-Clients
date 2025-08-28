@@ -53,7 +53,7 @@ import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
-import com.tecknobit.pandoro.ui.shared.presenters.SessionFlowStateConsumer
+import com.tecknobit.pandoro.ui.shared.presenters.SessionFlowStateScreenConsumer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -71,7 +71,7 @@ import pandoro.composeapp.generated.resources.edit
  * @author N7ghtm4r3 - Tecknobit
  * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
- * @see SessionFlowStateConsumer
+ * @see SessionFlowStateScreenConsumer
  */
 @Structure
 @ScreenCoordinator
@@ -80,7 +80,7 @@ abstract class ItemScreen<I, V: EquinoxViewModel>(
     private val bottomPadding: Dp = 16.dp
 ) : PandoroScreen<V>(
     viewModel = viewModel
-), SessionFlowStateConsumer {
+), SessionFlowStateScreenConsumer {
 
     /**
      * `item` state flow holds the item data

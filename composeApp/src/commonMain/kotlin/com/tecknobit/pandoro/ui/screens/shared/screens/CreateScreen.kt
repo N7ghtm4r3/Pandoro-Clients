@@ -52,7 +52,7 @@ import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
-import com.tecknobit.pandoro.ui.shared.presenters.SessionFlowStateConsumer
+import com.tecknobit.pandoro.ui.shared.presenters.SessionFlowStateScreenConsumer
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.dialogs.FileKitMode
@@ -74,7 +74,7 @@ import pandoro.composeapp.generated.resources.save
  * @author N7ghtm4r3 - Tecknobit
  * @see com.tecknobit.equinoxcompose.session.screens.EquinoxScreen
  * @see PandoroScreen
- * @see SessionFlowStateConsumer
+ * @see SessionFlowStateScreenConsumer
  */
 @Structure
 @ScreenCoordinator
@@ -85,7 +85,7 @@ abstract class CreateScreen<I, V : EquinoxViewModel>(
     viewModel: V
 ) : PandoroScreen<V>(
     viewModel = viewModel
-), SessionFlowStateConsumer {
+), SessionFlowStateScreenConsumer {
 
     /**
      * `isEditing` whether the user is creating or editing an item
