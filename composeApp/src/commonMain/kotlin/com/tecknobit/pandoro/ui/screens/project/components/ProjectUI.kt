@@ -27,8 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.tecknobit.pandoro.helpers.PROJECT_SCREEN
-import com.tecknobit.pandoro.helpers.navigator
+import com.tecknobit.pandoro.helpers.navToProjectScreen
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
@@ -102,7 +101,9 @@ private fun ProjectsListExpanded(
         trailingContent = { project ->
             IconButton(
                 onClick = {
-                    navigator.navigate("$PROJECT_SCREEN/${project.id}")
+                    navToProjectScreen(
+                        projectId = project.id
+                    )
                 }
             ) {
                 Icon(

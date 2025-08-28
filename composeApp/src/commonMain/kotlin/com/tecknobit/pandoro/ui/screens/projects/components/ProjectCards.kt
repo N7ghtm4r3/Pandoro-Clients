@@ -41,9 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.HorizontalProgressBar
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.helpers.PROJECT_SCREEN
 import com.tecknobit.pandoro.helpers.navToCreateProjectScreen
-import com.tecknobit.pandoro.helpers.navigator
+import com.tecknobit.pandoro.helpers.navToProjectScreen
 import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.group.components.GroupLogos
@@ -79,7 +78,10 @@ fun InDevelopmentProjectCard(
                 height = 150.dp
             ),
         onClick = {
-            navigator.navigate("$PROJECT_SCREEN/${project.id}/${update.id}")
+            navToProjectScreen(
+                projectId = project.id,
+                updateId = update.id
+            )
         }
     ) {
         Column (
@@ -199,7 +201,9 @@ fun ProjectCard(
         modifier = modifier
             .combinedClickable(
                 onClick = {
-                    navigator.navigate("$PROJECT_SCREEN/${project.id}")
+                    navToProjectScreen(
+                        projectId = project.id
+                    )
                 },
                 onLongClick = if(amITheProjectAuthor) {
                     {

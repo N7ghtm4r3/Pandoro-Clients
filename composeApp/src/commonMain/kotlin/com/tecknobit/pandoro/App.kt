@@ -131,9 +131,10 @@ fun App() {
             }
             composable(
                 route = HOME_SCREEN
-            ) {
+            ) { 
                 // TODO: TO REMOVE THIS THEME CALL
                 PandoroTheme {
+                    navigator.currentBackStackEntry?.savedStateHandle?.clearAll()
                     val homeScreen = equinoxScreen { HomeScreen() }
                     homeScreen.ShowContent()
                 }
@@ -226,18 +227,20 @@ fun App() {
                 route = PROJECT_SCREEN
             ) {
                 val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
-                val projectId: String = savedStateHandle[PROJECT_IDENTIFIER_KEY]!!
+                val projectId: String? = savedStateHandle[PROJECT_IDENTIFIER_KEY]
                 val updateId: String? = savedStateHandle[UPDATE_IDENTIFIER_KEY]
-                // TODO: TO REMOVE THIS THEME CALL
-                PandoroTheme {
-                    val projectScreen = equinoxScreen {
-                        ProjectScreen(
-                            projectId = projectId,
-                            updateToExpandId = updateId
-                        )
+                projectId?.let {
+                    // TODO: TO REMOVE THIS THEME CALL
+                    PandoroTheme {
+                        val projectScreen = equinoxScreen {
+                            ProjectScreen(
+                                projectId = projectId,
+                                updateToExpandId = updateId
+                            )
+                        }
+                        projectScreen.ShowContent()
+                        //savedStateHandle.clearAll()
                     }
-                    projectScreen.ShowContent()
-                    savedStateHandle.clearAll()
                 }
             }
 //            composable(
