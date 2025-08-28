@@ -157,7 +157,6 @@ fun App() {
                         )
                     }
                     createProjectScreen.ShowContent()
-                    savedStateHandle.remove<String>(PROJECT_IDENTIFIER_KEY)
                 }
             }
             composable(

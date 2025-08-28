@@ -13,9 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.tecknobit.ametistaengine.AmetistaEngine
 import com.tecknobit.equinoxcore.utilities.ContextActivityProvider
-import io.github.vinceglb.filekit.core.FileKit
 
 /**
  * The [MainActivity] is used as entry point of Pandoro's application for Android
@@ -29,12 +27,12 @@ class MainActivity : ComponentActivity() {
     companion object {
 
         /**
-         * `appUpdateManager** the manager to check if there is an update available
+         * `appUpdateManager` the manager to check if there is an update available
          */
         lateinit var appUpdateManager: AppUpdateManager
 
         /**
-         * `launcher** the result registered for [appUpdateManager] and the action to execute if fails
+         * `launcher` the result registered for [appUpdateManager] and the action to execute if fails
          */
         lateinit var launcher: ActivityResultLauncher<IntentSenderRequest>
 
@@ -55,7 +53,6 @@ class MainActivity : ComponentActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FileKit.init(this)
         ContextActivityProvider.setCurrentActivity(this)
         // AmetistaEngine.intake()
         setContent {

@@ -68,9 +68,11 @@ const val PROJECT_SCREEN = "ProjectScreen"
  */
 const val GROUP_SCREEN = "GroupScreen"
 
-
-// TODO: TO DOCUMENT 1.2.0
-
+/**
+ * Method used to navigate to the [SPLASHSCREEN] route
+ *
+ * @since 1.2.0
+ */
 // TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
 fun navToSplashscreen() {
     navigator.navigate(
@@ -78,6 +80,11 @@ fun navToSplashscreen() {
     )
 }
 
+/**
+ * Method used to navigate to the [HOME_SCREEN] route
+ *
+ * @since 1.2.0
+ */
 // TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
 fun navToHomeScreen() {
     navigator.navigate(
@@ -85,6 +92,13 @@ fun navToHomeScreen() {
     )
 }
 
+/**
+ * Method used to navigate to the [CREATE_PROJECT_SCREEN] route
+ *
+ * @param projectId The identifier of the project to edit
+ *
+ * @since 1.2.0
+ */
 // TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
 @Wrapper
 fun navToCreateProjectScreen(
@@ -97,6 +111,13 @@ fun navToCreateProjectScreen(
     )
 }
 
+/**
+ * Method used to navigate to the [CREATE_NOTE_SCREEN] route
+ *
+ * @param noteId The identifier of the note to edit
+ *
+ * @since 1.2.0
+ */
 // TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
 @Wrapper
 fun navToCreateNoteScreen(
@@ -109,6 +130,15 @@ fun navToCreateNoteScreen(
     )
 }
 
+/**
+ * Method used to navigate to a route where the user can create or edit an item
+ *
+ * @param itemId The identifier of the item to edit
+ * @param itemKey The key to assign to the [itemId] in the [SavedStateHandle] of the navigation
+ * @param screenRoute The route to reach
+ *
+ * @since 1.2.0
+ */
 private fun navToCreateScreen(
     itemId: String?,
     itemKey: String,
@@ -125,6 +155,15 @@ private fun navToCreateScreen(
     )
 }
 
+/**
+ * Method used to navigate to the [CREATE_CHANGE_NOTE_SCREEN] route
+ *
+ * @param projectId The identifier of the protect
+ * @param update The update where place the change note
+ * @param noteId The identifier of the change note to edit
+ *
+ * @since 1.2.0
+ */
 // TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
 fun navToCreateChangeNoteScreen(
     projectId: String,
@@ -141,6 +180,13 @@ fun navToCreateChangeNoteScreen(
     navigator.navigate(CREATE_CHANGE_NOTE_SCREEN)
 }
 
+/**
+ * Method used to navigate to the [SCHEDULE_UPDATE_SCREEN] route
+ *
+ * @param project The protect where schedule the update
+ *
+ * @since 1.2.0
+ */
 // TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
 fun navToScheduleUpdateScreen(
     project: Project
@@ -153,6 +199,13 @@ fun navToScheduleUpdateScreen(
     navigator.navigate(SCHEDULE_UPDATE_SCREEN)
 }
 
+/**
+ * Method used to navigate to the [CREATE_GROUP_SCREEN] route
+ *
+ * @param groupId The identifier of the group to edit
+ *
+ * @since 1.2.0
+ */
 // TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
 fun navToCreateGroupScreen(
     groupId: String? = null
@@ -164,6 +217,14 @@ fun navToCreateGroupScreen(
     navigator.navigate(CREATE_GROUP_SCREEN)
 }
 
+/**
+ * Method used to navigate to the [PROJECT_SCREEN] route
+ *
+ * @param projectId The identifier of the project
+ * @param updateId The identifier of the update to expand
+ *
+ * @since 1.2.0
+ */
 // TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
 fun navToProjectScreen(
     projectId: String,
@@ -177,6 +238,13 @@ fun navToProjectScreen(
     navigator.navigate(PROJECT_SCREEN)
 }
 
+/**
+ * Method used to navigate to the [GROUP_SCREEN] route
+ *
+ * @param groupId The identifier of the group
+ *
+ * @since 1.2.0
+ */
 // TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
 fun navToGroupScreen(
     groupId: String
