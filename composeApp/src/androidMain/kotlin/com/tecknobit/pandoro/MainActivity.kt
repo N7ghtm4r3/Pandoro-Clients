@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         FileKit.init(this)
         ContextActivityProvider.setCurrentActivity(this)
-        AmetistaEngine.intake()
+        // AmetistaEngine.intake()
         setContent {
             enableEdgeToEdge()
             InitSession()

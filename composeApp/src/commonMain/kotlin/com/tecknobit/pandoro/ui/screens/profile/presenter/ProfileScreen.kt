@@ -91,9 +91,11 @@ import com.tecknobit.pandoro.ui.screens.profile.presentation.ProfileScreenViewMo
 import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.theme.fallbackColor
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
-import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
-import io.github.vinceglb.filekit.core.PickerMode
-import io.github.vinceglb.filekit.core.PickerType
+import io.github.vinceglb.filekit.dialogs.FileKitMode
+import io.github.vinceglb.filekit.dialogs.FileKitType
+import io.github.vinceglb.filekit.dialogs.compose.rememberFilePickerLauncher
+import io.github.vinceglb.filekit.name
+import io.github.vinceglb.filekit.readBytes
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -205,8 +207,8 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     @Composable
     private fun ProfilePicker() {
         val launcher = rememberFilePickerLauncher(
-            type = PickerType.Image,
-            mode = PickerMode.Single
+            type = FileKitType.Image,
+            mode = FileKitMode.Single
         ) { profilePic ->
             profilePic?.let {
                 viewModel.viewModelScope.launch {

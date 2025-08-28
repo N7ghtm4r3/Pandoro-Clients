@@ -182,7 +182,7 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
                 if(index != PROFILE_TAB_INDEX) {
                     Icon(
                         imageVector = tab.icon,
-                        contentDescription = tab.contentDescription
+                        contentDescription = tab.resolveContentDescription()
                     )
                 } else
                     ProfilePic()
@@ -192,7 +192,7 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
             label = {
                 if(index != PROFILE_TAB_INDEX) {
                     Text(
-                        text = tab.prepareTitle(),
+                        text = tab.resolveTitle(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -360,28 +360,23 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
         return arrayOf(
             I18nNavigationTab(
                 icon = Icons.Default.Folder,
-                title = Res.string.projects,
-                contentDescription = "Projects"
+                title = Res.string.projects
             ),
             I18nNavigationTab(
                 icon = Icons.AutoMirrored.Filled.Notes,
-                title = Res.string.notes,
-                contentDescription = "notes"
+                title = Res.string.notes
             ),
             I18nNavigationTab(
                 icon = Activity,
-                title = Res.string.overview,
-                contentDescription = "overview"
+                title = Res.string.overview
             ),
             I18nNavigationTab(
                 icon = Icons.Default.Groups3,
-                title = Res.string.groups,
-                contentDescription = "groups"
+                title = Res.string.groups
             ),
             I18nNavigationTab(
                 icon = Icons.Default.AccountBox,
-                title = Res.string.profile,
-                contentDescription = "profile"
+                title = Res.string.profile
             )
         )
     }

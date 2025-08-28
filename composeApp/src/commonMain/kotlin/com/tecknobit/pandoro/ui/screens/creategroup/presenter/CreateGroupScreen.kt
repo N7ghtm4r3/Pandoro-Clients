@@ -411,7 +411,7 @@ class CreateGroupScreen(
             contentDescription = "Group Logo",
             onImagePicked = { logo ->
                 logo?.let {
-                    viewModel.groupLogo.value = logo.path
+                    viewModel.groupLogo.value = logo.toString()
                     viewModel.groupLogoPayload = logo
                 }
             }

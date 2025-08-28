@@ -1,6 +1,5 @@
 package com.tecknobit.pandoro.helpers
 
-import com.tecknobit.ametistaengine.AmetistaEngine.Companion.ametistaEngine
 import com.tecknobit.equinoxcompose.network.EquinoxRequester
 import com.tecknobit.equinoxcore.annotations.RequestPath
 import com.tecknobit.equinoxcore.annotations.Wrapper
@@ -93,9 +92,10 @@ open class PandoroRequester(
 ) {
 
     init {
-        attachInterceptorOnRequest {
-            ametistaEngine.notifyNetworkRequest()
-        }
+            // TODO: TO REIMPLEMENT WHEN NECESSARY
+//        attachInterceptorOnRequest {
+//            ametistaEngine.notifyNetworkRequest()
+//        }
     }
 
     /**

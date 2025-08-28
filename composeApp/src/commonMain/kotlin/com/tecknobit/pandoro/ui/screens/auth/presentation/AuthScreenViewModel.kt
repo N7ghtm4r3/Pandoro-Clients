@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.ui.screens.auth.presentation
 
 import androidx.compose.material3.SnackbarHostState
-import com.tecknobit.equinoxcompose.viewmodels.EquinoxAuthViewModel
+import com.tecknobit.equinoxcompose.session.viewmodels.EquinoxAuthViewModel
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.HOME_SCREEN
 import com.tecknobit.pandoro.localUser

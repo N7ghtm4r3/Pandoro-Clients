@@ -13,7 +13,9 @@ import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.BaseGroupViewMo
 import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.GroupManagerViewModel
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isGroupDescriptionValid
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isGroupNameValid
-import io.github.vinceglb.filekit.core.PlatformFile
+import io.github.vinceglb.filekit.PlatformFile
+import io.github.vinceglb.filekit.name
+import io.github.vinceglb.filekit.readBytes
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement

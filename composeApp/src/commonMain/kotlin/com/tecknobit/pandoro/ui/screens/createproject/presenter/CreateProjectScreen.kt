@@ -492,7 +492,7 @@ class CreateProjectScreen(
             contentDescription = "Project icon",
             onImagePicked = { icon ->
                 icon?.let {
-                    viewModel.projectIcon.value = icon.path
+                    viewModel.projectIcon.value = icon.toString()
                     viewModel.projectIconPayload = icon
                 }
             }

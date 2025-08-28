@@ -4,7 +4,6 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement.Maximized
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
-import com.tecknobit.ametistaengine.AmetistaEngine
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -17,7 +16,7 @@ import pandoro.composeapp.generated.resources.logo
  * @author N7ghtm4r3 - Tecknobit
  */
 fun main() {
-    AmetistaEngine.intake()
+    // AmetistaEngine.intake()
     application {
         Window(
             onCloseRequest = ::exitApplication,

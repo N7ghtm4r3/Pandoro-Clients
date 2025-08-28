@@ -3,6 +3,7 @@
 package com.tecknobit.pandoro
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.text.font.FontFamily
 import coil3.ImageLoader
@@ -13,6 +14,7 @@ import coil3.request.addLastModifiedToFileCacheKey
 import com.tecknobit.ametistaengine.AmetistaEngine
 import com.tecknobit.ametistaengine.AmetistaEngine.Companion.FILES_AMETISTA_CONFIG_PATHNAME
 import com.tecknobit.equinoxcompose.session.EquinoxLocalUser
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcore.helpers.NAME_KEY
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.equinoxcore.network.sendRequest
@@ -41,7 +43,6 @@ import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.Font
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.oswald
 import pandoro.composeapp.generated.resources.robotomono
@@ -130,12 +131,12 @@ val localUser = EquinoxLocalUser("Pandoro")
 /**
  * Common entry point of the **Pandoro** application
  */
+@OptIn(ExperimentalComposeApi::class)
 @Composable
-@Preview
 fun App() {
     bodyFontFamily = FontFamily(Font(Res.font.robotomono))
     displayFontFamily = FontFamily(Font(Res.font.oswald))
-    InitAmetista()
+    // InitAmetista()
     imageLoader = ImageLoader.Builder(LocalPlatformContext.current)
         .components {
             add(
@@ -239,12 +240,17 @@ fun App() {
             }
         }
     }
+    SessionFlowState.invokeOnUserDisconnected {
+        localUser.clear()
+        navigator.navigate(SPLASHSCREEN)
+    }
 }
 
 /**
  * Method used to initialize the Ametista system
  */
 @Composable
+// TODO: TO REIMPLEMENT WHEN NECESSARY
 private fun InitAmetista() {
     LaunchedEffect(Unit) {
         val ametistaEngine = AmetistaEngine.ametistaEngine

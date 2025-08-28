@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.ui.screens.projects.data
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.tecknobit.equinoxcore.time.TimeFormatter
 import com.tecknobit.equinoxcore.time.TimeFormatter.daysUntil
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
@@ -16,7 +17,6 @@ import com.tecknobit.pandorocore.UPDATE_START_DATE_KEY
 import com.tecknobit.pandorocore.UPDATE_TARGET_VERSION_KEY
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED
-import kotlinx.datetime.Clock
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -107,12 +107,13 @@ data class ProjectUpdate(
      * @return the count the current development days spent as [Int]
      */
     fun developmentDays() : Int {
-        return startDate.daysUntil(
+        val developmentDays = startDate.daysUntil(
             untilDate = if(status == PUBLISHED)
                 publishDate
             else
-                Clock.System.now().toEpochMilliseconds()
+                TimeFormatter.currentTimestamp()
         ) + 1
+        return developmentDays.toInt()
     }
 
 }
