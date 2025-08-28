@@ -39,7 +39,7 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveClass.MEDIUM_CONTENT
 import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.equinoxcore.annotations.Returner
-import com.tecknobit.pandoro.helpers.CREATE_GROUP_SCREEN
+import com.tecknobit.pandoro.helpers.navToCreateGroupScreen
 import com.tecknobit.pandoro.helpers.navigator
 import com.tecknobit.pandoro.ui.components.ChangeMemberRole
 import com.tecknobit.pandoro.ui.components.DeleteGroup
@@ -140,7 +140,9 @@ class GroupScreen(
      * The action to execute when the [item] has been edited
      */
     override fun onEdit() {
-        navigator.navigate("$CREATE_GROUP_SCREEN/${item.value!!.id}")
+        navToCreateGroupScreen(
+            groupId = item.value!!.id
+        )
     }
 
     /**

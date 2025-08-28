@@ -24,8 +24,10 @@ import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.pandoro.helpers.AUTH_SCREEN
 import com.tecknobit.pandoro.helpers.CREATE_CHANGE_NOTE_SCREEN
+import com.tecknobit.pandoro.helpers.CREATE_GROUP_SCREEN
 import com.tecknobit.pandoro.helpers.CREATE_NOTE_SCREEN
 import com.tecknobit.pandoro.helpers.CREATE_PROJECT_SCREEN
+import com.tecknobit.pandoro.helpers.GROUP_SCREEN
 import com.tecknobit.pandoro.helpers.HOME_SCREEN
 import com.tecknobit.pandoro.helpers.PROJECT_SCREEN
 import com.tecknobit.pandoro.helpers.PandoroRequester
@@ -36,13 +38,16 @@ import com.tecknobit.pandoro.helpers.customHttpClient
 import com.tecknobit.pandoro.helpers.navToSplashscreen
 import com.tecknobit.pandoro.helpers.navigator
 import com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen
+import com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen
 import com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen
 import com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen
+import com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen
 import com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter.ScheduleUpdateScreen
 import com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
+import com.tecknobit.pandorocore.GROUP_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.NOTE_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.PROJECT_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.UPDATE_IDENTIFIER_KEY
@@ -176,21 +181,22 @@ fun App() {
             ) {
                 val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
                 val projectId: String = savedStateHandle[PROJECT_IDENTIFIER_KEY]!!
-                val updateId: String = savedStateHandle[UPDATE_IDENTIFIER_KEY]!!
-                val targetVersion: String = savedStateHandle[UPDATE_TARGET_VERSION_KEY]!!
+                val updateId: String? = savedStateHandle[UPDATE_IDENTIFIER_KEY]
+                val targetVersion: String? = savedStateHandle[UPDATE_TARGET_VERSION_KEY]
                 val noteId: String? = savedStateHandle[NOTE_IDENTIFIER_KEY]
                 // TODO: TO REMOVE THIS THEME CALL
                 PandoroTheme {
-                    val createChangeNoteScreen = equinoxScreen {
-                        CreateNoteScreen(
-                            projectId = projectId,
-                            updateId = updateId,
-                            targetVersion = targetVersion,
-                            noteId = noteId
-                        )
+                    updateId?.let {
+                        val createChangeNoteScreen = equinoxScreen {
+                            CreateNoteScreen(
+                                projectId = projectId,
+                                updateId = updateId,
+                                targetVersion = targetVersion,
+                                noteId = noteId
+                            )
+                        }
+                        createChangeNoteScreen.ShowContent()
                     }
-                    createChangeNoteScreen.ShowContent()
-                    savedStateHandle.clearAll()
                 }
             }
             composable(
@@ -198,31 +204,35 @@ fun App() {
             ) {
                 val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
                 val projectId: String = savedStateHandle[PROJECT_IDENTIFIER_KEY]!!
-                val projectName: String = savedStateHandle[NAME_KEY]!!
+                val projectName: String? = savedStateHandle[NAME_KEY]
                 // TODO: TO REMOVE THIS THEME CALL
                 PandoroTheme {
-                    val scheduleUpdateScreen = equinoxScreen {
-                        ScheduleUpdateScreen(
-                            projectId = projectId,
-                            projectName = projectName
-                        )
+                    projectName?.let {
+                        val scheduleUpdateScreen = equinoxScreen {
+                            ScheduleUpdateScreen(
+                                projectId = projectId,
+                                projectName = projectName
+                            )
+                        }
+                        scheduleUpdateScreen.ShowContent()
                     }
-                    scheduleUpdateScreen.ShowContent()
-                    savedStateHandle.clearAll()
                 }
             }
-//            composable(
-//                route = "$CREATE_GROUP_SCREEN/{$GROUP_IDENTIFIER_KEY}?"
-//            ) { backstackEntry ->
-//                TODO: TO REMOVE THIS THEME CALL
-//                PandoroTheme {
-//          
-//                }
-//                val groupId: String? = backstackEntry.path<String>(GROUP_IDENTIFIER_KEY)
-//                CreateGroupScreen(
-//                    groupId = groupId
-//                ).ShowContent()
-//            }
+            composable(
+                route = CREATE_GROUP_SCREEN
+            ) {
+                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
+                val groupId: String? = savedStateHandle[GROUP_IDENTIFIER_KEY]
+                // TODO: TO REMOVE THIS THEME CALL
+                PandoroTheme {
+                    val createGroupScreen = equinoxScreen {
+                        CreateGroupScreen(
+                            groupId = groupId
+                        )
+                    }
+                    createGroupScreen.ShowContent()
+                }
+            }
             composable(
                 route = PROJECT_SCREEN
             ) {
@@ -239,22 +249,26 @@ fun App() {
                             )
                         }
                         projectScreen.ShowContent()
-                        //savedStateHandle.clearAll()
                     }
                 }
             }
-//            composable(
-//                route = "$GROUP_SCREEN/{$GROUP_IDENTIFIER_KEY}"
-//            ) { backstackEntry ->
-//                TODO: TO REMOVE THIS THEME CALL
-//                PandoroTheme {
-//          
-//                }
-//                val groupId: String = backstackEntry.path<String>(GROUP_IDENTIFIER_KEY)!!
-//                GroupScreen(
-//                    groupId = groupId
-//                ).ShowContent()
-//            }
+            composable(
+                route = GROUP_SCREEN
+            ) {
+                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
+                val groupId: String? = savedStateHandle[GROUP_IDENTIFIER_KEY]
+                // TODO: TO REMOVE THIS THEME CALL
+                PandoroTheme {
+                    groupId?.let {
+                        val groupScreen = equinoxScreen {
+                            GroupScreen(
+                                groupId = groupId
+                            )
+                        }
+                        groupScreen.ShowContent()
+                    }
+                }
+            }
         }    
     // }
     SessionFlowState.invokeOnUserDisconnected {
@@ -298,7 +312,8 @@ fun startSession() {
     requester = PandoroRequester(
         host = localUser.hostAddress,
         userId = localUser.userId,
-        userToken = localUser.userToken
+        userToken = localUser.userToken,
+        debugMode = true // TODO: TO REMOVE
     )
     val route = if (localUser.isAuthenticated) {
         MainScope().launch {

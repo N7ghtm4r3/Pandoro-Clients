@@ -7,6 +7,7 @@ import com.tecknobit.equinoxcore.annotations.Wrapper
 import com.tecknobit.equinoxcore.helpers.NAME_KEY
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Update
+import com.tecknobit.pandorocore.GROUP_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.NOTE_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.PROJECT_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.UPDATE_IDENTIFIER_KEY
@@ -125,7 +126,6 @@ private fun navToCreateScreen(
 }
 
 // TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
-@Wrapper
 fun navToCreateChangeNoteScreen(
     projectId: String,
     update: Update,
@@ -142,7 +142,6 @@ fun navToCreateChangeNoteScreen(
 }
 
 // TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
-@Wrapper
 fun navToScheduleUpdateScreen(
     project: Project
 ) {
@@ -155,7 +154,17 @@ fun navToScheduleUpdateScreen(
 }
 
 // TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
-@Wrapper
+fun navToCreateGroupScreen(
+    groupId: String? = null
+) {
+    val savedStateHandle = navigator.currentBackStackEntry?.savedStateHandle
+    savedStateHandle?.let {
+        savedStateHandle[GROUP_IDENTIFIER_KEY] = groupId
+    }
+    navigator.navigate(CREATE_GROUP_SCREEN)
+}
+
+// TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
 fun navToProjectScreen(
     projectId: String,
     updateId: String? = null
@@ -166,6 +175,17 @@ fun navToProjectScreen(
         savedStateHandle[UPDATE_IDENTIFIER_KEY] = updateId
     }
     navigator.navigate(PROJECT_SCREEN)
+}
+
+// TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
+fun navToGroupScreen(
+    groupId: String
+) {
+    val savedStateHandle = navigator.currentBackStackEntry?.savedStateHandle
+    savedStateHandle?.let {
+        savedStateHandle[GROUP_IDENTIFIER_KEY] = groupId
+    }
+    navigator.navigate(GROUP_SCREEN)
 }
 
 @FutureEquinoxApi(

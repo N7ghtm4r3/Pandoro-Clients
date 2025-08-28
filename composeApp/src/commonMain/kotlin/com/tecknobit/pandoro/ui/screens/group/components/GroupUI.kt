@@ -31,8 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.helpers.GROUP_SCREEN
-import com.tecknobit.pandoro.helpers.navigator
+import com.tecknobit.pandoro.helpers.navToGroupScreen
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
@@ -120,7 +119,9 @@ fun GroupExpandedList(
                 trailingContent = { group ->
                     IconButton(
                         onClick = {
-                            navigator.navigate("$GROUP_SCREEN/${group.id}")
+                            navToGroupScreen(
+                                groupId = group.id
+                            )
                         }
                     ) {
                         Icon(
