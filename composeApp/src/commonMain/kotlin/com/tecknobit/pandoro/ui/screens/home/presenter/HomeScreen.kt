@@ -42,12 +42,12 @@ import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.icons.Activity
-import com.tecknobit.pandoro.ui.screens.groups.presenter.GroupsScreen
+import com.tecknobit.pandoro.ui.screens.lists.groups.presenter.GroupsScreen
 import com.tecknobit.pandoro.ui.screens.home.presentation.HomeScreenViewModel
 import com.tecknobit.pandoro.ui.screens.notes.presenter.NotesScreen
 import com.tecknobit.pandoro.ui.screens.overview.presenter.OverviewScreen
 import com.tecknobit.pandoro.ui.screens.profile.presenter.ProfileScreen
-import com.tecknobit.pandoro.ui.screens.projects.presenter.ProjectsScreen
+import com.tecknobit.pandoro.ui.screens.lists.projects.presenter.ProjectsScreen
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res

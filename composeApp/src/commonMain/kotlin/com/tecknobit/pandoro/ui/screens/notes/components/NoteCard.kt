@@ -69,11 +69,11 @@ import com.tecknobit.pandoro.ui.icons.ClockLoader20
 import com.tecknobit.pandoro.ui.icons.Copy
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
-import com.tecknobit.pandoro.ui.screens.project.components.MoveChangeNoteButton
-import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
-import com.tecknobit.pandoro.ui.screens.projects.data.Project
-import com.tecknobit.pandoro.ui.screens.projects.data.Update
-import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
+import com.tecknobit.pandoro.ui.screens.item.project.components.MoveChangeNoteButton
+import com.tecknobit.pandoro.ui.screens.item.project.presentation.ProjectScreenViewModel
+import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
+import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update
+import com.tecknobit.pandoro.ui.screens.shared.presentation.NotesManager
 import com.tecknobit.pandoro.ui.theme.changeNoteBackground
 import com.tecknobit.pandoro.ui.theme.green
 import com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED

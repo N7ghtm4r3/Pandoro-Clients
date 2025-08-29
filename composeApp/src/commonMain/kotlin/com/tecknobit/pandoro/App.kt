@@ -38,12 +38,12 @@ import com.tecknobit.pandoro.helpers.customHttpClient
 import com.tecknobit.pandoro.helpers.navToSplashscreen
 import com.tecknobit.pandoro.helpers.navigator
 import com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen
-import com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen
-import com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen
-import com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen
-import com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen
+import com.tecknobit.pandoro.ui.screens.create.creategroup.presenter.CreateGroupScreen
+import com.tecknobit.pandoro.ui.screens.create.createnote.presenter.CreateNoteScreen
+import com.tecknobit.pandoro.ui.screens.create.createproject.presenter.CreateProjectScreen
+import com.tecknobit.pandoro.ui.screens.item.group.presenter.GroupScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
-import com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen
+import com.tecknobit.pandoro.ui.screens.item.project.presenter.ProjectScreen
 import com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter.ScheduleUpdateScreen
 import com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen
 import com.tecknobit.pandoro.ui.theme.PandoroTheme

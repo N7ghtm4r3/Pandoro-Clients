@@ -41,7 +41,7 @@ import com.tecknobit.pandoro.bodyFontFamily
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.ui.screens.overview.data.OverviewFullStatsItem
 import com.tecknobit.pandoro.ui.screens.overview.data.OverviewStatsItem
-import com.tecknobit.pandoro.ui.screens.projects.data.Update.Companion.asText
+import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update.Companion.asText
 import com.tecknobit.pandoro.ui.theme.green
 import com.tecknobit.pandoro.ui.theme.yellow
 import com.tecknobit.pandorocore.enums.UpdateStatus

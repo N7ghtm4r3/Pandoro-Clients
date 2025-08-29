@@ -44,7 +44,7 @@ import com.tecknobit.pandoro.ui.icons.AddNotes
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.notes.components.Notes
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
+import com.tecknobit.pandoro.ui.screens.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.theme.fallbackColor
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res

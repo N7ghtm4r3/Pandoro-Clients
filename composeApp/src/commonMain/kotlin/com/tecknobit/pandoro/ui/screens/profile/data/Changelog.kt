@@ -1,8 +1,8 @@
 package com.tecknobit.pandoro.ui.screens.profile.data
 
 import androidx.compose.runtime.Composable
-import com.tecknobit.pandoro.ui.screens.groups.data.Group
-import com.tecknobit.pandoro.ui.screens.projects.data.Project
+import com.tecknobit.pandoro.ui.screens.lists.groups.data.Group
+import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
 import com.tecknobit.pandorocore.CHANGELOG_EVENT_KEY
 import com.tecknobit.pandorocore.CHANGELOG_READ_KEY
 import com.tecknobit.pandorocore.EXTRA_CONTENT_KEY
