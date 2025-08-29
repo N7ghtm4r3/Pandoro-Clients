@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.ui.screens.item.project.components
+package com.tecknobit.pandoro.ui.screens.item.project.components.movechangenote
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton

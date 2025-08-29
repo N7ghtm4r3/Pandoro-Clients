@@ -19,7 +19,6 @@ import com.tecknobit.pandorocore.enums.UpdateStatus
 import com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonIgnoreUnknownKeys
 
 /**
  * The [Update] data class allow to represent a update data
@@ -38,7 +37,7 @@ import kotlinx.serialization.json.JsonIgnoreUnknownKeys
  * @author N7ghtm4r3 - Tecknobit
  */
 @Serializable
-@JsonIgnoreUnknownKeys // TODO: TO REMOVE
+// TODO: TO COMMENT 
 data class Update(
     val id: String,
     val author: GroupMember,
@@ -56,6 +55,7 @@ data class Update(
     @SerialName(UPDATE_PUBLISH_DATE_KEY)
     val publishDate: Long = -1,
     val notes: List<Note>,
+    val events: List<UpdateEvent>
 ) {
 
     companion object {

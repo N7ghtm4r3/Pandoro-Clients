@@ -69,7 +69,7 @@ import com.tecknobit.pandoro.ui.icons.ClockLoader20
 import com.tecknobit.pandoro.ui.icons.Copy
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
-import com.tecknobit.pandoro.ui.screens.item.project.components.MoveChangeNoteButton
+import com.tecknobit.pandoro.ui.screens.item.project.components.movechangenote.MoveChangeNoteButton
 import com.tecknobit.pandoro.ui.screens.item.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.project.Update

@@ -59,6 +59,8 @@ import com.tecknobit.pandoro.ui.icons.AddNotes
 import com.tecknobit.pandoro.ui.icons.ClipboardList
 import com.tecknobit.pandoro.ui.icons.ClipboardMinus
 import com.tecknobit.pandoro.ui.icons.ExportNotes
+import com.tecknobit.pandoro.ui.screens.item.project.components.timeline.SharedUpdateTimeline
+import com.tecknobit.pandoro.ui.screens.item.project.components.timeline.UpdateTimeline
 import com.tecknobit.pandoro.ui.screens.item.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.project.Project.Companion.asVersionText

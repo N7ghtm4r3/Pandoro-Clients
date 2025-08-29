@@ -41,8 +41,8 @@ import com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen
 import com.tecknobit.pandoro.ui.screens.create.creategroup.presenter.CreateGroupScreen
 import com.tecknobit.pandoro.ui.screens.create.createnote.presenter.CreateNoteScreen
 import com.tecknobit.pandoro.ui.screens.create.createproject.presenter.CreateProjectScreen
-import com.tecknobit.pandoro.ui.screens.item.group.presenter.GroupScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
+import com.tecknobit.pandoro.ui.screens.item.group.presenter.GroupScreen
 import com.tecknobit.pandoro.ui.screens.item.project.presenter.ProjectScreen
 import com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter.ScheduleUpdateScreen
 import com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen
@@ -312,7 +312,7 @@ fun startSession() {
         host = localUser.hostAddress,
         userId = localUser.userId,
         userToken = localUser.userToken,
-        // debugMode = true // TODO: TO REMOVE
+        debugMode = true // TODO: TO REMOVE
     )
     val route = if (localUser.isAuthenticated) {
         MainScope().launch {

@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.ui.screens.item.project.components
+package com.tecknobit.pandoro.ui.screens.item.project.components.movechangenote
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
