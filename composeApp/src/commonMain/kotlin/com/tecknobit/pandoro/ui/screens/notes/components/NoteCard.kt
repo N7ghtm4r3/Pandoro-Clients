@@ -182,10 +182,10 @@ fun ChangeNoteCard(
  * @param note The note to display
  * @param allowedToChangeStatus Whether the status of the change note can be edited
  * @param onDoubleClick The action to execute when the card is double-clicked
+ * @param customActions Custom additional actions to display
  * @param onDelete The action to execute when the note has been deleted
  */
 @Composable
-// TODO: TO DOCUMENT
 private fun NoteCardContent(
     modifier: Modifier,
     colors: CardColors = CardDefaults.cardColors(),
@@ -277,11 +277,11 @@ private fun NoteCardContent(
  * @param update The update owner of the note
  * @param note The note to display
  * @param allowedToChangeStatus Whether the status of the change note can be edited
+ * @param customActions Custom additional actions to display
  * @param onDelete The action to execute when the note has been deleted
  * @param allowDeletion Whether the note can be deleted
  */
 @Composable
-// TODO: TO DOCUMENT
 private fun NoteActions(
     viewModel: EquinoxViewModel,
     update: Update?,

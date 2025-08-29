@@ -14,7 +14,15 @@ import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.move_change_note
 
-// TODO: TO COMMENT 1.2.0
+/**
+ * Custom [IconButton] used to move a change note from an update to other update
+ *
+ * @param viewModel The support viewmodel of the screen
+ * @param changeNote The change note to move
+ * @param update The source update where the change note is currently attached
+ *
+ * @since 1.2.0
+ */
 @Composable
 fun MoveChangeNoteButton(
     viewModel: ProjectScreenViewModel,

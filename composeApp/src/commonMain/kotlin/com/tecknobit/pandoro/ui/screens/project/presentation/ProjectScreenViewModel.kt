@@ -224,7 +224,15 @@ class ProjectScreenViewModel(
         }
     }
 
-    // TODO: TO COMMENT 1.2.0
+    /**
+     * Method used to retrieve the current updates available where is possible move a change note
+     *
+     * @param sourceUpdate The current update where the change note is attached
+     *
+     * @return the available updates as [List] of [Update]
+     *
+     * @since 1.2.0
+     */
     fun retrieveAvailableDestinationUpdates(
         sourceUpdate: Update
     ): List<Update> {
@@ -233,7 +241,16 @@ class ProjectScreenViewModel(
         }
     }
 
-    // TODO: TO COMMENT 1.2.0
+    /**
+     * Method to move a change note
+     *
+     * @param changeNote The change note to move
+     * @param sourceUpdate The source update where the change note is currently attached
+     * @param destinationUpdate The destination update where move the change note
+     * @param onMove The callback to invoke after the moving of the change note
+     *
+     * @since 1.2.0
+     */
     fun moveChangeNote(
         changeNote: Note,
         sourceUpdate: Update,

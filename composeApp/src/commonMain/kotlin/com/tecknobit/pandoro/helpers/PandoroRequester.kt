@@ -512,7 +512,22 @@ open class PandoroRequester(
         )
     }
 
-    // TODO: TO COMMENT 1.2.0
+    /**
+     * Request to move a change note
+     *
+     * @param projectId The identifier of the project owner of the update
+     * @param sourceUpdateId The identifier of the source update where the change note is currently attached
+     * @param changeNoteId The identifier of the change note to move
+     * @param destinationUpdateId The identifier of the destination update where move the change note
+     *
+     * @return the response of the request as [JsonObject]
+     *
+     * @since 1.2.0
+     */
+    @RequestPath(
+        path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}/move/{destination_id}",
+        method = PUT
+    )
     suspend fun moveChangeNote(
         projectId: String,
         sourceUpdateId: String,

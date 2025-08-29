@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.ui.screens.project.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
@@ -10,6 +11,7 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,7 +31,17 @@ import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.move_change_note
 import pandoro.composeapp.generated.resources.move_change_note_hint
 
-// TODO: TO COMMENT
+/**
+ * Dialog used to allow the user to select the update where move the change note
+ *
+ * @param show Whether to show the dialog
+ * @param viewModel The support viewmodel of the screen
+ * @param changeNote The change note to move
+ * @param sourceUpdate The source update where the change note is currently attached
+ * @param availableDestinationUpdates The available update where move the change note
+ *
+ * @since 1.2.0
+ */
 @Composable
 fun MoveChangeNoteDialog(
     show: MutableState<Boolean>,
@@ -39,6 +51,9 @@ fun MoveChangeNoteDialog(
     availableDestinationUpdates: List<Update>
 ) {
     val destinationUpdate = remember { mutableStateOf(availableDestinationUpdates.firstOrNull()) }
+    LaunchedEffect(destinationUpdate.value) {
+        println(destinationUpdate.value?.targetVersion)
+    }
     EquinoxAlertDialog(
         icon = MoveChangeNote,
         show = show,
@@ -48,7 +63,7 @@ fun MoveChangeNoteDialog(
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 MoveChangeNoteHint()
-                AvailableDestinationUpdates(
+                DestinationUpdateSelector(
                     availableDestinationUpdates = availableDestinationUpdates,
                     destinationUpdate = destinationUpdate
                 )
@@ -65,6 +80,9 @@ fun MoveChangeNoteDialog(
     )
 }
 
+/**
+ * Hint text about the update selection
+ */
 @Composable
 private fun MoveChangeNoteHint() {
     Text(
@@ -73,30 +91,42 @@ private fun MoveChangeNoteHint() {
     )
 }
 
+/**
+ * Selector used to select the destination update where move the change note
+ *
+ * @param availableDestinationUpdates The available update where move the change note
+ * @param destinationUpdate The current update selected as destination of the change note
+ *
+ * @since 1.2.0
+ */
 @Composable
-private fun AvailableDestinationUpdates(
+private fun DestinationUpdateSelector(
     availableDestinationUpdates: List<Update>,
     destinationUpdate: MutableState<Update?>
 ) {
     LazyColumn (
         modifier = Modifier
             .selectableGroup()
+            .heightIn(
+                max = 300.dp
+            )
     ) {
         items(
             items = availableDestinationUpdates,
             key = { update -> update.id }
         ) { update ->
+            val isTheSelectedUpdate = destinationUpdate.value!!.id == update.id
             Row (
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = destinationUpdate.value == update,
+                    selected = isTheSelectedUpdate,
                     onClick = { destinationUpdate.value = update }
                 )
                 Text(
                     modifier = Modifier
                         .selectable(
-                            selected = destinationUpdate.value == update,
+                            selected = isTheSelectedUpdate,
                             role = Role.RadioButton,
                             onClick = { destinationUpdate.value = update }
                         ),
