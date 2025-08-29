@@ -4,6 +4,7 @@
 
 package com.tecknobit.pandoro.ui.screens.project.presenter
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
@@ -336,41 +337,46 @@ class ProjectScreen(
             filtersContent = { Filters() }
         ) {
             val updates = viewModel.arrangeUpdatesList()
-            if(updates.isNotEmpty()) {
-                LazyColumn (
-                    modifier = Modifier
-                        .animateContentSize(),
-                    contentPadding = PaddingValues(
-                        bottom = 16.dp
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    items(
-                        items = item.value!!.updates,
-                        key = { update -> update.id }
-                    ) { update ->
-                        UpdateCard(
-                            viewModel = viewModel,
-                            project = item.value!!,
-                            update = update,
-                            viewChangeNotesFlag = updateToExpandId != null && update.id == updateToExpandId
-                        )
+            AnimatedContent(
+                targetState = updates.isNotEmpty()
+            ) { isNotEmpty ->
+                if(isNotEmpty) {
+                    LazyColumn (
+                        modifier = Modifier
+                            .animateContentSize(),
+                        contentPadding = PaddingValues(
+                            bottom = 16.dp
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        items(
+                            items = item.value!!.updates,
+                            key = { update -> update.id }
+                        ) { update ->
+                            UpdateCard(
+                                viewModel = viewModel,
+                                project = item.value!!,
+                                update = update,
+                                viewChangeNotesFlag = updateToExpandId != null &&
+                                        update.id == updateToExpandId
+                            )
+                        }
                     }
+                } else {
+                    EmptyState(
+                        containerModifier = Modifier
+                            .fillMaxSize(),
+                        resource = Res.drawable.no_updates,
+                        resourceSize = responsiveAssignment(
+                            onExpandedSizeClass = { 350.dp },
+                            onMediumSizeClass = { 300.dp },
+                            onCompactSizeClass = { 275.dp }
+                        ),
+                        contentDescription = "No updates scheduled",
+                        title = stringResource(Res.string.no_updates_scheduled),
+                        titleStyle = EmptyStateTitleStyle
+                    )
                 }
-            } else {
-                EmptyState(
-                    containerModifier = Modifier
-                        .fillMaxSize(),
-                    resource = Res.drawable.no_updates,
-                    resourceSize = responsiveAssignment(
-                        onExpandedSizeClass = { 350.dp },
-                        onMediumSizeClass = { 300.dp },
-                        onCompactSizeClass = { 275.dp }
-                    ),
-                    contentDescription = "No updates scheduled",
-                    title = stringResource(Res.string.no_updates_scheduled),
-                    titleStyle = EmptyStateTitleStyle
-                )
             }
         }
     }
@@ -434,7 +440,6 @@ class ProjectScreen(
                                     onCheckedChange = {
                                         selected = it
                                         viewModel.manageStatusesFilter(
-                                            selected = selected,
                                             updateStatus = status
                                         )
                                     }
@@ -445,7 +450,6 @@ class ProjectScreen(
                     onClick = {
                         selected = !selected
                         viewModel.manageStatusesFilter(
-                            selected = selected,
                             updateStatus = status
                         )
                     }

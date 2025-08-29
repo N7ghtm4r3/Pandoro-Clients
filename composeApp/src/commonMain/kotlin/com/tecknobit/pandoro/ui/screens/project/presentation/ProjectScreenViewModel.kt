@@ -4,11 +4,12 @@ package com.tecknobit.pandoro.ui.screens.project.presentation
 
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.equinoxcore.network.sendRequest
-import com.tecknobit.equinoxcore.toggle
+import com.tecknobit.equinoxcore.util.toggle
 import com.tecknobit.pandoro.helpers.KReviewer
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
@@ -32,6 +33,7 @@ import kotlinx.serialization.json.decodeFromJsonElement
  * @param projectId The identifier of the group to display
  *
  * @author N7ghtm4r3 - Tecknobit
+ *
  * @see EquinoxViewModel
  * @see BaseProjectViewModel
  * @see ProjectDeleter
@@ -84,14 +86,11 @@ class ProjectScreenViewModel(
      * Method to manage the values in the [updateStatusesFilters] list
      *
      * @param updateStatus The status to remove or add to the list
-     * @param selected Whether add or remove the [updateStatus]
      */
     fun manageStatusesFilter(
-        updateStatus: UpdateStatus,
-        selected: Boolean
+        updateStatus: UpdateStatus
     ) {
         updateStatusesFilters.toggle(
-            add = selected,
             element = updateStatus
         )
         arrangeUpdatesList()
@@ -115,13 +114,14 @@ class ProjectScreenViewModel(
     }
 
     /**
-     * Method to arrange The updates list applying the filters
+     * Method to arrange the updates list applying the filters
      * 
      * @return The updates list filtered as [List] of [Update]
      */
-    fun arrangeUpdatesList() : List<Update> {
+    fun arrangeUpdatesList() : SnapshotStateList<Update> {
         return _project.value!!.updates
             .filter { update -> updateStatusesFilters.contains(update.status) }
+            .toMutableStateList()
     }
 
     /**

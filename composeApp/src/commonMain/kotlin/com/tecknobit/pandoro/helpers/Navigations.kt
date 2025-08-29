@@ -131,6 +131,24 @@ fun navToCreateNoteScreen(
 }
 
 /**
+ * Method used to navigate to the [CREATE_GROUP_SCREEN] route
+ *
+ * @param groupId The identifier of the group to edit
+ *
+ * @since 1.2.0
+ */
+// TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
+fun navToCreateGroupScreen(
+    groupId: String? = null
+) {
+    navToCreateScreen(
+        itemId = groupId,
+        itemKey = GROUP_IDENTIFIER_KEY,
+        screenRoute = CREATE_GROUP_SCREEN
+    )
+}
+
+/**
  * Method used to navigate to a route where the user can create or edit an item
  *
  * @param itemId The identifier of the item to edit
@@ -197,24 +215,6 @@ fun navToScheduleUpdateScreen(
         savedStateHandle[NAME_KEY] = project.name
     }
     navigator.navigate(SCHEDULE_UPDATE_SCREEN)
-}
-
-/**
- * Method used to navigate to the [CREATE_GROUP_SCREEN] route
- *
- * @param groupId The identifier of the group to edit
- *
- * @since 1.2.0
- */
-// TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
-fun navToCreateGroupScreen(
-    groupId: String? = null
-) {
-    val savedStateHandle = navigator.currentBackStackEntry?.savedStateHandle
-    savedStateHandle?.let {
-        savedStateHandle[GROUP_IDENTIFIER_KEY] = groupId
-    }
-    navigator.navigate(CREATE_GROUP_SCREEN)
 }
 
 /**
