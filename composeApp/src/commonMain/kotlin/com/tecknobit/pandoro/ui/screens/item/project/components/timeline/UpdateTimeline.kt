@@ -91,10 +91,13 @@ private fun UpdateTimelineContainer(
                 end = 16.dp,
                 bottom = 16.dp
             ),
-        style = if(updatePublished)
-            JetLimeDefaults.columnStyle()
-        else {
+        style = if(updatePublished) {
             JetLimeDefaults.columnStyle(
+                contentDistance = 20.dp
+            )
+        } else {
+            JetLimeDefaults.columnStyle(
+                contentDistance = 20.dp,
                 pathEffect = PathEffect.dashPathEffect(
                     intervals = floatArrayOf(10f, 10f),
                     phase = 0f,

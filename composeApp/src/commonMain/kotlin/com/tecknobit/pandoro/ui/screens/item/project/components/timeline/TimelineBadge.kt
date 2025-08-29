@@ -2,6 +2,7 @@
 
 package com.tecknobit.pandoro.ui.screens.item.project.components.timeline
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +36,21 @@ import com.tecknobit.pandorocore.enums.events.UpdateEventType.SCHEDULED
 import com.tecknobit.pandorocore.enums.events.UpdateEventType.STARTED
 
 // TODO: TO COMMENT 1.2.0
+
+private const val CHANGENOTE_ADDED_BADGE_TEXT = "added"
+
+private const val CHANGENOTE_DONE_BADGE_TEXT = "done"
+
+private const val CHANGENOTE_UNDONE_BADGE_TEXT = "to-do"
+
+private const val CHANGENOTE_EDITED_BADGE_TEXT = "edited"
+
+private const val CHANGENOTE_MOVED_TO_BADGE_TEXT = "moved to"
+
+private const val CHANGENOTE_MOVED_FROM_BADGE_TEXT = "moved from"
+
+private const val CHANGENOTE_REMOVED_BADGE_TEXT = "removed"
+
 @Composable
 fun TimelineBadge(
     type: UpdateEventType
@@ -43,28 +59,33 @@ fun TimelineBadge(
     BadgeText(
         modifier = Modifier
             .fillMaxWidth(),
-        badgeText = type.resolveText(),
-        badgeColor = badgeColor,
+        shape = RoundedCornerShape(
+            size = 6.dp
+        ),
+        padding = PaddingValues(
+            vertical = 5.dp,
+            horizontal = 2.dp
+        ),
+        elevation = 1.dp,
+        badgeTextStyle = AppTypography.labelMedium,
         textColor = getContrastColor(
             backgroundColor = badgeColor
         ),
-        badgeTextStyle = AppTypography.labelSmall,
-        shape = RoundedCornerShape(
-            size = 6.dp
-        )
+        badgeText = type.resolveText(),
+        badgeColor = badgeColor
     )
 }
 
 fun UpdateEventType.resolveText() : String {
     return when(this) {
         SCHEDULED, STARTED, PUBLISHED -> name.lowercase()
-        CHANGENOTE_ADDED -> "added"
-        CHANGENOTE_DONE -> "done"
-        CHANGENOTE_UNDONE -> "to-do"
-        CHANGENOTE_EDITED -> "edited"
-        CHANGENOTE_MOVED_TO -> "moved to"
-        CHANGENOTE_MOVED_FROM -> "moved from"
-        CHANGENOTE_REMOVED -> "removed"
+        CHANGENOTE_ADDED -> CHANGENOTE_ADDED_BADGE_TEXT
+        CHANGENOTE_DONE -> CHANGENOTE_DONE_BADGE_TEXT
+        CHANGENOTE_UNDONE -> CHANGENOTE_UNDONE_BADGE_TEXT
+        CHANGENOTE_EDITED -> CHANGENOTE_EDITED_BADGE_TEXT
+        CHANGENOTE_MOVED_TO -> CHANGENOTE_MOVED_TO_BADGE_TEXT
+        CHANGENOTE_MOVED_FROM -> CHANGENOTE_MOVED_FROM_BADGE_TEXT
+        CHANGENOTE_REMOVED -> CHANGENOTE_REMOVED_BADGE_TEXT
     }
 }
 
