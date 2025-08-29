@@ -152,7 +152,7 @@ private fun CardHeader(
                         top = 10.dp,
                         start = 10.dp
                     ),
-                text = "${project.name} ${update.targetVersion.asVersionText()}",
+                text = update.targetVersion.asVersionText(),
                 fontSize = 12.sp
             )
             Row (
@@ -170,7 +170,7 @@ private fun CardHeader(
                         .clip(CircleShape)
                         .size(10.dp)
                         .background(status.toColor())
-                ) {}
+                )
                 Text(
                     text = status.asText(),
                     fontFamily = displayFontFamily

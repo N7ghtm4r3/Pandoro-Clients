@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -68,6 +69,7 @@ import com.tecknobit.pandoro.ui.icons.ClockLoader20
 import com.tecknobit.pandoro.ui.icons.Copy
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
+import com.tecknobit.pandoro.ui.screens.project.components.MoveChangeNoteButton
 import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
 import com.tecknobit.pandoro.ui.screens.projects.data.Project
 import com.tecknobit.pandoro.ui.screens.projects.data.Update
@@ -100,7 +102,6 @@ import pandoro.composeapp.generated.resources.yet_to_complete
  * @param note The note to display
  */
 @Composable
-@NonRestartableComposable
 fun NoteCard(
     modifier: Modifier,
     viewModel: NotesScreenViewModel,
@@ -158,7 +159,14 @@ fun ChangeNoteCard(
                 )
             }
         } else
-            null
+            null,
+        customActions = {
+            MoveChangeNoteButton(
+                viewModel = viewModel,
+                changeNote = note,
+                update = update
+            )
+        }
     )
 }
 
@@ -177,6 +185,7 @@ fun ChangeNoteCard(
  * @param onDelete The action to execute when the note has been deleted
  */
 @Composable
+// TODO: TO DOCUMENT
 private fun NoteCardContent(
     modifier: Modifier,
     colors: CardColors = CardDefaults.cardColors(),
@@ -187,6 +196,7 @@ private fun NoteCardContent(
     note: Note,
     allowedToChangeStatus: Boolean = true,
     onDoubleClick: (() -> Unit)?,
+    customActions: @Composable (RowScope.() -> Unit)? = null,
     onDelete: () -> Unit = {}
 ) {
     val modalBottomSheetState = rememberModalBottomSheetState()
@@ -247,6 +257,7 @@ private fun NoteCardContent(
             update = update,
             note = note,
             allowedToChangeStatus = allowedToChangeStatus,
+            customActions = customActions,
             onDelete = onDelete,
             allowDeletion = allowDeletion
         )
@@ -270,11 +281,13 @@ private fun NoteCardContent(
  * @param allowDeletion Whether the note can be deleted
  */
 @Composable
+// TODO: TO DOCUMENT
 private fun NoteActions(
     viewModel: EquinoxViewModel,
     update: Update?,
     note: Note,
     allowedToChangeStatus: Boolean,
+    customActions: @Composable (RowScope.() -> Unit)? = null,
     onDelete: () -> Unit,
     allowDeletion: Boolean
 ) {
@@ -309,6 +322,7 @@ private fun NoteActions(
                 ),
             horizontalArrangement = Arrangement.End
         ) {
+            customActions?.invoke(this)
             val noteCopiedMessage = stringResource(Res.string.note_content_copied)
             IconButton(
                 onClick = {

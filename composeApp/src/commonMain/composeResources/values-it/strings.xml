@@ -212,4 +212,6 @@
     <string name="welcome_back">Bentornat</string>
     <string name="hello">Ciao</string>
     <string name="retrieving_data">Recupero dei dati</string>
+    <string name="move_change_note">Sposta appunto</string>
+    <string name="move_change_note_hint">Seleziona l’aggiornamento in cui spostare l'appunto</string>
 </resources>

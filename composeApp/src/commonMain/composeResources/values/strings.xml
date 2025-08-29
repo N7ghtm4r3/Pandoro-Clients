@@ -212,4 +212,6 @@
     <string name="welcome_back">Welcome back</string>
     <string name="hello">Hello</string>
     <string name="retrieving_data">Retrieving data</string>
+    <string name="move_change_note">Move change note</string>
+    <string name="move_change_note_hint">Select the update where move the change note</string>
 </resources>

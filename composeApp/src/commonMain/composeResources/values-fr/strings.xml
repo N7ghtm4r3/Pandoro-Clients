@@ -212,4 +212,6 @@
     <string name="welcome_back">Bienvenue à nouveau</string>
     <string name="hello">Bonjour</string>
     <string name="retrieving_data">Récupération des données</string>
+    <string name="move_change_note">Déplacer modification</string>
+    <string name="move_change_note_hint">Sélectionnez la mise à jour où déplacer la modification</string>
 </resources>
