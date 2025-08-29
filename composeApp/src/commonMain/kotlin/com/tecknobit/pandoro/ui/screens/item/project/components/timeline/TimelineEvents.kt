@@ -8,19 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pushpal.jetlime.EventPosition
 import com.pushpal.jetlime.JetLimeEventDefaults
 import com.pushpal.jetlime.JetLimeExtendedEvent
-import com.tecknobit.equinoxcompose.components.BadgeText
 import com.tecknobit.equinoxcore.time.TimeFormatter.EUROPEAN_DATE_PATTERN
 import com.tecknobit.equinoxcore.time.TimeFormatter.H24_HOURS_MINUTES_PATTERN
 import com.tecknobit.equinoxcore.time.TimeFormatter.toDateString
 import com.tecknobit.pandoro.ui.screens.shared.data.project.UpdateEvent
-import com.tecknobit.pandoro.ui.theme.AppTypography
 import com.tecknobit.pandorocore.enums.events.UpdateEventType
 import com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_ADDED
 import com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_DONE
@@ -49,11 +46,10 @@ fun TimelineEvent(
         style = JetLimeEventDefaults.eventStyle(
             position = position
         ),
+        additionalContentMaxWidth = 85.dp,
         additionalContent = {
-            BadgeText(
-                badgeText = event.type.name,
-                badgeColor = Color.Red,
-                badgeTextStyle = AppTypography.labelMedium
+            TimelineBadge(
+                type = event.type
             )
         }
     ) {
@@ -95,13 +91,13 @@ private fun UpdateEventType.resolveText(
                 pattern = H24_HOURS_MINUTES_PATTERN
             )
         )
-        CHANGENOTE_ADDED -> TODO()
-        CHANGENOTE_DONE -> TODO()
-        CHANGENOTE_UNDONE -> TODO()
-        CHANGENOTE_EDITED -> TODO()
-        CHANGENOTE_MOVED_TO -> TODO()
-        CHANGENOTE_MOVED_FROM -> TODO()
-        CHANGENOTE_REMOVED -> TODO()
+        CHANGENOTE_ADDED -> "TODO()"
+        CHANGENOTE_DONE -> "TODO()"
+        CHANGENOTE_UNDONE -> "TODO()"
+        CHANGENOTE_EDITED -> "TODO()"
+        CHANGENOTE_MOVED_TO -> "TODO()"
+        CHANGENOTE_MOVED_FROM -> "TODO()"
+        CHANGENOTE_REMOVED -> "TODO()"
         PUBLISHED -> stringResource(
             resource = Res.string.update_published_myself,
             eventDate.toDateString(

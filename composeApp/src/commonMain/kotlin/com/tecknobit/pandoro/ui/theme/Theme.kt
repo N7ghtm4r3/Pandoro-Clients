@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme.Dark
 import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme.Light
+import com.tecknobit.equinoxcore.annotations.Returner
 import com.tecknobit.pandoro.localUser
 
 /**
@@ -260,6 +261,7 @@ private val highContrastDarkColorScheme = darkColorScheme(
  *
  * @return custom green as [Color]
  */
+@Returner
 @Composable
 fun green(): Color {
     return if(isDarkThemeSelected())
@@ -273,6 +275,7 @@ fun green(): Color {
  *
  * @return custom yellow as [Color]
  */
+@Returner
 @Composable
 fun yellow(): Color {
     return if(isDarkThemeSelected())
@@ -286,6 +289,7 @@ fun yellow(): Color {
  *
  * @return fallback color content as [Color]
  */
+@Returner
 @Composable
 fun fallbackColor(): Color {
     return if(isDarkThemeSelected())
@@ -300,6 +304,7 @@ fun fallbackColor(): Color {
  *
  * @return custom background as [Color]
  */
+@Returner
 @Composable
 fun changeNoteBackground() : Color {
     return if(isDarkThemeSelected())
@@ -314,12 +319,78 @@ fun changeNoteBackground() : Color {
  *
  * @return list of colors as [Array] of [Color]
  */
+@Returner
 @Composable
 fun pieChartColors() : Array<Color> {
     return if(isDarkThemeSelected())
         pieChartDarkColors
     else
         pieCharLightColors
+}
+
+// TODO: TO COMMENT 1.2.0
+
+@Returner
+@Composable
+fun changeNoteAddedColor() : Color {
+    return if(isDarkThemeSelected())
+        darkAdded
+    else
+        lightAdded
+}
+
+@Returner
+@Composable
+fun changeNoteDoneColor() : Color {
+    return if(isDarkThemeSelected())
+        darkDone
+    else
+        lightDone
+}
+
+@Returner
+@Composable
+fun changeNoteRemovedColor() : Color {
+    return if(isDarkThemeSelected())
+        darkRemoved
+    else
+        lightRemoved
+}
+
+@Returner
+@Composable
+fun changeNoteTodoColor() : Color {
+    return if(isDarkThemeSelected())
+        darkUndone
+    else
+        lightUndone
+}
+
+@Returner
+@Composable
+fun changeNoteEditedColor() : Color {
+    return if(isDarkThemeSelected())
+        darkEdited
+    else
+        lightEdited
+}
+
+@Returner
+@Composable
+fun changeNoteMovedToColor() : Color {
+    return if(isDarkThemeSelected())
+        darkMovedTo
+    else
+        lightMovedTo
+}
+
+@Returner
+@Composable
+fun changeNoteMovedFromColor() : Color {
+    return if(isDarkThemeSelected())
+        darkMovedFrom
+    else
+        lightMovedFrom
 }
 
 /**
