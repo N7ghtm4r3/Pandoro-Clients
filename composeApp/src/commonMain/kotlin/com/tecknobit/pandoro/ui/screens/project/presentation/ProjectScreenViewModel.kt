@@ -172,25 +172,6 @@ class ProjectScreenViewModel(
         }
     }
 
-    // TODO: TO COMMENT 1.2.0
-    fun retrieveAvailableDestinationUpdates(
-        sourceUpdate: Update
-    ): List<Update> {
-        return _project.value!!.updates.filter { update ->
-            update.status != UpdateStatus.PUBLISHED && sourceUpdate.id != update.id
-        }
-    }
-
-    fun moveChangeNote(
-        changeNote: Note,
-        sourceUpdate: Update,
-        destinationUpdate: Update,
-        onMove: () -> Unit
-    ) {
-        // TODO: MAKE THE REQUEST THEN
-        onMove()
-    }
-
     /**
      * Method to delete a [note]
      *
@@ -238,6 +219,38 @@ class ProjectScreenViewModel(
                     val kReviewer = KReviewer()
                     kReviewer.reviewInApp()
                 },
+                onFailure = { showSnackbarMessage(it) }
+            )
+        }
+    }
+
+    // TODO: TO COMMENT 1.2.0
+    fun retrieveAvailableDestinationUpdates(
+        sourceUpdate: Update
+    ): List<Update> {
+        return _project.value!!.updates.filter { update ->
+            update.status != UpdateStatus.PUBLISHED && sourceUpdate.id != update.id
+        }
+    }
+
+    // TODO: TO COMMENT 1.2.0
+    fun moveChangeNote(
+        changeNote: Note,
+        sourceUpdate: Update,
+        destinationUpdate: Update,
+        onMove: () -> Unit
+    ) {
+        viewModelScope.launch {
+            requester.sendRequest(
+                request = {
+                    moveChangeNote(
+                        projectId = projectId,
+                        sourceUpdateId = sourceUpdate.id,
+                        changeNoteId = changeNote.id,
+                        destinationUpdateId = destinationUpdate.id
+                    )
+                },
+                onSuccess = { onMove() },
                 onFailure = { showSnackbarMessage(it) }
             )
         }

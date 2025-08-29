@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -14,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.EquinoxAlertDialog
 import com.tecknobit.pandoro.ui.icons.MoveChangeNote
@@ -92,6 +94,12 @@ private fun AvailableDestinationUpdates(
                     onClick = { destinationUpdate.value = update }
                 )
                 Text(
+                    modifier = Modifier
+                        .selectable(
+                            selected = destinationUpdate.value == update,
+                            role = Role.RadioButton,
+                            onClick = { destinationUpdate.value = update }
+                        ),
                     text = update.targetVersion.asVersionText()
                 )
             }
