@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import com.tecknobit.pandoro.ui.icons.MoveChangeNote
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.item.project.presentation.ProjectScreenViewModel
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res

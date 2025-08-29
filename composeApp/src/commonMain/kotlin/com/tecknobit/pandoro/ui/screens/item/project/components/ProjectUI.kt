@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.dp
 import com.tecknobit.pandoro.helpers.navToProjectScreen
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.lists.groups.data.Group
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project.Companion.asVersionText
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project.Companion.asVersionText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

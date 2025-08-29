@@ -60,11 +60,11 @@ import com.tecknobit.pandoro.ui.icons.ClipboardList
 import com.tecknobit.pandoro.ui.icons.ClipboardMinus
 import com.tecknobit.pandoro.ui.icons.ExportNotes
 import com.tecknobit.pandoro.ui.screens.item.project.presentation.ProjectScreenViewModel
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project.Companion.asVersionText
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update.Companion.asText
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update.Companion.toColor
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project.Companion.asVersionText
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update.Companion.asText
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update.Companion.toColor
 import com.tecknobit.pandoro.ui.theme.green
 import com.tecknobit.pandoro.ui.theme.yellow
 import com.tecknobit.pandorocore.enums.UpdateStatus

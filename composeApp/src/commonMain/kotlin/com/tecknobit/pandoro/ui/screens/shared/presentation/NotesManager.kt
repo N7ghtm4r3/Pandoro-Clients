@@ -1,6 +1,6 @@
 package com.tecknobit.pandoro.ui.screens.shared.presentation
 
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 
 /**

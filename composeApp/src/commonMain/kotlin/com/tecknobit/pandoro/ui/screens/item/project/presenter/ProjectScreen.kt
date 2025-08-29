@@ -75,10 +75,10 @@ import com.tecknobit.pandoro.ui.screens.item.project.components.ModalProjectStat
 import com.tecknobit.pandoro.ui.screens.item.project.components.ProjectsStats
 import com.tecknobit.pandoro.ui.screens.item.project.components.UpdateCard
 import com.tecknobit.pandoro.ui.screens.item.project.presentation.ProjectScreenViewModel
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project.Companion.asVersionText
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update.Companion.asText
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update.Companion.toColor
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project.Companion.asVersionText
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update.Companion.asText
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update.Companion.toColor
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.item.ItemScreen
 import com.tecknobit.pandoro.ui.screens.shared.presenters.PandoroScreen

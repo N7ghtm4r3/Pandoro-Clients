@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.ui.screens.lists.projects.data
+package com.tecknobit.pandoro.ui.screens.shared.data.project
 
 import com.tecknobit.equinoxcore.helpers.CREATION_DATE_KEY
 import com.tecknobit.pandoro.localUser

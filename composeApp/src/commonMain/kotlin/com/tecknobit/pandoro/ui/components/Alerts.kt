@@ -32,9 +32,9 @@ import com.tecknobit.pandoro.ui.screens.lists.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.profile.presentation.ProfileScreenViewModel
 import com.tecknobit.pandoro.ui.screens.item.project.presentation.ProjectScreenViewModel
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project.Companion.asVersionText
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project.Companion.asVersionText
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.color

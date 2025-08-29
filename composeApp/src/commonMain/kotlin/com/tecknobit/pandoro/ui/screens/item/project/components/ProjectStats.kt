@@ -41,9 +41,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project.Companion.asVersionText
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project.Companion.asVersionText
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
 import com.tecknobit.pandoro.ui.theme.green
 import com.tecknobit.pandoro.ui.theme.pieChartColors
 import ir.ehsannarmani.compose_charts.LineChart

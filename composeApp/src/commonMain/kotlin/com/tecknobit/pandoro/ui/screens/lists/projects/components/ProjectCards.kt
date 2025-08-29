@@ -47,9 +47,9 @@ import com.tecknobit.pandoro.ui.components.DeleteProject
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.item.group.components.GroupLogos
 import com.tecknobit.pandoro.ui.screens.lists.projects.data.InDevelopmentProject
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project.Companion.asVersionText
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project.Companion.asVersionText
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
 import com.tecknobit.pandoro.ui.screens.lists.projects.presentation.ProjectsScreenViewModel
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.pluralStringResource

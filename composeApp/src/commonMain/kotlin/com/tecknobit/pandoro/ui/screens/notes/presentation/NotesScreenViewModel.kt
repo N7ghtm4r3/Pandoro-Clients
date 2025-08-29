@@ -11,7 +11,7 @@ import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
 import com.tecknobit.pandoro.ui.screens.shared.presentation.NotesManager
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlinx.coroutines.launch

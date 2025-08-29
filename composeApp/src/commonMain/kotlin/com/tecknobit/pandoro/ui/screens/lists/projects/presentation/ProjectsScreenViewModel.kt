@@ -9,7 +9,7 @@ import com.tecknobit.equinoxcore.network.sendPaginatedRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.lists.projects.data.InDevelopmentProject
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
 import com.tecknobit.pandoro.ui.screens.shared.presentation.BaseProjectViewModel.ProjectDeleter
 import com.tecknobit.pandoro.ui.screens.lists.common.presentation.MultipleListViewModel
 import io.github.ahmad_hamwi.compose.pagination.PaginationState

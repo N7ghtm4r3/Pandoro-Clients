@@ -10,7 +10,7 @@ import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseArrayData
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseContent
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse.Companion.DEFAULT_PAGE
 import com.tecknobit.pandoro.requester
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlinx.coroutines.delay

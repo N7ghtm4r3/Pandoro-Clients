@@ -34,7 +34,7 @@ import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.helpers.navToGroupScreen
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.lists.groups.data.Group
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.pluralStringResource

@@ -5,7 +5,7 @@ import com.tecknobit.equinoxcompose.session.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.annotations.Structure
 import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.pandoro.requester
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

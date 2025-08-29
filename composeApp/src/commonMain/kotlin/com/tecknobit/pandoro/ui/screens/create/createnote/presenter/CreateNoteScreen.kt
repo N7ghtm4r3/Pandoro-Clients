@@ -44,7 +44,7 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.ui.screens.create.createnote.presentation.CreateNoteScreenViewModel
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project.Companion.asVersionText
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project.Companion.asVersionText
 import com.tecknobit.pandoro.ui.screens.create.CreateScreen
 import com.tecknobit.pandoro.ui.screens.shared.presenters.PandoroScreen
 import org.jetbrains.compose.resources.stringResource

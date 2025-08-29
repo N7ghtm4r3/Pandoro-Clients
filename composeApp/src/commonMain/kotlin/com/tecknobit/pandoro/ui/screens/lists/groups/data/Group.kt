@@ -2,7 +2,7 @@ package com.tecknobit.pandoro.ui.screens.lists.groups.data
 
 import com.tecknobit.equinoxcore.helpers.CREATION_DATE_KEY
 import com.tecknobit.pandoro.localUser
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandorocore.GROUP_DESCRIPTION_KEY

@@ -1,5 +1,8 @@
 package com.tecknobit.pandoro.ui.screens.lists.projects.data
 
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
+
 /**
  * The [InDevelopmentProject] data class allow to represent a project currently in
  * [com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT]

@@ -21,8 +21,8 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcompose.utilities.ResponsiveContent
 import com.tecknobit.pandoro.ui.screens.notes.components.ChangeNoteCard
 import com.tecknobit.pandoro.ui.screens.item.project.presentation.ProjectScreenViewModel
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
 import com.tecknobit.pandoro.ui.screens.shared.presenters.PandoroScreen.Companion.FORM_CARD_HEIGHT
 import com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT
 

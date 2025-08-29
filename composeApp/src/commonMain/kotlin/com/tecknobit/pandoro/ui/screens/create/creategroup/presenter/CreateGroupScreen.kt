@@ -58,7 +58,7 @@ import com.tecknobit.pandoro.ui.screens.item.group.components.GroupMembers
 import com.tecknobit.pandoro.ui.screens.lists.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.item.project.components.GroupProjectsCandidate
 import com.tecknobit.pandoro.ui.screens.item.project.components.ProjectIcons
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
 import com.tecknobit.pandoro.ui.screens.create.CreateScreen
 import com.tecknobit.pandoro.ui.screens.shared.presenters.PandoroScreen
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isGroupDescriptionValid

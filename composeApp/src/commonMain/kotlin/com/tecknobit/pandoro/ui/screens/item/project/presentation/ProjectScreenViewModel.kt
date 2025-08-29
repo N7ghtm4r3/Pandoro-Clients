@@ -14,8 +14,8 @@ import com.tecknobit.pandoro.helpers.KReviewer
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.item.project.presenter.ProjectScreen
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
 import com.tecknobit.pandoro.ui.screens.shared.presentation.BaseProjectViewModel
 import com.tecknobit.pandoro.ui.screens.shared.presentation.BaseProjectViewModel.ProjectDeleter
 import com.tecknobit.pandoro.ui.screens.shared.presentation.NotesManager

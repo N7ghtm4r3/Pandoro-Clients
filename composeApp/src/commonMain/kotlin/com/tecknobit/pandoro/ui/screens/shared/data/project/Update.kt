@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.ui.screens.lists.projects.data
+package com.tecknobit.pandoro.ui.screens.shared.data.project
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable

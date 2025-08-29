@@ -60,7 +60,7 @@ import com.tecknobit.pandoro.ui.screens.create.createproject.presentation.Create
 import com.tecknobit.pandoro.ui.screens.item.group.components.GroupLogos
 import com.tecknobit.pandoro.ui.screens.item.group.components.GroupsProjectCandidate
 import com.tecknobit.pandoro.ui.screens.lists.groups.data.Group
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
 import com.tecknobit.pandoro.ui.screens.create.CreateScreen
 import com.tecknobit.pandoro.ui.screens.shared.presenters.PandoroScreen
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isValidProjectDescription

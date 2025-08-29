@@ -60,7 +60,7 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall
 import com.tecknobit.pandoro.ui.icons.AddNotes
 import com.tecknobit.pandoro.ui.screens.notes.components.NoteDetails
-import com.tecknobit.pandoro.ui.screens.lists.projects.data.Update
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
 import com.tecknobit.pandoro.ui.screens.scheduleupdate.presentation.ScheduleUpdateScreenViewModel
 import com.tecknobit.pandoro.ui.screens.create.CreateScreen
 import com.tecknobit.pandorocore.helpers.PandoroInputsValidator.isContentNoteValid
