@@ -7,8 +7,21 @@ import com.tecknobit.pandorocore.enums.events.UpdateEventType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * The [UpdateEvent] data class allows to represent an event occurred during the lifecycle of an update
+ *
+ * @property id The identifier of the event
+ * @property type The type of the occurred event
+ * @property author The user who made the action which created the event
+ * @property timestamp When the event occurred
+ * @property noteContent The content of the note if it is an event related to a change note
+ * @property extraContent Extra content used when it is necessary add extra information such update version, etc...
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ *
+ * @since 1.2.0
+ */
 @Serializable
-// TODO: TO COMMENT 1.2.0
 data class UpdateEvent(
     val id: String,
     val type: UpdateEventType,

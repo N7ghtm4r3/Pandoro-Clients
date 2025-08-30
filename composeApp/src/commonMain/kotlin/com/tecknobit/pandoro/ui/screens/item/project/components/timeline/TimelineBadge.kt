@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.tecknobit.equinoxcompose.components.BadgeText
 import com.tecknobit.equinoxcompose.components.getContrastColor
+import com.tecknobit.equinoxcore.annotations.Returner
 import com.tecknobit.pandoro.ui.theme.AppTypography
 import com.tecknobit.pandoro.ui.theme.changeNoteAddedColor
 import com.tecknobit.pandoro.ui.theme.changeNoteDoneColor
@@ -35,22 +36,62 @@ import com.tecknobit.pandorocore.enums.events.UpdateEventType.PUBLISHED
 import com.tecknobit.pandorocore.enums.events.UpdateEventType.SCHEDULED
 import com.tecknobit.pandorocore.enums.events.UpdateEventType.STARTED
 
-// TODO: TO COMMENT 1.2.0
-
+/**
+ * `CHANGENOTE_ADDED_BADGE_TEXT` the text to display when the event is [CHANGENOTE_ADDED]
+ *
+ * @since 1.2.0
+ */
 private const val CHANGENOTE_ADDED_BADGE_TEXT = "added"
 
+/**
+ * `CHANGENOTE_DONE_BADGE_TEXT` the text to display when the event is [CHANGENOTE_DONE]
+ *
+ * @since 1.2.0
+ */
 private const val CHANGENOTE_DONE_BADGE_TEXT = "done"
 
+/**
+ * `CHANGENOTE_UNDONE_BADGE_TEXT` the text to display when the event is [CHANGENOTE_UNDONE]
+ *
+ * @since 1.2.0
+ */
 private const val CHANGENOTE_UNDONE_BADGE_TEXT = "to-do"
 
+/**
+ * `CHANGENOTE_EDITED_BADGE_TEXT` the text to display when the event is [CHANGENOTE_EDITED]
+ *
+ * @since 1.2.0
+ */
 private const val CHANGENOTE_EDITED_BADGE_TEXT = "edited"
 
+/**
+ * `CHANGENOTE_MOVED_TO_BADGE_TEXT` the text to display when the event is [CHANGENOTE_MOVED_TO]
+ *
+ * @since 1.2.0
+ */
 private const val CHANGENOTE_MOVED_TO_BADGE_TEXT = "moved to"
 
+/**
+ * `CHANGENOTE_MOVED_FROM_BADGE_TEXT` the text to display when the event is [CHANGENOTE_MOVED_FROM]
+ *
+ * @since 1.2.0
+ */
 private const val CHANGENOTE_MOVED_FROM_BADGE_TEXT = "moved from"
 
+/**
+ * `CHANGENOTE_REMOVED_BADGE_TEXT` the text to display when the event is [CHANGENOTE_REMOVED]
+ *
+ * @since 1.2.0
+ */
 private const val CHANGENOTE_REMOVED_BADGE_TEXT = "removed"
 
+/**
+ * Custom [BadgeText] used to display the event type
+ *
+ * @param type The type of the event
+ *
+ * @since 1.2.0
+ */
 @Composable
 fun TimelineBadge(
     type: UpdateEventType
@@ -76,6 +117,14 @@ fun TimelineBadge(
     )
 }
 
+/**
+ * Method used to get the proper text based on the [UpdateEventType]
+ *
+ * @return the proper text to represent the event type as [String]
+ *
+ * @since 1.2.0
+ */
+@Returner
 fun UpdateEventType.resolveText() : String {
     return when(this) {
         SCHEDULED, STARTED, PUBLISHED -> name.lowercase()
@@ -89,6 +138,14 @@ fun UpdateEventType.resolveText() : String {
     }
 }
 
+/**
+ * Method used to get the proper color based on the [UpdateEventType]
+ *
+ * @return the proper color to represent the event type as [Color]
+ *
+ * @since 1.2.0
+ */
+@Returner
 @Composable
 fun UpdateEventType.resolveColor(): Color {
     return when(this) {

@@ -33,11 +33,11 @@ import kotlinx.serialization.Serializable
  * @property publishedBy The user who publish the update
  * @property publishDate The date when the update has been published
  * @property notes The attached change notes list
+ * @property events The events occurred during the lifecycle of the update
  *
  * @author N7ghtm4r3 - Tecknobit
  */
 @Serializable
-// TODO: TO COMMENT 
 data class Update(
     val id: String,
     val author: GroupMember,

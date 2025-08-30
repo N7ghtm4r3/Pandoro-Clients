@@ -34,7 +34,7 @@ fun UpdateTimeline(
     UpdateTimelineContainer(
         itemSpacing = 16.dp,
         update = update,
-        content = { position, event ->
+        timelineContent = { position, event ->
             TimelineEvent(
                 position = position,
                 event = event
@@ -56,7 +56,7 @@ fun SharedUpdateTimeline(
     UpdateTimelineContainer(
         itemSpacing = 25.dp,
         update = update,
-        content = { position, event ->
+        timelineContent = { position, event ->
             SharedTimelineEvent(
                 position = position,
                 event = event
@@ -66,17 +66,17 @@ fun SharedUpdateTimeline(
 }
 
 /**
- * The container of the timelines of the [update]
+ * This component allows to display a timeline of the events related to an [Update]
  *
- * @param update The update from fetch the timeline
- * @param content The content to display the timeline
+ * @param itemSpacing The spacing between events
+ * @param update The update to display its lifecycle
+ * @param timelineContent The correct timeline content to display
  */
 @Composable
-// TODO: TO COMMENT
 private fun UpdateTimelineContainer(
     itemSpacing: Dp,
     update: Update,
-    content: @Composable (EventPosition, UpdateEvent) -> Unit
+    timelineContent: @Composable (EventPosition, UpdateEvent) -> Unit
 ) {
     val updatePublished = update.status == UpdateStatus.PUBLISHED
     Text(
@@ -113,6 +113,6 @@ private fun UpdateTimelineContainer(
         },
         itemsList = ItemsList(update.events),
     ) { _, event, position ->
-        content(position, event)
+        timelineContent(position, event)
     }
 }

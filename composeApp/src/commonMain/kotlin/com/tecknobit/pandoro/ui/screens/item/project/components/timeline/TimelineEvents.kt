@@ -67,8 +67,14 @@ import pandoro.composeapp.generated.resources.update_scheduled_myself
 import pandoro.composeapp.generated.resources.update_started_by
 import pandoro.composeapp.generated.resources.update_started_myself
 
-// TODO: TO COMMENT 1.2.0
-
+/**
+ * This component displays an [UpdateEvent] content in those project are not shared with groups
+ *
+ * @param position The position occupied in the timeline
+ * @param event The event to display
+ *
+ * @since 1.2.0
+ */
 @Composable
 fun TimelineEvent(
     position: EventPosition,
@@ -121,6 +127,14 @@ fun TimelineEvent(
     )
 }
 
+/**
+ * This component displays an [UpdateEvent] content in those project shared with groups
+ *
+ * @param position The position occupied in the timeline
+ * @param event The event to display
+ *
+ * @since 1.2.0
+ */
 @Composable
 fun SharedTimelineEvent(
     position: EventPosition,
@@ -192,6 +206,18 @@ fun SharedTimelineEvent(
     )
 }
 
+/**
+ * This component is the implementation of [TimelineEvent] or [SharedTimelineEvent] where is displayed
+ * the content of the [UpdateEvent]
+ *
+ * @param position The position occupied in the timeline
+ * @param contentMaxHeight The max height the content must occupy
+ * @param event The event to display
+ * @param headerContent Custom header content to display in each event
+ * @param eventMessage The message to show to describe the event
+ *
+ * @since 1.2.0
+ */
 @Composable
 private fun TimelineEventImpl(
     position: EventPosition,
@@ -255,6 +281,14 @@ private fun TimelineEventImpl(
     }
 }
 
+/**
+ * This component allows to display the content of a change note attached to an event
+ *
+ * @param modifier The modifier to apply to the component
+ * @param noteContent The content of the change note
+ *
+ * @since 1.2.0
+ */
 @Composable
 private fun ChangeNoteContent(
     modifier: Modifier = Modifier,

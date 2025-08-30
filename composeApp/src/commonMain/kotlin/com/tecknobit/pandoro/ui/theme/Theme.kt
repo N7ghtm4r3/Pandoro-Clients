@@ -314,7 +314,7 @@ fun changeNoteBackground() : Color {
 }
 
 /**
- * Method to get the list of colors to use in the [com.tecknobit.pandoro.ui.screens.project.components.ProjectsStats]
+ * Method to get the list of colors to use in the [com.tecknobit.pandoro.ui.screens.item.project.components.ProjectsStats]
  * based on the current theme selected
  *
  * @return list of colors as [Array] of [Color]
@@ -328,8 +328,14 @@ fun pieChartColors() : Array<Color> {
         pieCharLightColors
 }
 
-// TODO: TO COMMENT 1.2.0
-
+/**
+ * Method used to get which color use based on the [isDarkThemeSelected] result to represent the
+ * [com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_ADDED] event
+ *
+ * @return the representative color as [Color]
+ *
+ * @since 1.2.0
+ */
 @Returner
 @Composable
 fun changeNoteAddedColor() : Color {
@@ -339,6 +345,14 @@ fun changeNoteAddedColor() : Color {
         lightAdded
 }
 
+/**
+ * Method used to get which color use based on the [isDarkThemeSelected] result to represent the
+ * [com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_DONE] event
+ *
+ * @return the representative color as [Color]
+ *
+ * @since 1.2.0
+ */
 @Returner
 @Composable
 fun changeNoteDoneColor() : Color {
@@ -348,6 +362,14 @@ fun changeNoteDoneColor() : Color {
         lightDone
 }
 
+/**
+ * Method used to get which color use based on the [isDarkThemeSelected] result to represent the
+ * [com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_REMOVED] event
+ *
+ * @return the representative color as [Color]
+ *
+ * @since 1.2.0
+ */
 @Returner
 @Composable
 fun changeNoteRemovedColor() : Color {
@@ -357,6 +379,14 @@ fun changeNoteRemovedColor() : Color {
         lightRemoved
 }
 
+/**
+ * Method used to get which color use based on the [isDarkThemeSelected] result to represent the
+ * [com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_UNDONE] event
+ *
+ * @return the representative color as [Color]
+ *
+ * @since 1.2.0
+ */
 @Returner
 @Composable
 fun changeNoteTodoColor() : Color {
@@ -366,6 +396,14 @@ fun changeNoteTodoColor() : Color {
         lightUndone
 }
 
+/**
+ * Method used to get which color use based on the [isDarkThemeSelected] result to represent the
+ * [com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_EDITED] event
+ *
+ * @return the representative color as [Color]
+ *
+ * @since 1.2.0
+ */
 @Returner
 @Composable
 fun changeNoteEditedColor() : Color {
@@ -375,6 +413,14 @@ fun changeNoteEditedColor() : Color {
         lightEdited
 }
 
+/**
+ * Method used to get which color use based on the [isDarkThemeSelected] result to represent the
+ * [com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_MOVED_TO] event
+ *
+ * @return the representative color as [Color]
+ *
+ * @since 1.2.0
+ */
 @Returner
 @Composable
 fun changeNoteMovedToColor() : Color {
@@ -384,6 +430,14 @@ fun changeNoteMovedToColor() : Color {
         lightMovedTo
 }
 
+/**
+ * Method used to get which color use based on the [isDarkThemeSelected] result to represent the
+ * [com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_MOVED_FROM] event
+ *
+ * @return the representative color as [Color]
+ *
+ * @since 1.2.0
+ */
 @Returner
 @Composable
 fun changeNoteMovedFromColor() : Color {
