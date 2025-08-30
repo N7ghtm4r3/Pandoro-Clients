@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>com.tecknobit.pandoro.helpers</title>
+    <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../images/logo-icon.svg">
+</head>
+<body>
+    <div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+            <a class="library-name--link" href="../../index.html">
+                    Pandoro
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+1.2.0        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active=""
+                        data-filter=":composeApp:dokkaHtml/androidMain">android</button>
+                <button class="platform-tag platform-selector common-like" data-active=""
+                        data-filter=":composeApp:dokkaHtml/commonMain">common</button>
+                <button class="platform-tag platform-selector jvm-like" data-active=""
+                        data-filter=":composeApp:dokkaHtml/desktopMain">desktop</button>
+                <button class="platform-tag platform-selector wasm-like" data-active=""
+                        data-filter=":composeApp:dokkaHtml/wasmJsMain">wasmJs</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":composeApp:dokkaHtml/androidMain"
+                                       data-filter=":composeApp:dokkaHtml/androidMain"/>
+                                <span class="checkbox--icon"></span>
+                                android
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":composeApp:dokkaHtml/commonMain"
+                                       data-filter=":composeApp:dokkaHtml/commonMain"/>
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":composeApp:dokkaHtml/desktopMain"
+                                       data-filter=":composeApp:dokkaHtml/desktopMain"/>
+                                <span class="checkbox--icon"></span>
+                                desktop
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option wasm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":composeApp:dokkaHtml/wasmJsMain"
+                                       data-filter=":composeApp:dokkaHtml/wasmJsMain"/>
+                                <span class="checkbox--icon"></span>
+                                wasmJs
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                        data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    Pandoro
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="package" id="content" pageIds="Pandoro::com.tecknobit.pandoro.helpers////PointingToDeclaration//-1989926055">
+  <div class="breadcrumbs"><a href="../../index.html">Pandoro</a><span class="delimiter">/</span><span class="current">com.tecknobit.pandoro.helpers</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button><button class="section-tab" data-togglable="PROPERTY,EXTENSION_PROPERTY">Properties</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="1388582492%2FClasslikes%2F-1989926055" anchor-label="KReviewer" id="1388582492%2FClasslikes%2F-1989926055" data-filterable-set=":composeApp:dokkaHtml/commonMain,:composeApp:dokkaHtml/androidMain,:composeApp:dokkaHtml/desktopMain,:composeApp:dokkaHtml/wasmJsMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain,:composeApp:dokkaHtml/androidMain,:composeApp:dokkaHtml/desktopMain,:composeApp:dokkaHtml/wasmJsMain" data-filterable-set=":composeApp:dokkaHtml/commonMain,:composeApp:dokkaHtml/androidMain,:composeApp:dokkaHtml/desktopMain,:composeApp:dokkaHtml/wasmJsMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-k-reviewer/index.html"><span><span>KReviewer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1388582492%2FClasslikes%2F-1989926055"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/androidMain" data-filterable-set=":composeApp:dokkaHtml/androidMain" data-active="" data-toggle=":composeApp:dokkaHtml/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain" data-toggle=":composeApp:dokkaHtml/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/desktopMain" data-filterable-set=":composeApp:dokkaHtml/desktopMain" data-toggle=":composeApp:dokkaHtml/desktopMain">desktop</button><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/wasmJsMain" data-filterable-set=":composeApp:dokkaHtml/wasmJsMain" data-toggle=":composeApp:dokkaHtml/wasmJsMain">wasmJs</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":composeApp:dokkaHtml/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">class </span><a href="-k-reviewer/index.html">KReviewer</a></div><div class="brief "><p class="paragraph">The <code class="lang-kotlin">KReviewer</code> class is useful to manage the biometric authentication</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">class </span><a href="-k-reviewer/index.html">KReviewer</a></div><div class="brief "><p class="paragraph">The <code class="lang-kotlin">KReviewer</code> class is useful to manage the biometric authentication</p></div></div><div class="content sourceset-dependent-content" data-togglable=":composeApp:dokkaHtml/desktopMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">class </span><a href="-k-reviewer/index.html">KReviewer</a></div><div class="brief "><p class="paragraph">The <code class="lang-kotlin">KReviewer</code> class is useful to manage the biometric authentication</p></div></div><div class="content sourceset-dependent-content" data-togglable=":composeApp:dokkaHtml/wasmJsMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">class </span><a href="-k-reviewer/index.html">KReviewer</a></div><div class="brief "><p class="paragraph">The <code class="lang-kotlin">KReviewer</code> class is useful to manage the biometric authentication</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-926776033%2FClasslikes%2F-813795679" anchor-label="PandoroRequester" id="-926776033%2FClasslikes%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-pandoro-requester/index.html"><span>Pandoro</span><wbr></wbr><span><span>Requester</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-926776033%2FClasslikes%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="-pandoro-requester/index.html">PandoroRequester</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">host<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">userId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">userToken<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">debugMode<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="com.tecknobit.equinoxcompose.network/EquinoxRequester///PointingToDeclaration/">EquinoxRequester</span></div><div class="brief "><p class="paragraph">The <strong>PandoroRequester</strong> class is useful to communicate with the Pandoro's backend</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="590814062%2FProperties%2F-813795679" anchor-label="AUTH_SCREEN" id="590814062%2FProperties%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-a-u-t-h_-s-c-r-e-e-n.html"><span>AUTH_</span><wbr></wbr><span>SCREEN</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="590814062%2FProperties%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-a-u-t-h_-s-c-r-e-e-n.html">AUTH_SCREEN</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">AUTH_SCREEN</code> route to navigate to the <a href="../com.tecknobit.pandoro.ui.screens.auth.presenter/-auth-screen/index.html">com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1569733852%2FProperties%2F-813795679" anchor-label="CREATE_CHANGE_NOTE_SCREEN" id="-1569733852%2FProperties%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-r-e-a-t-e_-c-h-a-n-g-e_-n-o-t-e_-s-c-r-e-e-n.html"><span>CREATE_</span><wbr></wbr><span>CHANGE_</span><wbr></wbr><span>NOTE_</span><wbr></wbr><span>SCREEN</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1569733852%2FProperties%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-c-r-e-a-t-e_-c-h-a-n-g-e_-n-o-t-e_-s-c-r-e-e-n.html">CREATE_CHANGE_NOTE_SCREEN</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">CREATE_CHANGE_NOTE_SCREEN</code> route to navigate to the com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-689353950%2FProperties%2F-813795679" anchor-label="CREATE_GROUP_SCREEN" id="-689353950%2FProperties%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-r-e-a-t-e_-g-r-o-u-p_-s-c-r-e-e-n.html"><span>CREATE_</span><wbr></wbr><span>GROUP_</span><wbr></wbr><span>SCREEN</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-689353950%2FProperties%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-c-r-e-a-t-e_-g-r-o-u-p_-s-c-r-e-e-n.html">CREATE_GROUP_SCREEN</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">CREATE_GROUP_SCREEN</code> route to navigate to the com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-312379853%2FProperties%2F-813795679" anchor-label="CREATE_NOTE_SCREEN" id="-312379853%2FProperties%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-r-e-a-t-e_-n-o-t-e_-s-c-r-e-e-n.html"><span>CREATE_</span><wbr></wbr><span>NOTE_</span><wbr></wbr><span>SCREEN</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-312379853%2FProperties%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-c-r-e-a-t-e_-n-o-t-e_-s-c-r-e-e-n.html">CREATE_NOTE_SCREEN</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">CREATE_NOTE_SCREEN</code> route to navigate to the com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-333909124%2FProperties%2F-813795679" anchor-label="CREATE_PROJECT_SCREEN" id="-333909124%2FProperties%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-r-e-a-t-e_-p-r-o-j-e-c-t_-s-c-r-e-e-n.html"><span>CREATE_</span><wbr></wbr><span>PROJECT_</span><wbr></wbr><span>SCREEN</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-333909124%2FProperties%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-c-r-e-a-t-e_-p-r-o-j-e-c-t_-s-c-r-e-e-n.html">CREATE_PROJECT_SCREEN</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">CREATE_PROJECT_SCREEN</code> route to navigate to the com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-361534403%2FProperties%2F-813795679" anchor-label="GROUP_SCREEN" id="-361534403%2FProperties%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-g-r-o-u-p_-s-c-r-e-e-n.html"><span>GROUP_</span><wbr></wbr><span>SCREEN</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-361534403%2FProperties%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-g-r-o-u-p_-s-c-r-e-e-n.html">GROUP_SCREEN</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">GROUP_SCREEN</code> route to navigate to the com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1032350043%2FProperties%2F-813795679" anchor-label="HOME_SCREEN" id="-1032350043%2FProperties%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-h-o-m-e_-s-c-r-e-e-n.html"><span>HOME_</span><wbr></wbr><span>SCREEN</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1032350043%2FProperties%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-h-o-m-e_-s-c-r-e-e-n.html">HOME_SCREEN</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">HOME_SCREEN</code> route to navigate to the <a href="../com.tecknobit.pandoro.ui.screens.home.presenter/-home-screen/index.html">com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1943378054%2FProperties%2F-813795679" anchor-label="navigator" id="-1943378054%2FProperties%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="navigator.html"><span><span>navigator</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1943378054%2FProperties%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="navigator.html">navigator</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/navigation/NavHostController.html">NavHostController</a></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">navigator</code> the navigator instance is useful to manage the navigation between the screens of the application</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1168062935%2FProperties%2F-813795679" anchor-label="PROJECT_SCREEN" id="1168062935%2FProperties%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-p-r-o-j-e-c-t_-s-c-r-e-e-n.html"><span>PROJECT_</span><wbr></wbr><span>SCREEN</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1168062935%2FProperties%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-p-r-o-j-e-c-t_-s-c-r-e-e-n.html">PROJECT_SCREEN</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">PROJECT_SCREEN</code> route to navigate to the com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1640737201%2FProperties%2F-813795679" anchor-label="SCHEDULE_UPDATE_SCREEN" id="-1640737201%2FProperties%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-c-h-e-d-u-l-e_-u-p-d-a-t-e_-s-c-r-e-e-n.html"><span>SCHEDULE_</span><wbr></wbr><span>UPDATE_</span><wbr></wbr><span>SCREEN</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1640737201%2FProperties%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-s-c-h-e-d-u-l-e_-u-p-d-a-t-e_-s-c-r-e-e-n.html">SCHEDULE_UPDATE_SCREEN</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">SCHEDULE_UPDATE_SCREEN</code> route to navigate to the <a href="../com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter/-schedule-update-screen/index.html">com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter.ScheduleUpdateScreen</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="805227222%2FProperties%2F-813795679" anchor-label="SPLASHSCREEN" id="805227222%2FProperties%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-p-l-a-s-h-s-c-r-e-e-n.html"><span><span>SPLASHSCREEN</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="805227222%2FProperties%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-s-p-l-a-s-h-s-c-r-e-e-n.html">SPLASHSCREEN</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">SPLASHSCREEN</code> route to navigate to the <a href="../com.tecknobit.pandoro.ui.screens.splashscreen/-splashscreen/index.html">com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-991845392%2FFunctions%2F-1989926055" anchor-label="allowsScreenSleep" id="-991845392%2FFunctions%2F-1989926055" data-filterable-set=":composeApp:dokkaHtml/commonMain,:composeApp:dokkaHtml/androidMain,:composeApp:dokkaHtml/desktopMain,:composeApp:dokkaHtml/wasmJsMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain,:composeApp:dokkaHtml/androidMain,:composeApp:dokkaHtml/desktopMain,:composeApp:dokkaHtml/wasmJsMain" data-filterable-set=":composeApp:dokkaHtml/commonMain,:composeApp:dokkaHtml/androidMain,:composeApp:dokkaHtml/desktopMain,:composeApp:dokkaHtml/wasmJsMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="allows-screen-sleep.html"><span>allows</span><wbr></wbr><span>Screen</span><wbr></wbr><span><span>Sleep</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-991845392%2FFunctions%2F-1989926055"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/androidMain" data-filterable-set=":composeApp:dokkaHtml/androidMain" data-active="" data-toggle=":composeApp:dokkaHtml/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain" data-toggle=":composeApp:dokkaHtml/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/desktopMain" data-filterable-set=":composeApp:dokkaHtml/desktopMain" data-toggle=":composeApp:dokkaHtml/desktopMain">desktop</button><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/wasmJsMain" data-filterable-set=":composeApp:dokkaHtml/wasmJsMain" data-toggle=":composeApp:dokkaHtml/wasmJsMain">wasmJs</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":composeApp:dokkaHtml/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">fun </span><a href="allows-screen-sleep.html"><span class="token function">allowsScreenSleep</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method to allow the screen sleeps when finished reading the change notes of an update</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">fun </span><a href="allows-screen-sleep.html"><span class="token function">allowsScreenSleep</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method to allow the screen sleeps when finished reading the change notes of an update</p></div></div><div class="content sourceset-dependent-content" data-togglable=":composeApp:dokkaHtml/desktopMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">fun </span><a href="allows-screen-sleep.html"><span class="token function">allowsScreenSleep</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method to allow the screen sleeps when finished reading the change notes of an update</p></div></div><div class="content sourceset-dependent-content" data-togglable=":composeApp:dokkaHtml/wasmJsMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">fun </span><a href="allows-screen-sleep.html"><span class="token function">allowsScreenSleep</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method to allow the screen sleeps when finished reading the change notes of an update</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1821373022%2FFunctions%2F-813795679" anchor-label="clearAll" id="-1821373022%2FFunctions%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="clear-all.html"><span>clear</span><wbr></wbr><span><span>All</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1821373022%2FFunctions%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="com.tecknobit.equinoxcore.annotations/FutureEquinoxApi///PointingToDeclaration/"><span class="token annotation builtin">FutureEquinoxApi</span></span><span class="token punctuation">(</span><span>additionalNotes<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;
+        Will be created a dedicated Equinox-Miscellaneous module when the Compose Navigation will be
+        stable and if not provides this API will be integrated in that module
+    &quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">fun </span><a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/SavedStateHandle.html">SavedStateHandle</a><span class="token punctuation">.</span><a href="clear-all.html"><span class="token function">clearAll</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2002732741%2FFunctions%2F-1989926055" anchor-label="customHttpClient" id="2002732741%2FFunctions%2F-1989926055" data-filterable-set=":composeApp:dokkaHtml/commonMain,:composeApp:dokkaHtml/androidMain,:composeApp:dokkaHtml/desktopMain,:composeApp:dokkaHtml/wasmJsMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain,:composeApp:dokkaHtml/androidMain,:composeApp:dokkaHtml/desktopMain,:composeApp:dokkaHtml/wasmJsMain" data-filterable-set=":composeApp:dokkaHtml/commonMain,:composeApp:dokkaHtml/androidMain,:composeApp:dokkaHtml/desktopMain,:composeApp:dokkaHtml/wasmJsMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="custom-http-client.html"><span>custom</span><wbr></wbr><span>Http</span><wbr></wbr><span><span>Client</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2002732741%2FFunctions%2F-1989926055"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/androidMain" data-filterable-set=":composeApp:dokkaHtml/androidMain" data-active="" data-toggle=":composeApp:dokkaHtml/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain" data-toggle=":composeApp:dokkaHtml/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/desktopMain" data-filterable-set=":composeApp:dokkaHtml/desktopMain" data-toggle=":composeApp:dokkaHtml/desktopMain">desktop</button><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/wasmJsMain" data-filterable-set=":composeApp:dokkaHtml/wasmJsMain" data-toggle=":composeApp:dokkaHtml/wasmJsMain">wasmJs</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":composeApp:dokkaHtml/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">fun </span><a href="custom-http-client.html"><span class="token function">customHttpClient</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.ktor.client/HttpClient///PointingToDeclaration/">HttpClient</span></div><div class="brief "><p class="paragraph">Method to create a custom <span data-unresolved-link="io.ktor.client/HttpClient///PointingToDeclaration/">HttpClient</span> for the <a href="../com.tecknobit.pandoro/image-loader.html">com.tecknobit.pandoro.imageLoader</a> instance</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">fun </span><a href="custom-http-client.html"><span class="token function">customHttpClient</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.ktor.client/HttpClient///PointingToDeclaration/">HttpClient</span></div><div class="brief "><p class="paragraph">Method to create a custom <span data-unresolved-link="io.ktor.client/HttpClient///PointingToDeclaration/">HttpClient</span> for the <a href="../com.tecknobit.pandoro/image-loader.html">com.tecknobit.pandoro.imageLoader</a> instance</p></div></div><div class="content sourceset-dependent-content" data-togglable=":composeApp:dokkaHtml/desktopMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">fun </span><a href="custom-http-client.html"><span class="token function">customHttpClient</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.ktor.client/HttpClient///PointingToDeclaration/">HttpClient</span></div><div class="brief "><p class="paragraph">Method to create a custom <span data-unresolved-link="io.ktor.client/HttpClient///PointingToDeclaration/">HttpClient</span> for the <a href="../com.tecknobit.pandoro/image-loader.html">com.tecknobit.pandoro.imageLoader</a> instance</p></div></div><div class="content sourceset-dependent-content" data-togglable=":composeApp:dokkaHtml/wasmJsMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">fun </span><a href="custom-http-client.html"><span class="token function">customHttpClient</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.ktor.client/HttpClient///PointingToDeclaration/">HttpClient</span></div><div class="brief "><p class="paragraph">Method to create a custom <span data-unresolved-link="io.ktor.client/HttpClient///PointingToDeclaration/">HttpClient</span> for the com.tecknobit.ametista.imageLoader instance</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-709419383%2FFunctions%2F-813795679" anchor-label="navToCreateChangeNoteScreen" id="-709419383%2FFunctions%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="nav-to-create-change-note-screen.html"><span>nav</span><wbr></wbr><span>To</span><wbr></wbr><span>Create</span><wbr></wbr><span>Change</span><wbr></wbr><span>Note</span><wbr></wbr><span><span>Screen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-709419383%2FFunctions%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="nav-to-create-change-note-screen.html"><span class="token function">navToCreateChangeNoteScreen</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">projectId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">update<span class="token operator">: </span><a href="../com.tecknobit.pandoro.ui.screens.shared.data.project/-update/index.html">Update</a><span class="token punctuation">, </span></span><span class="parameter ">noteId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method used to navigate to the <a href="-c-r-e-a-t-e_-c-h-a-n-g-e_-n-o-t-e_-s-c-r-e-e-n.html">CREATE_CHANGE_NOTE_SCREEN</a> route</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1178823241%2FFunctions%2F-813795679" anchor-label="navToCreateGroupScreen" id="-1178823241%2FFunctions%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="nav-to-create-group-screen.html"><span>nav</span><wbr></wbr><span>To</span><wbr></wbr><span>Create</span><wbr></wbr><span>Group</span><wbr></wbr><span><span>Screen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1178823241%2FFunctions%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="nav-to-create-group-screen.html"><span class="token function">navToCreateGroupScreen</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">groupId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method used to navigate to the <a href="-c-r-e-a-t-e_-g-r-o-u-p_-s-c-r-e-e-n.html">CREATE_GROUP_SCREEN</a> route</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1722683048%2FFunctions%2F-813795679" anchor-label="navToCreateNoteScreen" id="-1722683048%2FFunctions%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="nav-to-create-note-screen.html"><span>nav</span><wbr></wbr><span>To</span><wbr></wbr><span>Create</span><wbr></wbr><span>Note</span><wbr></wbr><span><span>Screen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1722683048%2FFunctions%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="nav-to-create-note-screen.html"><span class="token function">navToCreateNoteScreen</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">noteId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method used to navigate to the <a href="-c-r-e-a-t-e_-n-o-t-e_-s-c-r-e-e-n.html">CREATE_NOTE_SCREEN</a> route</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="919792093%2FFunctions%2F-813795679" anchor-label="navToCreateProjectScreen" id="919792093%2FFunctions%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="nav-to-create-project-screen.html"><span>nav</span><wbr></wbr><span>To</span><wbr></wbr><span>Create</span><wbr></wbr><span>Project</span><wbr></wbr><span><span>Screen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="919792093%2FFunctions%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="nav-to-create-project-screen.html"><span class="token function">navToCreateProjectScreen</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">projectId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method used to navigate to the <a href="-c-r-e-a-t-e_-p-r-o-j-e-c-t_-s-c-r-e-e-n.html">CREATE_PROJECT_SCREEN</a> route</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1937430328%2FFunctions%2F-813795679" anchor-label="navToGroupScreen" id="-1937430328%2FFunctions%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="nav-to-group-screen.html"><span>nav</span><wbr></wbr><span>To</span><wbr></wbr><span>Group</span><wbr></wbr><span><span>Screen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1937430328%2FFunctions%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="nav-to-group-screen.html"><span class="token function">navToGroupScreen</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">groupId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method used to navigate to the <a href="-g-r-o-u-p_-s-c-r-e-e-n.html">GROUP_SCREEN</a> route</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="817320776%2FFunctions%2F-813795679" anchor-label="navToHomeScreen" id="817320776%2FFunctions%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="nav-to-home-screen.html"><span>nav</span><wbr></wbr><span>To</span><wbr></wbr><span>Home</span><wbr></wbr><span><span>Screen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="817320776%2FFunctions%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="nav-to-home-screen.html"><span class="token function">navToHomeScreen</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method used to navigate to the <a href="-h-o-m-e_-s-c-r-e-e-n.html">HOME_SCREEN</a> route</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1214443140%2FFunctions%2F-813795679" anchor-label="navToProjectScreen" id="-1214443140%2FFunctions%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="nav-to-project-screen.html"><span>nav</span><wbr></wbr><span>To</span><wbr></wbr><span>Project</span><wbr></wbr><span><span>Screen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1214443140%2FFunctions%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="nav-to-project-screen.html"><span class="token function">navToProjectScreen</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">projectId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">updateId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method used to navigate to the <a href="-p-r-o-j-e-c-t_-s-c-r-e-e-n.html">PROJECT_SCREEN</a> route</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1050981298%2FFunctions%2F-813795679" anchor-label="navToScheduleUpdateScreen" id="-1050981298%2FFunctions%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="nav-to-schedule-update-screen.html"><span>nav</span><wbr></wbr><span>To</span><wbr></wbr><span>Schedule</span><wbr></wbr><span>Update</span><wbr></wbr><span><span>Screen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1050981298%2FFunctions%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="nav-to-schedule-update-screen.html"><span class="token function">navToScheduleUpdateScreen</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">project<span class="token operator">: </span><a href="../com.tecknobit.pandoro.ui.screens.shared.data.project/-project/index.html">Project</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method used to navigate to the <a href="-s-c-h-e-d-u-l-e_-u-p-d-a-t-e_-s-c-r-e-e-n.html">SCHEDULE_UPDATE_SCREEN</a> route</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1781659488%2FFunctions%2F-813795679" anchor-label="navToSplashscreen" id="1781659488%2FFunctions%2F-813795679" data-filterable-set=":composeApp:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="nav-to-splashscreen.html"><span>nav</span><wbr></wbr><span>To</span><wbr></wbr><span><span>Splashscreen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1781659488%2FFunctions%2F-813795679"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="nav-to-splashscreen.html"><span class="token function">navToSplashscreen</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method used to navigate to the <a href="-s-p-l-a-s-h-s-c-r-e-e-n.html">SPLASHSCREEN</a> route</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1469917546%2FFunctions%2F-1989926055" anchor-label="preventScreenSleep" id="-1469917546%2FFunctions%2F-1989926055" data-filterable-set=":composeApp:dokkaHtml/commonMain,:composeApp:dokkaHtml/androidMain,:composeApp:dokkaHtml/desktopMain,:composeApp:dokkaHtml/wasmJsMain"></a>
+          <div class="table-row" data-filterable-current=":composeApp:dokkaHtml/commonMain,:composeApp:dokkaHtml/androidMain,:composeApp:dokkaHtml/desktopMain,:composeApp:dokkaHtml/wasmJsMain" data-filterable-set=":composeApp:dokkaHtml/commonMain,:composeApp:dokkaHtml/androidMain,:composeApp:dokkaHtml/desktopMain,:composeApp:dokkaHtml/wasmJsMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="prevent-screen-sleep.html"><span>prevent</span><wbr></wbr><span>Screen</span><wbr></wbr><span><span>Sleep</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1469917546%2FFunctions%2F-1989926055"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/androidMain" data-filterable-set=":composeApp:dokkaHtml/androidMain" data-active="" data-toggle=":composeApp:dokkaHtml/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/commonMain" data-filterable-set=":composeApp:dokkaHtml/commonMain" data-toggle=":composeApp:dokkaHtml/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/desktopMain" data-filterable-set=":composeApp:dokkaHtml/desktopMain" data-toggle=":composeApp:dokkaHtml/desktopMain">desktop</button><button class="platform-bookmark" data-filterable-current=":composeApp:dokkaHtml/wasmJsMain" data-filterable-set=":composeApp:dokkaHtml/wasmJsMain" data-toggle=":composeApp:dokkaHtml/wasmJsMain">wasmJs</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":composeApp:dokkaHtml/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">fun </span><a href="prevent-screen-sleep.html"><span class="token function">preventScreenSleep</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method to prevent the screen sleeps when reading the change notes of an update</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">fun </span><a href="prevent-screen-sleep.html"><span class="token function">preventScreenSleep</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method to prevent the screen sleeps when reading the change notes of an update</p></div></div><div class="content sourceset-dependent-content" data-togglable=":composeApp:dokkaHtml/desktopMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">fun </span><a href="prevent-screen-sleep.html"><span class="token function">preventScreenSleep</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method to prevent the screen sleeps when reading the change notes of an update</p></div></div><div class="content sourceset-dependent-content" data-togglable=":composeApp:dokkaHtml/wasmJsMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">fun </span><a href="prevent-screen-sleep.html"><span class="token function">preventScreenSleep</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method to prevent the screen sleeps when reading the change notes of an update</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>(c) 2025 Tecknobit</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
