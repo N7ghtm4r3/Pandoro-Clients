@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
@@ -87,7 +88,8 @@ fun TimelineEvent(
                 CHANGENOTE_EDITED -> {
                     ChangeNoteContent(
                         modifier = Modifier
-                            .weight(1f),
+                            .weight(1f)
+                            .wrapContentHeight(),
                         noteContent = event.extraContent
                     )
                     TextDivider(
@@ -96,7 +98,8 @@ fun TimelineEvent(
                     )
                     ChangeNoteContent(
                         modifier = Modifier
-                            .weight(1f),
+                            .weight(1f)
+                            .wrapContentHeight(),
                         noteContent = event.noteContent
                     )
                 }
