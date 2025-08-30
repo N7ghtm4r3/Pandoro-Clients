@@ -207,9 +207,15 @@
     <string name="retrieving_data">Recupero dei dati</string>
     <string name="move_change_note">Sposta appunto</string>
     <string name="move_change_note_hint">Seleziona l’aggiornamento in cui spostare l'appunto</string>
-
     <string name="update_scheduled_by">Ha programmato l'aggiornamento il %1$s alle %2$s</string>
     <string name="update_started_by">Ha avviato l'aggiornamento il %1$s alle %2$s</string>
+    <string name="change_note_added_by">Ha aggiunto questo appunto il %1$s alle %2$s</string>
+    <string name="change_note_done_by">Ha segnato questo appunto come completato il %1$s alle %2$s</string>
+    <string name="change_note_todo_by">Ha segnato questo appunto come da fare il %1$s alle %2$s</string>
+    <string name="change_note_edited_by">Ha modificato questo appunto il %1$s alle %2$s</string>
+    <string name="change_note_moved_to_by">Ha spostato questo appunto il %1$s alle %2$s nell’aggiornamento %3$s</string>
+    <string name="change_note_moved_from_by">Ha spostato questo appunto il %1$s alle %2$s dall’aggiornamento %3$s</string>
+    <string name="change_note_removed_by">Ha rimosso questo appunto il %1$s alle %2$s</string>
     <string name="update_published_by">Ha pubblicato l'aggiornamento il %1$s alle %2$s</string>
     <string name="account_deleted">Account eliminato</string>
     <string name="update_scheduled_myself">Hai programmato l'aggiornamento il %1$s alle %2$s</string>

@@ -207,9 +207,15 @@
     <string name="retrieving_data">Récupération des données</string>
     <string name="move_change_note">Déplacer modification</string>
     <string name="move_change_note_hint">Sélectionnez la mise à jour où déplacer la modification</string>
-
     <string name="update_scheduled_by">A planifié cette mise à jour le %1$s à %2$s</string>
     <string name="update_started_by">A commencé cette mise à jour le %1$s à %2$s</string>
+    <string name="change_note_added_by">A ajouté cette modification le %1$s à %2$s</string>
+    <string name="change_note_done_by">A marqué cette modification comme terminée le %1$s à %2$s</string>
+    <string name="change_note_todo_by">A marqué cette modification comme à faire le %1$s à %2$s</string>
+    <string name="change_note_edited_by">A modifié cette modification le %1$s à %2$s</string>
+    <string name="change_note_moved_to_by">A déplacé cette modification le %1$s à %2$s vers la mise à jour %3$s</string>
+    <string name="change_note_moved_from_by">A déplacé cette modification le %1$s à %2$s depuis la mise à jour %3$s</string>
+    <string name="change_note_removed_by">A supprimé cette modification le %1$s à %2$s</string>
     <string name="update_published_by">A publié cette mise à jour le %1$s à %2$s</string>
     <string name="account_deleted">Compte supprimé</string>
     <string name="update_scheduled_myself">Vous avez programmé cette mise à jour le %1$s à %2$s</string>

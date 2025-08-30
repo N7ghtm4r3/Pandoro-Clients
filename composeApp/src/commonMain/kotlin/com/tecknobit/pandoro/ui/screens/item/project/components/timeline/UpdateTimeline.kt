@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pushpal.jetlime.EventPosition
@@ -31,6 +32,7 @@ fun UpdateTimeline(
     update: Update
 ) {
     UpdateTimelineContainer(
+        itemSpacing = 16.dp,
         update = update,
         content = { position, event ->
             TimelineEvent(
@@ -52,6 +54,7 @@ fun SharedUpdateTimeline(
     update: Update
 ) {
     UpdateTimelineContainer(
+        itemSpacing = 25.dp,
         update = update,
         content = { position, event ->
             SharedTimelineEvent(
@@ -69,7 +72,9 @@ fun SharedUpdateTimeline(
  * @param content The content to display the timeline
  */
 @Composable
+// TODO: TO COMMENT
 private fun UpdateTimelineContainer(
+    itemSpacing: Dp,
     update: Update,
     content: @Composable (EventPosition, UpdateEvent) -> Unit
 ) {
@@ -94,12 +99,12 @@ private fun UpdateTimelineContainer(
         style = if(updatePublished) {
             JetLimeDefaults.columnStyle(
                 contentDistance = 20.dp,
-                itemSpacing = 16.dp
+                itemSpacing = itemSpacing
             )
         } else {
             JetLimeDefaults.columnStyle(
                 contentDistance = 20.dp,
-                itemSpacing = 16.dp,
+                itemSpacing = itemSpacing,
                 pathEffect = PathEffect.dashPathEffect(
                     intervals = floatArrayOf(10f, 10f),
                     phase = 0f,
