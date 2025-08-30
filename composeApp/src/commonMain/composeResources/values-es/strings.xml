@@ -146,13 +146,6 @@
     <string name="delete_update_text_dialog">Si confirma la actualización y su toda la información será eliminada y no más recuperable, confirmar\?</string>
     <string name="delete">Borrar</string>
     <string name="notes_formatted_in_markdown_copied">¡Notas formateadas en markdown copiadas!</string>
-    <string name="update_scheduled_by">Ha programado esta actualización el %1$s a las %2$s</string>
-    <string name="update_started_by">Ha iniciado esta actualización el %1$s a las %2$s</string>
-    <string name="update_published_by">Ha publicado esta actualización el %1$s a las %2$s</string>
-    <string name="account_deleted">Cuenta eliminada</string>
-    <string name="update_scheduled_myself">Programaste esta actualización el %1$s a las %2$s</string>
-    <string name="update_started_myself">Comenzaste esta actualización el %1$s a las %2$s</string>
-    <string name="update_published_myself">Publicaste esta actualización el %1$s a las %2$s</string>
     <string name="has_created_the_note">%1$s ha creado la nota</string>
     <plurals name="has_completed_the_note">
         <item formatted="false" quantity="one">%1$s ha completado la nota en %2$d día</item>
@@ -214,4 +207,20 @@
     <string name="retrieving_data">Recuperación de datos</string>
     <string name="move_change_note">Mover cambio</string>
     <string name="move_change_note_hint">Selecciona la actualización donde mover el cambio</string>
+
+    <string name="update_scheduled_by">Ha programado esta actualización el %1$s a las %2$s</string>
+    <string name="update_started_by">Ha iniciado esta actualización el %1$s a las %2$s</string>
+    <string name="update_published_by">Ha publicado esta actualización el %1$s a las %2$s</string>
+    <string name="account_deleted">Cuenta eliminada</string>
+    <string name="update_scheduled_myself">Programaste esta actualización el %1$s a las %2$s</string>
+    <string name="update_started_myself">Comenzaste esta actualización el %1$s a las %2$s</string>
+    <string name="change_note_added_myself">Has añadido esto cambio el %1$s a las %2$s</string>
+    <string name="change_note_done_myself">Has marcado esto cambio como completado el %1$s a las %2$s</string>
+    <string name="change_note_todo_myself">Has marcado esto cambio como pendiente el %1$s a las %2$s</string>
+    <string name="change_note_edited_myself">Has editado esto cambio el %1$s a las %2$s</string>
+    <string name="change_note_moved_to_myself">Has movido esto cambio el %1$s a las %2$s a la actualización %3$s</string>
+    <string name="change_note_moved_from_myself">Has movido esto cambio el %1$s a las %2$s desde la actualización %3$s</string>
+    <string name="change_note_removed_myself">Has eliminado esto cambio el %1$s a las %2$s</string>
+    <string name="update_published_myself">Publicaste esta actualización el %1$s a las %2$s</string>
+    <string name="new_content">Nuevo contenido</string>
 </resources>

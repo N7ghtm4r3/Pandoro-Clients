@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalComposeApi::class)
+
 package com.tecknobit.pandoro.ui.screens.item.project.components.timeline
 
 import androidx.compose.foundation.layout.Arrangement
@@ -5,13 +7,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pushpal.jetlime.EventPosition
-import com.pushpal.jetlime.JetLimeEvent
 import com.pushpal.jetlime.JetLimeEventDefaults
+import com.pushpal.jetlime.JetLimeExtendedEvent
 import com.tecknobit.equinoxcore.time.TimeFormatter.EUROPEAN_DATE_PATTERN
 import com.tecknobit.equinoxcore.time.TimeFormatter.H24_HOURS_MINUTES_PATTERN
 import com.tecknobit.equinoxcore.time.TimeFormatter.toDateString
@@ -45,10 +48,16 @@ fun SharedTimelineEvent(
 ) {
     val accountDeleted = stringResource(Res.string.account_deleted)
     val author = event.author
-    JetLimeEvent(
+    JetLimeExtendedEvent(
         style = JetLimeEventDefaults.eventStyle(
             position = position
-        )
+        ),
+        additionalContentMaxWidth = 85.dp,
+        additionalContent = {
+            TimelineBadge(
+                type = event.type
+            )
+        }
     ) {
         Column {
             Row (
