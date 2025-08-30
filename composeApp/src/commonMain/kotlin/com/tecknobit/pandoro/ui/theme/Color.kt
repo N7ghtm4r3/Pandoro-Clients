@@ -231,6 +231,69 @@ val lightGreen = Color(4288264330)
 val darkGreen = Color(0xFF3D5B3F)
 
 /**
+ * Custom colors to represent the [com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_ADDED]
+ * event
+ *
+ * @since 1.2.0
+ */
+val lightAdded = Color(0xFFB0BEC5)
+val darkAdded = Color(0xFF37474F)
+
+/**
+ * Custom colors to represent the [com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_DONE]
+ * event
+ *
+ * @since 1.2.0
+ */
+val lightDone = Color(0xFFAED581)
+val darkDone = Color(0xFF33691E)
+
+/**
+ * Custom colors to represent the [com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_UNDONE]
+ * event
+ *
+ * @since 1.2.0
+ */
+val lightUndone = Color(0xFFFFCC80)
+val darkUndone = Color(0xFFEF6C00)
+
+/**
+ * Custom colors to represent the [com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_EDITED]
+ * event
+ *
+ * @since 1.2.0
+ */
+val lightEdited = Color(0xFFD7B0C9)
+val darkEdited = Color(0xFF6A1B4D)
+
+/**
+ * Custom colors to represent the [com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_MOVED_TO]
+ * event
+ *
+ * @since 1.2.0
+ */
+val lightMovedTo = Color(0xFF80CBC4)
+val darkMovedTo = Color(0xFF00695C)
+
+/**
+ * Custom colors to represent the [com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_MOVED_FROM]
+ * event
+ *
+ * @since 1.2.0
+ */
+val lightMovedFrom = Color(0xFFD1B3E0)
+val darkMovedFrom = Color(0xFF4A148C)
+
+/**
+ * Custom colors to represent the [com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_REMOVED]
+ * event
+ *
+ * @since 1.2.0
+ */
+val lightRemoved = Color(0xFFFF8A80)
+val darkRemoved = Color(0xFFD32F2F)
+
+/**
  * Custom yellows color palette
  */
 val lightYellow = Color(0xFFFFE082)

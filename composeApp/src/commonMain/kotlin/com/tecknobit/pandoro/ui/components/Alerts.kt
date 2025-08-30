@@ -14,7 +14,6 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,23 +24,22 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.components.EquinoxAlertDialog
-import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
-import com.tecknobit.pandoro.SPLASHSCREEN
+import com.tecknobit.equinoxcompose.session.viewmodels.EquinoxViewModel
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.navigator
-import com.tecknobit.pandoro.ui.screens.group.presentation.GroupScreenViewModel
-import com.tecknobit.pandoro.ui.screens.groups.data.Group
+import com.tecknobit.pandoro.helpers.navToSplashscreen
+import com.tecknobit.pandoro.ui.screens.item.group.presentation.GroupScreenViewModel
+import com.tecknobit.pandoro.ui.screens.lists.groups.data.Group
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.profile.presentation.ProfileScreenViewModel
-import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
-import com.tecknobit.pandoro.ui.screens.projects.data.Project
-import com.tecknobit.pandoro.ui.screens.projects.data.Project.Companion.asVersionText
-import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
+import com.tecknobit.pandoro.ui.screens.item.project.presentation.ProjectScreenViewModel
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project.Companion.asVersionText
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.asText
 import com.tecknobit.pandoro.ui.screens.shared.data.GroupMember.Companion.color
-import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
-import com.tecknobit.pandoro.ui.screens.shared.viewmodels.groups.BaseGroupViewModel.GroupDeleter
+import com.tecknobit.pandoro.ui.screens.shared.presentation.NotesManager
+import com.tecknobit.pandoro.ui.screens.shared.presentation.groups.BaseGroupViewModel.GroupDeleter
 import com.tecknobit.pandorocore.enums.Role
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -116,7 +114,7 @@ fun DeleteProject(
 @Composable
 fun DeleteUpdate(
     viewModel: ProjectScreenViewModel,
-    update: ProjectUpdate,
+    update: Update,
     show: MutableState<Boolean>,
     onDelete: () -> Unit
 ) {
@@ -154,7 +152,7 @@ fun DeleteUpdate(
 @Composable
 fun DeleteNote(
     viewModel: EquinoxViewModel,
-    update: ProjectUpdate? = null,
+    update: Update? = null,
     note: Note,
     show: MutableState<Boolean>,
     onDelete: () -> Unit
@@ -244,7 +242,7 @@ fun Logout(
         text = Res.string.logout_warn_text,
         confirmAction = {
             viewModel.clearSession {
-                navigator.navigate(SPLASHSCREEN)
+                navToSplashscreen()
             }
         }
     )
@@ -274,7 +272,7 @@ fun DeleteAccount(
         text = Res.string.delete_warn_text,
         confirmAction = {
             viewModel.deleteAccount {
-                navigator.navigate(SPLASHSCREEN)
+                navToSplashscreen()
             }
         }
     )
@@ -291,7 +289,7 @@ fun DeleteAccount(
 fun NotAllChangeNotesCompleted(
     viewModel: ProjectScreenViewModel,
     show: MutableState<Boolean>,
-    update: ProjectUpdate
+    update: Update
 ) {
     EquinoxAlertDialog(
         icon = Icons.Default.Warning,

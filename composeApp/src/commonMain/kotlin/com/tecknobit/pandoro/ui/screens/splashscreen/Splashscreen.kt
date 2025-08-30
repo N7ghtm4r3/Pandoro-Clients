@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.session.screens.EquinoxNoModelScreen
 import com.tecknobit.pandoro.CheckForUpdatesAndLaunch
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.app_name
@@ -36,39 +35,37 @@ class Splashscreen : EquinoxNoModelScreen() {
      */
     @Composable
     override fun ArrangeScreenContent() {
-        PandoroTheme {
-            val textColor = contentColorFor(
-                backgroundColor = MaterialTheme.colorScheme.primary
+        val textColor = contentColorFor(
+            backgroundColor = MaterialTheme.colorScheme.primary
+        )
+        Box(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.primary)
+                .fillMaxSize()
+                .navigationBarsPadding(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = stringResource(Res.string.app_name),
+                fontFamily = displayFontFamily,
+                color = textColor,
+                fontSize = 55.sp,
             )
-            Box(
+            Row(
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.primary)
-                    .fillMaxSize()
-                    .navigationBarsPadding(),
-                contentAlignment = Alignment.Center
+                    .fillMaxSize(),
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = stringResource(Res.string.app_name),
-                    fontFamily = displayFontFamily,
-                    color = textColor,
-                    fontSize = 55.sp,
-                )
-                Row(
                     modifier = Modifier
-                        .fillMaxSize(),
-                    verticalAlignment = Alignment.Bottom,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(25.dp),
-                        color = textColor,
-                        text = "by Tecknobit"
-                    )
-                }
+                        .padding(25.dp),
+                    color = textColor,
+                    text = "by Tecknobit"
+                )
             }
-            CheckForUpdatesAndLaunch()
         }
+        CheckForUpdatesAndLaunch()
     }
 
     /**

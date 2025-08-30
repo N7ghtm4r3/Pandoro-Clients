@@ -7,7 +7,7 @@ import kotlinx.browser.document
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-    AmetistaEngine.intake()
+    // AmetistaEngine.intake()
     ComposeViewport(document.body!!) {
         App()
     }

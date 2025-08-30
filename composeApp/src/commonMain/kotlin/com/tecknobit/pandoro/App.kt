@@ -3,8 +3,12 @@
 package com.tecknobit.pandoro
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.text.font.FontFamily
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil3.ImageLoader
 import coil3.compose.LocalPlatformContext
 import coil3.network.ktor3.KtorNetworkFetcherFactory
@@ -13,20 +17,36 @@ import coil3.request.addLastModifiedToFileCacheKey
 import com.tecknobit.ametistaengine.AmetistaEngine
 import com.tecknobit.ametistaengine.AmetistaEngine.Companion.FILES_AMETISTA_CONFIG_PATHNAME
 import com.tecknobit.equinoxcompose.session.EquinoxLocalUser
+import com.tecknobit.equinoxcompose.session.screens.equinoxScreen
+import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcore.helpers.NAME_KEY
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.equinoxcore.network.sendRequest
+import com.tecknobit.pandoro.helpers.AUTH_SCREEN
+import com.tecknobit.pandoro.helpers.CREATE_CHANGE_NOTE_SCREEN
+import com.tecknobit.pandoro.helpers.CREATE_GROUP_SCREEN
+import com.tecknobit.pandoro.helpers.CREATE_NOTE_SCREEN
+import com.tecknobit.pandoro.helpers.CREATE_PROJECT_SCREEN
+import com.tecknobit.pandoro.helpers.GROUP_SCREEN
+import com.tecknobit.pandoro.helpers.HOME_SCREEN
+import com.tecknobit.pandoro.helpers.PROJECT_SCREEN
 import com.tecknobit.pandoro.helpers.PandoroRequester
+import com.tecknobit.pandoro.helpers.SCHEDULE_UPDATE_SCREEN
+import com.tecknobit.pandoro.helpers.SPLASHSCREEN
+import com.tecknobit.pandoro.helpers.clearAll
 import com.tecknobit.pandoro.helpers.customHttpClient
+import com.tecknobit.pandoro.helpers.navToSplashscreen
+import com.tecknobit.pandoro.helpers.navigator
 import com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen
-import com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen
-import com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen
-import com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen
-import com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen
+import com.tecknobit.pandoro.ui.screens.create.creategroup.presenter.CreateGroupScreen
+import com.tecknobit.pandoro.ui.screens.create.createnote.presenter.CreateNoteScreen
+import com.tecknobit.pandoro.ui.screens.create.createproject.presenter.CreateProjectScreen
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
-import com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen
+import com.tecknobit.pandoro.ui.screens.item.group.presenter.GroupScreen
+import com.tecknobit.pandoro.ui.screens.item.project.presenter.ProjectScreen
 import com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter.ScheduleUpdateScreen
 import com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen
+import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import com.tecknobit.pandorocore.GROUP_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.NOTE_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.PROJECT_IDENTIFIER_KEY
@@ -34,14 +54,8 @@ import com.tecknobit.pandorocore.UPDATE_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.UPDATE_TARGET_VERSION_KEY
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import moe.tlaster.precompose.PreComposeApp
-import moe.tlaster.precompose.navigation.NavHost
-import moe.tlaster.precompose.navigation.Navigator
-import moe.tlaster.precompose.navigation.path
-import moe.tlaster.precompose.navigation.rememberNavigator
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.Font
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import pandoro.composeapp.generated.resources.Res
 import pandoro.composeapp.generated.resources.oswald
 import pandoro.composeapp.generated.resources.robotomono
@@ -55,61 +69,6 @@ lateinit var bodyFontFamily: FontFamily
  * `displayFontFamily` the Pandoro's font family
  */
 lateinit var displayFontFamily: FontFamily
-
-/**
- * `navigator` the navigator instance is useful to manage the navigation between the screens of the application
- */
-lateinit var navigator: Navigator
-
-/**
- * `SPLASHSCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen]
- */
-const val SPLASHSCREEN = "Splashscreen"
-
-/**
- * `AUTH_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.auth.presenter.AuthScreen]
- */
-const val AUTH_SCREEN = "AuthScreen"
-
-/**
- * `HOME_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen]
- */
-const val HOME_SCREEN = "HomeScreen"
-
-/**
- * `CREATE_PROJECT_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen]
- */
-const val CREATE_PROJECT_SCREEN = "CreateProject"
-
-/**
- * `CREATE_NOTE_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen]
- */
-const val CREATE_NOTE_SCREEN = "CreateNote"
-
-/**
- * `CREATE_CHANGE_NOTE_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen]
- */
-const val CREATE_CHANGE_NOTE_SCREEN = "CreateChangeNote"
-
-/**
- * `SCHEDULE_UPDATE_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter.ScheduleUpdateScreen]
- */
-const val SCHEDULE_UPDATE_SCREEN = "ScheduleUpdate"
-
-/**
- * `CREATE_GROUP_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen]
- */
-const val CREATE_GROUP_SCREEN = "CreateGroup"
-
-/**
- * `PROJECT_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen]
- */
-const val PROJECT_SCREEN = "ProjectScreen"
-
-/**
- * `GROUP_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen]
- */
-const val GROUP_SCREEN = "GroupScreen"
 
 /**
  * `imageLoader` the image loader used by coil library to load the image and by-passing the https self-signed certificates
@@ -130,12 +89,12 @@ val localUser = EquinoxLocalUser("Pandoro")
 /**
  * Common entry point of the **Pandoro** application
  */
+@OptIn(ExperimentalComposeApi::class, ExperimentalStdlibApi::class)
 @Composable
-@Preview
 fun App() {
     bodyFontFamily = FontFamily(Font(Res.font.robotomono))
     displayFontFamily = FontFamily(Font(Res.font.oswald))
-    InitAmetista()
+    // InitAmetista()
     imageLoader = ImageLoader.Builder(LocalPlatformContext.current)
         .components {
             add(
@@ -149,95 +108,171 @@ fun App() {
         .networkCachePolicy(CachePolicy.ENABLED)
         .memoryCachePolicy(CachePolicy.ENABLED)
         .build()
-    PreComposeApp {
-        navigator = rememberNavigator()
+
+    // TODO: TO USE THIS UNIQUE THEME CALL 
+    // PandoroTheme {
+        navigator = rememberNavController()
         NavHost(
-            navigator = navigator,
-            initialRoute = SPLASHSCREEN
+            navController = navigator,
+            startDestination = SPLASHSCREEN
         ) {
-            scene(
+            composable(
                 route = SPLASHSCREEN
             ) {
-                Splashscreen().ShowContent()
+                // TODO: TO REMOVE THIS THEME CALL
+                PandoroTheme { 
+                    val splashscreen = equinoxScreen { Splashscreen() }
+                    splashscreen.ShowContent()
+                }
             }
-            scene(
+            composable(
                 route = AUTH_SCREEN
             ) {
-                AuthScreen().ShowContent()
+                // TODO: TO REMOVE THIS THEME CALL
+                PandoroTheme {
+                    val authScreen = equinoxScreen { AuthScreen() }
+                    authScreen.ShowContent()
+                }
             }
-            scene(
+            composable(
                 route = HOME_SCREEN
+            ) { 
+                // TODO: TO REMOVE THIS THEME CALL
+                PandoroTheme {
+                    navigator.currentBackStackEntry?.savedStateHandle?.clearAll()
+                    val homeScreen = equinoxScreen { HomeScreen() }
+                    homeScreen.ShowContent()
+                }
+            }
+            composable(
+                route = CREATE_PROJECT_SCREEN
             ) {
-                HomeScreen().ShowContent()
+                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
+                val projectId: String? = savedStateHandle[PROJECT_IDENTIFIER_KEY]
+                // TODO: TO REMOVE THIS THEME CALL
+                PandoroTheme {
+                    val createProjectScreen = equinoxScreen {
+                        CreateProjectScreen(
+                            projectId = projectId
+                        )
+                    }
+                    createProjectScreen.ShowContent()
+                }
             }
-            scene(
-                route = "$CREATE_PROJECT_SCREEN/{$PROJECT_IDENTIFIER_KEY}?"
-            ) { backstackEntry ->
-                val projectId: String? = backstackEntry.path<String>(PROJECT_IDENTIFIER_KEY)
-                CreateProjectScreen(
-                    projectId = projectId
-                ).ShowContent()
+            composable(
+                route = CREATE_NOTE_SCREEN
+            ) {
+                // TODO: TO REMOVE THIS THEME CALL
+                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
+                val noteId: String? = savedStateHandle[NOTE_IDENTIFIER_KEY]
+                PandoroTheme {
+                    val createNoteScreen = equinoxScreen {
+                        CreateNoteScreen(
+                            noteId = noteId
+                        )
+                    }
+                    createNoteScreen.ShowContent()
+                    savedStateHandle.remove<String>(NOTE_IDENTIFIER_KEY)
+                }
             }
-            scene(
-                route = "$CREATE_NOTE_SCREEN/{$NOTE_IDENTIFIER_KEY}?"
-            ) { backstackEntry ->
-                val noteId: String? = backstackEntry.path<String>(NOTE_IDENTIFIER_KEY)
-                CreateNoteScreen(
-                    noteId = noteId
-                ).ShowContent()
+            composable(
+                route = CREATE_CHANGE_NOTE_SCREEN
+            ) {
+                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
+                val projectId: String = savedStateHandle[PROJECT_IDENTIFIER_KEY]!!
+                val updateId: String? = savedStateHandle[UPDATE_IDENTIFIER_KEY]
+                val targetVersion: String? = savedStateHandle[UPDATE_TARGET_VERSION_KEY]
+                val noteId: String? = savedStateHandle[NOTE_IDENTIFIER_KEY]
+                // TODO: TO REMOVE THIS THEME CALL
+                PandoroTheme {
+                    updateId?.let {
+                        val createChangeNoteScreen = equinoxScreen {
+                            CreateNoteScreen(
+                                projectId = projectId,
+                                updateId = updateId,
+                                targetVersion = targetVersion,
+                                noteId = noteId
+                            )
+                        }
+                        createChangeNoteScreen.ShowContent()
+                    }
+                }
             }
-            scene(
-                route = "$CREATE_CHANGE_NOTE_SCREEN/{${PROJECT_IDENTIFIER_KEY}}/{${UPDATE_IDENTIFIER_KEY}}" +
-                        "/{${UPDATE_TARGET_VERSION_KEY}}/{$NOTE_IDENTIFIER_KEY}?"
-            ) { backstackEntry ->
-                val projectId: String = backstackEntry.path<String>(PROJECT_IDENTIFIER_KEY)!!
-                val updateId: String = backstackEntry.path<String>(UPDATE_IDENTIFIER_KEY)!!
-                val targetVersion: String = backstackEntry.path<String>(UPDATE_TARGET_VERSION_KEY)!!
-                val noteId: String? = backstackEntry.path<String>(NOTE_IDENTIFIER_KEY)
-                CreateNoteScreen(
-                    projectId = projectId,
-                    updateId = updateId,
-                    targetVersion = targetVersion,
-                    noteId = noteId
-                ).ShowContent()
+            composable(
+                route = SCHEDULE_UPDATE_SCREEN
+            ) {
+                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
+                val projectId: String = savedStateHandle[PROJECT_IDENTIFIER_KEY]!!
+                val projectName: String? = savedStateHandle[NAME_KEY]
+                // TODO: TO REMOVE THIS THEME CALL
+                PandoroTheme {
+                    projectName?.let {
+                        val scheduleUpdateScreen = equinoxScreen {
+                            ScheduleUpdateScreen(
+                                projectId = projectId,
+                                projectName = projectName
+                            )
+                        }
+                        scheduleUpdateScreen.ShowContent()
+                    }
+                }
             }
-            scene(
-                route = "$SCHEDULE_UPDATE_SCREEN/{$PROJECT_IDENTIFIER_KEY}/{$NAME_KEY}"
-            ) { backstackEntry ->
-                val projectId: String = backstackEntry.path<String>(PROJECT_IDENTIFIER_KEY)!!
-                val projectName: String = backstackEntry.path<String>(NAME_KEY)!!
-                ScheduleUpdateScreen(
-                    projectId = projectId,
-                    projectName = projectName
-                ).ShowContent()
+            composable(
+                route = CREATE_GROUP_SCREEN
+            ) {
+                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
+                val groupId: String? = savedStateHandle[GROUP_IDENTIFIER_KEY]
+                // TODO: TO REMOVE THIS THEME CALL
+                PandoroTheme {
+                    val createGroupScreen = equinoxScreen {
+                        CreateGroupScreen(
+                            groupId = groupId
+                        )
+                    }
+                    createGroupScreen.ShowContent()
+                }
             }
-            scene(
-                route = "$CREATE_GROUP_SCREEN/{$GROUP_IDENTIFIER_KEY}?"
-            ) { backstackEntry ->
-                val groupId: String? = backstackEntry.path<String>(GROUP_IDENTIFIER_KEY)
-                CreateGroupScreen(
-                    groupId = groupId
-                ).ShowContent()
+            composable(
+                route = PROJECT_SCREEN
+            ) {
+                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
+                val projectId: String? = savedStateHandle[PROJECT_IDENTIFIER_KEY]
+                val updateId: String? = savedStateHandle[UPDATE_IDENTIFIER_KEY]
+                projectId?.let {
+                    // TODO: TO REMOVE THIS THEME CALL
+                    PandoroTheme {
+                        val projectScreen = equinoxScreen {
+                            ProjectScreen(
+                                projectId = projectId,
+                                updateToExpandId = updateId
+                            )
+                        }
+                        projectScreen.ShowContent()
+                    }
+                }
             }
-            scene(
-                route = "$PROJECT_SCREEN/{$PROJECT_IDENTIFIER_KEY}/{$UPDATE_IDENTIFIER_KEY}?"
-            ) { backstackEntry ->
-                val projectId: String = backstackEntry.path<String>(PROJECT_IDENTIFIER_KEY)!!
-                val updateId: String? = backstackEntry.path<String>(UPDATE_IDENTIFIER_KEY)
-                ProjectScreen(
-                    projectId = projectId,
-                    updateToExpandId = updateId
-                ).ShowContent()
+            composable(
+                route = GROUP_SCREEN
+            ) {
+                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
+                val groupId: String? = savedStateHandle[GROUP_IDENTIFIER_KEY]
+                // TODO: TO REMOVE THIS THEME CALL
+                PandoroTheme {
+                    groupId?.let {
+                        val groupScreen = equinoxScreen {
+                            GroupScreen(
+                                groupId = groupId
+                            )
+                        }
+                        groupScreen.ShowContent()
+                    }
+                }
             }
-            scene(
-                route = "$GROUP_SCREEN/{$GROUP_IDENTIFIER_KEY}"
-            ) { backstackEntry ->
-                val groupId: String = backstackEntry.path<String>(GROUP_IDENTIFIER_KEY)!!
-                GroupScreen(
-                    groupId = groupId
-                ).ShowContent()
-            }
-        }
+        }    
+    // }
+    SessionFlowState.invokeOnUserDisconnected {
+        localUser.clear()
+        navToSplashscreen()
     }
 }
 
@@ -245,6 +280,7 @@ fun App() {
  * Method used to initialize the Ametista system
  */
 @Composable
+// TODO: TO REIMPLEMENT WHEN NECESSARY
 private fun InitAmetista() {
     LaunchedEffect(Unit) {
         val ametistaEngine = AmetistaEngine.ametistaEngine

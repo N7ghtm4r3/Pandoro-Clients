@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -52,27 +53,27 @@ import com.pushpal.jetlime.JetLimeColumn
 import com.pushpal.jetlime.JetLimeDefaults
 import com.pushpal.jetlime.JetLimeEvent
 import com.pushpal.jetlime.JetLimeEventDefaults
+import com.tecknobit.equinoxcompose.session.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcompose.utilities.BorderToColor
 import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
 import com.tecknobit.equinoxcompose.utilities.copyOnClipboard
-import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.time.TimeFormatter.toDateString
-import com.tecknobit.pandoro.CREATE_CHANGE_NOTE_SCREEN
-import com.tecknobit.pandoro.CREATE_NOTE_SCREEN
 import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.helpers.allowsScreenSleep
+import com.tecknobit.pandoro.helpers.navToCreateChangeNoteScreen
+import com.tecknobit.pandoro.helpers.navToCreateNoteScreen
 import com.tecknobit.pandoro.helpers.preventScreenSleep
-import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteNote
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.icons.ClockLoader20
 import com.tecknobit.pandoro.ui.icons.Copy
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
-import com.tecknobit.pandoro.ui.screens.project.presentation.ProjectScreenViewModel
-import com.tecknobit.pandoro.ui.screens.projects.data.Project
-import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
-import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
+import com.tecknobit.pandoro.ui.screens.item.project.components.movechangenote.MoveChangeNoteButton
+import com.tecknobit.pandoro.ui.screens.item.project.presentation.ProjectScreenViewModel
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
+import com.tecknobit.pandoro.ui.screens.shared.presentation.NotesManager
 import com.tecknobit.pandoro.ui.theme.changeNoteBackground
 import com.tecknobit.pandoro.ui.theme.green
 import com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED
@@ -101,7 +102,6 @@ import pandoro.composeapp.generated.resources.yet_to_complete
  * @param note The note to display
  */
 @Composable
-@NonRestartableComposable
 fun NoteCard(
     modifier: Modifier,
     viewModel: NotesScreenViewModel,
@@ -111,7 +111,11 @@ fun NoteCard(
         modifier = modifier,
         viewModel = viewModel,
         note = note,
-        onDoubleClick = { navigator.navigate("$CREATE_NOTE_SCREEN/${note.id}") },
+        onDoubleClick = {
+            navToCreateNoteScreen(
+                noteId = note.id
+            )
+        },
         onDelete = { viewModel.notesState.refresh() }
     )
 }
@@ -131,7 +135,7 @@ fun ChangeNoteCard(
     modifier: Modifier,
     viewModel: ProjectScreenViewModel,
     project: Project,
-    update: ProjectUpdate,
+    update: Update,
     note: Note,
     allowedToChangeStatus: Boolean
 ) {
@@ -148,13 +152,21 @@ fun ChangeNoteCard(
         note = note,
         onDoubleClick = if(!note.markedAsDone) {
             {
-                navigator.navigate(
-                    route = "$CREATE_CHANGE_NOTE_SCREEN/${project.id}/${update.id}" +
-                            "/${update.targetVersion}/${note.id}"
+                navToCreateChangeNoteScreen(
+                    projectId = project.id,
+                    update = update,
+                    noteId = note.id
                 )
             }
         } else
-            null
+            null,
+        customActions = {
+            MoveChangeNoteButton(
+                viewModel = viewModel,
+                changeNote = note,
+                update = update
+            )
+        }
     )
 }
 
@@ -170,6 +182,7 @@ fun ChangeNoteCard(
  * @param note The note to display
  * @param allowedToChangeStatus Whether the status of the change note can be edited
  * @param onDoubleClick The action to execute when the card is double-clicked
+ * @param customActions Custom additional actions to display
  * @param onDelete The action to execute when the note has been deleted
  */
 @Composable
@@ -179,10 +192,11 @@ private fun NoteCardContent(
     viewModel: EquinoxViewModel,
     noteShared: Boolean = false,
     allowDeletion: Boolean = true,
-    update: ProjectUpdate? = null,
+    update: Update? = null,
     note: Note,
     allowedToChangeStatus: Boolean = true,
     onDoubleClick: (() -> Unit)?,
+    customActions: @Composable (RowScope.() -> Unit)? = null,
     onDelete: () -> Unit = {}
 ) {
     val modalBottomSheetState = rememberModalBottomSheetState()
@@ -243,6 +257,7 @@ private fun NoteCardContent(
             update = update,
             note = note,
             allowedToChangeStatus = allowedToChangeStatus,
+            customActions = customActions,
             onDelete = onDelete,
             allowDeletion = allowDeletion
         )
@@ -262,15 +277,17 @@ private fun NoteCardContent(
  * @param update The update owner of the note
  * @param note The note to display
  * @param allowedToChangeStatus Whether the status of the change note can be edited
+ * @param customActions Custom additional actions to display
  * @param onDelete The action to execute when the note has been deleted
  * @param allowDeletion Whether the note can be deleted
  */
 @Composable
 private fun NoteActions(
     viewModel: EquinoxViewModel,
-    update: ProjectUpdate?,
+    update: Update?,
     note: Note,
     allowedToChangeStatus: Boolean,
+    customActions: @Composable (RowScope.() -> Unit)? = null,
     onDelete: () -> Unit,
     allowDeletion: Boolean
 ) {
@@ -305,6 +322,7 @@ private fun NoteActions(
                 ),
             horizontalArrangement = Arrangement.End
         ) {
+            customActions?.invoke(this)
             val noteCopiedMessage = stringResource(Res.string.note_content_copied)
             IconButton(
                 onClick = {

@@ -5,14 +5,14 @@ import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
-import com.tecknobit.equinoxcompose.viewmodels.EquinoxViewModel
+import com.tecknobit.equinoxcompose.session.viewmodels.EquinoxViewModel
 import com.tecknobit.equinoxcore.network.sendPaginatedRequest
 import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse
 import com.tecknobit.pandoro.requester
 import com.tecknobit.pandoro.ui.screens.notes.data.Note
-import com.tecknobit.pandoro.ui.screens.projects.data.ProjectUpdate
-import com.tecknobit.pandoro.ui.screens.shared.viewmodels.NotesManager
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
+import com.tecknobit.pandoro.ui.screens.shared.presentation.NotesManager
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlinx.coroutines.launch
 
@@ -118,7 +118,7 @@ class NotesScreenViewModel: EquinoxViewModel(
      * @param note The note to manage
      */
     override fun manageNoteStatus(
-        update: ProjectUpdate?,
+        update: Update?,
         note: Note
     ) {
         viewModelScope.launch {
@@ -145,7 +145,7 @@ class NotesScreenViewModel: EquinoxViewModel(
      * @param onDelete The action to execute when the note has been deleted
      */
     override fun deleteNote(
-        update: ProjectUpdate?,
+        update: Update?,
         note: Note,
         onDelete: () -> Unit
     ) {

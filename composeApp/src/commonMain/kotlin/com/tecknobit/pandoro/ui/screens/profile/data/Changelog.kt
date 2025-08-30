@@ -1,23 +1,23 @@
 package com.tecknobit.pandoro.ui.screens.profile.data
 
 import androidx.compose.runtime.Composable
-import com.tecknobit.pandoro.ui.screens.groups.data.Group
-import com.tecknobit.pandoro.ui.screens.projects.data.Project
+import com.tecknobit.pandoro.ui.screens.lists.groups.data.Group
+import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
 import com.tecknobit.pandorocore.CHANGELOG_EVENT_KEY
-import com.tecknobit.pandorocore.CHANGELOG_EXTRA_CONTENT_KEY
 import com.tecknobit.pandorocore.CHANGELOG_READ_KEY
-import com.tecknobit.pandorocore.enums.ChangelogEvent
-import com.tecknobit.pandorocore.enums.ChangelogEvent.GROUP_DELETED
-import com.tecknobit.pandorocore.enums.ChangelogEvent.INVITED_GROUP
-import com.tecknobit.pandorocore.enums.ChangelogEvent.JOINED_GROUP
-import com.tecknobit.pandorocore.enums.ChangelogEvent.LEFT_GROUP
-import com.tecknobit.pandorocore.enums.ChangelogEvent.PROJECT_ADDED
-import com.tecknobit.pandorocore.enums.ChangelogEvent.PROJECT_REMOVED
-import com.tecknobit.pandorocore.enums.ChangelogEvent.ROLE_CHANGED
-import com.tecknobit.pandorocore.enums.ChangelogEvent.UPDATE_DELETED
-import com.tecknobit.pandorocore.enums.ChangelogEvent.UPDATE_PUBLISHED
-import com.tecknobit.pandorocore.enums.ChangelogEvent.UPDATE_SCHEDULED
-import com.tecknobit.pandorocore.enums.ChangelogEvent.UPDATE_STARTED
+import com.tecknobit.pandorocore.EXTRA_CONTENT_KEY
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent.GROUP_DELETED
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent.INVITED_GROUP
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent.JOINED_GROUP
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent.LEFT_GROUP
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent.PROJECT_ADDED
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent.PROJECT_REMOVED
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent.ROLE_CHANGED
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent.UPDATE_DELETED
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent.UPDATE_PUBLISHED
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent.UPDATE_SCHEDULED
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent.UPDATE_STARTED
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
@@ -66,7 +66,7 @@ data class Changelog(
     val timestamp: Long,
     val project: Project? = null,
     val group: Group? = null,
-    @SerialName(CHANGELOG_EXTRA_CONTENT_KEY)
+    @SerialName(EXTRA_CONTENT_KEY)
     val extraContent: String? = null,
     @SerialName(CHANGELOG_READ_KEY)
     val read: Boolean,

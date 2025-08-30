@@ -49,7 +49,7 @@ import com.tecknobit.pandoro.ui.screens.overview.components.ProjectsStatsSheet
 import com.tecknobit.pandoro.ui.screens.overview.components.UpdatesStatsSheet
 import com.tecknobit.pandoro.ui.screens.overview.data.Overview
 import com.tecknobit.pandoro.ui.screens.overview.presentation.OverviewScreenViewModel
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
+import com.tecknobit.pandoro.ui.screens.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.theme.EmptyStateTitleStyle
 import com.tecknobit.pandoro.ui.theme.fallbackColor
 import kotlinx.coroutines.launch

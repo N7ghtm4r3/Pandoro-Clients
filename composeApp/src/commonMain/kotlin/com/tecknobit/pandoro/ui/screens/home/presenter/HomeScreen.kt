@@ -42,12 +42,12 @@ import com.tecknobit.pandoro.displayFontFamily
 import com.tecknobit.pandoro.localUser
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.icons.Activity
-import com.tecknobit.pandoro.ui.screens.groups.presenter.GroupsScreen
+import com.tecknobit.pandoro.ui.screens.lists.groups.presenter.GroupsScreen
 import com.tecknobit.pandoro.ui.screens.home.presentation.HomeScreenViewModel
 import com.tecknobit.pandoro.ui.screens.notes.presenter.NotesScreen
 import com.tecknobit.pandoro.ui.screens.overview.presenter.OverviewScreen
 import com.tecknobit.pandoro.ui.screens.profile.presenter.ProfileScreen
-import com.tecknobit.pandoro.ui.screens.projects.presenter.ProjectsScreen
+import com.tecknobit.pandoro.ui.screens.lists.projects.presenter.ProjectsScreen
 import com.tecknobit.pandoro.ui.theme.PandoroTheme
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -100,11 +100,9 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
     @Composable
     override fun ArrangeScreenContent() {
         CloseApplicationOnNavBack()
-        PandoroTheme {
-            NavigationContent(
-                backgroundTab = MaterialTheme.colorScheme.primary
-            )
-        }
+        NavigationContent(
+            backgroundTab = MaterialTheme.colorScheme.primary
+        )
     }
 
     /**
@@ -182,7 +180,7 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
                 if(index != PROFILE_TAB_INDEX) {
                     Icon(
                         imageVector = tab.icon,
-                        contentDescription = tab.contentDescription
+                        contentDescription = tab.resolveContentDescription()
                     )
                 } else
                     ProfilePic()
@@ -192,7 +190,7 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
             label = {
                 if(index != PROFILE_TAB_INDEX) {
                     Text(
-                        text = tab.prepareTitle(),
+                        text = tab.resolveTitle(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -360,28 +358,23 @@ class HomeScreen: NavigatorScreen<I18nNavigationTab>() {
         return arrayOf(
             I18nNavigationTab(
                 icon = Icons.Default.Folder,
-                title = Res.string.projects,
-                contentDescription = "Projects"
+                title = Res.string.projects
             ),
             I18nNavigationTab(
                 icon = Icons.AutoMirrored.Filled.Notes,
-                title = Res.string.notes,
-                contentDescription = "notes"
+                title = Res.string.notes
             ),
             I18nNavigationTab(
                 icon = Activity,
-                title = Res.string.overview,
-                contentDescription = "overview"
+                title = Res.string.overview
             ),
             I18nNavigationTab(
                 icon = Icons.Default.Groups3,
-                title = Res.string.groups,
-                contentDescription = "groups"
+                title = Res.string.groups
             ),
             I18nNavigationTab(
                 icon = Icons.Default.AccountBox,
-                title = Res.string.profile,
-                contentDescription = "profile"
+                title = Res.string.profile
             )
         )
     }

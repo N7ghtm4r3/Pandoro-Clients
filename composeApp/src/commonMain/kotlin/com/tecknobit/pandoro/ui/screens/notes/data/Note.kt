@@ -45,9 +45,10 @@ data class Note(
      * @return the days interval used to complete the note as [Int]
      */
     fun completionDays() : Int {
-        return creationDate.daysUntil(
+        val completionDays = creationDate.daysUntil(
             untilDate = markAsDoneDate
         ) + 1
+        return completionDays.toInt()
     }
 
 }

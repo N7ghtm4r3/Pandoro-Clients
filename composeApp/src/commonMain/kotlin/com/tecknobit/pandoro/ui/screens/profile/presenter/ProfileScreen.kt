@@ -76,10 +76,9 @@ import com.tecknobit.equinoxcompose.utilities.ResponsiveClassComponent
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.SUPPORTED_LANGUAGES
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isEmailValid
 import com.tecknobit.equinoxcore.helpers.InputsValidator.Companion.isPasswordValid
-import com.tecknobit.pandoro.SPLASHSCREEN
 import com.tecknobit.pandoro.bodyFontFamily
+import com.tecknobit.pandoro.helpers.navToSplashscreen
 import com.tecknobit.pandoro.localUser
-import com.tecknobit.pandoro.navigator
 import com.tecknobit.pandoro.ui.components.DeleteAccount
 import com.tecknobit.pandoro.ui.components.FirstPageProgressIndicator
 import com.tecknobit.pandoro.ui.components.Logout
@@ -88,12 +87,14 @@ import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
 import com.tecknobit.pandoro.ui.screens.profile.components.ChangelogItem
 import com.tecknobit.pandoro.ui.screens.profile.presentation.ProfileScreenViewModel
-import com.tecknobit.pandoro.ui.shared.presenters.PandoroScreen
+import com.tecknobit.pandoro.ui.screens.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.theme.fallbackColor
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyColumn
-import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
-import io.github.vinceglb.filekit.core.PickerMode
-import io.github.vinceglb.filekit.core.PickerType
+import io.github.vinceglb.filekit.dialogs.FileKitMode
+import io.github.vinceglb.filekit.dialogs.FileKitType
+import io.github.vinceglb.filekit.dialogs.compose.rememberFilePickerLauncher
+import io.github.vinceglb.filekit.name
+import io.github.vinceglb.filekit.readBytes
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import pandoro.composeapp.generated.resources.Res
@@ -205,8 +206,8 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     @Composable
     private fun ProfilePicker() {
         val launcher = rememberFilePickerLauncher(
-            type = PickerType.Image,
-            mode = PickerMode.Single
+            type = FileKitType.Image,
+            mode = FileKitMode.Single
         ) { profilePic ->
             profilePic?.let {
                 viewModel.viewModelScope.launch {
@@ -328,7 +329,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                         viewModel.changeLanguage(
                             onChange = {
                                 visible.value = false
-                                navigator.navigate(SPLASHSCREEN)
+                                navToSplashscreen()
                             }
                         )
                     }
@@ -342,7 +343,7 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                         viewModel.changeTheme(
                             onChange = {
                                 visible.value = false
-                                navigator.navigate(SPLASHSCREEN)
+                                navToSplashscreen()
                             }
                         )
                     }

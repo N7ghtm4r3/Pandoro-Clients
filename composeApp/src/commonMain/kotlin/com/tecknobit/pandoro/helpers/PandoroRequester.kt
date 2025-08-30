@@ -1,6 +1,5 @@
 package com.tecknobit.pandoro.helpers
 
-import com.tecknobit.ametistaengine.AmetistaEngine.Companion.ametistaEngine
 import com.tecknobit.equinoxcompose.network.EquinoxRequester
 import com.tecknobit.equinoxcore.annotations.RequestPath
 import com.tecknobit.equinoxcore.annotations.Wrapper
@@ -52,6 +51,7 @@ import com.tecknobit.pandorocore.helpers.PandoroEndpoints.IN_DEVELOPMENT_PROJECT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.LEAVE_GROUP_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_CHANGE_NOTE_AS_DONE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_CHANGE_NOTE_AS_TODO_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.MOVE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.OVERVIEW_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.PUBLISH_UPDATE_ENDPOINT
 import com.tecknobit.pandorocore.helpers.PandoroEndpoints.REMOVE_MEMBER_ENDPOINT
@@ -93,9 +93,10 @@ open class PandoroRequester(
 ) {
 
     init {
-        attachInterceptorOnRequest {
-            ametistaEngine.notifyNetworkRequest()
-        }
+            // TODO: TO REIMPLEMENT WHEN NECESSARY
+//        attachInterceptorOnRequest {
+//            ametistaEngine.notifyNetworkRequest()
+//        }
     }
 
     /**
@@ -507,6 +508,37 @@ open class PandoroRequester(
                 subEndpoint = "/${NOTES_KEY}/$changeNoteId",
                 projectId = projectId,
                 updateId = updateId
+            )
+        )
+    }
+
+    /**
+     * Request to move a change note
+     *
+     * @param projectId The identifier of the project owner of the update
+     * @param sourceUpdateId The identifier of the source update where the change note is currently attached
+     * @param changeNoteId The identifier of the change note to move
+     * @param destinationUpdateId The identifier of the destination update where move the change note
+     *
+     * @return the response of the request as [JsonObject]
+     *
+     * @since 1.2.0
+     */
+    @RequestPath(
+        path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}/move/{destination_id}",
+        method = PUT
+    )
+    suspend fun moveChangeNote(
+        projectId: String,
+        sourceUpdateId: String,
+        changeNoteId: String,
+        destinationUpdateId: String,
+    ) : JsonObject {
+        return execPut(
+            endpoint = createUpdatesEndpoint(
+                subEndpoint = "/${NOTES_KEY}/$changeNoteId$MOVE_ENDPOINT$destinationUpdateId",
+                projectId = projectId,
+                updateId = sourceUpdateId
             )
         )
     }

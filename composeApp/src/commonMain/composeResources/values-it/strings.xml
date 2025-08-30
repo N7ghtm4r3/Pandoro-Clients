@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Pandoro</string>
-    <string name="app_version" translatable="false">1.1.3</string>
+    <string name="app_version" translatable="false">1.2.0</string>
     <string name="server_secret">Segreto del server</string>
     <string name="edit_project">Modifica progetto</string>
     <string name="version">Versione</string>
@@ -146,13 +146,6 @@
     <string name="delete_update_text_dialog">Se confermi, l'aggiornamento e le sue informazioni saranno cancellate e non più recuperabili, confermi?</string>
     <string name="delete">Elimina</string>
     <string name="notes_formatted_in_markdown_copied">Note formattate in markdown copiate!</string>
-    <string name="update_scheduled_by">Ha programmato l'aggiornamento il %1$s alle %2$s</string>
-    <string name="update_started_by">Ha avviato l'aggiornamento il %1$s alle %2$s</string>
-    <string name="update_published_by">Ha pubblicato l'aggiornamento il %1$s alle %2$s</string>
-    <string name="account_deleted">Account eliminato</string>
-    <string name="update_scheduled_myself">Hai programmato l'aggiornamento il %1$s alle %2$s</string>
-    <string name="update_started_myself">Hai avviato l'aggiornamento il %1$s alle %2$s</string>
-    <string name="update_published_myself">Hai pubblicato l'aggiornamento il %1$s alle %2$s</string>
     <string name="has_created_the_note">%1$s ha creato l'appunto</string>
     <plurals name="has_completed_the_note">
         <item formatted="false" quantity="one">%1$s ha completato l'appunto in %2$d giorno</item>
@@ -212,4 +205,28 @@
     <string name="welcome_back">Bentornat</string>
     <string name="hello">Ciao</string>
     <string name="retrieving_data">Recupero dei dati</string>
+    <string name="move_change_note">Sposta appunto</string>
+    <string name="move_change_note_hint">Seleziona l’aggiornamento in cui spostare l'appunto</string>
+    <string name="update_scheduled_by">Ha programmato l'aggiornamento il %1$s alle %2$s</string>
+    <string name="update_started_by">Ha avviato l'aggiornamento il %1$s alle %2$s</string>
+    <string name="change_note_added_by">Ha aggiunto questo appunto il %1$s alle %2$s</string>
+    <string name="change_note_done_by">Ha segnato questo appunto come completato il %1$s alle %2$s</string>
+    <string name="change_note_todo_by">Ha segnato questo appunto come da fare il %1$s alle %2$s</string>
+    <string name="change_note_edited_by">Ha modificato questo appunto il %1$s alle %2$s</string>
+    <string name="change_note_moved_to_by">Ha spostato questo appunto il %1$s alle %2$s nell’aggiornamento %3$s</string>
+    <string name="change_note_moved_from_by">Ha spostato questo appunto il %1$s alle %2$s dall’aggiornamento %3$s</string>
+    <string name="change_note_removed_by">Ha rimosso questo appunto il %1$s alle %2$s</string>
+    <string name="update_published_by">Ha pubblicato l'aggiornamento il %1$s alle %2$s</string>
+    <string name="account_deleted">Account eliminato</string>
+    <string name="update_scheduled_myself">Hai programmato l'aggiornamento il %1$s alle %2$s</string>
+    <string name="update_started_myself">Hai avviato l'aggiornamento il %1$s alle %2$s</string>
+    <string name="change_note_added_myself">Hai aggiunto questo appunto il %1$s alle %2$s</string>
+    <string name="change_note_done_myself">Hai segnato questo appunto come completato il %1$s alle %2$s</string>
+    <string name="change_note_todo_myself">Hai segnato questo appunto come da fare il %1$s alle %2$s</string>
+    <string name="change_note_edited_myself">Hai modificato questo appunto il %1$s alle %2$s</string>
+    <string name="change_note_moved_to_myself">Hai spostato questo appunto il %1$s alle %2$s nell’aggiornamento %3$s</string>
+    <string name="change_note_moved_from_myself">Hai spostato questo appunto il %1$s alle %2$s dall’aggiornamento %3$s</string>
+    <string name="change_note_removed_myself">Hai rimosso questo appunto il %1$s alle %2$s</string>
+    <string name="update_published_myself">Hai pubblicato l'aggiornamento il %1$s alle %2$s</string>
+    <string name="new_content">Nuovo contenuto</string>
 </resources>
