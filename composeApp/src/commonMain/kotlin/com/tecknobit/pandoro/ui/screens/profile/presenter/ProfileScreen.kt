@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalLayoutApi::class, ExperimentalComposeApi::class)
-
 package com.tecknobit.pandoro.ui.screens.profile.presenter
 
 import androidx.compose.animation.animateContentSize
@@ -7,7 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,7 +34,6 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -343,7 +339,6 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
                         viewModel.changeTheme(
                             onChange = {
                                 visible.value = false
-                                navToSplashscreen()
                             }
                         )
                     }
@@ -588,7 +583,6 @@ class ProfileScreen : PandoroScreen<ProfileScreenViewModel>(
     override fun CollectStates() {
         viewModel.profilePic = remember { mutableStateOf(localUser.profilePic) }
         viewModel.email = remember { mutableStateOf(localUser.email) }
-        viewModel.password = remember { mutableStateOf(localUser.password) }
         viewModel.language = remember { mutableStateOf(localUser.language) }
         viewModel.theme = remember { mutableStateOf(localUser.theme) }
         viewModel.sessionFlowState = rememberSessionFlowState()

@@ -77,6 +77,8 @@ const val PROJECT_SCREEN = "ProjectScreen"
  */
 const val GROUP_SCREEN = "GroupScreen"
 
+// TODO: TO INTEGRATE UTIL MODULE 
+
 /**
  * Method used to navigate to the [SPLASHSCREEN] route
  *
@@ -265,6 +267,8 @@ fun navToGroupScreen(
     navigator.navigate(GROUP_SCREEN)
 }
 
+
+// TODO: TO REMOVE 
 @FutureEquinoxApi(
     additionalNotes = """
         Will be created a dedicated Equinox-Miscellaneous module when the Compose Navigation will be
