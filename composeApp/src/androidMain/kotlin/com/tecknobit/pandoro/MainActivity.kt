@@ -1,7 +1,6 @@
 package com.tecknobit.pandoro
 
 import android.os.Bundle
-import android.os.StrictMode
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -9,8 +8,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts.StartIntentSenderForResult
 import androidx.annotation.ContentView
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.tecknobit.equinoxcore.utilities.ContextActivityProvider
@@ -54,24 +51,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ContextActivityProvider.setCurrentActivity(this)
+        appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
         setContent {
             enableEdgeToEdge()
-            InitSession()
             App()
         }
-    }
-
-    /**
-     * Method to init the instances for the session
-     *
-     * No-any params required
-     */
-    @Composable
-    @NonRestartableComposable
-    private fun InitSession() {
-        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-        StrictMode.setThreadPolicy(policy)
-        appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
     }
 
 }
