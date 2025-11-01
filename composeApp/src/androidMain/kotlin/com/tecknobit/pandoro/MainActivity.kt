@@ -54,7 +54,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ContextActivityProvider.setCurrentActivity(this)
-        // AmetistaEngine.intake()
         setContent {
             enableEdgeToEdge()
             InitSession()

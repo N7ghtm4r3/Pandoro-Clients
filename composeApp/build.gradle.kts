@@ -17,7 +17,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.dokka)
     kotlin("plugin.serialization") version "2.0.20"
-    id("com.github.gmazzo.buildconfig") version "5.5.1"
+    id("com.github.gmazzo.buildconfig") version "5.7.1"
 }
 
 kotlin {
@@ -97,14 +97,13 @@ kotlin {
             implementation(libs.equinox.navigation)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
-            implementation(libs.pandorocore)
             implementation(libs.lazyPaginationCompose)
             implementation(libs.kotlinx.datetime)
             implementation(libs.filekit.core)
             implementation(libs.filekit.compose)
             implementation(libs.jetlime)
             implementation (libs.compose.charts)
-            implementation(libs.ametista.engine)
+            implementation(libs.pandorocore)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -128,8 +127,8 @@ android {
         applicationId = "com.tecknobit.pandoro"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 20
-        versionName = "1.2.0"
+        versionCode = 21
+        versionName = "1.2.1"
     }
     packaging {
         resources {
@@ -161,8 +160,8 @@ compose.desktop {
                 "java.scripting", "java.security.jgss", "java.sql.rowset", "jdk.jfr", "jdk.unsupported", "jdk.security.auth"
             )
             packageName = "Pandoro"
-            packageVersion = "1.2.0"
-            version = "1.2.0"
+            packageVersion = "1.2.1"
+            version = "1.2.1"
             description = "Pandoro, open source management software"
             copyright = "© 2025 Tecknobit"
             vendor = "Tecknobit"
@@ -179,7 +178,7 @@ compose.desktop {
                 iconFile.set(project.file("src/desktopMain/resources/logo.png"))
                 packageName = "com-tecknobit-pandoro"
                 debMaintainer = "infotecknobitcompany@gmail.com"
-                appRelease = "1.2.0"
+                appRelease = "1.2.1"
                 appCategory = "PERSONALIZATION"
                 rpmLicenseType = "APACHE2"
             }

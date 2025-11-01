@@ -2,11 +2,20 @@ package com.tecknobit.pandoro.helpers
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavHostController
+import com.tecknobit.equinoxcompose.annotations.DestinationScreen
 import com.tecknobit.equinoxcore.annotations.FutureEquinoxApi
 import com.tecknobit.equinoxcore.annotations.Wrapper
 import com.tecknobit.equinoxcore.helpers.NAME_KEY
+import com.tecknobit.pandoro.ui.screens.create.creategroup.presenter.CreateGroupScreen
+import com.tecknobit.pandoro.ui.screens.create.createnote.presenter.CreateNoteScreen
+import com.tecknobit.pandoro.ui.screens.create.createproject.presenter.CreateProjectScreen
+import com.tecknobit.pandoro.ui.screens.home.presenter.HomeScreen
+import com.tecknobit.pandoro.ui.screens.item.group.presenter.GroupScreen
+import com.tecknobit.pandoro.ui.screens.item.project.presenter.ProjectScreen
+import com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter.ScheduleUpdateScreen
 import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
+import com.tecknobit.pandoro.ui.screens.splashscreen.Splashscreen
 import com.tecknobit.pandorocore.GROUP_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.NOTE_IDENTIFIER_KEY
 import com.tecknobit.pandorocore.PROJECT_IDENTIFIER_KEY
@@ -34,17 +43,17 @@ const val AUTH_SCREEN = "AuthScreen"
 const val HOME_SCREEN = "HomeScreen"
 
 /**
- * `CREATE_PROJECT_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.createproject.presenter.CreateProjectScreen]
+ * `CREATE_PROJECT_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.create.createproject.presenter.CreateProjectScreen]
  */
 const val CREATE_PROJECT_SCREEN = "CreateProject"
 
 /**
- * `CREATE_NOTE_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen]
+ * `CREATE_NOTE_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.create.createnote.presenter.CreateNoteScreen]
  */
 const val CREATE_NOTE_SCREEN = "CreateNote"
 
 /**
- * `CREATE_CHANGE_NOTE_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.createnote.presenter.CreateNoteScreen]
+ * `CREATE_CHANGE_NOTE_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.create.createnote.presenter.CreateNoteScreen]
  */
 const val CREATE_CHANGE_NOTE_SCREEN = "CreateChangeNote"
 
@@ -54,17 +63,17 @@ const val CREATE_CHANGE_NOTE_SCREEN = "CreateChangeNote"
 const val SCHEDULE_UPDATE_SCREEN = "ScheduleUpdate"
 
 /**
- * `CREATE_GROUP_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.creategroup.presenter.CreateGroupScreen]
+ * `CREATE_GROUP_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.create.creategroup.presenter.CreateGroupScreen]
  */
 const val CREATE_GROUP_SCREEN = "CreateGroup"
 
 /**
- * `PROJECT_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.project.presenter.ProjectScreen]
+ * `PROJECT_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.item.project.presenter.ProjectScreen]
  */
 const val PROJECT_SCREEN = "ProjectScreen"
 
 /**
- * `GROUP_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.group.presenter.GroupScreen]
+ * `GROUP_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.item.group.presenter.GroupScreen]
  */
 const val GROUP_SCREEN = "GroupScreen"
 
@@ -73,7 +82,7 @@ const val GROUP_SCREEN = "GroupScreen"
  *
  * @since 1.2.0
  */
-// TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
+@DestinationScreen(Splashscreen::class)
 fun navToSplashscreen() {
     navigator.navigate(
         route = SPLASHSCREEN
@@ -85,7 +94,7 @@ fun navToSplashscreen() {
  *
  * @since 1.2.0
  */
-// TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
+@DestinationScreen(HomeScreen::class)
 fun navToHomeScreen() {
     navigator.navigate(
         route = HOME_SCREEN
@@ -99,8 +108,8 @@ fun navToHomeScreen() {
  *
  * @since 1.2.0
  */
-// TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
 @Wrapper
+@DestinationScreen(CreateProjectScreen::class)
 fun navToCreateProjectScreen(
     projectId: String? = null
 ) {
@@ -118,8 +127,8 @@ fun navToCreateProjectScreen(
  *
  * @since 1.2.0
  */
-// TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
 @Wrapper
+@DestinationScreen(CreateNoteScreen::class)
 fun navToCreateNoteScreen(
     noteId: String? = null
 ) {
@@ -137,7 +146,7 @@ fun navToCreateNoteScreen(
  *
  * @since 1.2.0
  */
-// TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
+@DestinationScreen(CreateGroupScreen::class)
 fun navToCreateGroupScreen(
     groupId: String? = null
 ) {
@@ -182,7 +191,7 @@ private fun navToCreateScreen(
  *
  * @since 1.2.0
  */
-// TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
+@DestinationScreen(CreateNoteScreen::class)
 fun navToCreateChangeNoteScreen(
     projectId: String,
     update: Update,
@@ -205,7 +214,7 @@ fun navToCreateChangeNoteScreen(
  *
  * @since 1.2.0
  */
-// TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
+@DestinationScreen(ScheduleUpdateScreen::class)
 fun navToScheduleUpdateScreen(
     project: Project
 ) {
@@ -225,7 +234,7 @@ fun navToScheduleUpdateScreen(
  *
  * @since 1.2.0
  */
-// TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
+@DestinationScreen(ProjectScreen::class)
 fun navToProjectScreen(
     projectId: String,
     updateId: String? = null
@@ -245,7 +254,7 @@ fun navToProjectScreen(
  *
  * @since 1.2.0
  */
-// TODO: TO ANNOTATE WITH THE DestinationScreen ANNOTATION
+@DestinationScreen(GroupScreen::class)
 fun navToGroupScreen(
     groupId: String
 ) {

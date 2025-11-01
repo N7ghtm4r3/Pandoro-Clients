@@ -92,13 +92,6 @@ open class PandoroRequester(
     debugMode = debugMode
 ) {
 
-    init {
-            // TODO: TO REIMPLEMENT WHEN NECESSARY
-//        attachInterceptorOnRequest {
-//            ametistaEngine.notifyNetworkRequest()
-//        }
-    }
-
     /**
      * Method to execute the request to get the projects list of the user where him/her is the author
      *
