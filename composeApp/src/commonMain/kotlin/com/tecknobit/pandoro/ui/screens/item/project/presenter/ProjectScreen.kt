@@ -70,17 +70,17 @@ import com.tecknobit.pandoro.helpers.navToCreateProjectScreen
 import com.tecknobit.pandoro.helpers.navToScheduleUpdateScreen
 import com.tecknobit.pandoro.helpers.navigator
 import com.tecknobit.pandoro.ui.components.DeleteProject
+import com.tecknobit.pandoro.ui.screens.item.ItemScreen
 import com.tecknobit.pandoro.ui.screens.item.group.components.GroupLogos
 import com.tecknobit.pandoro.ui.screens.item.project.components.ModalProjectStats
 import com.tecknobit.pandoro.ui.screens.item.project.components.ProjectsStats
 import com.tecknobit.pandoro.ui.screens.item.project.components.UpdateCard
 import com.tecknobit.pandoro.ui.screens.item.project.presentation.ProjectScreenViewModel
+import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
 import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.project.Project.Companion.asVersionText
 import com.tecknobit.pandoro.ui.screens.shared.data.project.Update.Companion.asText
 import com.tecknobit.pandoro.ui.screens.shared.data.project.Update.Companion.toColor
-import com.tecknobit.pandoro.ui.screens.shared.data.PandoroUser
-import com.tecknobit.pandoro.ui.screens.item.ItemScreen
 import com.tecknobit.pandoro.ui.screens.shared.presenters.PandoroScreen
 import com.tecknobit.pandoro.ui.theme.EmptyStateTitleStyle
 import com.tecknobit.pandorocore.enums.RepositoryPlatform
@@ -350,7 +350,7 @@ class ProjectScreen(
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         items(
-                            items = item.value!!.updates,
+                            items = updates,
                             key = { update -> update.id }
                         ) { update ->
                             UpdateCard(
