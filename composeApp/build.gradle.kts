@@ -90,7 +90,6 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.navigation.compose)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.equinox.core)
             implementation(libs.equinox.compose)
@@ -103,6 +102,8 @@ kotlin {
             implementation(libs.filekit.compose)
             implementation(libs.jetlime)
             implementation (libs.compose.charts)
+            implementation(libs.navigation.compose)
+            implementation(libs.equinoxmisc.navigation.compose.util)
             implementation(libs.pandorocore)
         }
         desktopMain.dependencies {

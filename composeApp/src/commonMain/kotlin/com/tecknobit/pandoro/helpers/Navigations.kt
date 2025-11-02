@@ -1,11 +1,13 @@
+@file:OptIn(ExperimentalStdlibApi::class)
+
 package com.tecknobit.pandoro.helpers
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavHostController
 import com.tecknobit.equinoxcompose.annotations.DestinationScreen
-import com.tecknobit.equinoxcore.annotations.FutureEquinoxApi
 import com.tecknobit.equinoxcore.annotations.Wrapper
 import com.tecknobit.equinoxcore.helpers.NAME_KEY
+import com.tecknobit.equinoxmisc.navigationcomposeutil.navWithData
 import com.tecknobit.pandoro.ui.screens.create.creategroup.presenter.CreateGroupScreen
 import com.tecknobit.pandoro.ui.screens.create.createnote.presenter.CreateNoteScreen
 import com.tecknobit.pandoro.ui.screens.create.createproject.presenter.CreateProjectScreen
@@ -76,8 +78,6 @@ const val PROJECT_SCREEN = "ProjectScreen"
  * `GROUP_SCREEN` route to navigate to the [com.tecknobit.pandoro.ui.screens.item.group.presenter.GroupScreen]
  */
 const val GROUP_SCREEN = "GroupScreen"
-
-// TODO: TO INTEGRATE UTIL MODULE 
 
 /**
  * Method used to navigate to the [SPLASHSCREEN] route
@@ -173,14 +173,11 @@ private fun navToCreateScreen(
     itemKey: String,
     screenRoute: String
 ) {
-    itemId?.let {
-        val savedStateHandle = navigator.currentBackStackEntry?.savedStateHandle
-        savedStateHandle?.let {
-            savedStateHandle[itemKey] = itemId
+    navigator.navWithData(
+        route = screenRoute,
+        data = buildMap {
+            put(itemKey, itemId)
         }
-    }
-    navigator.navigate(
-        route = screenRoute
     )
 }
 
@@ -199,14 +196,15 @@ fun navToCreateChangeNoteScreen(
     update: Update,
     noteId: String? = null
 ) {
-    val savedStateHandle = navigator.currentBackStackEntry?.savedStateHandle
-    savedStateHandle?.let {
-        savedStateHandle[PROJECT_IDENTIFIER_KEY] = projectId
-        savedStateHandle[UPDATE_IDENTIFIER_KEY] = update.id
-        savedStateHandle[UPDATE_TARGET_VERSION_KEY] = update.targetVersion
-        savedStateHandle[NOTE_IDENTIFIER_KEY] = noteId
-    }
-    navigator.navigate(CREATE_CHANGE_NOTE_SCREEN)
+    navigator.navWithData(
+        route = CREATE_CHANGE_NOTE_SCREEN,
+        data = buildMap {
+            put(PROJECT_IDENTIFIER_KEY, projectId)
+            put(UPDATE_IDENTIFIER_KEY, update.id)
+            put(UPDATE_TARGET_VERSION_KEY, update.targetVersion)
+            put(NOTE_IDENTIFIER_KEY, noteId)
+        }
+    )
 }
 
 /**
@@ -220,12 +218,13 @@ fun navToCreateChangeNoteScreen(
 fun navToScheduleUpdateScreen(
     project: Project
 ) {
-    val savedStateHandle = navigator.currentBackStackEntry?.savedStateHandle
-    savedStateHandle?.let {
-        savedStateHandle[PROJECT_IDENTIFIER_KEY] = project.id
-        savedStateHandle[NAME_KEY] = project.name
-    }
-    navigator.navigate(SCHEDULE_UPDATE_SCREEN)
+    navigator.navWithData(
+        route = SCHEDULE_UPDATE_SCREEN,
+        data = buildMap {
+            put(PROJECT_IDENTIFIER_KEY, project.id)
+            put(NAME_KEY, project.name)
+        }
+    )
 }
 
 /**
@@ -241,12 +240,13 @@ fun navToProjectScreen(
     projectId: String,
     updateId: String? = null
 ) {
-    val savedStateHandle = navigator.currentBackStackEntry?.savedStateHandle
-    savedStateHandle?.let {
-        savedStateHandle[PROJECT_IDENTIFIER_KEY] = projectId
-        savedStateHandle[UPDATE_IDENTIFIER_KEY] = updateId
-    }
-    navigator.navigate(PROJECT_SCREEN)
+    navigator.navWithData(
+        route = PROJECT_SCREEN,
+        data = buildMap {
+            put(PROJECT_IDENTIFIER_KEY, projectId)
+            put(UPDATE_IDENTIFIER_KEY, updateId)
+        }
+    )
 }
 
 /**
@@ -260,23 +260,10 @@ fun navToProjectScreen(
 fun navToGroupScreen(
     groupId: String
 ) {
-    val savedStateHandle = navigator.currentBackStackEntry?.savedStateHandle
-    savedStateHandle?.let {
-        savedStateHandle[GROUP_IDENTIFIER_KEY] = groupId
-    }
-    navigator.navigate(GROUP_SCREEN)
-}
-
-
-// TODO: TO REMOVE 
-@FutureEquinoxApi(
-    additionalNotes = """
-        Will be created a dedicated Equinox-Miscellaneous module when the Compose Navigation will be
-        stable and if not provides this API will be integrated in that module
-    """
-)
-fun SavedStateHandle.clearAll() {
-    keys().forEach { key ->
-        remove<Any>(key)
-    }
+    navigator.navWithData(
+        route = GROUP_SCREEN,
+        data = buildMap {
+            put(GROUP_IDENTIFIER_KEY, groupId)
+        }
+    )
 }

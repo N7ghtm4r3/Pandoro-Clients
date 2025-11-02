@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalStdlibApi::class)
+
 package com.tecknobit.pandoro
 
 import androidx.compose.runtime.Composable
@@ -17,6 +19,7 @@ import com.tecknobit.equinoxcore.helpers.NAME_KEY
 import com.tecknobit.equinoxcore.helpers.THEME_KEY
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
 import com.tecknobit.equinoxcore.network.sendRequest
+import com.tecknobit.equinoxmisc.navigationcomposeutil.getDestinationNavData
 import com.tecknobit.pandoro.PandoroConfig.LOCAL_STORAGE_PATH
 import com.tecknobit.pandoro.helpers.AUTH_SCREEN
 import com.tecknobit.pandoro.helpers.CREATE_CHANGE_NOTE_SCREEN
@@ -29,7 +32,6 @@ import com.tecknobit.pandoro.helpers.PROJECT_SCREEN
 import com.tecknobit.pandoro.helpers.PandoroRequester
 import com.tecknobit.pandoro.helpers.SCHEDULE_UPDATE_SCREEN
 import com.tecknobit.pandoro.helpers.SPLASHSCREEN
-import com.tecknobit.pandoro.helpers.clearAll
 import com.tecknobit.pandoro.helpers.customHttpClient
 import com.tecknobit.pandoro.helpers.navToSplashscreen
 import com.tecknobit.pandoro.helpers.navigator
@@ -125,15 +127,15 @@ fun App() {
             composable(
                 route = HOME_SCREEN
             ) {
-                navigator.currentBackStackEntry?.savedStateHandle?.clearAll()
                 val homeScreen = equinoxScreen { HomeScreen() }
                 homeScreen.ShowContent()
             }
             composable(
                 route = CREATE_PROJECT_SCREEN
             ) {
-                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
-                val projectId: String? = savedStateHandle[PROJECT_IDENTIFIER_KEY]
+                val projectId: String? = navigator.getDestinationNavData(
+                    key = PROJECT_IDENTIFIER_KEY
+                )
                 val createProjectScreen = equinoxScreen {
                     CreateProjectScreen(
                         projectId = projectId
@@ -144,24 +146,32 @@ fun App() {
             composable(
                 route = CREATE_NOTE_SCREEN
             ) {
-                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
-                val noteId: String? = savedStateHandle[NOTE_IDENTIFIER_KEY]
+                val noteId: String? = navigator.getDestinationNavData(
+                    key = NOTE_IDENTIFIER_KEY
+                )
                 val createNoteScreen = equinoxScreen {
                     CreateNoteScreen(
                         noteId = noteId
                     )
                 }
                 createNoteScreen.ShowContent()
-                savedStateHandle.remove<String>(NOTE_IDENTIFIER_KEY)
             }
             composable(
                 route = CREATE_CHANGE_NOTE_SCREEN
             ) {
-                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
-                val projectId: String = savedStateHandle[PROJECT_IDENTIFIER_KEY]!!
-                val updateId: String? = savedStateHandle[UPDATE_IDENTIFIER_KEY]
-                val targetVersion: String? = savedStateHandle[UPDATE_TARGET_VERSION_KEY]
-                val noteId: String? = savedStateHandle[NOTE_IDENTIFIER_KEY]
+                val projectId: String = navigator.getDestinationNavData(
+                    key = PROJECT_IDENTIFIER_KEY,
+                    defaultValue = ""
+                )!!
+                val updateId: String? = navigator.getDestinationNavData(
+                    key = UPDATE_IDENTIFIER_KEY
+                )
+                val targetVersion: String? = navigator.getDestinationNavData(
+                    key = UPDATE_TARGET_VERSION_KEY
+                )
+                val noteId: String? = navigator.getDestinationNavData(
+                    key = NOTE_IDENTIFIER_KEY
+                )
                 updateId?.let {
                     val createChangeNoteScreen = equinoxScreen {
                         CreateNoteScreen(
@@ -177,9 +187,13 @@ fun App() {
             composable(
                 route = SCHEDULE_UPDATE_SCREEN
             ) {
-                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
-                val projectId: String = savedStateHandle[PROJECT_IDENTIFIER_KEY]!!
-                val projectName: String? = savedStateHandle[NAME_KEY]
+                val projectId: String = navigator.getDestinationNavData(
+                    key = PROJECT_IDENTIFIER_KEY,
+                    defaultValue = ""
+                )!!
+                val projectName: String? = navigator.getDestinationNavData(
+                    key = NAME_KEY
+                )
                 projectName?.let {
                     val scheduleUpdateScreen = equinoxScreen {
                         ScheduleUpdateScreen(
@@ -193,8 +207,9 @@ fun App() {
             composable(
                 route = CREATE_GROUP_SCREEN
             ) {
-                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
-                val groupId: String? = savedStateHandle[GROUP_IDENTIFIER_KEY]
+                val groupId: String? = navigator.getDestinationNavData(
+                    key = GROUP_IDENTIFIER_KEY
+                )
                 val createGroupScreen = equinoxScreen {
                     CreateGroupScreen(
                         groupId = groupId
@@ -205,9 +220,12 @@ fun App() {
             composable(
                 route = PROJECT_SCREEN
             ) {
-                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
-                val projectId: String? = savedStateHandle[PROJECT_IDENTIFIER_KEY]
-                val updateId: String? = savedStateHandle[UPDATE_IDENTIFIER_KEY]
+                val projectId: String? = navigator.getDestinationNavData(
+                    key = PROJECT_IDENTIFIER_KEY
+                )
+                val updateId: String? = navigator.getDestinationNavData(
+                    key = UPDATE_IDENTIFIER_KEY
+                )
                 projectId?.let {
                     val projectScreen = equinoxScreen {
                         ProjectScreen(
@@ -221,8 +239,9 @@ fun App() {
             composable(
                 route = GROUP_SCREEN
             ) {
-                val savedStateHandle = navigator.previousBackStackEntry?.savedStateHandle!!
-                val groupId: String? = savedStateHandle[GROUP_IDENTIFIER_KEY]
+                val groupId: String? = navigator.getDestinationNavData(
+                    key = GROUP_IDENTIFIER_KEY
+                )
                 groupId?.let {
                     val groupScreen = equinoxScreen {
                         GroupScreen(
