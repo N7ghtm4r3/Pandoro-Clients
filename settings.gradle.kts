@@ -27,7 +27,6 @@ dependencyResolutionManagement {
         mavenCentral()
         mavenLocal()
         maven("https://jitpack.io")
-        maven("https://repo.clojars.org")
     }
 }
 

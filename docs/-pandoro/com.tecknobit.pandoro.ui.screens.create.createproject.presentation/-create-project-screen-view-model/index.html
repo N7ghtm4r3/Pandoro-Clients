@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>CreateProjectScreenViewModel</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+        <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<link href="../../../images/logo-icon.svg">
+</head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+            <a class="library-name--link" href="../../../index.html" tabindex="1">
+                    Pandoro
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+1.2.1        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true"
+                        data-filter=":composeApp/commonMain">common</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":composeApp/commonMain"
+                                       data-filter=":composeApp/commonMain"/>
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config='{"defaultSize": 280, "minSize": 200, "maxSize": 400}'>
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    Pandoro
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Pandoro::com.tecknobit.pandoro.ui.screens.create.createproject.presentation/CreateProjectScreenViewModel///PointingToDeclaration//799242938">
+  <div class="breadcrumbs"><a href="../../../index.html">Pandoro</a><span class="delimiter">/</span><a href="../index.html">com.tecknobit.pandoro.ui.screens.create.createproject.presentation</a><span class="delimiter">/</span><span class="current">CreateProjectScreenViewModel</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Create</span><wbr></wbr><span>Project</span><wbr></wbr><span>Screen</span><wbr></wbr><span>View</span><wbr></wbr><span><span>Model</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">CreateProjectScreenViewModel</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>projectId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span> : <a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation/-base-project-view-model/index.html">BaseProjectViewModel</a></div><p class="paragraph">The <a href="index.html">CreateProjectScreenViewModel</a> provides the methods for the creation or the editing of a com.tecknobit.pandoro.ui.screens.projects.data.Project item</p><span class="kdoc-tag"><h4 class="">Author</h4><p class="paragraph">N7ghtm4r3 - Tecknobit</p></span><h4 class="tableheader">Parameters</h4><div class="table"><div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>project</span><wbr></wbr><span><span>Id</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The identifier of the project to edit</p></div></div></div></div></div><h4 class="tableheader">See also</h4><div class="table"><div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><span>Equinox</span><wbr></wbr><span>View</span><wbr></wbr><span><span>Model</span></span></div></span></div><div></div></div></div><div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-base-group-view-model/index.html"><span>Base</span><wbr></wbr><span>Group</span><wbr></wbr><span>View</span><wbr></wbr><span><span>Model</span></span></a></div></span></div><div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="tableheader">Constructors</h2>
+        <div class="table"><a data-name="-1722523217%2FConstructors%2F799242938" anchor-label="CreateProjectScreenViewModel" id="-1722523217%2FConstructors%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-togglable="CONSTRUCTOR" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-create-project-screen-view-model.html"><span>Create</span><wbr></wbr><span>Project</span><wbr></wbr><span>Screen</span><wbr></wbr><span>View</span><wbr></wbr><span><span>Model</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1722523217%2FConstructors%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">projectId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="tableheader">Properties</h2>
+        <div class="table"><a data-name="-952641619%2FProperties%2F799242938" anchor-label="authoredGroups" id="-952641619%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="authored-groups.html"><span>authored</span><wbr></wbr><span><span>Groups</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-952641619%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="authored-groups.html">authoredGroups</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-mutable-list/index.html">MutableList</a><span class="token operator">&lt;</span><a href="../../com.tecknobit.pandoro.ui.screens.lists.groups.data/-group/index.html">Group</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">authoredGroups</code> the list of the groups owned by the <a href="../../com.tecknobit.pandoro/local-user.html">com.tecknobit.pandoro.localUser</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-181063656%2FProperties%2F799242938" anchor-label="candidateGroups" id="-181063656%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="candidate-groups.html"><span>candidate</span><wbr></wbr><span><span>Groups</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-181063656%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="candidate-groups.html">candidateGroups</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/snapshots/SnapshotStateList.html">SnapshotStateList</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">candidateGroups</code> the list of the candidates groups where share the project</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1916715515%2FProperties%2F799242938" anchor-label="project" id="1916715515%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation/-base-project-view-model/project.html"><span><span>project</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1916715515%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation/-base-project-view-model/project.html">project</a><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.flow/StateFlow///PointingToDeclaration/">StateFlow</span><span class="token operator">&lt;</span><a href="../../com.tecknobit.pandoro.ui.screens.shared.data.project/-project/index.html">Project</a><span class="token operator">?</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1495824632%2FProperties%2F799242938" anchor-label="projectDescription" id="-1495824632%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="project-description.html"><span>project</span><wbr></wbr><span><span>Description</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1495824632%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="project-description.html">projectDescription</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/MutableState.html">MutableState</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">projectDescription</code> the value of the description of the project</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1100371350%2FProperties%2F799242938" anchor-label="projectDescriptionError" id="-1100371350%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="project-description-error.html"><span>project</span><wbr></wbr><span>Description</span><wbr></wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1100371350%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="project-description-error.html">projectDescriptionError</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/MutableState.html">MutableState</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">projectDescriptionError</code> whether the <a href="project-description.html">projectDescription</a> field is not valid</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1020070978%2FProperties%2F799242938" anchor-label="projectGroups" id="1020070978%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="project-groups.html"><span>project</span><wbr></wbr><span><span>Groups</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1020070978%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="project-groups.html">projectGroups</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/snapshots/SnapshotStateList.html">SnapshotStateList</a><span class="token operator">&lt;</span><a href="../../com.tecknobit.pandoro.ui.screens.lists.groups.data/-group/index.html">Group</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">projectGroups</code> the list of the current groups where the project is shared</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="289513341%2FProperties%2F799242938" anchor-label="projectIcon" id="289513341%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="project-icon.html"><span>project</span><wbr></wbr><span><span>Icon</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="289513341%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="project-icon.html">projectIcon</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/MutableState.html">MutableState</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">projectIcon</code> the value of the icon of the project</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="413263%2FProperties%2F799242938" anchor-label="projectIconPayload" id="413263%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="project-icon-payload.html"><span>project</span><wbr></wbr><span>Icon</span><wbr></wbr><span><span>Payload</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="413263%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">var </span><a href="project-icon-payload.html">projectIconPayload</a><span class="token operator">: </span><span data-unresolved-link="io.github.vinceglb.filekit/PlatformFile///PointingToDeclaration/">PlatformFile</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">projectIconPayload</code> the payload of the project icon to set</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-280356005%2FProperties%2F799242938" anchor-label="projectId" id="-280356005%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="project-id.html"><span>project</span><wbr></wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-280356005%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="project-id.html">projectId</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2062088619%2FProperties%2F799242938" anchor-label="projectName" id="2062088619%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="project-name.html"><span>project</span><wbr></wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2062088619%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="project-name.html">projectName</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/MutableState.html">MutableState</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">projectName</code> the value of the name of the project</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1804952999%2FProperties%2F799242938" anchor-label="projectNameError" id="1804952999%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="project-name-error.html"><span>project</span><wbr></wbr><span>Name</span><wbr></wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1804952999%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="project-name-error.html">projectNameError</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/MutableState.html">MutableState</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">projectNameError</code> whether the <a href="project-name.html">projectName</a> field is not valid</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-650647796%2FProperties%2F799242938" anchor-label="projectRepository" id="-650647796%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="project-repository.html"><span>project</span><wbr></wbr><span><span>Repository</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-650647796%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="project-repository.html">projectRepository</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/MutableState.html">MutableState</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">projectRepository</code> the value of the repository of the project</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-535253786%2FProperties%2F799242938" anchor-label="projectRepositoryError" id="-535253786%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="project-repository-error.html"><span>project</span><wbr></wbr><span>Repository</span><wbr></wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-535253786%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="project-repository-error.html">projectRepositoryError</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/MutableState.html">MutableState</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">projectRepositoryError</code> whether the <a href="project-repository.html">projectRepository</a> field is not valid</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-799188692%2FProperties%2F799242938" anchor-label="projectVersion" id="-799188692%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="project-version.html"><span>project</span><wbr></wbr><span><span>Version</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-799188692%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="project-version.html">projectVersion</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/MutableState.html">MutableState</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">projectVersion</code> the value of the version of the project</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1462079174%2FProperties%2F799242938" anchor-label="projectVersionError" id="1462079174%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="project-version-error.html"><span>project</span><wbr></wbr><span>Version</span><wbr></wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1462079174%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="project-version-error.html">projectVersionError</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/MutableState.html">MutableState</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">projectVersionError</code> whether the <a href="project-version.html">projectVersion</a> field is not valid</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-98644258%2FProperties%2F799242938" anchor-label="sessionFlowState" id="-98644258%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="session-flow-state.html"><span>session</span><wbr></wbr><span>Flow</span><wbr></wbr><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-98644258%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="session-flow-state.html">sessionFlowState</a><span class="token operator">: </span><span data-unresolved-link="com.tecknobit.equinoxcompose.session.sessionflow/SessionFlowState///PointingToDeclaration/">SessionFlowState</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">sessionFlowState</code> the state used to manage the session lifecycle in the screen</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="890454494%2FProperties%2F799242938" anchor-label="snackbarHostState" id="890454494%2FProperties%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#890454494%2FProperties%2F799242938"><span>snackbar</span><wbr></wbr><span>Host</span><wbr></wbr><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="890454494%2FProperties%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#890454494%2FProperties%2F799242938">snackbarHostState</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/material3/SnackbarHostState.html">SnackbarHostState</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="-462089743%2FFunctions%2F799242938" anchor-label="addCloseable" id="-462089743%2FFunctions%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#2068605057%2FFunctions%2F799242938"><span>add</span><wbr></wbr><span><span>Closeable</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-462089743%2FFunctions%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#2068605057%2FFunctions%2F799242938"><span class="token function">addCloseable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">closeable<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-auto-closeable/index.html">AutoCloseable</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">fun </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#2093014716%2FFunctions%2F799242938"><span class="token function">addCloseable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">closeable<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-auto-closeable/index.html">AutoCloseable</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1286065894%2FFunctions%2F799242938" anchor-label="canRetrieverStart" id="1286065894%2FFunctions%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#1286065894%2FFunctions%2F799242938"><span>can</span><wbr></wbr><span>Retriever</span><wbr></wbr><span><span>Start</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1286065894%2FFunctions%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#1286065894%2FFunctions%2F799242938"><span class="token function">canRetrieverStart</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-157033577%2FFunctions%2F799242938" anchor-label="continueToRetrieve" id="-157033577%2FFunctions%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#-157033577%2FFunctions%2F799242938"><span>continue</span><wbr></wbr><span>To</span><wbr></wbr><span><span>Retrieve</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-157033577%2FFunctions%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#-157033577%2FFunctions%2F799242938"><span class="token function">continueToRetrieve</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">currentContext<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.reflect/-k-class/index.html">KClass</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1102255800%2FFunctions%2F799242938" anchor-label="getCloseable" id="1102255800%2FFunctions%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#1102255800%2FFunctions%2F799242938"><span>get</span><wbr></wbr><span><span>Closeable</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1102255800%2FFunctions%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#1102255800%2FFunctions%2F799242938">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-auto-closeable/index.html">AutoCloseable</a><span class="token operator">&gt; </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#1102255800%2FFunctions%2F799242938"><span class="token function">getCloseable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#1102255800%2FFunctions%2F799242938">T</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1033346306%2FFunctions%2F799242938" anchor-label="manageCandidateGroup" id="-1033346306%2FFunctions%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="manage-candidate-group.html"><span>manage</span><wbr></wbr><span>Candidate</span><wbr></wbr><span><span>Group</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1033346306%2FFunctions%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="manage-candidate-group.html"><span class="token function">manageCandidateGroup</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">group<span class="token operator">: </span><a href="../../com.tecknobit.pandoro.ui.screens.lists.groups.data/-group/index.html">Group</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method to manage a candidate project in the <a href="project-groups.html">projectGroups</a> and <a href="candidate-groups.html">candidateGroups</a> lists</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-792519503%2FFunctions%2F799242938" anchor-label="restartRetriever" id="-792519503%2FFunctions%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#-792519503%2FFunctions%2F799242938"><span>restart</span><wbr></wbr><span><span>Retriever</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-792519503%2FFunctions%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#-792519503%2FFunctions%2F799242938"><span class="token function">restartRetriever</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="216722984%2FFunctions%2F799242938" anchor-label="restartRetrieverIf" id="216722984%2FFunctions%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#216722984%2FFunctions%2F799242938"><span>restart</span><wbr></wbr><span>Retriever</span><wbr></wbr><span><span>If</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="216722984%2FFunctions%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#216722984%2FFunctions%2F799242938"><span class="token function">restartRetrieverIf</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">condition<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-833084281%2FFunctions%2F799242938" anchor-label="retrieve" id="-833084281%2FFunctions%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#-833084281%2FFunctions%2F799242938"><span><span>retrieve</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-833084281%2FFunctions%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#-833084281%2FFunctions%2F799242938"><span class="token function">retrieve</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">currentContext<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.reflect/-k-class/index.html">KClass</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">routine<span class="token operator">: </span><span class="token keyword">suspend </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">, </span></span><span class="parameter ">repeatRoutine<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">refreshDelay<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-483772975%2FFunctions%2F799242938" anchor-label="retrieveAuthoredGroups" id="-483772975%2FFunctions%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="retrieve-authored-groups.html"><span>retrieve</span><wbr></wbr><span>Authored</span><wbr></wbr><span><span>Groups</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-483772975%2FFunctions%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="retrieve-authored-groups.html"><span class="token function">retrieveAuthoredGroups</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method to retrieve the current authored groups owned by the user</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="740370642%2FFunctions%2F799242938" anchor-label="retrieveProject" id="740370642%2FFunctions%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="retrieve-project.html"><span>retrieve</span><wbr></wbr><span><span>Project</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="740370642%2FFunctions%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="retrieve-project.html"><span class="token function">retrieveProject</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method to retrieve the data of a <a href="../../com.tecknobit.pandoro.ui.screens.shared.data.project/-project/index.html">Project</a> if needed</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1180848995%2FFunctions%2F799242938" anchor-label="setActiveContext" id="-1180848995%2FFunctions%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#-1180848995%2FFunctions%2F799242938"><span>set</span><wbr></wbr><span>Active</span><wbr></wbr><span><span>Context</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1180848995%2FFunctions%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#-1180848995%2FFunctions%2F799242938"><span class="token function">setActiveContext</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">currentContext<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.reflect/-k-class/index.html">KClass</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1174316640%2FFunctions%2F799242938" anchor-label="showSnackbarMessage" id="1174316640%2FFunctions%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#823096212%2FFunctions%2F799242938"><span>show</span><wbr></wbr><span>Snackbar</span><wbr></wbr><span><span>Message</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1174316640%2FFunctions%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#823096212%2FFunctions%2F799242938"><span class="token function">showSnackbarMessage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">actionLabel<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onDismiss<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onActionPerformed<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">withDismissAction<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">duration<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/material3/SnackbarDuration.html">SnackbarDuration</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#-1535586054%2FFunctions%2F799242938"><span class="token function">showSnackbarMessage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">response<span class="token operator">: </span><span data-unresolved-link="kotlinx.serialization.json/JsonObject///PointingToDeclaration/">JsonObject</span><span class="token punctuation">, </span></span><span class="parameter ">actionLabel<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onDismiss<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onActionPerformed<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">withDismissAction<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">duration<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/material3/SnackbarDuration.html">SnackbarDuration</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#-1098679958%2FFunctions%2F799242938"><span class="token function">showSnackbarMessage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.compose.resources/StringResource///PointingToDeclaration/">StringResource</span><span class="token punctuation">, </span></span><span class="parameter ">actionLabel<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.compose.resources/StringResource///PointingToDeclaration/">StringResource</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onDismiss<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onActionPerformed<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">withDismissAction<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">duration<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/material3/SnackbarDuration.html">SnackbarDuration</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1510888350%2FFunctions%2F799242938" anchor-label="suspendRetriever" id="1510888350%2FFunctions%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#1510888350%2FFunctions%2F799242938"><span>suspend</span><wbr></wbr><span><span>Retriever</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1510888350%2FFunctions%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#1510888350%2FFunctions%2F799242938"><span class="token function">suspendRetriever</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="575449877%2FFunctions%2F799242938" anchor-label="suspendRetrieverIf" id="575449877%2FFunctions%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#575449877%2FFunctions%2F799242938"><span>suspend</span><wbr></wbr><span>Retriever</span><wbr></wbr><span><span>If</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="575449877%2FFunctions%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation.groups/-group-manager-view-model/index.html#575449877%2FFunctions%2F799242938"><span class="token function">suspendRetrieverIf</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">condition<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="765373926%2FFunctions%2F799242938" anchor-label="workOnProject" id="765373926%2FFunctions%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="work-on-project.html"><span>work</span><wbr></wbr><span>On</span><wbr></wbr><span><span>Project</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="765373926%2FFunctions%2F799242938"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":composeApp/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="work-on-project.html"><span class="token function">workOnProject</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Method to create or editing the <a href="../../com.tecknobit.pandoro.ui.screens.shared.presentation/-base-project-view-model/project.html">project</a> invoking the correct method to execute the request to handle that operation</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>(c) 2025 Tecknobit</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

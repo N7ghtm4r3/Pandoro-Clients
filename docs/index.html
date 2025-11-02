@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Pandoro</title>
+    <link href="images/logo-icon.svg" rel="icon" type="image/svg">
+        <script>var pathToRoot = "";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="scripts/sourceset_dependencies.js" async="async"></script>
+<link href="styles/style.css" rel="Stylesheet">
+<link href="styles/main.css" rel="Stylesheet">
+<link href="styles/prism.css" rel="Stylesheet">
+<link href="styles/logo-styles.css" rel="Stylesheet">
+<link href="ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="ui-kit/ui-kit.min.js" defer="defer"></script>
+<link href="images/logo-icon.svg">
+</head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+            <a class="library-name--link" href="index.html" tabindex="1">
+                    Pandoro
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+1.2.1        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true"
+                        data-filter=":composeApp/androidMain">android</button>
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true"
+                        data-filter=":composeApp/commonMain">common</button>
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true"
+                        data-filter=":composeApp/desktopMain">desktop</button>
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true"
+                        data-filter=":composeApp/iosMain">ios</button>
+                <button class="platform-tag platform-selector wasm-like" data-active="" aria-pressed="true"
+                        data-filter=":composeApp/wasmJsMain">wasmJs</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":composeApp/androidMain"
+                                       data-filter=":composeApp/androidMain"/>
+                                <span class="checkbox--icon"></span>
+                                android
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":composeApp/commonMain"
+                                       data-filter=":composeApp/commonMain"/>
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":composeApp/desktopMain"
+                                       data-filter=":composeApp/desktopMain"/>
+                                <span class="checkbox--icon"></span>
+                                desktop
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":composeApp/iosMain"
+                                       data-filter=":composeApp/iosMain"/>
+                                <span class="checkbox--icon"></span>
+                                ios
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option wasm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":composeApp/wasmJsMain"
+                                       data-filter=":composeApp/wasmJsMain"/>
+                                <span class="checkbox--icon"></span>
+                                wasmJs
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config='{"defaultSize": 280, "minSize": 200, "maxSize": 400}'>
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    Pandoro
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" id="content" pageIds="Pandoro::////PointingToDeclaration//121133551">
+  <div class="breadcrumbs"></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Pandoro</span></span></h1>
+  </div>
+  <h2 class="">Packages</h2>
+  <div class="table"><a data-name="-1999595294%2FPackages%2F799242938" anchor-label="[root]" id="-1999595294%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/[root]/index.html">[root]</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1999595294%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="456296287%2FPackages%2F121133551" anchor-label="com.tecknobit.pandoro" id="456296287%2FPackages%2F121133551" data-filterable-set=":composeApp/commonMain,:composeApp/androidMain,:composeApp/desktopMain,:composeApp/iosMain,:composeApp/wasmJsMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain,:composeApp/androidMain,:composeApp/desktopMain,:composeApp/iosMain,:composeApp/wasmJsMain" data-filterable-set=":composeApp/commonMain,:composeApp/androidMain,:composeApp/desktopMain,:composeApp/iosMain,:composeApp/wasmJsMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro/index.html">com.tecknobit.pandoro</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="456296287%2FPackages%2F121133551"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">android</div>
+              <div class="platform-tag common-like">common</div>
+              <div class="platform-tag jvm-like">desktop</div>
+              <div class="platform-tag common-like">ios</div>
+              <div class="platform-tag wasm-like">wasmJs</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1811288630%2FPackages%2F121133551" anchor-label="com.tecknobit.pandoro.helpers" id="1811288630%2FPackages%2F121133551" data-filterable-set=":composeApp/commonMain,:composeApp/androidMain,:composeApp/desktopMain,:composeApp/iosMain,:composeApp/wasmJsMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain,:composeApp/androidMain,:composeApp/desktopMain,:composeApp/iosMain,:composeApp/wasmJsMain" data-filterable-set=":composeApp/commonMain,:composeApp/androidMain,:composeApp/desktopMain,:composeApp/iosMain,:composeApp/wasmJsMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.helpers/index.html">com.tecknobit.pandoro.helpers</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1811288630%2FPackages%2F121133551"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">android</div>
+              <div class="platform-tag common-like">common</div>
+              <div class="platform-tag jvm-like">desktop</div>
+              <div class="platform-tag common-like">ios</div>
+              <div class="platform-tag wasm-like">wasmJs</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1058513761%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.components" id="1058513761%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.components/index.html">com.tecknobit.pandoro.ui.components</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1058513761%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="475372275%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.icons" id="475372275%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.icons/index.html">com.tecknobit.pandoro.ui.icons</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="475372275%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-2010892654%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.auth.presentation" id="-2010892654%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.auth.presentation/index.html">com.tecknobit.pandoro.ui.screens.auth.presentation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2010892654%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="516650548%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.auth.presenter" id="516650548%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.auth.presenter/index.html">com.tecknobit.pandoro.ui.screens.auth.presenter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="516650548%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1242265806%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.create" id="1242265806%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.create/index.html">com.tecknobit.pandoro.ui.screens.create</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1242265806%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1004458761%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.create.creategroup.presentation" id="1004458761%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.create.creategroup.presentation/index.html">com.tecknobit.pandoro.ui.screens.create.creategroup.presentation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1004458761%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1116210461%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.create.creategroup.presenter" id="1116210461%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.create.creategroup.presenter/index.html">com.tecknobit.pandoro.ui.screens.create.creategroup.presenter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1116210461%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1380652038%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.create.createnote.presentation" id="-1380652038%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.create.createnote.presentation/index.html">com.tecknobit.pandoro.ui.screens.create.createnote.presentation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1380652038%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1519584820%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.create.createnote.presenter" id="-1519584820%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.create.createnote.presenter/index.html">com.tecknobit.pandoro.ui.screens.create.createnote.presenter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1519584820%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1512272465%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.create.createproject.presentation" id="-1512272465%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.create.createproject.presentation/index.html">com.tecknobit.pandoro.ui.screens.create.createproject.presentation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1512272465%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1929821239%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.create.createproject.presenter" id="1929821239%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.create.createproject.presenter/index.html">com.tecknobit.pandoro.ui.screens.create.createproject.presenter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1929821239%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1026293893%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.home.presentation" id="-1026293893%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.home.presentation/index.html">com.tecknobit.pandoro.ui.screens.home.presentation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1026293893%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-430080533%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.home.presenter" id="-430080533%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.home.presenter/index.html">com.tecknobit.pandoro.ui.screens.home.presenter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-430080533%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="768282661%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.item" id="768282661%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.item/index.html">com.tecknobit.pandoro.ui.screens.item</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="768282661%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1866086318%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.item.group.components" id="-1866086318%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.item.group.components/index.html">com.tecknobit.pandoro.ui.screens.item.group.components</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1866086318%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="487454934%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.item.group.presentation" id="487454934%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.item.group.presentation/index.html">com.tecknobit.pandoro.ui.screens.item.group.presentation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="487454934%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1259439504%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.item.group.presenter" id="-1259439504%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.item.group.presenter/index.html">com.tecknobit.pandoro.ui.screens.item.group.presenter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1259439504%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1994712376%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.item.project.components" id="1994712376%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.item.project.components/index.html">com.tecknobit.pandoro.ui.screens.item.project.components</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1994712376%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1499380845%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.item.project.components.movechangenote" id="1499380845%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.item.project.components.movechangenote/index.html">com.tecknobit.pandoro.ui.screens.item.project.components.movechangenote</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1499380845%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1746753275%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.item.project.components.timeline" id="1746753275%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.item.project.components.timeline/index.html">com.tecknobit.pandoro.ui.screens.item.project.components.timeline</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1746753275%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-136743876%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.item.project.presentation" id="-136743876%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.item.project.presentation/index.html">com.tecknobit.pandoro.ui.screens.item.project.presentation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-136743876%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-442160950%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.item.project.presenter" id="-442160950%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.item.project.presenter/index.html">com.tecknobit.pandoro.ui.screens.item.project.presenter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-442160950%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="799817302%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.lists.common.presentation" id="799817302%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.lists.common.presentation/index.html">com.tecknobit.pandoro.ui.screens.lists.common.presentation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="799817302%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1290937584%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.lists.common.presenter" id="1290937584%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.lists.common.presenter/index.html">com.tecknobit.pandoro.ui.screens.lists.common.presenter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1290937584%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="641379209%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.lists.groups.components" id="641379209%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.lists.groups.components/index.html">com.tecknobit.pandoro.ui.screens.lists.groups.components</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="641379209%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1403476003%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.lists.groups.data" id="-1403476003%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.lists.groups.data/index.html">com.tecknobit.pandoro.ui.screens.lists.groups.data</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1403476003%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="685173325%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.lists.groups.presentation" id="685173325%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.lists.groups.presentation/index.html">com.tecknobit.pandoro.ui.screens.lists.groups.presentation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="685173325%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-901458855%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.lists.groups.presenter" id="-901458855%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.lists.groups.presenter/index.html">com.tecknobit.pandoro.ui.screens.lists.groups.presenter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-901458855%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="181652195%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.lists.projects.components" id="181652195%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.lists.projects.components/index.html">com.tecknobit.pandoro.ui.screens.lists.projects.components</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="181652195%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-995437897%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.lists.projects.data" id="-995437897%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.lists.projects.data/index.html">com.tecknobit.pandoro.ui.screens.lists.projects.data</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-995437897%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1269144359%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.lists.projects.presentation" id="1269144359%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.lists.projects.presentation/index.html">com.tecknobit.pandoro.ui.screens.lists.projects.presentation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1269144359%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="884826559%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.lists.projects.presenter" id="884826559%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.lists.projects.presenter/index.html">com.tecknobit.pandoro.ui.screens.lists.projects.presenter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="884826559%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-523212427%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.notes.components" id="-523212427%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.notes.components/index.html">com.tecknobit.pandoro.ui.screens.notes.components</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-523212427%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-2116139319%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.notes.data" id="-2116139319%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.notes.data/index.html">com.tecknobit.pandoro.ui.screens.notes.data</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2116139319%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1795891911%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.notes.presentation" id="-1795891911%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.notes.presentation/index.html">com.tecknobit.pandoro.ui.screens.notes.presentation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1795891911%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-800478995%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.notes.presenter" id="-800478995%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.notes.presenter/index.html">com.tecknobit.pandoro.ui.screens.notes.presenter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-800478995%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1600646109%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.overview.components" id="1600646109%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.overview.components/index.html">com.tecknobit.pandoro.ui.screens.overview.components</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1600646109%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1623083215%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.overview.data" id="-1623083215%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.overview.data/index.html">com.tecknobit.pandoro.ui.screens.overview.data</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1623083215%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-877304415%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.overview.presentation" id="-877304415%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.overview.presentation/index.html">com.tecknobit.pandoro.ui.screens.overview.presentation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-877304415%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1761884549%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.overview.presenter" id="1761884549%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.overview.presenter/index.html">com.tecknobit.pandoro.ui.screens.overview.presenter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1761884549%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1894818701%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.profile.components" id="1894818701%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.profile.components/index.html">com.tecknobit.pandoro.ui.screens.profile.components</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1894818701%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-723914015%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.profile.data" id="-723914015%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.profile.data/index.html">com.tecknobit.pandoro.ui.screens.profile.data</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-723914015%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1645285039%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.profile.presentation" id="-1645285039%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.profile.presentation/index.html">com.tecknobit.pandoro.ui.screens.profile.presentation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1645285039%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-861025323%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.profile.presenter" id="-861025323%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.profile.presenter/index.html">com.tecknobit.pandoro.ui.screens.profile.presenter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-861025323%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1275718426%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.scheduleupdate.presentation" id="1275718426%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.scheduleupdate.presentation/index.html">com.tecknobit.pandoro.ui.screens.scheduleupdate.presentation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1275718426%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1168985772%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter" id="1168985772%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter/index.html">com.tecknobit.pandoro.ui.screens.scheduleupdate.presenter</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1168985772%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1445322437%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.shared.data" id="1445322437%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.shared.data/index.html">com.tecknobit.pandoro.ui.screens.shared.data</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1445322437%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1982351568%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.shared.data.project" id="-1982351568%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.shared.data.project/index.html">com.tecknobit.pandoro.ui.screens.shared.data.project</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1982351568%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-2095924939%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.shared.presentation" id="-2095924939%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.shared.presentation/index.html">com.tecknobit.pandoro.ui.screens.shared.presentation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2095924939%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1291696591%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.shared.presentation.groups" id="-1291696591%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.shared.presentation.groups/index.html">com.tecknobit.pandoro.ui.screens.shared.presentation.groups</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1291696591%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="310426598%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.shared.presenters" id="310426598%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.shared.presenters/index.html">com.tecknobit.pandoro.ui.screens.shared.presenters</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="310426598%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="550225573%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.screens.splashscreen" id="550225573%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.screens.splashscreen/index.html">com.tecknobit.pandoro.ui.screens.splashscreen</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="550225573%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1431744738%2FPackages%2F799242938" anchor-label="com.tecknobit.pandoro.ui.theme" id="1431744738%2FPackages%2F799242938" data-filterable-set=":composeApp/commonMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":composeApp/commonMain" data-filterable-set=":composeApp/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-pandoro/com.tecknobit.pandoro.ui.theme/index.html">com.tecknobit.pandoro.ui.theme</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1431744738%2FPackages%2F799242938"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>(c) 2025 Tecknobit</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
