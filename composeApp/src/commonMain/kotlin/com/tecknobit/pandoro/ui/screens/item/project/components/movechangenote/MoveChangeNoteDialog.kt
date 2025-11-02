@@ -51,9 +51,6 @@ fun MoveChangeNoteDialog(
     availableDestinationUpdates: List<Update>
 ) {
     val destinationUpdate = remember { mutableStateOf(availableDestinationUpdates.firstOrNull()) }
-    LaunchedEffect(destinationUpdate.value) {
-        println(destinationUpdate.value?.targetVersion)
-    }
     EquinoxAlertDialog(
         icon = MoveChangeNote,
         show = show,

@@ -1,40 +1,40 @@
 [versions]
-agp = "8.12.1"
-ametistaEngine = "1.0.4"
+agp = "8.13.0"
 android-compileSdk = "36"
 android-minSdk = "26"
 android-targetSdk = "36"
-androidx-activityCompose = "1.10.1"
+androidx-activityCompose = "1.11.0"
+equinoxmiscNavigationComposeUtil = "1.0.0"
 fragmentCompose = "1.8.9"
 androidx-lifecycle = "2.9.2"
 coilCompose = "3.3.0"
-compose-multiplatform = "1.8.2"
-composeCharts = "0.1.10"
-equinox = "1.1.5"
-equinox-navigation = "1.0.3"
-filekit = "0.10.0"
+compose-multiplatform = "1.9.2"
+composeCharts = "0.2.0"
+equinox = "1.1.7"
+equinox-navigation = "1.0.4"
+filekit = "0.12.0"
 jetlime = "4.0.0"
-kotlin = "2.2.10"
+kotlin = "2.2.20"
 kotlinx-coroutines = "1.10.2"
 kotlinxDatetime = "0.7.1"
 kotlinxSerializationJson = "1.9.0"
-navigationCompose = "2.9.0-beta05"
+navigationCompose = "2.9.1"
 octocatkdu = "1.0.6"
-pandorocore = "1.2.0"
+pandorocore = "1.2.1"
 ktor = "3.1.0"
-lazy-pagination-compose = "1.7.0"
+lazy-pagination-compose = "1.7.1"
 startupRuntime = "1.2.0"
 appUpdate = "2.1.0"
 review = "2.0.2"
-dokka = "2.0.0"
+dokka = "2.1.0"
 
 [libraries]
-ametista-engine = { module = "io.github.n7ghtm4r3:Ametista-Engine", version.ref = "ametistaEngine" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "fragmentCompose" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "ktor" }
 compose-charts = { module = "io.github.ehsannarmani:compose-charts", version.ref = "composeCharts" }
+equinoxmisc-navigation-compose-util = { module = "io.github.n7ghtm4r3:equinoxmisc-navigation-compose-util", version.ref = "equinoxmiscNavigationComposeUtil" }
 filekit-compose = { module = "io.github.vinceglb:filekit-dialogs-compose", version.ref = "filekit" }
 filekit-core = { module = "io.github.vinceglb:filekit-dialogs", version.ref = "filekit" }
 jetlime = { module = "io.github.pushpalroy:jetlime", version.ref = "jetlime" }

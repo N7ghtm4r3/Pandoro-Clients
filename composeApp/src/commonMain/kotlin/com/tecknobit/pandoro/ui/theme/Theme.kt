@@ -1,13 +1,19 @@
+@file:OptIn(ExperimentalComposeRuntimeApi::class)
+
 package com.tecknobit.pandoro.ui.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeRuntimeApi
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme
 import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme.Dark
 import com.tecknobit.equinoxcompose.session.EquinoxLocalUser.ApplicationTheme.Light
 import com.tecknobit.equinoxcore.annotations.Returner
+import com.tecknobit.equinoxcore.helpers.THEME_KEY
 import com.tecknobit.pandoro.localUser
 
 /**
@@ -476,7 +482,10 @@ fun PandoroTheme(
  */
 @Composable
 private fun isDarkThemeSelected(): Boolean {
-    return when(localUser.theme) {
+    val theme by localUser.observe<ApplicationTheme>(
+        key = THEME_KEY
+    )
+    return when(theme) {
         Dark -> true
         Light -> false
         else -> isSystemInDarkTheme()

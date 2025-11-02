@@ -22,8 +22,9 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TooltipBox
-import androidx.compose.material3.TooltipDefaults.rememberPlainTooltipPositionProvider
+import androidx.compose.material3.TooltipDefaults.rememberTooltipPositionProvider
 import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
@@ -82,9 +83,9 @@ private val axisProperties = GridProperties.AxisProperties(
  * `contentBuilder` custom content builder to format the content of the popups of the points in the
  * charts
  */
-private val contentBuilder: (Int, Int, Double) -> String = { _, _, value ->
+private val contentBuilder: (PopupProperties.Popup) -> String = { properties ->
     val factor = 100
-    "${round(value * factor) / factor}"
+    "${round(properties.value * factor) / factor}"
 }
 
 /**
@@ -215,7 +216,9 @@ private fun DevelopmentDays(
             TooltipBox(
                 modifier = Modifier
                     .fillMaxWidth(),
-                positionProvider = rememberPlainTooltipPositionProvider(),
+                positionProvider = rememberTooltipPositionProvider(
+                    positioning = TooltipAnchorPosition.Above
+                ),
                 tooltip = {
                     PlainTooltip {
                         Column {

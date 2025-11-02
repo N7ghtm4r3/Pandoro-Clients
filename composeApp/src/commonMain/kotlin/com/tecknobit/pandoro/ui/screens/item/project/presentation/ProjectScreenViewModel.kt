@@ -1,8 +1,5 @@
-@file:OptIn(ExperimentalComposeApi::class)
-
 package com.tecknobit.pandoro.ui.screens.item.project.presentation
 
-import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.viewModelScope
@@ -12,8 +9,8 @@ import com.tecknobit.equinoxcore.network.sendRequest
 import com.tecknobit.equinoxcore.util.toggle
 import com.tecknobit.pandoro.helpers.KReviewer
 import com.tecknobit.pandoro.requester
-import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.item.project.presenter.ProjectScreen
+import com.tecknobit.pandoro.ui.screens.notes.data.Note
 import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
 import com.tecknobit.pandoro.ui.screens.shared.presentation.BaseProjectViewModel
@@ -28,13 +25,13 @@ import kotlinx.serialization.json.decodeFromJsonElement
 
 /**
  * The [ProjectScreenViewModel] provides the methods to display and operate on a
- * [com.tecknobit.pandoro.ui.screens.projects.data.Project] item
+ * [com.tecknobit.pandoro.ui.screens.shared.data.project.Project] item
  *
  * @param projectId The identifier of the group to display
  *
  * @author N7ghtm4r3 - Tecknobit
  *
- * @see EquinoxViewModel
+ * @see com.tecknobit.equinoxcompose.session.viewmodels.EquinoxViewModel
  * @see BaseProjectViewModel
  * @see ProjectDeleter
  * @see NotesManager

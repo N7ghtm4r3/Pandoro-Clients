@@ -16,7 +16,6 @@ import pandoro.composeapp.generated.resources.logo
  * @author N7ghtm4r3 - Tecknobit
  */
 fun main() {
-    // AmetistaEngine.intake()
     application {
         Window(
             onCloseRequest = ::exitApplication,

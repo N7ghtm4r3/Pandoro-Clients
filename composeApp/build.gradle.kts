@@ -1,9 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Deb
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Exe
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Pkg
-import org.jetbrains.dokka.base.DokkaBase
-import org.jetbrains.dokka.base.DokkaBaseConfiguration
-import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
@@ -17,7 +14,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.dokka)
     kotlin("plugin.serialization") version "2.0.20"
-    id("com.github.gmazzo.buildconfig") version "5.5.1"
+    id("com.github.gmazzo.buildconfig") version "5.7.1"
 }
 
 kotlin {
@@ -90,21 +87,21 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.navigation.compose)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.equinox.core)
             implementation(libs.equinox.compose)
             implementation(libs.equinox.navigation)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
-            implementation(libs.pandorocore)
             implementation(libs.lazyPaginationCompose)
             implementation(libs.kotlinx.datetime)
             implementation(libs.filekit.core)
             implementation(libs.filekit.compose)
             implementation(libs.jetlime)
             implementation (libs.compose.charts)
-            implementation(libs.ametista.engine)
+            implementation(libs.navigation.compose)
+            implementation(libs.equinoxmisc.navigation.compose.util)
+            implementation(libs.pandorocore)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -128,8 +125,8 @@ android {
         applicationId = "com.tecknobit.pandoro"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 20
-        versionName = "1.2.0"
+        versionCode = 21
+        versionName = "1.2.1"
     }
     packaging {
         resources {
@@ -161,8 +158,8 @@ compose.desktop {
                 "java.scripting", "java.security.jgss", "java.sql.rowset", "jdk.jfr", "jdk.unsupported", "jdk.security.auth"
             )
             packageName = "Pandoro"
-            packageVersion = "1.2.0"
-            version = "1.2.0"
+            packageVersion = "1.2.1"
+            version = "1.2.1"
             description = "Pandoro, open source management software"
             copyright = "© 2025 Tecknobit"
             vendor = "Tecknobit"
@@ -179,7 +176,7 @@ compose.desktop {
                 iconFile.set(project.file("src/desktopMain/resources/logo.png"))
                 packageName = "com-tecknobit-pandoro"
                 debMaintainer = "infotecknobitcompany@gmail.com"
-                appRelease = "1.2.0"
+                appRelease = "1.2.1"
                 appCategory = "PERSONALIZATION"
                 rpmLicenseType = "APACHE2"
             }
@@ -191,36 +188,28 @@ compose.desktop {
     }
 }
 
-tasks.withType<DokkaTask>().configureEach {
-    dokkaSourceSets {
-        moduleName.set("Pandoro")
+dokka {
+    moduleName.set("Pandoro")
+    dokkaPublications.html {
         outputDirectory.set(layout.projectDirectory.dir("../docs"))
     }
-
-    pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
-        customAssets = listOf(file("../docs/logo-icon.svg"))
-        footerMessage = "(c) 2025 Tecknobit"
+    pluginsConfiguration {
+        versioning {
+            version.set("1.2.1")
+        }
+        html {
+            customAssets.from("../images/logo-icon.svg")
+            footerMessage.set("(c) 2025 Tecknobit")
+        }
     }
 }
 
 buildConfig {
-    className("AmetistaConfig")
+    className("PandoroConfig")
     packageName("com.tecknobit.pandoro")
     buildConfigField<String>(
-        name = "HOST",
-        value = project.findProperty("host").toString()
-    )
-    buildConfigField<String?>(
-        name = "SERVER_SECRET",
-        value = project.findProperty("server_secret").toString()
-    )
-    buildConfigField<String?>(
-        name = "APPLICATION_IDENTIFIER",
-        value = project.findProperty("application_id").toString()
-    )
-    buildConfigField<Boolean>(
-        name = "BYPASS_SSL_VALIDATION",
-        value = project.findProperty("bypass_ssl_validation").toString().toBoolean()
+        name = "LOCAL_STORAGE_PATH",
+        value = project.findProperty("localStoragePath").toString()
     )
 }
 
