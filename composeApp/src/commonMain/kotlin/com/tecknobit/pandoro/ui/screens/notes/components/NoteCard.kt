@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.keepScreenOn
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -59,18 +60,16 @@ import com.tecknobit.equinoxcompose.utilities.colorOneSideBorder
 import com.tecknobit.equinoxcompose.utilities.copyOnClipboard
 import com.tecknobit.equinoxcore.time.TimeFormatter.toDateString
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.helpers.allowsScreenSleep
 import com.tecknobit.pandoro.helpers.navToCreateChangeNoteScreen
 import com.tecknobit.pandoro.helpers.navToCreateNoteScreen
-import com.tecknobit.pandoro.helpers.preventScreenSleep
 import com.tecknobit.pandoro.ui.components.DeleteNote
 import com.tecknobit.pandoro.ui.components.Thumbnail
 import com.tecknobit.pandoro.ui.icons.ClockLoader20
 import com.tecknobit.pandoro.ui.icons.Copy
-import com.tecknobit.pandoro.ui.screens.notes.data.Note
-import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
 import com.tecknobit.pandoro.ui.screens.item.project.components.movechangenote.MoveChangeNoteButton
 import com.tecknobit.pandoro.ui.screens.item.project.presentation.ProjectScreenViewModel
+import com.tecknobit.pandoro.ui.screens.notes.data.Note
+import com.tecknobit.pandoro.ui.screens.notes.presentation.NotesScreenViewModel
 import com.tecknobit.pandoro.ui.screens.shared.data.project.Project
 import com.tecknobit.pandoro.ui.screens.shared.data.project.Update
 import com.tecknobit.pandoro.ui.screens.shared.presentation.NotesManager
@@ -378,12 +377,12 @@ private fun NoteDetails(
     scope: CoroutineScope
 ) {
     if(state.isVisible) {
-        preventScreenSleep()
         ModalBottomSheet(
+            modifier = Modifier
+                .keepScreenOn(),
             onDismissRequest = {
                 scope.launch {
                     state.hide()
-                    allowsScreenSleep()
                 }
             }
         ) {
@@ -412,12 +411,12 @@ fun NoteDetails(
     scope: CoroutineScope
 ) {
     if(state.isVisible) {
-        preventScreenSleep()
         ModalBottomSheet(
+            modifier = Modifier
+                .keepScreenOn(),
             onDismissRequest = {
                 scope.launch {
                     state.hide()
-                    allowsScreenSleep()
                 }
             }
         ) {

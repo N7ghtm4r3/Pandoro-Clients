@@ -32,6 +32,7 @@ import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -45,14 +46,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.keepScreenOn
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tecknobit.equinoxcompose.utilities.copyOnClipboard
 import com.tecknobit.equinoxcompose.utilities.responsiveAssignment
 import com.tecknobit.pandoro.displayFontFamily
-import com.tecknobit.pandoro.helpers.allowsScreenSleep
 import com.tecknobit.pandoro.helpers.navToCreateChangeNoteScreen
-import com.tecknobit.pandoro.helpers.preventScreenSleep
 import com.tecknobit.pandoro.ui.components.DeleteUpdate
 import com.tecknobit.pandoro.ui.components.NotAllChangeNotesCompleted
 import com.tecknobit.pandoro.ui.icons.AddNotes
@@ -221,13 +221,7 @@ private fun UpdateActions(
     update: Update
 ) {
     IconButton(
-        onClick = {
-            viewChangeNotes.value = !viewChangeNotes.value
-            if(viewChangeNotes.value)
-                preventScreenSleep()
-            else
-                allowsScreenSleep()
-        }
+        onClick = { viewChangeNotes.value = !viewChangeNotes.value }
     ) {
         Icon(
             imageVector = if(viewChangeNotes.value)
@@ -371,6 +365,12 @@ private fun UpdateStatus.Content(
             .padding(
                 all = 10.dp
             )
+            .then(
+                if(viewChangeNotes.value)
+                    Modifier.keepScreenOn()
+                else
+                    Modifier
+            )
     ) {
         val notesNumber = update.notes.size
         when(this@Content) {
@@ -408,7 +408,9 @@ private fun UpdateStatus.Content(
                             val state = rememberTooltipState()
                             val scope = rememberCoroutineScope()
                             TooltipBox(
-                                positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                                positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
+                                    positioning = TooltipAnchorPosition.Above
+                                ),
                                 tooltip = {
                                     PlainTooltip {
                                         Text(
