@@ -1,7 +1,6 @@
 package com.tecknobit.pandoro.ui.screens.item.project.presentation
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.viewModelScope
 import com.tecknobit.equinoxcompose.session.sessionflow.SessionFlowState
 import com.tecknobit.equinoxcore.network.Requester.Companion.toResponseData
@@ -19,6 +18,8 @@ import com.tecknobit.pandoro.ui.screens.shared.presentation.NotesManager
 import com.tecknobit.pandorocore.enums.UpdateStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -55,6 +56,11 @@ class ProjectScreenViewModel(
      */
     lateinit var sessionFlowState: SessionFlowState
 
+    private val _updates = MutableStateFlow<List<Update>>(
+        value = emptyList()
+    )
+    val updates = _updates.asStateFlow()
+
     /**
      * Method to retrieve the data of a [Project]
      */
@@ -71,6 +77,8 @@ class ProjectScreenViewModel(
                     onSuccess = {
                         sessionFlowState.notifyOperational()
                         _project.value = Json.decodeFromJsonElement(it.toResponseData())
+                        _updates.value = _project.value?.updates.orEmpty()
+                        arrangeUpdatesList()
                     },
                     onFailure = {},
                     onConnectionError = { sessionFlowState.notifyServerOffline() }
@@ -112,13 +120,11 @@ class ProjectScreenViewModel(
 
     /**
      * Method to arrange the updates list applying the filters
-     * 
-     * @return The updates list filtered as [List] of [Update]
      */
-    fun arrangeUpdatesList() : SnapshotStateList<Update> {
-        return _project.value!!.updates
-            .filter { update -> updateStatusesFilters.contains(update.status) }
-            .toMutableStateList()
+    private fun arrangeUpdatesList() {
+        _updates.value = _updates.value.filter { update ->
+            updateStatusesFilters.contains(update.status)
+        }
     }
 
     /**

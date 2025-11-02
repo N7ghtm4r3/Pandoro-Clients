@@ -324,6 +324,7 @@ class ProjectScreen(
         classes = [MEDIUM_CONTENT, COMPACT_CONTENT]
     )
     private fun ProjectUpdatesSection() {
+        val updates by viewModel.updates.collectAsState()
         Section(
             modifier = Modifier
                 .padding(
@@ -336,7 +337,6 @@ class ProjectScreen(
             header = Res.string.updates,
             filtersContent = { Filters() }
         ) {
-            val updates = viewModel.arrangeUpdatesList()
             AnimatedContent(
                 targetState = updates.isNotEmpty()
             ) { isNotEmpty ->
